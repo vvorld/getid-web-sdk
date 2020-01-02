@@ -5,7 +5,9 @@ webpack.common.js
 webpack.dev.js
 webpack.prod.js
 .gitignore
-supportedBrowsers.js
-.browserlistrc
+.browserslistrc
 .eslintrc.json
 /node_modules
+/demo
+/dist/reports/
+.babelrc

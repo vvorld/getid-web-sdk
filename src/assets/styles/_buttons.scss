@@ -1,0 +1,117 @@
+button.next-button {
+  cursor: pointer;
+  background: $color-white;
+  border: 1px solid rgba($color-blue-shadow, 0.5);
+  border-radius: 83px;
+  box-shadow: 0 4px 14px rgba($color-blue, 0.26), inset 0 1px 2px rgba($color-white, 0.45);
+  box-sizing: border-box;
+  color: $color-blue;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  padding: 20px 40px;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &.is-gradient {
+    background: linear-gradient(9.89deg, $color-aqua -57.75%, $color-crimson 193.27%);
+    border: 0;
+    box-shadow: 0 4px 14px rgba($color-blue, 0.26), inset 0 1px 2px rgba($color-white, 0.45);
+    color: $color-white;
+    &:hover {
+      background: linear-gradient(9.89deg, $color-crimson -57.75%, $color-aqua 193.27%);
+    }
+    &:disabled{
+      opacity: 0.5;
+      background: linear-gradient(21.86deg, #00B1C9 -57.75%, #EA167C 193.27%);
+      box-shadow: 0px 4px 14px rgba(23, 61, 105, 0.26), inset 0px 1px 2px rgba(255, 255, 255, 0.45);
+      border-radius: 83px;
+      &:hover {
+        background: linear-gradient(21.86deg, #EA167C -57.75%, #00B1C9 193.27%);
+      }
+    }
+  }
+  &.reset{
+    display: inline-block;
+    margin: 10px;
+  }
+}
+
+button.prev-button {
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-radius: 83px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7861A2;
+  vertical-align: middle;
+  height: 56px;
+  &.reset-left{
+    float: left;
+  }
+  &.reset-right{
+    float: right;
+  }
+}
+
+button.custom-button{
+  background: $color-white;
+  color: $color-blue;
+  cursor: pointer;
+  border: 1px solid $color-white;
+  border-radius: 83px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  text-align: center;
+  height: 33px;
+  width: 121px;
+
+  &:hover{
+    background: lightgrey;
+  }
+}
+
+button {
+  padding: 0 20px;
+  img{
+    vertical-align: middle;
+  }
+  .MuiButton-endIcon{
+    margin-left: 10px;
+  }
+  span {
+    vertical-align: middle;
+    height: auto;
+    width: auto;
+
+    &.material-icons{
+      display: flex;
+      height: auto;
+      width: auto;
+    }
+  }
+}
+
+button.MuiIconButton-root{
+  color: #7861A2;
+  &:hover{
+    background-color: transparent;
+  }
+}
+
+

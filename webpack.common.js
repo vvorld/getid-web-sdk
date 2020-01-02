@@ -1,0 +1,62 @@
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: './demo/index.html',
+    }),
+  ],
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 15 * 1024,
+        },
+      },
+      {
+        test: /\.(css|scss)$/,
+        include: [path.resolve('src')],
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+};

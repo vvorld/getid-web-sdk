@@ -1,0 +1,16 @@
+export const docTypeMapping = {
+  passport: 'Passport',
+  // 'passport-card': 'Passport Card',
+  // 'border-crossing': 'Border Crossing',
+  'id-card': 'ID Card',
+  'residence-permit': 'Residence Permit',
+  'driving-licence': 'Drivers License',
+  // 'work-license': 'Work License',
+  // 'asylum-residence-permit': 'Asylum Residence Permit',
+  // visa: 'Visa',
+  // 'health-insurance': 'Health Insurance',
+  // 'home-return': 'Home Return',
+  // 'pan-card': 'Pancard',
+  // 'aadhar-card': 'Aadhar Card',
+  // 'pilot-license': 'Pilot License',
+};

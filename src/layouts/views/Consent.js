@@ -1,12 +1,37 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
+import getidLogo from '../../assets/icons/getid-small.svg';
+import onfidoLogo from '../../assets/icons/onfido.svg';
 
+const useStyles = () => ({
+  poweredBlock: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '30px',
+    '&& img': {
+      margin: '0 11px',
+    },
+  },
+  poweredLabel: {
+    fontSize: '15px',
+    lineHeight: '22px',
+    color: '#173D69',
+    opacity: 0.3,
+  },
+  slash: {
+    opacity: 0.1,
+    width: '1px',
+    margin: '0 3px',
+    background: '#000000',
+  },
+});
 
 class Consent extends Component {
   constructor(props) {
@@ -23,12 +48,26 @@ class Consent extends Component {
   };
 
   render() {
-    const { currentStep, fieldValues } = this.props;
+    const {
+      currentStep,
+      fieldValues,
+      classes,
+      showOnfidoLogo,
+    } = this.props;
     const { touLink, ppLink } = this.state;
 
     return (
       <Grid container justify="center" data-role="blockConsent">
         <Grid item xs={12} sm={10} md={10} lg={8}>
+          {showOnfidoLogo && (
+            <div className={classes.poweredBlock}>
+              <span className={classes.poweredLabel}>Powered by</span>
+              <img src={getidLogo} alt="getid" data-role="getidLogo"/>
+              <div className={classes.slash} />
+              <img src={onfidoLogo} alt="onfido" data-role="onfidoLogo"/>
+            </div>
+          )}
+
           <FormControlLabel
             style={{ textAlign: 'left', marginLeft: 0, marginTop: '60px' }}
             control={(
@@ -69,6 +108,8 @@ Consent.propTypes = {
   fieldValues: PropTypes.shape({
     consent: PropTypes.any,
   }),
+  showOnfidoLogo: PropTypes.bool,
+  classes: PropTypes.object,
 };
 
 Consent.defaultProps = {
@@ -77,6 +118,8 @@ Consent.defaultProps = {
   fieldValues: {
     consent: false,
   },
+  showOnfidoLogo: false,
+  classes: {},
 };
 
 const mapStateToProps = (state) => ({ fieldValues: getFormValues(state) });
@@ -84,4 +127,4 @@ const mapStateToProps = (state) => ({ fieldValues: getFormValues(state) });
 export default connect(
   mapStateToProps,
   actions,
-)(Consent);
+)(withStyles(useStyles)(Consent));

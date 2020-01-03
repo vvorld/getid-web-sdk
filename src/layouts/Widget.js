@@ -170,6 +170,7 @@ class Widget extends Component {
       isQA,
       flow,
       documentData,
+      showOnfidoLogo,
     } = this.props;
 
     const { isFail, loading } = this.state;
@@ -242,7 +243,14 @@ class Widget extends Component {
             formType,
             apiUrl,
           } : {
-            currentStep, apiUrl, footer, isQA, flow, idCapturebackIndex, documentData,
+            currentStep,
+            apiUrl,
+            footer,
+            isQA,
+            flow,
+            idCapturebackIndex,
+            documentData,
+            showOnfidoLogo,
           })}
           />
           {!this.isCameraView() && <Footer {...footer} />}
@@ -264,6 +272,7 @@ Widget.defaultProps = {
   fieldValues: null,
   isQA: false,
   currentComponent: null,
+  showOnfidoLogo: false,
 };
 
 Widget.propTypes = {
@@ -289,6 +298,7 @@ Widget.propTypes = {
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
+  showOnfidoLogo: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

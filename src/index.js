@@ -41,6 +41,7 @@ export const init = (options) => {
       console.log(`Error: ${data.errorMessage}`);
       return;
     }
-    renderComponent(options);
+    const { showOnfidoLogo } = data;
+    renderComponent({ ...options, showOnfidoLogo });
   });
 };

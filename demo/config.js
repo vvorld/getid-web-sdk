@@ -1,7 +1,8 @@
 export default {
-  apiUrl: 'https://expo.sb.getid.ee',
+  apiUrl: '',
   containerId: 'getid-component',
-  flow: ['DocumentType', 'Form', 'IdCapture', 'Consent', 'IdCaptureBack', 'ThankYou'],
+  dictionary: 'amas::ru-RU',
+  flow: ['IdCapture', 'Consent', 'IdCaptureBack', 'ThankYou', 'DocumentType', 'Form'],
   documentData: [
     {
       name: 'Country',

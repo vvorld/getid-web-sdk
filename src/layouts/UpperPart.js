@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import CustomLogo from '../components/Logo/CustomLogo';
-import messages from '../messages/messages';
 import colors from '../assets/theme';
+import TranslationsContext from '../context/TranslationsContext';
 
 const { palette } = colors;
 
@@ -39,6 +39,8 @@ const useStyles = makeStyles(() => ({
 function UpperPart(props) {
   const { currentStep, flow, currentComponent } = props;
 
+  const { translations } = useContext(TranslationsContext);
+
   const isLast = () => currentComponent.next === null;
 
   const isConsent = () => currentComponent.name === 'Consent' && currentComponent.name;
@@ -63,10 +65,13 @@ function UpperPart(props) {
           </Grid>
         )}
         <CustomLogo condition={isCondition()} />
-        <h3 data-role="componentTitle" className={classes.header}>{messages.header[currentComponent.name]}</h3>
+        <h3 data-role="componentTitle" className={classes.header}>
+          {' '}
+          { translations[`${currentComponent.name}_header`]}
+        </h3>
         <hr className={classes.hr} />
         <h5 className={classes.subHeader} px={1}>
-          {messages.subHeader[currentComponent.name]}
+          {translations[`${currentComponent.name}_subHeader`]}
         </h5>
       </Grid>
     </Grid>

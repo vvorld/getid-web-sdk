@@ -1,5 +1,6 @@
-import { VERIFICATION_REQUEST, VERIFY_JWT, COUNTRY_AND_DOC_LIST } from '../constants/api';
-
+import {
+  VERIFICATION_REQUEST, VERIFY_JWT, COUNTRY_AND_DOC_LIST, DICTIONARY,
+} from '../constants/api';
 
 const submitData = (userData, jwt, url) => fetch(`${url}${VERIFICATION_REQUEST}`, {
   method: 'POST',
@@ -27,6 +28,15 @@ const getCountryAndDocList = (url) => fetch(`${url}${COUNTRY_AND_DOC_LIST}`, {
   },
 }).then((response) => response);
 
+const getTranslations = (url, dictionary) => fetch(`${url}${DICTIONARY}`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  },
+  body: JSON.stringify({ dictionary }),
+}).then((response) => response);
+
 export default {
-  submitData, verifyJWT, getCountryAndDocList,
+  submitData, verifyJWT, getCountryAndDocList, getTranslations,
 };

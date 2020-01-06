@@ -11,7 +11,6 @@ import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
 
-
 class Form extends Component {
   constructor(props) {
     super(props);

@@ -12,7 +12,7 @@ import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import apiProvider from '../services/api';
 import Footer from '../components/Footer';
-
+import TranslationsContext from '../context/TranslationsContext';
 import cameraViews from '../constants/camera-views';
 
 import {
@@ -118,8 +118,9 @@ class Widget extends Component {
   };
 
   buttonText = () => {
-    if (this.isThankYouPage()) return 'start over';
-    return this.isButtonToSubmitData() ? 'SUBMIT' : 'NEXT';
+    const { translations } = this.context;
+    if (this.isThankYouPage()) return translations.button_start_over;
+    return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
   resetFormConfig = () => ({
@@ -158,18 +159,32 @@ class Widget extends Component {
     return this.CurrentComponent().order !== 0 || false;
   }
 
+  footer() {
+    const { flow } = this.props;
+    return {
+      isCameraView: this.isCameraView(),
+      isCameraEnabled: false,
+      next: {
+        action: this.buttonAction(),
+        text: this.buttonText(),
+        disabled: this.props.isDisabled,
+        type: this.getType() || 'next',
+      },
+      back: {
+        hidden: (!this.notFirst() || this.isThankYouPage()) || flow.length === 1,
+        action: this.triggerPreviousComponent,
+        type: 'back',
+      },
+    };
+  }
+
   render() {
     const {
-      fields,
       classes,
-      formType,
-      apiUrl,
       currentStep,
       setDisabled,
       fieldValues,
-      isQA,
       flow,
-      documentData,
     } = this.props;
 
     const { isFail, loading } = this.state;
@@ -193,6 +208,9 @@ class Widget extends Component {
 
     if (!this.CurrentComponent()) return null;
 
+    const LoadingComponent = this.CurrentComponent();
+    const { idCapturebackIndex } = this;
+
     if (!fieldValues[currentStep]) {
       setDisabled(false);
     } else {
@@ -203,26 +221,6 @@ class Widget extends Component {
           || item === false
           || (/^\s+$/).test(item))));
     }
-
-    // TODO: move to function
-    const footer = {
-      isCameraView: this.isCameraView(),
-      isCameraEnabled: false,
-      next: {
-        action: this.buttonAction(),
-        text: this.buttonText(),
-        disabled: this.props.isDisabled,
-        type: this.getType() || 'next',
-      },
-      back: {
-        hidden: (!this.notFirst() || this.isThankYouPage()) || flow.length === 1,
-        action: this.triggerPreviousComponent,
-        type: 'back',
-      },
-    };
-
-    const LoadingComponent = this.CurrentComponent();
-    const { idCapturebackIndex } = this;
 
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
@@ -235,17 +233,12 @@ class Widget extends Component {
             flow={flow}
             currentStep={currentStep}
           />
-          <LoadingComponent.component {...(this.isForm() ? {
-            currentStep,
-            fields,
-            footer,
-            formType,
-            apiUrl,
-          } : {
-            currentStep, apiUrl, footer, isQA, flow, idCapturebackIndex, documentData,
-          })}
+          <LoadingComponent.component
+            footer={this.footer()}
+            {...this.props}
+            idCapturebackIndex={idCapturebackIndex}
           />
-          {!this.isCameraView() && <Footer {...footer} />}
+          {!this.isCameraView() && <Footer {...this.footer()} />}
         </Grid>
       </Grid>
     );
@@ -299,6 +292,7 @@ const mapStateToProps = (state) => ({
   currentComponent: getCurrentComponent(state),
 });
 
+Widget.contextType = TranslationsContext;
 
 export default connect(
   mapStateToProps,

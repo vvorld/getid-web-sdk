@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { makeStyles, fade } from '@material-ui/core/styles';
-
+import TranslationsContext from '../../context/TranslationsContext';
 import colors from '../../assets/theme';
-import messages from '../../messages/messages';
 import CustomLogo from '../../components/Logo/CustomLogo';
 
 const { palette } = colors;
@@ -51,15 +50,17 @@ const useStyles = makeStyles(() => ({
 const ResetView = (props) => {
   const { buttonConfig } = props;
   const classes = useStyles();
+  const { translations } = useContext(TranslationsContext);
+
   return (
     <div>
       <CustomLogo condition="Reset" />
       <h3 className={classes.header}>
-        {messages.header.ResetPage}
+        {translations.ResetPage_header}
       </h3>
       <hr className={classes.hr} />
       <h5 className={classes.subHeader}>
-        {messages.subHeader.ResetPage}
+        {translations.ResetPage_subHeader}
       </h5>
       <hr className={classes.hrLong} />
       <div className={classes.center}>

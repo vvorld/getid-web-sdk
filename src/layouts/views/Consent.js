@@ -3,20 +3,13 @@ import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
-
+import TranslationsContext from '../../context/TranslationsContext';
 
 class Consent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      touLink: 'https://getid.ee/sdk-terms-of-use/',
-      ppLink: 'https://getid.ee/sdk-privacy-policy/',
-    };
-  }
-
   handleChange = (event) => {
     const { currentStep } = this.props;
     this.props.addField('consent', event.target.checked, currentStep);
@@ -24,7 +17,7 @@ class Consent extends Component {
 
   render() {
     const { currentStep, fieldValues } = this.props;
-    const { touLink, ppLink } = this.state;
+    const { translations } = this.context;
 
     return (
       <Grid container justify="center" data-role="blockConsent">
@@ -43,15 +36,7 @@ class Consent extends Component {
             )}
             label={(
               <label className="label-checkbox" data-role="textConsent">
-                I have read and understand or I have read and understood
-                {' '}
-                <a href={touLink} data-role="linkTerms" rel="noopener noreferrer" target="_blank">Terms of use</a>
-                {' '}
-                and
-                {' '}
-                <a href={ppLink} data-role="linkPolicy" rel="noopener noreferrer" target="_blank">Privacy policy</a>
-                {' '}
-                of GetID OÜ.
+                { parse(translations.consent) }
               </label>
             )}
           />
@@ -80,6 +65,7 @@ Consent.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({ fieldValues: getFormValues(state) });
+Consent.contextType = TranslationsContext;
 
 export default connect(
   mapStateToProps,

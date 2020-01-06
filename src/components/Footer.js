@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+import parse from 'html-react-parser';
 import ActionBar from './ActionBar';
 import Spacebar from '../assets/icons/views/space-bar.svg';
 import colors from '../assets/theme';
+import TranslationsContext from '../context/TranslationsContext';
 
 const { palette } = colors;
 
@@ -37,6 +39,7 @@ const styles = makeStyles(() => ({
 const Footer = (props) => {
   const { isCameraView, isCameraEnabled } = props;
   const classes = styles();
+  const { translations } = useContext(TranslationsContext);
 
   return (
     <div>
@@ -45,14 +48,7 @@ const Footer = (props) => {
       {isCameraView && isCameraEnabled && (
         <div className={classes.spacebar} data-role="photoHelp">
           <div className={classes.text} data-role="textHelp">
-            Please use
-            {' '}
-            {' '}
-            <b>Spacebar</b>
-            {' '}
-            key
-            <br />
-            to make photo
+            {parse(translations.photo_tip)}
           </div>
           <img src={Spacebar} alt="click space to make selfie" className={classes.image} data-role="imgHelp" />
         </div>
@@ -64,6 +60,11 @@ const Footer = (props) => {
 Footer.propTypes = {
   isCameraView: PropTypes.bool.isRequired,
   isCameraEnabled: PropTypes.bool.isRequired,
+  translations: PropTypes.object,
+};
+
+Footer.defaultProps = {
+  translations: null,
 };
 
 export default Footer;

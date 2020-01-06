@@ -60,11 +60,6 @@ const Footer = (props) => {
 Footer.propTypes = {
   isCameraView: PropTypes.bool.isRequired,
   isCameraEnabled: PropTypes.bool.isRequired,
-  translations: PropTypes.object,
-};
-
-Footer.defaultProps = {
-  translations: null,
 };
 
 export default Footer;

@@ -2,7 +2,7 @@ export default {
   apiUrl: '',
   containerId: 'getid-component',
   dictionary: 'amas::ru-RU',
-  flow: ['IdCapture', 'Consent', 'IdCaptureBack', 'ThankYou', 'DocumentType', 'Form'],
+  flow: ['DocumentType', 'Form', 'IdCapture', 'Consent', 'IdCaptureBack', 'ThankYou', ],
   documentData: [
     {
       name: 'Country',

@@ -54,9 +54,10 @@ export const init = (options) => {
       console.log(`Error: ${data.errorMessage}`);
       return;
     }
+    const { showOnfidoLogo } = data;
 
     getTranslations(options.apiUrl, options.dictionary).then((result) => {
-      renderComponent({ ...options, translations: result });
+      renderComponent({ ...options, translations: result, showOnfidoLogo });
     });
   });
 };

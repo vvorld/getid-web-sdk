@@ -257,6 +257,7 @@ Widget.defaultProps = {
   fieldValues: null,
   isQA: false,
   currentComponent: null,
+  showOnfidoLogo: false,
 };
 
 Widget.propTypes = {
@@ -282,6 +283,7 @@ Widget.propTypes = {
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
+  showOnfidoLogo: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

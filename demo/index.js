@@ -1,7 +1,7 @@
+import { init } from '../src/index';
 import config from './config';
 
-const TOKEN_REQUEST = '/sdk/token';
-
+const TOKEN_REQUEST = '/sdk/v1/token';
 const localConfig = config;
 
 /**
@@ -19,21 +19,20 @@ const checkApiKey = async (token, url) => fetch(`${url}${TOKEN_REQUEST}`, {
   body: JSON.stringify({ apiKey: token }),
 }).then((response) => response);
 
-
 // this request should be done from BE
 const apiKey = '';
 const getJWTToken = () => checkApiKey(apiKey, config.apiUrl)
-    .then((res) => res.json())
-    .then((data) => {
-        if (data.responseCode !== 200) throw new Error(data.errorMessage);
-        Object.assign(localConfig, { jwtToken: data.token });
-        return data;
-    });
+  .then((res) => res.json())
+  .then((data) => {
+    if (data.responseCode !== 200) throw new Error(data.errorMessage);
+    Object.assign(localConfig, { jwtToken: data.token });
+    return data;
+  });
 
 
 // testing
 getJWTToken().then(() => {
-  getidWebSdk.init(localConfig);
+  init(localConfig);
 }).catch((e) => {
   console.log(`Error: ${e.message}`);
 });

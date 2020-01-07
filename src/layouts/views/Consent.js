@@ -42,8 +42,18 @@ class Consent extends Component {
     };
   }
 
+  componentDidMount() {
+    const {
+      addField, currentStep, fieldValues,
+    } = this.props;
+    if (!fieldValues[currentStep]) {
+      addField('consent', false, currentStep);
+    }
+  }
+
   handleChange = (event) => {
     const { currentStep } = this.props;
+
     this.props.addField('consent', event.target.checked, currentStep);
   };
 
@@ -62,12 +72,13 @@ class Consent extends Component {
           {showOnfidoLogo && (
             <div className={classes.poweredBlock}>
               <span className={classes.poweredLabel}>Powered by</span>
-              <img src={getidLogo} alt="getid" data-role="getidLogo"/>
+              <img src={getidLogo} alt="getid" data-role="getidLogo" />
               <div className={classes.slash} />
-              <img src={onfidoLogo} alt="onfido" data-role="onfidoLogo"/>
+              <img src={onfidoLogo} alt="onfido" data-role="onfidoLogo" />
             </div>
           )}
 
+          { fieldValues[currentStep] && (
           <FormControlLabel
             style={{ textAlign: 'left', marginLeft: 0, marginTop: '60px' }}
             control={(
@@ -94,9 +105,9 @@ class Consent extends Component {
               </label>
             )}
           />
+          )}
         </Grid>
       </Grid>
-
     );
   }
 }

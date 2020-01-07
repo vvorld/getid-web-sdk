@@ -22,11 +22,13 @@ const checkApiKey = async (token, url) => fetch(`${url}${TOKEN_REQUEST}`, {
 
 // this request should be done from BE
 const apiKey = '';
-const getJWTToken = () => checkApiKey(apiKey, config.apiUrl).then((res) => res.json()).then((data) => {
-  if (data.responseCode !== 200) throw new Error(data.errorMessage);
-  Object.assign(localConfig, { jwtToken: data.token });
-  return data;
-});
+const getJWTToken = () => checkApiKey(apiKey, config.apiUrl)
+    .then((res) => res.json())
+    .then((data) => {
+        if (data.responseCode !== 200) throw new Error(data.errorMessage);
+        Object.assign(localConfig, { jwtToken: data.token });
+        return data;
+    });
 
 
 // testing

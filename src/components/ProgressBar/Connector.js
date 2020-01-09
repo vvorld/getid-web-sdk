@@ -1,6 +1,6 @@
 import { withStyles } from '@material-ui/core/styles';
 import StepConnector from '@material-ui/core/StepConnector';
-import stepperTheme from '../../assets/Stepper';
+import stepperTheme from '../../assets/jss/Stepper';
 
 const { main, light } = stepperTheme.palette.primary;
 

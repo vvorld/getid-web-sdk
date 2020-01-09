@@ -52,7 +52,7 @@ class Form extends Component {
       if (field.type === 'select') {
         const { options } = field;
         return (
-          <Grid item key={`select-${field.label}`} xs={12} sm={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
             <Select
               name={field.name}
               items={options}
@@ -66,7 +66,7 @@ class Form extends Component {
 
       if (field.type === 'checkbox') {
         return (
-          <Grid item key={`checkbox-grid-${field.label}`} xs={12} xl={12}>
+          <Grid item key={`checkbox-grid-${field.label}`} xs={11} xl={12}>
             <Grid container justify="center">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
@@ -93,7 +93,7 @@ class Form extends Component {
 
       if (field.type === 'date') {
         return (
-          <Grid item key={`dategrid-${field.label}`} xs={12} sm={this.gridWidth}>
+          <Grid item key={`dategrid-${field.label}`} xs={11} sm={this.gridWidth}>
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
@@ -107,7 +107,7 @@ class Form extends Component {
       }
 
       return (
-        <Grid item key={`text-${field.label}`} xs={12} sm={this.gridWidth}>
+        <Grid item key={`text-${field.label}`} xs={11} sm={this.gridWidth}>
           <TextInput
             type={field.type}
             name={field.name}
@@ -125,7 +125,7 @@ class Form extends Component {
     const { fieldValues, currentStep } = this.props;
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="center" justify="center" container spacing={2} data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );

@@ -1,13 +1,13 @@
+import React from 'react';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import React from 'react';
 import PropTypes from 'prop-types';
 
-const defaultMaterialTheme = createMuiTheme({
+const DatePickerTheme = createMuiTheme({
   overrides: {
     MuiPickersToolbar: {
       toolbar: {
@@ -97,7 +97,7 @@ function DateInput(props) {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
-        <ThemeProvider theme={defaultMaterialTheme}>
+        <ThemeProvider theme={DatePickerTheme}>
           <FormControl fullWidth>
             <DatePicker
               data-role="datePicker"

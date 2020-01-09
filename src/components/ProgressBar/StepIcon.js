@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import stepperTheme from '../../assets/Stepper';
+import stepperTheme from '../../assets/jss/Stepper';
 import Checkmark from './Checkmark';
 
 import doneActive from '../../assets/icons/done-active.svg';

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
-
+import buttonStyles from '../../assets/jss/Button';
 import SadSmileSVG from '../../assets/icons/views/sad-smile.svg';
-import colors from '../../assets/theme';
+import colors from '../../assets/jss/MainTheme';
 
 const { palette } = colors;
 
@@ -54,12 +54,14 @@ const Camera = (props) => {
 
   const classes = useStyles();
 
+  const buttonClass = buttonStyles();
+
   const cameraDisabled = (requestCamera) => (
     <Grid container direction="column" alignItems="center" className={classes.cameraDisabled}>
       <Grid item xs={10} sm={9} md={8} lg={7}>
         <img src={SadSmileSVG} alt="something wrong" />
         <div>To make a photo you need to give access for webcam</div>
-        <Button className="custom-button" onClick={requestCamera}>try again</Button>
+        <Button className={buttonClass.customButton} onClick={requestCamera}>try again</Button>
       </Grid>
     </Grid>
   );

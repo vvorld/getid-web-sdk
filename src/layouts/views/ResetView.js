@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { makeStyles, fade } from '@material-ui/core/styles';
 
-import colors from '../../assets/theme';
+import colors from '../../assets/jss/MainTheme';
 import messages from '../../messages/messages';
 import CustomLogo from '../../components/Logo/CustomLogo';
 

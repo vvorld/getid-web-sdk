@@ -6,32 +6,41 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import CustomLogo from '../components/Logo/CustomLogo';
 import messages from '../messages/messages';
-import colors from '../assets/theme';
 
-const { palette } = colors;
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  topPart: {
+    marginTop: '188px',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '90px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '30px',
+    },
+  },
   header: {
-    color: palette.blue,
-    fontSize: '26px',
+    marginTop: 0,
+    color: theme.palette.blue,
+    fontSize: theme.typography.mainHeaderSize,
     letterSpacing: '0.192941px',
     lineHeight: '41px',
-    margin: '0',
   },
   subHeader: {
-    margin: '16px 8px 30px 8px',
+    margin: '0 8px 30px 8px',
     fontSize: '15px',
     fontStyle: 'normal',
     fontWeight: 'normal',
     lineHeight: '22px',
-    color: palette.blueDark,
+    color: theme.palette.blueDark,
     opacity: '0.7',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '13px',
+    },
   },
   hr: {
-    background: fade(palette.violet, 0.5),
+    background: fade(theme.palette.violet, 0.5),
     border: '0',
     height: '1px',
-    margin: '20px auto',
+    margin: '0 auto 40px',
     width: '30px',
   },
 }));
@@ -41,33 +50,52 @@ function UpperPart(props) {
 
   const isLast = () => currentComponent.next === null;
 
-  const isConsent = () => currentComponent.name === 'Consent' && currentComponent.name;
   const isThankYou = () => currentComponent.name === 'ThankYou' && currentComponent.name;
-
-  const isCondition = () => (isConsent() || isThankYou());
+  const isConsent = () => currentComponent.name === 'Consent' && currentComponent.name;
 
   const classes = useStyles();
 
   return (
-    <Grid container alignItems="center" justify="center" data-role="header">
-      <Grid item xs={10} sm={9} md={9}>
-        {flow.length > 1 && (
-          <Grid container alignItems="center" justify="center">
-            <Grid item xs={12} sm={12} md={10}>
-              <ProgressBar
-                isLast={isLast}
-                flowLength={flow.length}
-                activeStepParent={currentStep}
-              />
-            </Grid>
+    <Grid container alignItems="center" justify="center" data-role="header" spacing={3}>
+      {flow.length > 1 && (
+      <Grid container alignItems="flex-start" justify="flex-start" direction="row">
+        <Grid item xs={12} md={2} className={classes.item}>
+          <CustomLogo condition="getIdLogo" />
+        </Grid>
+        <Grid alignItems="flex-end" item xs={12} md={8}>
+          <Grid
+            container
+            direction="row"
+            justify="space-evenly"
+            alignItems="center"
+          >
+            <ProgressBar
+              isLast={isLast}
+              flowLength={flow.length}
+              activeStepParent={currentStep}
+            />
           </Grid>
-        )}
-        <CustomLogo condition={isCondition()} />
-        <h3 data-role="componentTitle" className={classes.header}>{messages.header[currentComponent.name]}</h3>
-        <hr className={classes.hr} />
-        <h5 className={classes.subHeader} px={1}>
-          {messages.subHeader[currentComponent.name]}
-        </h5>
+        </Grid>
+      </Grid>
+      )}
+      <Grid className={classes.topPart} container alignItems="center" justify="center">
+        <Grid item xs={10} md={4}>
+          {!isConsent() && (
+          <h3
+            data-role="componentTitle"
+            className={classes.header}
+          >
+            {messages.header[currentComponent.name]}
+          </h3>
+          )}
+          <hr className={classes.hr} />
+          { !isConsent() && (
+          <h5 className={classes.subHeader}>
+            {messages.subHeader[currentComponent.name]}
+          </h5>
+          ) }
+          <CustomLogo text="Powered By " condition={(isConsent() || isThankYou())} />
+        </Grid>
       </Grid>
     </Grid>
   );

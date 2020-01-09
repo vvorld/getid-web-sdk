@@ -68,10 +68,11 @@ class Widget extends Component {
   };
 
   sendStepCompleteEvent = async () => {
+    const { apiUrl, jwtToken } = this.props;
     const stepName = this.isSingleDocument()
       ? eventNames.single
       : eventNames[this.CurrentComponent().name];
-    await apiProvider.sendEvent(this.props.apiUrl, stepName, 'step-completed');
+    await apiProvider.sendEvent(apiUrl, stepName, 'completed', jwtToken);
   };
 
   triggerPreviousComponent = () => {
@@ -99,7 +100,7 @@ class Widget extends Component {
     });
 
     apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
-      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'step-started');
+      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started');
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
         if (data.responseCode !== 200) {
@@ -107,7 +108,7 @@ class Widget extends Component {
           this.setState({ isFail: true });
           return;
         }
-        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'step-completed');
+        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed');
         this.triggerNextComponent();
       });
     });

@@ -29,7 +29,7 @@ const getCountryAndDocList = (url) => fetch(`${url}${COUNTRY_AND_DOC_LIST}`, {
   },
 }).then((response) => response);
 
-const sendEvent = async (url, step, stepPhase) => {
+const sendEvent = async (url, step, stepPhase, jwt) => {
   try {
     const fetchResponse = await fetch(`${url}${EVENT}`, {
       method: 'POST',
@@ -37,7 +37,7 @@ const sendEvent = async (url, step, stepPhase) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
-      body: JSON.stringify({ event: { stepPhase, step } }),
+      body: JSON.stringify({ jwt, event: { stepPhase, step } }),
     });
     return await fetchResponse.json();
   } catch (e) {

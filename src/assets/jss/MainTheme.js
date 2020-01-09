@@ -7,6 +7,7 @@ const mainTheme = createMuiTheme({
     blue: '#173d69',
     blueDark: '#0e2846',
     blueShadow: '#1b3361',
+    stepperLight: '#ECE8F3',
     aqua: '#00b1c9',
     crimson: '#ea167c',
     violet: '#7861a2',
@@ -17,7 +18,13 @@ const mainTheme = createMuiTheme({
       default: 'white',
     },
   },
+  stepperShape: {
+    width: 20,
+    height: 20,
+    borderRadius: '50%',
+  },
   typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     mainHeaderSize: '26px',
   },
 });

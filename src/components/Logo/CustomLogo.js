@@ -5,7 +5,7 @@ import small from '../../assets/icons/getid-small.svg';
 import getIdLogo from '../../assets/icons/getid-logo.svg';
 import thankyou from '../../assets/icons/thank-you-logo.svg';
 import reset from '../../assets/icons/error-icon.svg';
-import imgStyles from '../../assets/jss/CustomLogo';
+import imgStyles from '../../assets/jss/components/CustomLogo';
 
 const logoMapping = {
   Consent: small,

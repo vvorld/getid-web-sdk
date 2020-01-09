@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ActionBar from './ActionBar';
 import Spacebar from '../assets/icons/views/space-bar.svg';
-import FooterStyles from '../assets/jss/Footer';
+import FooterStyles from '../assets/jss/views/Footer';
 
 const Footer = (props) => {
   const { isCameraView, isCameraEnabled } = props;

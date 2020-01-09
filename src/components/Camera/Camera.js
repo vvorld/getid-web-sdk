@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
-import buttonStyles from '../../assets/jss/Button';
+import buttonStyles from '../../assets/jss/components/Button';
 import SadSmileSVG from '../../assets/icons/views/sad-smile.svg';
 import colors from '../../assets/jss/MainTheme';
 

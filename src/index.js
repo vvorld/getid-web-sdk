@@ -1,11 +1,12 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/styles';
 import Widget from './layouts/Widget';
-import './assets/styles/index.scss';
 
 import store from './store/store';
 import apiProvider from './services/api';
+import MainTheme from './assets/jss/MainTheme';
 
 const supportedBrowsers = require('../supportedBrowsers');
 
@@ -14,11 +15,13 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
 }
 
 const MainModule = (widgetOptions) => (
-  <Provider store={store}>
-    <Widget
-      {...widgetOptions}
-    />
-  </Provider>
+  <ThemeProvider theme={MainTheme}>
+    <Provider store={store}>
+      <Widget
+        {...widgetOptions}
+      />
+    </Provider>
+  </ThemeProvider>
 );
 
 /**

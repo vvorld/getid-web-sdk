@@ -3,11 +3,11 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import StepConnector from '@material-ui/core/StepConnector';
 import { Grid } from '@material-ui/core';
+import stepperStyles from '../../assets/jss/components/Stepper';
 import customisedStepIcon from './StepIcon';
-import CustomisedConnector from './Connector';
 
 const useStyles = makeStyles(() => ({
   stepper: {
@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
 function ProgressBar(props) {
   const { flowLength, activeStepParent } = props;
   const classes = useStyles();
+  const CustomisedConnector = withStyles(stepperStyles)(StepConnector);
 
   return (
     <Grid item xs={12} sm={9} md={6}>

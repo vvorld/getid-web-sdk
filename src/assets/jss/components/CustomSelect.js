@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core';
 
 const CustomSelectStyles = makeStyles((theme) => ({
   customSelect: {
@@ -30,12 +30,12 @@ const CustomSelectStyles = makeStyles((theme) => ({
     },
   },
   dropdownStyle: {
-    border: '1px solid rgba(120, 97, 162, 1)',
+    border: `1px solid ${theme.palette.violet}`,
     boxSizing: 'border-box',
     borderRadius: 8,
-    boxShadow: '0px 4px 20px rgba(23, 61, 105, 0.15)',
-    color: '#0E1C2C',
-    backgroundColor: 'white',
+    boxShadow: `0px 4px 20px ${fade(theme.palette.blue, 0.15)}`,
+    color: theme.palette.deepBlue,
+    backgroundColor: theme.palette.white,
   },
   icon: {
     position: 'absolute',
@@ -49,23 +49,23 @@ const CustomSelectStyles = makeStyles((theme) => ({
     paddingTop: '14px',
     paddingBottom: '14px',
     '&:hover': {
-      background: 'rgba(120, 97, 162, 0.05)',
+      background: `${fade(theme.palette.violet, 0.05)}`,
     },
   },
   placeholderItem: {
-    color: 'rgba(14, 28, 44, 0.5)',
+    color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
     lineHeight: '22px',
     paddingTop: '14px',
     paddingBottom: '14px',
     '&:hover': {
-      background: 'rgba(120, 97, 162, 0.05)',
+      background: `${fade(theme.palette.violet, 0.05)}`,
     },
   },
   itemSelected: {
-    background: 'rgba(120, 97, 162, 0.05)!important',
+    background: `${fade(theme.palette.violet, 0.05)}!important`,
     '&:hover': {
-      background: 'rgba(120, 97, 162, 0.05)',
+      background: `${fade(theme.palette.violet, 0.05)}`,
     },
   },
   img: {

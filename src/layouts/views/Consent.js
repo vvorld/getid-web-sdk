@@ -10,7 +10,7 @@ import { getFormValues } from '../../store/selectors';
 import getidLogo from '../../assets/icons/getid-small.svg';
 import onfidoLogo from '../../assets/icons/onfido.svg';
 
-const useStyles = () => ({
+const useStyles = (theme) => ({
   poweredBlock: {
     display: 'flex',
     justifyContent: 'center',
@@ -30,6 +30,17 @@ const useStyles = () => ({
     width: '1px',
     margin: '0 3px',
     background: '#000000',
+  },
+  labelCheckbox: {
+    color: theme.palette.blueDark,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '15px',
+    lineHeight: '22px',
+    textAlign: 'left',
+    '& a': {
+      color: theme.palette.violet,
+    },
   },
 });
 
@@ -69,7 +80,7 @@ class Consent extends Component {
           )}
 
           <FormControlLabel
-            className="label-checkbox"
+            className={classes.labelCheckbox}
             control={(
               <CustomCheckBox
                 data-role="checkboxConsent"
@@ -81,7 +92,7 @@ class Consent extends Component {
               />
             )}
             label={(
-              <label className="label-checkbox" data-role="textConsent">
+              <label data-role="textConsent">
                 I have read and understand or I have read and understood
                 {' '}
                 <a href={touLink} data-role="linkTerms" rel="noopener noreferrer" target="_blank">Terms of use</a>
@@ -96,7 +107,6 @@ class Consent extends Component {
           />
         </Grid>
       </Grid>
-
     );
   }
 }

@@ -1,6 +1,17 @@
 import { fade, makeStyles } from '@material-ui/core';
 
 const buttonStyles = makeStyles((theme) => ({
+  backButtonWrapper: {
+    [theme.breakpoints.down('xs')]: {
+      order: 2,
+      marginTop: 10,
+    },
+  },
+  nextButtonWrapper: {
+    [theme.breakpoints.down('xs')]: {
+      order: 1,
+    },
+  },
   root: {
     '& img': {
       verticalAlign: 'middle',
@@ -74,6 +85,10 @@ const buttonStyles = makeStyles((theme) => ({
     background: 'transparent',
     boxShadow: 'none',
     borderColor: 'transparent',
+    textAlign: 'left',
+    '&:hover': {
+      background: 'transparent',
+    },
     '&.reset-left': {
       float: 'left',
     },

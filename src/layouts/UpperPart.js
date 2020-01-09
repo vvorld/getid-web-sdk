@@ -62,7 +62,7 @@ function UpperPart(props) {
         <Grid item xs={12} md={2} className={classes.item}>
           <CustomLogo condition="getIdLogo" />
         </Grid>
-        <Grid alignItems="flex-end" item xs={12} md={8}>
+        <Grid container alignItems="flex-end" item xs={12} md={8}>
           <Grid
             container
             direction="row"
@@ -79,7 +79,7 @@ function UpperPart(props) {
       </Grid>
       )}
       <Grid className={classes.topPart} container alignItems="center" justify="center">
-        <Grid item xs={10} md={4}>
+        <Grid item xs={10} sm={8} md={4}>
           {!isConsent() && (
           <h3
             data-role="componentTitle"

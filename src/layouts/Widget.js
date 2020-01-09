@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import { ThemeProvider, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import store from '../store/store';
 import Loader from '../components/Loader/Loader';
 import {
@@ -12,23 +12,13 @@ import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import apiProvider from '../services/api';
 import Footer from '../components/Footer';
-import MainTheme from '../assets/jss/MainTheme';
 import cameraViews from '../constants/camera-views';
+import widgetStyles from '../assets/jss/views/Widget';
 
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent,
 } from '../store/selectors';
 import ResetView from './views/ResetView';
-
-const useStyles = () => ({
-  root: {
-    padding: '20px 0',
-  },
-  item: {
-    textAlign: 'center',
-    position: 'relative',
-  },
-});
 
 class Widget extends Component {
   constructor(props) {
@@ -226,37 +216,35 @@ class Widget extends Component {
     const { idCapturebackIndex } = this;
 
     return (
-      <ThemeProvider theme={MainTheme}>
-        <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
-          <Grid item xs={12} className={classes.item}>
-            <UpperPart
-              currentComponent={LoadingComponent}
-              flow={flow}
-              currentStep={currentStep}
-            />
-          </Grid>
-          <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
-            <LoadingComponent.component {...(this.isForm() ? {
-              currentStep,
-              fields,
-              footer,
-              formType,
-              apiUrl,
-            } : {
-              currentStep,
-              apiUrl,
-              footer,
-              isQA,
-              flow,
-              idCapturebackIndex,
-              documentData,
-              showOnfidoLogo,
-            })}
-            />
-            {!this.isCameraView() && <Footer {...footer} />}
-          </Grid>
+      <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
+        <Grid item xs={12} className={classes.item}>
+          <UpperPart
+            currentComponent={LoadingComponent}
+            flow={flow}
+            currentStep={currentStep}
+          />
         </Grid>
-      </ThemeProvider>
+        <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
+          <LoadingComponent.component {...(this.isForm() ? {
+            currentStep,
+            fields,
+            footer,
+            formType,
+            apiUrl,
+          } : {
+            currentStep,
+            apiUrl,
+            footer,
+            isQA,
+            flow,
+            idCapturebackIndex,
+            documentData,
+            showOnfidoLogo,
+          })}
+          />
+          {!this.isCameraView() && <Footer {...footer} />}
+        </Grid>
+      </Grid>
     );
   }
 }
@@ -314,4 +302,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(withStyles(useStyles)(Widget));
+)(withStyles(widgetStyles)(Widget));

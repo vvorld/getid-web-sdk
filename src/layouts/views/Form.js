@@ -4,12 +4,28 @@ import parse from 'html-react-parser';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core';
 import TextInput from '../../components/Inputs/TextInput';
 import DateInput from '../../components/Inputs/DateInput';
 import Select from '../../components/Inputs/Select';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
+
+const styles = (theme) => ({
+  labelCheckbox: {
+    margin: '40px 0 0 0',
+    color: theme.palette.blueDark,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '15px',
+    lineHeight: '22px',
+    textAlign: 'left',
+    '& a': {
+      color: theme.palette.violet,
+    },
+  },
+});
 
 
 class Form extends Component {
@@ -46,7 +62,7 @@ class Form extends Component {
   };
 
   generateInputs() {
-    const { fieldValues } = this.props;
+    const { fieldValues, classes } = this.props;
 
     return this.fields.map((field) => {
       if (field.type === 'select') {
@@ -71,7 +87,7 @@ class Form extends Component {
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
                   data-role="checkbox"
-                  style={{ margin: '40px 0 0 0', textAlign: 'left' }}
+                  className={classes.labelCheckbox}
                   key={`control-${field.label}`}
                   control={(
                     <CustomCheckBox
@@ -141,6 +157,11 @@ Form.propTypes = {
   addField: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
+  classes: PropTypes.object,
+};
+
+Form.defaultProps = {
+  classes: {},
 };
 
 const mapStateToProps = (state) => ({
@@ -150,4 +171,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(Form);
+)(withStyles(styles)(Form));

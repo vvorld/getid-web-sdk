@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 
-import buttonStyles from '../assets/jss/Button';
+import buttonStyles from '../assets/jss/components/Button';
 import BackIcon from '../assets/icons/views/arrow-back.svg';
 import NextIcon from '../assets/icons/views/arrow-next.svg';
 
@@ -72,15 +72,20 @@ const ActionBar = (props) => {
       : null);
   };
 
-  const defaultNav = () => (
-    <Grid container justify="center" data-role="footerBlock">
-      <Grid item style={{ textAlign: 'left' }} xs={12} sm={12} md={3}>{CustomButton({ ...back })}</Grid>
-      <Grid item xs={12} sm={12} md={6}>
-        {CustomButton({ ...next })}
+  const defaultNav = () => {
+    const styles = buttonStyles();
+    return (
+      <Grid container justify="flex-start" data-role="footerBlock">
+        <Grid className={styles.backButtonWrapper} item xs={12} sm={3}>
+          {CustomButton({ ...back })}
+        </Grid>
+        <Grid className={styles.nextButtonWrapper} item xs={12} sm={6}>
+          {CustomButton({ ...next })}
+        </Grid>
+        <Grid item xs={12} sm={3} />
       </Grid>
-      <Grid item xs={12} sm={3} />
-    </Grid>
-  );
+    );
+  };
 
   return (
     <div>

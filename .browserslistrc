@@ -1,7 +1,7 @@
 # Browsers that we support
 
 [production]
-> 2%
+defaults
 
 [modern]
 last 1 chrome version

@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "./lib/bundle.js",
   "author": "Anna Teterina",
   "description": "GetId Web SDK",

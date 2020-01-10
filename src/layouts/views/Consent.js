@@ -10,7 +10,7 @@ import { getFormValues } from '../../store/selectors';
 import getidLogo from '../../assets/icons/getid-small.svg';
 import onfidoLogo from '../../assets/icons/onfido.svg';
 
-const useStyles = () => ({
+const useStyles = (theme) => ({
   poweredBlock: {
     display: 'flex',
     justifyContent: 'center',
@@ -30,6 +30,17 @@ const useStyles = () => ({
     width: '1px',
     margin: '0 3px',
     background: '#000000',
+  },
+  labelCheckbox: {
+    color: theme.palette.blueDark,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '15px',
+    lineHeight: '22px',
+    textAlign: 'left',
+    '& a': {
+      color: theme.palette.violet,
+    },
   },
 });
 
@@ -57,19 +68,19 @@ class Consent extends Component {
     const { touLink, ppLink } = this.state;
 
     return (
-      <Grid container justify="center" data-role="blockConsent">
-        <Grid item xs={12} sm={10} md={10} lg={8}>
+      <Grid container alignItems="center" justify="center" data-role="blockConsent">
+        <Grid item xs={11} sm={10} md={10} lg={8}>
           {showOnfidoLogo && (
             <div className={classes.poweredBlock}>
               <span className={classes.poweredLabel}>Powered by</span>
-              <img src={getidLogo} alt="getid" data-role="getidLogo"/>
+              <img src={getidLogo} alt="getid" data-role="getidLogo" />
               <div className={classes.slash} />
-              <img src={onfidoLogo} alt="onfido" data-role="onfidoLogo"/>
+              <img src={onfidoLogo} alt="onfido" data-role="onfidoLogo" />
             </div>
           )}
 
           <FormControlLabel
-            style={{ textAlign: 'left', marginLeft: 0, marginTop: '60px' }}
+            className={classes.labelCheckbox}
             control={(
               <CustomCheckBox
                 data-role="checkboxConsent"
@@ -81,7 +92,7 @@ class Consent extends Component {
               />
             )}
             label={(
-              <label className="label-checkbox" data-role="textConsent">
+              <label data-role="textConsent">
                 I have read and understand or I have read and understood
                 {' '}
                 <a href={touLink} data-role="linkTerms" rel="noopener noreferrer" target="_blank">Terms of use</a>
@@ -96,7 +107,6 @@ class Consent extends Component {
           />
         </Grid>
       </Grid>
-
     );
   }
 }

@@ -1,40 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-const useStylesFacebook = makeStyles({
-  root: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    display: 'flex',
-  },
-  top: {
-    color: '#eef3fd',
-  },
-  bottom: {
-    color: '#7861A2',
-    animationDuration: '850ms',
-    position: 'absolute',
-    left: 0,
-  },
-  text: {
-    position: 'absolute',
-    top: '55%',
-    left: 0,
-    right: 0,
-    margin: 'auto',
-    textAlign: 'center',
-    whiteSpace: 'nowrap',
-    fontSize: '22px',
-    lineHeight: '100%',
-    color: '#194373',
-  },
-});
+import loader from '../../assets/jss/components/Loader';
 
 const Loader = (props) => {
-  const classes = useStylesFacebook();
+  const classes = loader();
+  const loaderText = 'Sending data...';
   return (
     <div>
       <div className={classes.root}>
@@ -55,9 +25,8 @@ const Loader = (props) => {
           {...props}
         />
       </div>
-      <div className={classes.text}>Sending data...</div>
+      <div className={classes.text}>{loaderText}</div>
     </div>
-
   );
 };
 

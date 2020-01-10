@@ -13,6 +13,8 @@
     "@babel/plugin-proposal-class-properties",
     "@babel/transform-runtime",
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-syntax-import-meta"
+    "@babel/plugin-syntax-import-meta",
+     "@babel/plugin-transform-spread",
+    "@babel/plugin-proposal-object-rest-spread"
   ]
 }

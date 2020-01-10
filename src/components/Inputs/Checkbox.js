@@ -1,7 +1,7 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import React from 'react';
 import clsx from 'clsx';
-import customCheckbox from '../../assets/jss/components/CustomCheckbox';
+import customCheckbox from '../../assets/jss/components/inputs/CustomCheckbox';
 
 function CustomCheckbox(props) {
   const classes = customCheckbox();

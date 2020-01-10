@@ -116,17 +116,17 @@ class Widget extends Component {
     cancel: {
       name: 'Cancel',
       action: this.props.onFail,
-      class: 'prev-button reset-left',
+      class: 'prevButton',
     },
     retry: {
       name: 'Retry',
       action: this.submitData,
-      class: 'next-button is-gradient',
+      class: 'isGradient',
     },
     chooseFlow: {
       name: 'Choose Flow',
       action: this.props.onFail,
-      class: 'prev-button reset-right',
+      class: 'prevButton',
     },
   });
 

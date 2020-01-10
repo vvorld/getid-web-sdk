@@ -4,10 +4,13 @@ const FooterStyles = makeStyles((theme) => ({
   lineLong: {
     opacity: '0.3',
     width: '100%',
-    margin: '0px auto 50px',
+    margin: '50px auto',
     border: 0,
     height: '1px',
     background: fade(theme.palette.violet, 0.5),
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   text: {
     lineHeight: '22px',

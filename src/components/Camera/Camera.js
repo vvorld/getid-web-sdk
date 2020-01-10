@@ -2,58 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/styles';
-import buttonStyles from '../../assets/jss/components/Button';
+import cameraStyles from '../../assets/jss/views/Camera';
+import buttonStyles from '../../assets/jss/components/buttons/Button';
 import SadSmileSVG from '../../assets/icons/views/sad-smile.svg';
-import colors from '../../assets/jss/MainTheme';
-
-const { palette } = colors;
-
-const useStyles = makeStyles(() => ({
-  cameraDisabled: {
-    boxSizing: 'border-box',
-    background: palette.blue,
-    padding: '80px 0',
-    '&& img': {
-      marginBottom: '22px',
-    },
-    '&& div': {
-      color: palette.white,
-      fontSize: '15px',
-      lineHeight: '22px',
-      textAlign: 'center',
-    },
-    '&& button': {
-      margin: '26px auto 12px',
-    },
-  },
-  mediaWrapper: {
-    position: 'relative',
-    display: 'flex',
-  },
-  video: {
-    transform: 'scaleX(-1)',
-  },
-  cameraOverlay: {
-    width: '100%',
-    left: 0,
-    position: 'absolute',
-    top: 0,
-  },
-  imgOverlay: {
-    bottom: '10px',
-    position: 'absolute',
-    right: '10px',
-  },
-}));
 
 const Camera = (props) => {
-  const [isStream, setStream] = useState(
-    false,
-  );
+  const [isStream, setStream] = useState(false);
 
-  const classes = useStyles();
-
+  const classes = cameraStyles();
   const buttonClass = buttonStyles();
 
   const cameraDisabled = (requestCamera) => (

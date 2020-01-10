@@ -1,6 +1,11 @@
 import { fade, makeStyles } from '@material-ui/core';
 
 const buttonStyles = makeStyles((theme) => ({
+  footerBlock: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: 50,
+    },
+  },
   backButtonWrapper: {
     [theme.breakpoints.down('xs')]: {
       order: 2,

@@ -1,11 +1,11 @@
-import { makeStyles } from '@material-ui/core';
+import { fade, makeStyles } from '@material-ui/core';
 
 const customCheckbox = makeStyles((theme) => ({
   root: {
     width: 30,
     height: 30,
     boxSizing: 'border-box',
-    border: `1px solid ${theme.palette.violet}`,
+    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
     borderRadius: '8px',
     marginRight: 10,
     '&$checked': {

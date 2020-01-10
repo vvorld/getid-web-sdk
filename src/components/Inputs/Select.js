@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 
 import arrowIcon from '../../assets/icons/views/arrow-down.svg';
-import CustomSelectStyles from '../../assets/jss/components/CustomSelect';
+import CustomSelectStyles from '../../assets/jss/components/inputs/CustomSelect';
 
 const CustomSelect = (props) => {
   const {

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import StepConnector from '@material-ui/core/StepConnector';
 import { Grid } from '@material-ui/core';
-import stepperStyles from '../../assets/jss/components/Stepper';
+import stepperStyles from '../../assets/jss/components/progressBar/Stepper';
 import customisedStepIcon from './StepIcon';
 
 const useStyles = makeStyles(() => ({

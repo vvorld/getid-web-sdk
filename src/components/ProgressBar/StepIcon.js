@@ -5,7 +5,7 @@ import Checkmark from './Checkmark';
 
 import doneActive from '../../assets/icons/done-active.svg';
 import done from '../../assets/icons/done.svg';
-import StepIcon from '../../assets/jss/components/StepIcon';
+import StepIcon from '../../assets/jss/components/progressBar/StepIcon';
 
 
 function customisedStepIcon(props) {

@@ -10,7 +10,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
     textAlign: 'left',
     height: 58,
     borderRadius: 8,
-    border: `1px solid ${theme.palette.violet}`,
+    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
     '&& div': {
       backgroundColor: 'transparent',
       fontSize: 16,

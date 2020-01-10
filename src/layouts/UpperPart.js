@@ -1,49 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import CustomLogo from '../components/Logo/CustomLogo';
 import messages from '../messages/messages';
-
-const useStyles = makeStyles((theme) => ({
-  topPart: {
-    marginTop: '188px',
-    [theme.breakpoints.down('md')]: {
-      marginTop: '90px',
-    },
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '30px',
-    },
-  },
-  header: {
-    marginTop: 0,
-    color: theme.palette.blue,
-    fontSize: theme.typography.mainHeaderSize,
-    letterSpacing: '0.192941px',
-    lineHeight: '41px',
-  },
-  subHeader: {
-    margin: '0 8px 30px 8px',
-    fontSize: '15px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    lineHeight: '22px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '13px',
-    },
-  },
-  hr: {
-    background: fade(theme.palette.violet, 0.5),
-    border: '0',
-    height: '1px',
-    margin: '0 auto 40px',
-    width: '30px',
-  },
-}));
+import headerStyles from '../assets/jss/views/UpperPart';
 
 function UpperPart(props) {
   const { currentStep, flow, currentComponent } = props;
@@ -53,7 +14,7 @@ function UpperPart(props) {
   const isThankYou = () => currentComponent.name === 'ThankYou' && currentComponent.name;
   const isConsent = () => currentComponent.name === 'Consent' && currentComponent.name;
 
-  const classes = useStyles();
+  const classes = headerStyles();
 
   return (
     <Grid container alignItems="center" justify="center" data-role="header" spacing={3}>
@@ -80,6 +41,7 @@ function UpperPart(props) {
       )}
       <Grid className={classes.topPart} container alignItems="center" justify="center">
         <Grid item xs={10} sm={8} md={4}>
+          <CustomLogo condition={isThankYou()} />
           {!isConsent() && (
           <h3
             data-role="componentTitle"
@@ -94,7 +56,7 @@ function UpperPart(props) {
             {messages.subHeader[currentComponent.name]}
           </h5>
           ) }
-          <CustomLogo text="Powered By " condition={(isConsent() || isThankYou())} />
+          <CustomLogo text="Powered By " condition={isConsent()} />
         </Grid>
       </Grid>
     </Grid>

@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
 
-import buttonStyles from '../assets/jss/components/Button';
+import buttonStyles from '../assets/jss/components/buttons/Button';
 import BackIcon from '../assets/icons/views/arrow-back.svg';
 import NextIcon from '../assets/icons/views/arrow-next.svg';
 
@@ -75,7 +75,7 @@ const ActionBar = (props) => {
   const defaultNav = () => {
     const styles = buttonStyles();
     return (
-      <Grid container justify="flex-start" data-role="footerBlock">
+      <Grid container justify="flex-start" className={styles.footerBlock} data-role="footerBlock">
         <Grid className={styles.backButtonWrapper} item xs={12} sm={3}>
           {CustomButton({ ...back })}
         </Grid>

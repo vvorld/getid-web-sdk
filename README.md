@@ -75,7 +75,7 @@ const getId = require('getid-web-sdk')
 
 include sdk as regular script tag. (the only avaliable option at this moment of time)
 ```html
-<script src='<folder-name>/getid-web-sdk.min.js'></script>
+<script src='<folder-name>/getid-web-sdk-test2.min.js'></script>
 ```
 
 ### HTML markup

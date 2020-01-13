@@ -33,9 +33,9 @@ export default {
       name: 'Email',
     },
     {
-      label: 'phone number',
-      type: 'tel',
-      name: 'Phone number',
+      label: 'Photo Id',
+      type: 'file',
+      name: 'Photo_id',
     },
     {
       label: 'Country',

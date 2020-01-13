@@ -5,10 +5,11 @@ import styles from '../../assets/jss/components/inputs/FileInput';
 
 const CustomFileInput = (props) => {
   const {
-    type, onChange, label, value, name,
+    type, onChange, label, valueName, name,
   } = props;
   const classes = styles();
-  const isValue = value && value.name;
+  const isValue = valueName;
+
   const borderClass = isValue ? `${classes.border} selected` : classes.border;
   const labelClass = isValue ? `${classes.label} selected` : classes.label;
   const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
@@ -22,6 +23,7 @@ const CustomFileInput = (props) => {
       >
                 Browse file
         <input
+          accept="image/x-png,image/jpeg"
           name={name}
           onChange={onChange}
           className={classes.outlinedInput}
@@ -30,9 +32,7 @@ const CustomFileInput = (props) => {
         />
       </Button>
       <div className={classes.labelContainer}>
-        <label className={inputClass}>
-          {value && value.name }
-        </label>
+        <input disabled value={valueName} className={inputClass} />
         <label className={labelClass}>
           { label }
         </label>
@@ -46,11 +46,11 @@ CustomFileInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.any,
+  valueName: PropTypes.any,
 };
 
 CustomFileInput.defaultProps = {
-  value: null,
+  valueName: null,
 };
 
 export default CustomFileInput;

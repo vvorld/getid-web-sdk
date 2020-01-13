@@ -36,11 +36,17 @@ const style = makeStyles((theme) => ({
     flexDirection: 'column-reverse',
   },
   inputValue: {
+    width: '100%',
     color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
+    textAlign: 'left',
     lineHeight: '22px',
+    display: 'none',
     paddingLeft: '10px',
     '&.selected': {
+      border: 'none',
+      outline: 'none',
+      display: 'block',
       color: theme.palette.deepBlue,
       transformOrigin: 'center left',
       transform: 'translate(3px, -1px)',
@@ -53,7 +59,7 @@ const style = makeStyles((theme) => ({
     paddingLeft: '10px',
     '&.selected': {
       transformOrigin: 'top left',
-      transform: 'translate(3px, -2px) scale(0.75)',
+      transform: 'translate(-33px, -1px) scale(0.75)',
       transition: 'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms',
     },
   },

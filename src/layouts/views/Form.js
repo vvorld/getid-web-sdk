@@ -11,6 +11,7 @@ import Select from '../../components/Inputs/Select';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
+import { toBase64 } from '../../helpers/tree-builder';
 import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
@@ -36,6 +37,9 @@ class Form extends Component {
     this.fields = fields;
     this.currentStep = currentStep;
     this.gridWidth = formType === 'narrow' ? 6 : 12;
+    this.state = {
+      valueName: '',
+    };
   }
 
   componentDidMount() {
@@ -56,9 +60,12 @@ class Form extends Component {
     this.props.addField(key, date, this.currentStep);
   };
 
-  handleFiles = (event) => {
+  handleFiles = async (event) => {
+    const eventTarget = event.target;
     const file = [...event.target.files][0];
-    this.props.addField(event.target.name, file, this.currentStep);
+    this.setState({ valueName: file.name });
+    const convertedFile = await toBase64(file);
+    this.props.addField(eventTarget.name, convertedFile, this.currentStep);
   };
 
   handleChange = (event) => {
@@ -92,6 +99,7 @@ class Form extends Component {
             <CustomFileInput
               onChange={this.handleFiles}
               name={field.name}
+              valueName={this.state.valueName}
               label={field.label}
               type={field.type}
               value={fieldValues[this.currentStep][field.name]}

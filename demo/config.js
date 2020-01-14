@@ -2,7 +2,7 @@ export default {
   apiUrl: '',
   containerId: 'getid-component',
   dictionary: 'amas::ru-RU',
-  flow: ['Form', 'ThankYou'],
+  flow: ['Form', 'Consent', 'ThankYou'],
   documentData: [
     {
       name: 'Country',

@@ -37,9 +37,6 @@ class Form extends Component {
     this.fields = fields;
     this.currentStep = currentStep;
     this.gridWidth = formType === 'narrow' ? 6 : 12;
-    this.state = {
-      valueName: '',
-    };
   }
 
   componentDidMount() {
@@ -63,9 +60,9 @@ class Form extends Component {
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
-    this.setState({ valueName: file.name });
     const convertedFile = await toBase64(file);
     this.props.addField(eventTarget.name, convertedFile, this.currentStep);
+    this.props.addField(`${eventTarget.name}_display`, file.name, this.currentStep);
   };
 
   handleChange = (event) => {
@@ -99,7 +96,7 @@ class Form extends Component {
             <CustomFileInput
               onChange={this.handleFiles}
               name={field.name}
-              valueName={this.state.valueName}
+              valueName={fieldValues[this.currentStep][`${field.name}_display`]}
               label={field.label}
               type={field.type}
               value={fieldValues[this.currentStep][field.name]}

@@ -1,5 +1,5 @@
 import {
-  VERIFICATION_REQUEST, VERIFY_JWT, COUNTRY_AND_DOC_LIST, DICTIONARY,
+  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY,
 } from '../constants/api';
 
 const submitData = (userData, jwt, url) => fetch(`${url}${VERIFICATION_REQUEST}`, {
@@ -37,6 +37,23 @@ const getTranslations = (url, dictionary) => fetch(`${url}${DICTIONARY}`, {
   body: JSON.stringify({ dictionary }),
 }).then((response) => response);
 
+const sendEvent = async (url, step, stepPhase, jwt) => {
+  try {
+    const fetchResponse = await fetch(`${url}${EVENT}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({ jwt, event: { stepPhase, step } }),
+    });
+    return await fetchResponse.json();
+  } catch (e) {
+    return e;
+  }
+};
+
+
 export default {
-  submitData, verifyJWT, getCountryAndDocList, getTranslations,
+  submitData, verifyJWT, getCountryAndDocList, sendEvent, getTranslations,
 };

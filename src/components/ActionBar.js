@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -28,6 +28,7 @@ const ActionBar = (props) => {
       className: 'isGradient',
     },
   };
+
   const CustomButton = (args) => {
     const { type } = args;
     const data = { ...defaultProps[type], ...args };

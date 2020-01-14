@@ -91,7 +91,7 @@ class Widget extends Component {
           }],
     });
 
-    apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
+    apiProvider.submitData(userData, undefined, apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
@@ -126,19 +126,19 @@ class Widget extends Component {
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
-  resetFormConfig = () => ({
+  resetFormConfig = (translations) => ({
     cancel: {
-      name: 'Cancel',
+      name: translations.cancel_button,
       action: this.props.onFail,
       class: 'prevButton',
     },
     retry: {
-      name: 'Retry',
+      name: translations.retry_button,
       action: this.submitData,
       class: 'isGradient',
     },
     chooseFlow: {
-      name: 'Choose Flow',
+      name: translations.choose_flow_button,
       action: this.props.onFail,
       class: 'prevButton',
     },
@@ -175,6 +175,7 @@ class Widget extends Component {
   }
 
   render() {
+    const { translations } = this.context;
     const {
       classes,
       currentStep,
@@ -196,7 +197,7 @@ class Widget extends Component {
       return (
         <Grid container className={classes.root} justify="center" alignItems="center">
           <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
-            <ResetView buttonConfig={this.resetFormConfig()} />
+            <ResetView buttonConfig={this.resetFormConfig(translations)} />
           </Grid>
         </Grid>
       );

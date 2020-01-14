@@ -21,6 +21,9 @@
   "button_submit": "submit",
   "button_retake": "retake",
   "button_start_over": "start over",
+  "choose_flow_button": "Choose Flow",
+  "retry_button": "Retry",
+  "cancel_button": "Cancel",
   "button_make_photo": "make photo",
   "photo_tip": "Please use <b>Spacebar</b> key to make photo",
   "consent": "I have read and understand or I have read and understood <a href=\"https://getid.ee/sdk-terms-of-use/\" data-role=\"linkTerms\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of use</a> and<a href=\"https://getid.ee/sdk-privacy-policy/\" data-role=\"linkPolicy\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy policy</a> of GetID OÜ."

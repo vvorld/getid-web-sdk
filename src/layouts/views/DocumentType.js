@@ -150,7 +150,7 @@ class DocumentType extends React.Component {
     } = this.props;
 
     const { translations } = this.context;
-    const componentName = this.constructor.name;
+    const placeholder = translations['DocumentType_country-placeholder'];
 
     if (!loading && fieldValues[currentStep]) {
       const currentDocumentType = fieldValues[currentStep].DocumentType;
@@ -165,7 +165,7 @@ class DocumentType extends React.Component {
               items={mapCountryValues(countriesAndDocs)}
               value={currentCountryValue}
               onChange={this.setNewCountry}
-              placeholder={translations[`${componentName}_country-placeholder`]}
+              placeholder={placeholder}
             />
 
             <RadioGroup value={currentDocumentType} onChange={this.setNewDocType}>

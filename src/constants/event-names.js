@@ -5,7 +5,7 @@ export const eventNames = {
   IdCapture: 'front',
   Single: 'single',
   IdCaptureBack: 'back',
-  idSelfie: 'selfie',
+  IdSelfie: 'selfie',
   Submit: 'loading',
   ThankYou: 'thank-you',
 };

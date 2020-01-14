@@ -91,7 +91,7 @@ class Widget extends Component {
     });
 
     apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
-      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started');
+      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
         if (data.responseCode !== 200) {
@@ -99,7 +99,7 @@ class Widget extends Component {
           this.setState({ isFail: true });
           return;
         }
-        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed');
+        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
         this.triggerNextComponent();
       });
     });

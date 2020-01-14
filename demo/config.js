@@ -2,7 +2,7 @@ export default {
   apiUrl: '',
   containerId: 'getid-component',
   dictionary: 'amas::ru-RU',
-  flow: ['Form', 'Consent', 'DocumentType', 'IdCapture', 'IdCaptureBack', 'ThankYou'],
+  flow: ['Form', 'Consent', 'ThankYou'],
   documentData: [
     {
       name: 'Country',
@@ -33,14 +33,14 @@ export default {
       name: 'Email',
     },
     {
-      label: 'phone number',
-      type: 'tel',
-      name: 'Phone number',
+      label: 'Photo Id',
+      type: 'file',
+      name: 'Photo_id',
     },
     {
       label: 'Country',
       type: 'select',
-      value: '',
+      value: 'Estonia',
       placeholder: 'sum placeholder',
       options: [
         { name: 'Estonia', value: 'Estonia' },
@@ -60,6 +60,7 @@ export default {
       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',
       type: 'checkbox',
       name: 'privacy',
+      value: true,
     },
   ],
   isQA: false,

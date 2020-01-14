@@ -9,7 +9,9 @@ import TextInput from '../../components/Inputs/TextInput';
 import DateInput from '../../components/Inputs/DateInput';
 import Select from '../../components/Inputs/Select';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
+import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
+import { toBase64 } from '../../helpers/tree-builder';
 import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
@@ -55,6 +57,14 @@ class Form extends Component {
     this.props.addField(key, date, this.currentStep);
   };
 
+  handleFiles = async (event) => {
+    const eventTarget = event.target;
+    const file = [...event.target.files][0];
+    const convertedFile = await toBase64(file);
+    this.props.addField(eventTarget.name, convertedFile, this.currentStep);
+    this.props.addField(`${eventTarget.name}_display`, file.name, this.currentStep);
+  };
+
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
@@ -75,6 +85,21 @@ class Form extends Component {
               value={fieldValues[this.currentStep][field.name]}
               placeholder={field.placeholder}
               onChange={this.handleChange}
+            />
+          </Grid>
+        );
+      }
+
+      if (field.type === 'file') {
+        return (
+          <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
+            <CustomFileInput
+              onChange={this.handleFiles}
+              name={field.name}
+              valueName={fieldValues[this.currentStep][`${field.name}_display`]}
+              label={field.label}
+              type={field.type}
+              value={fieldValues[this.currentStep][field.name]}
             />
           </Grid>
         );
@@ -139,6 +164,7 @@ class Form extends Component {
 
   render() {
     const { fieldValues, currentStep } = this.props;
+
     if (fieldValues[currentStep]) {
       return (
         <Grid alignItems="center" justify="center" container spacing={2} data-role="blockForm">

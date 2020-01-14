@@ -18,6 +18,7 @@ const config = {
   }],
   plugins: [resolve(),
     babel({
+      runtimeHelpers: true,
       exclude: 'node_modules/**',
       presets: ['@babel/env', '@babel/preset-react'],
       plugins: ['@babel/plugin-syntax-dynamic-import', '@babel/plugin-proposal-class-properties'],

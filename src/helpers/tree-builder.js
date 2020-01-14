@@ -25,7 +25,6 @@ export const mapScans = (scans) => Object.entries(scans).map((item) => ({
 
 export const mapFieldData = (fields) => {
   const parsedFields = [];
-
   Object.keys(fields).forEach((item) => {
     Object.entries(fields[item]).map((listItem) => parsedFields.push({
       contentType: 'string',
@@ -36,6 +35,13 @@ export const mapFieldData = (fields) => {
 
   return parsedFields;
 };
+
+export const toBase64 = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve(reader.result);
+  reader.onerror = (error) => reject(error);
+});
 
 export const mapCountryValues = (countriesAndDocs) => {
   const countries = [];

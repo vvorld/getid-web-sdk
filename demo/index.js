@@ -19,7 +19,6 @@ const checkApiKey = async (token, url) => fetch(`${url}${TOKEN_REQUEST}`, {
   body: JSON.stringify({ apiKey: token }),
 }).then((response) => response);
 
-
 // this request should be done from BE
 const apiKey = '';
 const getJWTToken = () => checkApiKey(apiKey, config.apiUrl)

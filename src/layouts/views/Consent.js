@@ -53,8 +53,18 @@ class Consent extends Component {
     };
   }
 
+  componentDidMount() {
+    const {
+      addField, currentStep, fieldValues,
+    } = this.props;
+    if (!fieldValues[currentStep]) {
+      addField('consent', false, currentStep);
+    }
+  }
+
   handleChange = (event) => {
     const { currentStep } = this.props;
+
     this.props.addField('consent', event.target.checked, currentStep);
   };
 
@@ -79,6 +89,7 @@ class Consent extends Component {
             </div>
           )}
 
+          { fieldValues[currentStep] && (
           <FormControlLabel
             className={classes.labelCheckbox}
             control={(
@@ -105,6 +116,7 @@ class Consent extends Component {
               </label>
             )}
           />
+          )}
         </Grid>
       </Grid>
     );

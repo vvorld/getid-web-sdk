@@ -1,12 +1,13 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/styles';
 import Widget from './layouts/Widget';
-import './assets/styles/index.scss';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
 import apiProvider from './services/api';
 import defaultTranslations from './translations/default-translations.json';
+import MainTheme from './assets/jss/MainTheme';
 
 const supportedBrowsers = require('../supportedBrowsers');
 
@@ -25,13 +26,15 @@ const getTranslations = (url, dictionary) => apiProvider.getTranslations(url, di
   });
 
 const MainModule = (widgetOptions) => (
-  <Provider store={store}>
-    <TranslationsContext.Provider value={{ translations: widgetOptions.translations }}>
-      <Widget
-        {...widgetOptions}
-      />
-    </TranslationsContext.Provider>
-  </Provider>
+  <ThemeProvider theme={MainTheme}>
+    <Provider store={store}>
+      <TranslationsContext.Provider value={{ translations: widgetOptions.translations }}>
+        <Widget
+          {...widgetOptions}
+        />
+      </TranslationsContext.Provider>
+    </Provider>
+  </ThemeProvider>
 );
 
 /**

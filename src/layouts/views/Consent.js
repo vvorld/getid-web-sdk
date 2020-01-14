@@ -12,7 +12,7 @@ import TranslationsContext from '../../context/TranslationsContext';
 import getidLogo from '../../assets/icons/getid-small.svg';
 import onfidoLogo from '../../assets/icons/onfido.svg';
 
-const useStyles = () => ({
+const useStyles = (theme) => ({
   poweredBlock: {
     display: 'flex',
     justifyContent: 'center',
@@ -33,6 +33,17 @@ const useStyles = () => ({
     margin: '0 3px',
     background: '#000000',
   },
+  labelCheckbox: {
+    color: theme.palette.blueDark,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '15px',
+    lineHeight: '22px',
+    textAlign: 'left',
+    '& a': {
+      color: theme.palette.violet,
+    },
+  },
 });
 
 class Consent extends Component {
@@ -51,8 +62,8 @@ class Consent extends Component {
     const { translations } = this.context;
 
     return (
-      <Grid container justify="center" data-role="blockConsent">
-        <Grid item xs={12} sm={10} md={10} lg={8}>
+      <Grid container alignItems="center" justify="center" data-role="blockConsent">
+        <Grid item xs={11} sm={10} md={10} lg={8}>
           {showOnfidoLogo && (
             <div className={classes.poweredBlock}>
               <span className={classes.poweredLabel}>Powered by</span>
@@ -63,7 +74,7 @@ class Consent extends Component {
           )}
 
           <FormControlLabel
-            style={{ textAlign: 'left', marginLeft: 0, marginTop: '60px' }}
+            className={classes.labelCheckbox}
             control={(
               <CustomCheckBox
                 data-role="checkboxConsent"
@@ -75,14 +86,13 @@ class Consent extends Component {
               />
             )}
             label={(
-              <label className="label-checkbox" data-role="textConsent">
+              <label data-role="textConsent">
                 { parse(translations.consent) }
               </label>
             )}
           />
         </Grid>
       </Grid>
-
     );
   }
 }

@@ -39,24 +39,6 @@ module.exports = {
           limit: 15 * 1024,
         },
       },
-      {
-        test: /\.(css|scss)$/,
-        include: [path.resolve('src')],
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
-      },
     ],
   },
 };

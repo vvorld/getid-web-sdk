@@ -14,21 +14,12 @@ import apiProvider from '../services/api';
 import Footer from '../components/Footer';
 import TranslationsContext from '../context/TranslationsContext';
 import cameraViews from '../constants/camera-views';
+import widgetStyles from '../assets/jss/views/Widget';
 
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent,
 } from '../store/selectors';
 import ResetView from './views/ResetView';
-
-const useStyles = () => ({
-  root: {
-    padding: '20px 0',
-  },
-  item: {
-    textAlign: 'center',
-    position: 'relative',
-  },
-});
 
 class Widget extends Component {
   constructor(props) {
@@ -127,17 +118,17 @@ class Widget extends Component {
     cancel: {
       name: 'Cancel',
       action: this.props.onFail,
-      class: 'prev-button reset-left',
+      class: 'prevButton',
     },
     retry: {
       name: 'Retry',
       action: this.submitData,
-      class: 'next-button is-gradient',
+      class: 'isGradient',
     },
     chooseFlow: {
       name: 'Choose Flow',
       action: this.props.onFail,
-      class: 'prev-button reset-right',
+      class: 'prevButton',
     },
   });
 
@@ -199,7 +190,7 @@ class Widget extends Component {
     if (isFail) {
       return (
         <Grid container className={classes.root} justify="center" alignItems="center">
-          <Grid item xs={10} sm={9} md={7} lg={6} className={classes.item}>
+          <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
             <ResetView buttonConfig={this.resetFormConfig()} />
           </Grid>
         </Grid>
@@ -224,20 +215,18 @@ class Widget extends Component {
 
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
-        {/* <Grid item md={2}> */}
-        {/* there will be logo */}
-        {/* </Grid> */}
-        <Grid item xs={10} sm={9} md={7} lg={6} className={classes.item}>
+        <Grid item xs={12} className={classes.item}>
           <UpperPart
             currentComponent={LoadingComponent}
             flow={flow}
             currentStep={currentStep}
           />
+        </Grid>
+        <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
           <LoadingComponent.component
-            footer={this.footer()}
-            {...this.props}
-            idCapturebackIndex={idCapturebackIndex}
-          />
+              footer={this.footer()}
+              {...this.props}
+              idCapturebackIndex={idCapturebackIndex}/>
           {!this.isCameraView() && <Footer {...this.footer()} />}
         </Grid>
       </Grid>
@@ -299,4 +288,4 @@ Widget.contextType = TranslationsContext;
 export default connect(
   mapStateToProps,
   actions,
-)(withStyles(useStyles)(Widget));
+)(withStyles(widgetStyles)(Widget));

@@ -4,12 +4,28 @@ import parse from 'html-react-parser';
 import Grid from '@material-ui/core/Grid';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core';
 import TextInput from '../../components/Inputs/TextInput';
 import DateInput from '../../components/Inputs/DateInput';
 import Select from '../../components/Inputs/Select';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
+
+const styles = (theme) => ({
+  labelCheckbox: {
+    margin: '40px 0 0 0',
+    color: theme.palette.blueDark,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '15px',
+    lineHeight: '22px',
+    textAlign: 'left',
+    '& a': {
+      color: theme.palette.violet,
+    },
+  },
+});
 
 
 class Form extends Component {
@@ -46,13 +62,13 @@ class Form extends Component {
   };
 
   generateInputs() {
-    const { fieldValues } = this.props;
+    const { fieldValues, classes } = this.props;
 
     return this.fields.map((field) => {
       if (field.type === 'select') {
         const { options } = field;
         return (
-          <Grid item key={`select-${field.label}`} xs={12} sm={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
             <Select
               name={field.name}
               items={options}
@@ -66,12 +82,12 @@ class Form extends Component {
 
       if (field.type === 'checkbox') {
         return (
-          <Grid item key={`checkbox-grid-${field.label}`} xs={12} xl={12}>
+          <Grid item key={`checkbox-grid-${field.label}`} xs={11} xl={12}>
             <Grid container justify="center">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
                   data-role="checkbox"
-                  style={{ margin: '40px 0 0 0', textAlign: 'left' }}
+                  className={classes.labelCheckbox}
                   key={`control-${field.label}`}
                   control={(
                     <CustomCheckBox
@@ -93,7 +109,7 @@ class Form extends Component {
 
       if (field.type === 'date') {
         return (
-          <Grid item key={`dategrid-${field.label}`} xs={12} sm={this.gridWidth}>
+          <Grid item key={`dategrid-${field.label}`} xs={11} sm={this.gridWidth}>
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
@@ -107,7 +123,7 @@ class Form extends Component {
       }
 
       return (
-        <Grid item key={`text-${field.label}`} xs={12} sm={this.gridWidth}>
+        <Grid item key={`text-${field.label}`} xs={11} sm={this.gridWidth}>
           <TextInput
             type={field.type}
             name={field.name}
@@ -125,7 +141,7 @@ class Form extends Component {
     const { fieldValues, currentStep } = this.props;
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="center" justify="center" container spacing={2} data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );
@@ -141,6 +157,11 @@ Form.propTypes = {
   addField: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
+  classes: PropTypes.object,
+};
+
+Form.defaultProps = {
+  classes: {},
 };
 
 const mapStateToProps = (state) => ({
@@ -150,4 +171,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(Form);
+)(withStyles(styles)(Form));

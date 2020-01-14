@@ -42,6 +42,7 @@ const style = makeStyles((theme) => ({
     textAlign: 'left',
     lineHeight: '22px',
     display: 'none',
+    zIndex: -1,
     paddingLeft: '10px',
     '&.selected': {
       border: 'none',

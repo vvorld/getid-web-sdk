@@ -12,7 +12,7 @@ import {
 import Radiobutton from '../../components/Inputs/RadioButton';
 import apiProvider from '../../services/api';
 import { docTypeMapping } from '../../constants/document-types';
-
+import TranslationsContext from '../../context/TranslationsContext';
 
 class DocumentType extends React.Component {
   constructor(props) {
@@ -47,6 +47,10 @@ class DocumentType extends React.Component {
     const currentValues = Object.keys(fieldValues[currentStep]).length && fieldValues[currentStep];
 
     if (currentValues && countryList) {
+      if (countryList[currentValues.Country] && currentValues.DocumentType) {
+        this.changeFlowBasedOnDocumentType();
+      }
+
       if (currentValues.Country && !countryList[currentValues.Country]) {
         addField('Country', undefined, currentStep);
         console.error('This country is not supported.');
@@ -66,7 +70,6 @@ class DocumentType extends React.Component {
 
     if (!fieldValues[currentStep] && documentData.length) {
       documentData.forEach((field) => { addField(field.name, field.value, currentStep); });
-      if (fieldValues[currentStep] && fieldValues[currentStep].DocumentType !== '') this.changeFlowBasedOnDocumentType(fieldValues[currentStep].DocumentType);
       return;
     }
 
@@ -92,15 +95,15 @@ class DocumentType extends React.Component {
   setNewDocType = (event) => {
     const { currentStep } = this.props;
     this.props.addField('DocumentType', event.target.value, currentStep);
-    this.changeFlowBasedOnDocumentType(event.target.value);
   };
 
-  changeFlowBasedOnDocumentType = (docType) => {
+  changeFlowBasedOnDocumentType = () => {
     const {
       flow, setFlow, fieldValues, currentStep, idCapturebackIndex, countriesAndDocs,
     } = this.props;
 
     if (idCapturebackIndex < 0) { return; }
+    const docType = fieldValues[currentStep].DocumentType;
 
     const duplicatedFlow = flow;
 
@@ -146,6 +149,9 @@ class DocumentType extends React.Component {
       countriesAndDocs, fieldValues, currentStep,
     } = this.props;
 
+    const { translations } = this.context;
+    const placeholder = translations['DocumentType_country-placeholder'];
+
     if (!loading && fieldValues[currentStep]) {
       const currentDocumentType = fieldValues[currentStep].DocumentType;
       const currentCountryValue = fieldValues[currentStep].Country;
@@ -159,7 +165,7 @@ class DocumentType extends React.Component {
               items={mapCountryValues(countriesAndDocs)}
               value={currentCountryValue}
               onChange={this.setNewCountry}
-              placeholder="Choose country"
+              placeholder={placeholder}
             />
 
             <RadioGroup value={currentDocumentType} onChange={this.setNewDocType}>
@@ -191,6 +197,8 @@ DocumentType.defaultProps = {
   fieldValues: {},
   documentData: [],
 };
+
+DocumentType.contextType = TranslationsContext;
 
 const mapStateToProps = (state) => ({
   countriesAndDocs: getCountryAndDocsValues(state),

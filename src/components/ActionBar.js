@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
-
 import buttonStyles from '../assets/jss/components/buttons/Button';
 import BackIcon from '../assets/icons/views/arrow-back.svg';
 import NextIcon from '../assets/icons/views/arrow-next.svg';
-
-const defaultProps = {
-  next: {
-    text: 'next',
-    className: 'isGradient',
-    iconItem: NextIcon,
-  },
-  back: {
-    text: 'back',
-    className: 'prevButton',
-    iconItem: BackIcon,
-  },
-  noIcon: {
-    text: 'next',
-    className: 'isGradient',
-  },
-};
+import TranslationsContext from '../context/TranslationsContext';
 
 const ActionBar = (props) => {
   const { next, back } = props;
+  const { translations } = useContext(TranslationsContext);
+
+  const defaultProps = {
+    next: {
+      text: translations.button_next,
+      className: 'isGradient',
+      iconItem: NextIcon,
+    },
+    back: {
+      text: translations.button_back,
+      className: 'prevButton',
+      iconItem: BackIcon,
+    },
+    noIcon: {
+      text: translations.button_next,
+      className: 'isGradient',
+    },
+  };
 
   const CustomButton = (args) => {
     const { type } = args;

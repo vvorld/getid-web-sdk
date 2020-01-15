@@ -29,7 +29,6 @@ const styles = (theme) => ({
   },
 });
 
-
 class Form extends Component {
   constructor(props) {
     super(props);

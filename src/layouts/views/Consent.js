@@ -4,9 +4,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import parse from 'html-react-parser';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
+import TranslationsContext from '../../context/TranslationsContext';
 import getidLogo from '../../assets/icons/getid-small.svg';
 import onfidoLogo from '../../assets/icons/onfido.svg';
 
@@ -45,14 +47,6 @@ const useStyles = (theme) => ({
 });
 
 class Consent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      touLink: 'https://getid.ee/sdk-terms-of-use/',
-      ppLink: 'https://getid.ee/sdk-privacy-policy/',
-    };
-  }
-
   componentDidMount() {
     const {
       addField, currentStep, fieldValues,
@@ -64,7 +58,6 @@ class Consent extends Component {
 
   handleChange = (event) => {
     const { currentStep } = this.props;
-
     this.props.addField('consent', event.target.checked, currentStep);
   };
 
@@ -75,7 +68,7 @@ class Consent extends Component {
       classes,
       showOnfidoLogo,
     } = this.props;
-    const { touLink, ppLink } = this.state;
+    const { translations } = this.context;
 
     return (
       <Grid container alignItems="center" justify="center" data-role="blockConsent">
@@ -104,15 +97,7 @@ class Consent extends Component {
             )}
             label={(
               <label data-role="textConsent">
-                I have read and understand or I have read and understood
-                {' '}
-                <a href={touLink} data-role="linkTerms" rel="noopener noreferrer" target="_blank">Terms of use</a>
-                {' '}
-                and
-                {' '}
-                <a href={ppLink} data-role="linkPolicy" rel="noopener noreferrer" target="_blank">Privacy policy</a>
-                {' '}
-                of GetID OÜ.
+                { parse(translations.consent) }
               </label>
             )}
           />
@@ -145,6 +130,7 @@ Consent.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({ fieldValues: getFormValues(state) });
+Consent.contextType = TranslationsContext;
 
 export default connect(
   mapStateToProps,

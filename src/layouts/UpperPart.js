@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import CustomLogo from '../components/Logo/CustomLogo';
-import messages from '../messages/messages';
 import headerStyles from '../assets/jss/views/UpperPart';
+import TranslationsContext from '../context/TranslationsContext';
 
 function UpperPart(props) {
   const { currentStep, flow, currentComponent } = props;
+
+  const { translations } = useContext(TranslationsContext);
 
   const isLast = () => currentComponent.next === null;
 
@@ -47,13 +49,13 @@ function UpperPart(props) {
             data-role="componentTitle"
             className={classes.header}
           >
-            {messages.header[currentComponent.name]}
+            { translations[`${currentComponent.name}_header`]}
           </h3>
           )}
           <hr className={classes.hr} />
           { !isConsent() && (
           <h5 className={classes.subHeader}>
-            {messages.subHeader[currentComponent.name]}
+            {translations[`${currentComponent.name}_subHeader`]}
           </h5>
           ) }
           <CustomLogo text="Powered By " condition={isConsent()} />

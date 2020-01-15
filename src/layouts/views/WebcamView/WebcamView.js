@@ -10,6 +10,7 @@ import poweredBy from '../../../assets/icons/views/powered-by.svg';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
 import blackSquare from '../../../assets/icons/views/black-square.svg';
+import TranslationsContext from '../../../context/TranslationsContext';
 
 const useStyles = () => ({
   root: {
@@ -25,6 +26,10 @@ const useStyles = () => ({
   },
   canvas: {
     dispay: 'none',
+  },
+  item: {
+    textAlign: 'center',
+    position: 'relative',
   },
 });
 
@@ -115,12 +120,13 @@ class WebcamView extends React.Component {
   previewForm() {
     const { footer, component, classes } = this.props;
     const { back } = footer;
+    const { translations } = this.context;
     const previewFooter = {
       ...footer,
       back: {
         ...back,
         action: this.retake,
-        text: 'retake',
+        text: translations.button_retake,
       },
     };
 
@@ -151,14 +157,15 @@ class WebcamView extends React.Component {
     const {
       footer, cameraOverlay, classes,
     } = this.props;
-
+    const { translations } = this.context;
     const { next } = footer;
+
     const cameraFooter = {
       ...footer,
       next: {
         ...next,
         action: this.capture,
-        text: 'make photo',
+        text: translations.button_make_photo,
         iconItem: PhotoSVG,
         disabled: !this.state.isCameraEnabled,
       },
@@ -207,6 +214,8 @@ WebcamView.defaultProps = {
 const mapStateToProps = (state) => ({
   scans: getScanValues(state),
 });
+
+WebcamView.contextType = TranslationsContext;
 
 export default connect(
   mapStateToProps,

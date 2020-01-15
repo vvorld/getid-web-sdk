@@ -14,6 +14,7 @@ const mainTheme = createMuiTheme({
     violet: '#7861a2',
     orange: '#ff5630',
     deepBlue: '#0e1c2c',
+    lightViolet: '#F5F3FA',
     blueLoader: '#194373',
     background: {
       paper: 'white',

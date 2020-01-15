@@ -10,6 +10,7 @@ import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import apiProvider from '../services/api';
 import Footer from '../components/Footer';
+import { eventNames } from '../constants/event-names';
 import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 
@@ -32,33 +33,43 @@ class Widget extends Component {
 
   componentDidMount() {
     const {
-      flow, addField, scans, addScan, setFlow,
+      flow, setFlow,
     } = this.props;
 
     setFlow(flow);
+    this.loadScans();
+  }
 
-    const consentStep = flow.indexOf('Consent');
-
-    if (consentStep !== -1) {
-      addField('consent', null, consentStep);
-    }
-
+  loadScans = () => {
+    const { scans, addScan } = this.props;
     if (scans) {
       scans.forEach((scan) => {
         addScan(scan.name, scan.value);
       });
     }
-  }
+  };
 
-  triggerNextComponent = () => {
+  isSingleDocument = () => this.CurrentComponent().name === 'IdCapture' && this.idCapturebackIndex < 0;
+
+  triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
+    await this.sendStepCompleteEvent();
+  };
+
+  sendStepCompleteEvent = async () => {
+    const { apiUrl, jwtToken } = this.props;
+    const stepName = this.isSingleDocument()
+      ? eventNames.single
+      : eventNames[this.CurrentComponent().name];
+    await apiProvider.sendEvent(apiUrl, stepName, 'completed', jwtToken);
   };
 
   triggerPreviousComponent = () => {
     this.props.setStep(this.props.currentStep - 1);
   };
 
-  submitData = () => {
+  submitData = async () => {
+    await this.sendStepCompleteEvent();
     const {
       apiUrl, jwtToken, currentStep, setStep,
     } = this.props;
@@ -68,22 +79,23 @@ class Widget extends Component {
     this.setState({ loading: true });
 
     apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
-      res.json().then((data) => {
+      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
+      res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
         if (data.responseCode !== 200) {
           console.log(`Error: ${data.errorMessage}`);
           this.setState({ isFail: true });
           return;
         }
-
+        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
         this.triggerNextComponent();
       });
     });
   };
 
-  isCameraView = () => cameraViews.includes(this.CurrentComponent().name || '');
+  isCameraView = () => cameraViews.includes(this.CurrentComponent().name);
 
-  isThankYouPage = () => (this.CurrentComponent().name === 'ThankYou' || false);
+  isThankYouPage = () => this.CurrentComponent().name === 'ThankYou';
 
   getType = () => this.isThankYouPage() && 'noIcon';
 
@@ -118,22 +130,15 @@ class Widget extends Component {
     },
   });
 
-  CurrentComponent() {
-    const { currentComponent } = this.props;
-    return currentComponent || null;
-  }
+  CurrentComponent = () => this.props.currentComponent || null;
 
-  isForm() {
-    return this.CurrentComponent().name === 'Form' || false;
-  }
+  isForm = () => this.CurrentComponent().name === 'Form';
+
+  notFirst = () => this.CurrentComponent().order !== 0;
 
   isButtonToSubmitData() {
     return (this.CurrentComponent().next.component === null && !this.isThankYouPage())
         || this.CurrentComponent().next.name === 'ThankYou';
-  }
-
-  notFirst() {
-    return this.CurrentComponent().order !== 0 || false;
   }
 
   render() {

@@ -17,15 +17,18 @@ const ActionBar = (props) => {
       text: translations.button_next,
       className: 'isGradient',
       iconItem: NextIcon,
+      type: 'next',
     },
     back: {
       text: translations.button_back,
       className: 'prevButton',
       iconItem: BackIcon,
+      type: 'back',
     },
     noIcon: {
       text: translations.button_next,
       className: 'isGradient',
+      type: 'next',
     },
   };
 
@@ -55,7 +58,7 @@ const ActionBar = (props) => {
         <Grid container justify="center" spacing={1}>
           <Grid item xs={12}>
             <Button
-              data-role={`btn_${text}`}
+              data-role={`btn_${type}`}
               classes={{
                 root: styles.root,
               }}

@@ -1,5 +1,9 @@
-import bs58 from 'bs58';
-import crypto from 'crypto';
+const fileSize = (file) => {
+  const stringLength = file.length - 'data:image/png;base64,'.length;
+
+  const sizeInBytes = 4 * Math.ceil((stringLength / 3)) * 0.5624896334383812;
+  return (sizeInBytes / 1000).toFixed(2);
+};
 
 export const buildFlow = (flow, components) => {
   if (!flow) return {};
@@ -18,20 +22,24 @@ export const buildFlow = (flow, components) => {
 
 export const mapScans = (scans) => Object.entries(scans).map((item) => ({
   name: item[0],
-  images: [{
-    blob: item[1],
-  }],
+  size: fileSize(item[1]),
+  format: 'base64',
+  kind: item[0],
+  mediaType: 'image/jpeg',
+  blob: item[1],
 }));
 
 export const mapFieldData = (fields) => {
   const parsedFields = [];
 
   Object.keys(fields).forEach((item) => {
-    Object.entries(fields[item]).map((listItem) => parsedFields.push({
-      contentType: 'string',
-      category: listItem[0],
-      content: listItem[1],
-    }));
+    if (!fields[item].Country || !fields[item].DocumentType) {
+      Object.entries(fields[item]).map((listItem) => parsedFields.push({
+        contentType: 'string',
+        category: listItem[0],
+        content: listItem[1],
+      }));
+    }
   });
 
   return parsedFields;
@@ -49,4 +57,45 @@ export const mapCountryValues = (countriesAndDocs) => {
   return countries;
 };
 
-export const getDonorToken = () => bs58.encode(crypto.createHash('sha256').update(Date.now().toString()).digest());
+const documentImages = (state) => Object.keys(state.scans)
+  .filter((key) => key !== 'selfie')
+  .reduce((obj, key) => ({
+    ...obj,
+    [key]: state.scans[key],
+  }), {});
+
+const selfieImages = (state) => Object.keys(state.scans)
+  .filter((key) => key === 'selfie')
+  .reduce((obj, key) => ({
+    ...obj,
+    [key]: state.scans[key],
+  }), {});
+
+const getDocumentData = (fields, type) => {
+  let stuff = '';
+  Object.keys(fields).forEach((item) => {
+    stuff = fields[item][type];
+  });
+  return stuff;
+};
+
+export const mapUserData = (state) => ({
+  fields: mapFieldData(state.fields),
+  metadata: {
+    metadata: 'web',
+    submissionTime: new Date(),
+  },
+  documents: [
+    {
+      issuingCountry: getDocumentData(state.fields, 'Country'),
+      documentType: getDocumentData(state.fields, 'DocumentType'),
+      images: mapScans(documentImages(state)),
+    },
+  ],
+  faces: [
+    {
+      category: 'selfie',
+      content: mapScans(selfieImages(state)),
+    },
+  ],
+});

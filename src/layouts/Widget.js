@@ -5,9 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import store from '../store/store';
 import Loader from '../components/Loader/Loader';
-import {
-  mapFieldData, mapScans, getDonorToken,
-} from '../helpers/tree-builder';
+import { mapUserData } from '../helpers/tree-builder';
 import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import apiProvider from '../services/api';
@@ -68,18 +66,8 @@ class Widget extends Component {
     setStep(currentStep);
 
     this.setState({ loading: true });
-    const userData = {};
 
-    Object.assign(userData, {
-      donorToken: getDonorToken(),
-      requests:
-          [{
-            fields: mapFieldData(store.getState().fields),
-            scans: mapScans(store.getState().scans),
-          }],
-    });
-
-    apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
+    apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
       res.json().then((data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
         if (data.responseCode !== 200) {

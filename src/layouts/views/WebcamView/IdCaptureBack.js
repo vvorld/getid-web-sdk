@@ -6,7 +6,7 @@ const IdCaptureBack = (props) => {
   const cameraOverlay = () => OverlaySVG;
 
   return (
-    <WebcamView {...props} cameraOverlay={cameraOverlay} component="BACK" />
+    <WebcamView {...props} cameraOverlay={cameraOverlay} component="back" />
   );
 };
 

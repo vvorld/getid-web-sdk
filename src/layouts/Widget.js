@@ -91,7 +91,7 @@ class Widget extends Component {
           }],
     });
 
-    apiProvider.submitData(userData, undefined, apiUrl).then((res) => {
+    apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);

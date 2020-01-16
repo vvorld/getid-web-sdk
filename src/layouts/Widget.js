@@ -78,7 +78,6 @@ class Widget extends Component {
     setStep(currentStep);
 
     this.setState({ loading: true });
-
     apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
@@ -196,15 +195,13 @@ class Widget extends Component {
     const LoadingComponent = this.CurrentComponent();
     const { idCapturebackIndex } = this;
 
-    if (!fieldValues[currentStep]) {
-      setDisabled(false);
-    } else {
+    if (fieldValues[currentStep]) {
       setDisabled(Object.values(fieldValues[currentStep]).some((item) => (
         item === null
-          || item === ''
-          || item === undefined
-          || item === false
-          || (/^\s+$/).test(item))));
+            || item === ''
+            || item === undefined
+            || item === false
+            || (/^\s+$/).test(item.toString()))));
     }
 
     return (

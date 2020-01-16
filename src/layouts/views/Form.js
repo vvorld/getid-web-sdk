@@ -12,7 +12,7 @@ import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
 import { toBase64 } from '../../helpers/tree-builder';
-import { getFormValues } from '../../store/selectors';
+import {getFormValues, getScanValues} from '../../store/selectors';
 
 const styles = (theme) => ({
   labelCheckbox: {
@@ -53,21 +53,21 @@ class Form extends Component {
   }
 
   handleDateChange = (key) => (date) => {
-    this.props.addField(key, date, this.currentStep);
+    this.props.addField(key, date, this.currentStep, 'date');
   };
 
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
     const convertedFile = await toBase64(file);
-    this.props.addField(eventTarget.name, convertedFile, this.currentStep);
-    this.props.addField(`${eventTarget.name}_display`, file.name, this.currentStep);
+    this.props.addScan(eventTarget.name, convertedFile);
+    this.props.addField(eventTarget.name, file.name, this.currentStep);
   };
 
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-    this.props.addField(eventTarget.name, value, this.currentStep);
+    this.props.addField(eventTarget.name, value, this.currentStep, eventTarget.type);
   };
 
   generateInputs() {
@@ -76,6 +76,7 @@ class Form extends Component {
     return this.fields.map((field) => {
       if (field.type === 'select') {
         const { options } = field;
+
         return (
           <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
             <Select
@@ -95,10 +96,9 @@ class Form extends Component {
             <CustomFileInput
               onChange={this.handleFiles}
               name={field.name}
-              valueName={fieldValues[this.currentStep][`${field.name}_display`]}
               label={field.label}
               type={field.type}
-              value={fieldValues[this.currentStep][field.name]}
+              valueName={fieldValues[this.currentStep][field.name]}
             />
           </Grid>
         );
@@ -180,6 +180,7 @@ Form.propTypes = {
   fields: PropTypes.array.isRequired,
   fieldValues: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
+  addScan: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
   classes: PropTypes.object,

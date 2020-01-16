@@ -177,12 +177,13 @@ class Widget extends Component {
   render() {
     const { translations } = this.context;
     const {
-      classes,
       currentStep,
       setDisabled,
       fieldValues,
       flow,
     } = this.props;
+
+    const { classes, ...other } = this.props;
 
     const { isFail, loading } = this.state;
     if (!flow) return null;
@@ -231,7 +232,7 @@ class Widget extends Component {
         <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
           <LoadingComponent.component
             footer={this.footer()}
-            {...this.props}
+            {...other}
             idCapturebackIndex={idCapturebackIndex}
           />
           {!this.isCameraView() && <Footer {...this.footer()} />}

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 const imgStyles = makeStyles((theme) => ({
   block: {
     alignItems: 'center',
-    paddingBottom: '35px',
+    marginBottom: '35px',
   },
   img: {
     verticalAlign: 'bottom',

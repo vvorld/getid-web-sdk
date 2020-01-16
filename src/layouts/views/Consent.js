@@ -17,6 +17,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: '30px',
+    marginBottom: '30px',
     '&& img': {
       margin: '0 11px',
     },

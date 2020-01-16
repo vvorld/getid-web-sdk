@@ -14,8 +14,8 @@ function UpperPart(props) {
   const isLast = () => currentComponent.next === null;
 
   const isThankYou = () => currentComponent.name === 'ThankYou' && currentComponent.name;
-  const isConsent = () => currentComponent.name === 'Consent' && currentComponent.name;
-
+  const header = translations[`${currentComponent.name}_header`];
+  const subHeader = translations[`${currentComponent.name}_subHeader`];
   const classes = headerStyles();
 
   return (
@@ -44,21 +44,20 @@ function UpperPart(props) {
       <Grid className={classes.topPart} container alignItems="center" justify="center">
         <Grid item xs={10} sm={8} md={4}>
           <CustomLogo condition={isThankYou()} />
-          {!isConsent() && (
+          { header && (
           <h3
             data-role="componentTitle"
             className={classes.header}
           >
-            { translations[`${currentComponent.name}_header`]}
+            { header }
           </h3>
           )}
           <hr className={classes.hr} />
-          { !isConsent() && (
+          { subHeader && (
           <h5 className={classes.subHeader}>
-            {translations[`${currentComponent.name}_subHeader`]}
+            { subHeader }
           </h5>
           ) }
-          <CustomLogo text="Powered By " condition={isConsent()} />
         </Grid>
       </Grid>
     </Grid>

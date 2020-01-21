@@ -98,9 +98,16 @@ class WebcamView extends React.Component {
   cameraOverlay = () => null;
 
   capture() {
+    const { cameraDistance, fieldValues } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
-    context.drawImage(this.webcam, 0, 0, 1125, 720);
+    if (cameraDistance === 'far'
+      && Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))
+    ) {
+      context.drawImage(this.webcam, -560, -360, 2250, 1440);
+    } else {
+      context.drawImage(this.webcam, 0, 0, 1125, 720);
+    }
     const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
     this.props.addScan(this.props.component, imageSrc);
     this.setState({ saveImage: true });
@@ -204,6 +211,8 @@ WebcamView.propTypes = {
   cameraOverlay: PropTypes.func.isRequired,
   scans: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  cameraDistance: PropTypes.object.isRequired,
+  fieldValues: PropTypes.object.isRequired,
   isQA: PropTypes.bool,
 };
 

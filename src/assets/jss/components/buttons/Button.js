@@ -105,12 +105,10 @@ const buttonStyles = makeStyles((theme) => ({
     background: theme.palette.white,
     color: theme.palette.blue,
     border: `1px solid ${theme.palette.white}`,
-    fontSize: '12px',
     lineHeight: '14px',
-    height: '33px',
-    width: '121px',
+    margin: '26px auto 12px',
     '&:hover': {
-      background: 'lightgrey',
+      background: 'white',
     },
   },
 }));

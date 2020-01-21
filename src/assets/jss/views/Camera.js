@@ -14,9 +14,6 @@ const cameraStyles = makeStyles((theme) => ({
       lineHeight: '22px',
       textAlign: 'center',
     },
-    '&& button': {
-      margin: '26px auto 12px',
-    },
   },
   mediaWrapper: {
     position: 'relative',

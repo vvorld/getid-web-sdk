@@ -110,7 +110,7 @@ class Widget extends Component {
 
   isThankYouPage = () => this.CurrentComponent().name === 'ThankYou';
 
-  getType = () => this.isThankYouPage() && 'noIcon';
+  getType = () => (this.isThankYouPage() || this.isConsent()) && 'noIcon';
 
   buttonAction = () => {
     if (this.isThankYouPage()) {
@@ -120,9 +120,12 @@ class Widget extends Component {
     return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;
   };
 
+  isConsent = () => this.CurrentComponent().name === 'Consent';
+
   buttonText = () => {
     const { translations } = this.context;
     if (this.isThankYouPage()) return translations.button_start_over;
+    if (this.isConsent()) return translations.button_agree;
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 

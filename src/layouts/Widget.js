@@ -5,9 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import store from '../store/store';
 import Loader from '../components/Loader/Loader';
-import {
-  mapFieldData, mapScans, getDonorToken,
-} from '../helpers/tree-builder';
+import { mapUserData } from '../helpers/tree-builder';
 import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import apiProvider from '../services/api';
@@ -80,18 +78,8 @@ class Widget extends Component {
     setStep(currentStep);
 
     this.setState({ loading: true });
-    const userData = {};
 
-    Object.assign(userData, {
-      donorToken: getDonorToken(),
-      requests:
-          [{
-            fields: mapFieldData(store.getState().fields),
-            scans: mapScans(store.getState().scans),
-          }],
-    });
-
-    apiProvider.submitData(userData, jwtToken, apiUrl).then((res) => {
+    apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
@@ -209,15 +197,13 @@ class Widget extends Component {
     const LoadingComponent = this.CurrentComponent();
     const { idCapturebackIndex } = this;
 
-    if (!fieldValues[currentStep]) {
-      setDisabled(false);
-    } else {
+    if (fieldValues[currentStep]) {
       setDisabled(Object.values(fieldValues[currentStep]).some((item) => (
         item === null
-          || item === ''
-          || item === undefined
-          || item === false
-          || (/^\s+$/).test(item))));
+            || item === ''
+            || item === undefined
+            || item === false
+            || (/^\s+$/).test(item.toString()))));
     }
 
     return (

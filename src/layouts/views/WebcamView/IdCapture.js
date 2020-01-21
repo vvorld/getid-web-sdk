@@ -17,7 +17,7 @@ const IdCapture = (props) => {
   };
 
   return (
-    <WebcamView {...props} cameraOverlay={cameraOverlay} component="FRONT" />
+    <WebcamView {...props} cameraOverlay={cameraOverlay} component="front" />
   );
 };
 

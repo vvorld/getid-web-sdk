@@ -52,7 +52,7 @@ function UpperPart(props) {
             { header }
           </h3>
           )}
-          <hr className={classes.hr} />
+          { !isThankYou() && <hr className={classes.hr} /> }
           { subHeader && (
           <h5 className={classes.subHeader}>
             { subHeader }

@@ -26,6 +26,9 @@ const customCheckbox = makeStyles((theme) => ({
   },
   icon: {},
   checked: {},
+  formControl: {
+    fontSize: '15px',
+  },
 }));
 
 export default customCheckbox;

@@ -8,9 +8,8 @@ const imgStyles = makeStyles((theme) => ({
   img: {
     verticalAlign: 'bottom',
     '&.getIdLogo': {
-      [theme.breakpoints.down('sm')]: {
-        width: '100px',
-      },
+      width: '108px',
+      height: '41px',
     },
   },
   text: {

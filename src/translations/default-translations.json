@@ -18,6 +18,7 @@
   "button_back": "back",
   "button_submit": "submit",
   "button_retake": "retake",
+  "button_agree": "I agree",
   "button_start_over": "start over",
   "choose_flow_button": "Choose Flow",
   "retry_button": "Retry",

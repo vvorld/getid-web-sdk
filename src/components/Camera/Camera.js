@@ -17,7 +17,15 @@ const Camera = (props) => {
       <Grid item xs={10} sm={9} md={8} lg={7}>
         <img src={SadSmileSVG} alt="something wrong" />
         <div>To make a photo you need to give access for webcam</div>
-        <Button className={buttonClass.customButton} onClick={requestCamera}>try again</Button>
+        <Button
+          classes={{
+            root: buttonClass.root,
+          }}
+          className={buttonClass.customButton}
+          onClick={requestCamera}
+        >
+try again
+        </Button>
       </Grid>
     </Grid>
   );

@@ -17,12 +17,14 @@ import {getFormValues, getScanValues} from '../../store/selectors';
 const styles = (theme) => ({
   labelCheckbox: {
     margin: '40px 0 0 0',
-    color: theme.palette.blueDark,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '15px',
-    lineHeight: '22px',
     textAlign: 'left',
+    '& label': {
+      color: theme.palette.blueDark,
+      lineHeight: '22px',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      fontSize: '15px',
+    },
     '& a': {
       color: theme.palette.violet,
     },

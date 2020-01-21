@@ -11,41 +11,7 @@ import { getFormValues } from '../../store/selectors';
 import TranslationsContext from '../../context/TranslationsContext';
 import getidLogo from '../../assets/icons/getid-small.svg';
 import onfidoLogo from '../../assets/icons/onfido.svg';
-
-const useStyles = (theme) => ({
-  poweredBlock: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '30px',
-    marginBottom: '30px',
-    '&& img': {
-      margin: '0 11px',
-    },
-  },
-  poweredLabel: {
-    fontSize: '15px',
-    lineHeight: '22px',
-    color: '#173D69',
-    opacity: 0.3,
-  },
-  slash: {
-    opacity: 0.1,
-    width: '1px',
-    margin: '0 3px',
-    background: '#000000',
-  },
-  labelCheckbox: {
-    color: theme.palette.blueDark,
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: '15px',
-    lineHeight: '22px',
-    textAlign: 'left',
-    '& a': {
-      color: theme.palette.violet,
-    },
-  },
-});
+import consentStyles from '../../assets/jss/views/Consent';
 
 class Consent extends Component {
   componentDidMount() {
@@ -136,4 +102,4 @@ Consent.contextType = TranslationsContext;
 export default connect(
   mapStateToProps,
   actions,
-)(withStyles(useStyles)(Consent));
+)(withStyles(consentStyles)(Consent));

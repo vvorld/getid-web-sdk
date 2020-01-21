@@ -102,7 +102,7 @@ class WebcamView extends React.Component {
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     if (cameraDistance === 'far'
-      && Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))
+      && !Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))
     ) {
       context.drawImage(this.webcam, -560, -360, 2250, 1440);
     } else {

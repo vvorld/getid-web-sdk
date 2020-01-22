@@ -104,7 +104,7 @@ class WebcamView extends React.Component {
     if (cameraDistance === 'far'
       && !Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))
     ) {
-      context.drawImage(this.webcam, -560, -360, 2250, 1440);
+      context.drawImage(this.webcam, -233, -145, 1575, 1008);
     } else {
       context.drawImage(this.webcam, 0, 0, 1125, 720);
     }

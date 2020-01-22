@@ -12,7 +12,7 @@ import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
 import { toBase64 } from '../../helpers/tree-builder';
-import {getFormValues, getScanValues} from '../../store/selectors';
+import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
   labelCheckbox: {
@@ -49,13 +49,13 @@ class Form extends Component {
 
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
-        addField(field.name, field.value, currentStep);
+        addField(field.name, field.value, currentStep, (field.required || false));
       });
     }
   }
 
-  handleDateChange = (key) => (date) => {
-    this.props.addField(key, date, this.currentStep, 'date');
+  handleDateChange = (key, isRequired) => (date) => {
+    this.props.addField(key, date, this.currentStep, 'date', isRequired);
   };
 
   handleFiles = async (event) => {
@@ -63,13 +63,17 @@ class Form extends Component {
     const file = [...event.target.files][0];
     const convertedFile = await toBase64(file);
     this.props.addScan(eventTarget.name, convertedFile);
-    this.props.addField(eventTarget.name, file.name, this.currentStep);
+    this.props.addField(eventTarget.name, file.name, this.currentStep, eventTarget.required);
   };
 
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-    this.props.addField(eventTarget.name, value, this.currentStep, eventTarget.type);
+    this.props.addField(eventTarget.name,
+      value,
+      this.currentStep,
+      eventTarget.type,
+      eventTarget.required);
   };
 
   generateInputs() {
@@ -84,7 +88,8 @@ class Form extends Component {
             <Select
               name={field.name}
               items={options}
-              value={fieldValues[this.currentStep][field.name]}
+              required={field.required}
+              value={fieldValues[this.currentStep][field.name].value}
               placeholder={field.placeholder}
               onChange={this.handleChange}
             />
@@ -99,8 +104,9 @@ class Form extends Component {
               onChange={this.handleFiles}
               name={field.name}
               label={field.label}
+              required={field.required}
               type={field.type}
-              valueName={fieldValues[this.currentStep][field.name]}
+              valueName={fieldValues[this.currentStep][field.name].value}
             />
           </Grid>
         );
@@ -120,9 +126,10 @@ class Form extends Component {
                       data-role="checkboxInput"
                       name={field.name}
                       key={`checkbox-${field.label}`}
-                      checked={fieldValues[this.currentStep][field.name]}
+                      checked={fieldValues[this.currentStep][field.name].value}
                       onChange={this.handleChange}
                       value={this.props[field.name]}
+                      required={field.required}
                     />
                   )}
                   label={<label className="label-checkbox">{parse(field.label)}</label>}
@@ -139,10 +146,11 @@ class Form extends Component {
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
+              required={field.required}
               label={field.label}
               format="yyyy-MM-dd"
-              value={fieldValues[this.currentStep][field.name] || null}
-              onChange={this.handleDateChange(field.name)}
+              value={fieldValues[this.currentStep][field.name].value || null}
+              onChange={this.handleDateChange(field.name, field.required)}
             />
           </Grid>
         );
@@ -153,7 +161,8 @@ class Form extends Component {
           <TextInput
             type={field.type}
             name={field.name}
-            value={fieldValues[this.currentStep][field.name]}
+            required={field.required}
+            value={fieldValues[this.currentStep][field.name].value}
             onChange={this.handleChange}
             label={field.label}
             key={`input-${field.label}`}

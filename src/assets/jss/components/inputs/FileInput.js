@@ -6,7 +6,7 @@ const style = makeStyles((theme) => ({
     lineHeight: 'normal',
     padding: '14px 9px',
     color: theme.palette.blueDark,
-    marginRight: '10px',
+    marginRight: '7px',
     fontSize: '14px',
     backgroundColor: theme.palette.lightViolet,
     borderRadius: '5px',
@@ -14,6 +14,9 @@ const style = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.palette.violet,
       color: theme.palette.white,
+    },
+    [theme.breakpoints.only('sm')]: {
+      padding: '10px 9px',
     },
   },
   border: {
@@ -54,13 +57,16 @@ const style = makeStyles((theme) => ({
     },
   },
   label: {
+    textAlign: 'left',
     color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
     lineHeight: '22px',
     paddingLeft: '10px',
     '&.selected': {
+      paddingLeft: '15px',
       transformOrigin: 'top left',
-      transform: 'translate(-33px, -1px) scale(0.75)',
+      textAlign: 'start',
+      transform: ' scale(0.75)',
       transition: 'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms',
     },
   },

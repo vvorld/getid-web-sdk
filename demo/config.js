@@ -1,8 +1,8 @@
 export default {
   apiUrl: '',
   containerId: 'getid-component',
-  dictionary: 'amas::ru-RU',
-  flow: ['Consent', 'Form', 'DocumentType', 'IdSelfie', 'IdCapture', 'IdCaptureBack', 'ThankYou'],
+  dictionary: 'amas::u-RU',
+  flow: ['DocumentType','Form', 'ThankYou'],
   documentData: [
     {
       name: 'Country',
@@ -19,6 +19,7 @@ export default {
       type: 'text',
       value: 'John',
       name: 'First name',
+      required: true,
     },
     {
       label: 'Last Name',
@@ -33,7 +34,7 @@ export default {
       name: 'Email',
     },
     {
-      label: 'Photo Id',
+      label: 'Document back side',
       type: 'file',
       name: 'Photo_id',
     },

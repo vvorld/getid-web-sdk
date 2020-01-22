@@ -50,24 +50,26 @@ class Consent extends Component {
           )}
 
           { fieldValues[currentStep] && (
-          <FormControlLabel
-            className={classes.labelCheckbox}
-            control={(
-              <CustomCheckBox
-                data-role="checkboxConsent"
-                name="consent"
-                key="checkbox-consent"
-                checked={fieldValues[currentStep].consent}
-                onChange={this.handleChange}
-                value={fieldValues[currentStep].consent}
-              />
-            )}
-            label={(
-              <label data-role="textConsent">
-                { parse(translations.consent) }
-              </label>
-            )}
-          />
+          <div className={classes.consentBLock}>
+            <FormControlLabel
+              className={classes.labelCheckbox}
+              control={(
+                <CustomCheckBox
+                  data-role="checkboxConsent"
+                  name="consent"
+                  key="checkbox-consent"
+                  checked={fieldValues[currentStep].consent}
+                  onChange={this.handleChange}
+                  value={fieldValues[currentStep].consent}
+                />
+                    )}
+              label={(
+                <label data-role="textConsent">
+                  { parse(translations.consent) }
+                </label>
+                    )}
+            />
+          </div>
           )}
         </Grid>
       </Grid>

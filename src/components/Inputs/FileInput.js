@@ -32,7 +32,7 @@ const CustomFileInput = (props) => {
         />
       </Button>
       <div className={classes.labelContainer}>
-        <input disabled value={valueName} className={inputClass} />
+        <input disabled value={valueName || ''} className={inputClass} />
         <label className={labelClass}>
           { label }
         </label>

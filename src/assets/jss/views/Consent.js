@@ -20,6 +20,9 @@ const consentStyles = (theme) => ({
     margin: '0 3px',
     background: theme.palette.black,
   },
+  consentBLock: {
+    paddingTop: '54px',
+  },
   labelCheckbox: {
     textAlign: 'left',
     '& label': {

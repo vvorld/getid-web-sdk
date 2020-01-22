@@ -20,13 +20,21 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case ADD_FIELD: {
-      const { key, value, whichStep } = action.payload;
+      const {
+        key, value, whichStep, required,
+      } = action.payload;
 
       return {
         ...state,
         fields: {
           ...state.fields,
-          [whichStep]: { ...state.fields[whichStep], [key]: value },
+          [whichStep]: {
+            ...state.fields[whichStep],
+            [key]: {
+              value,
+              required,
+            },
+          },
         },
       };
     }

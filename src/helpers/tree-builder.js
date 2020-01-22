@@ -36,7 +36,7 @@ export const mapFieldData = (fields) => {
       Object.entries(fields[item]).map((listItem) => parsedFields.push({
         contentType: 'string',
         category: listItem[0],
-        content: listItem[1],
+        content: listItem[1].value,
       }));
     }
   });
@@ -77,12 +77,16 @@ const selfieImages = (state) => Object.keys(state.scans)
     [key]: state.scans[key],
   }), {});
 
-const getDocumentData = (fields, type) => {
-  let stuff = '';
-  Object.keys(fields).forEach((item) => {
-    stuff = fields[item][type];
+const getDocumentData = (fields, fieldName) => {
+  let docData = '';
+
+  Object.keys(fields).forEach((step) => {
+    if (fields[step][fieldName]) {
+      docData = fields[step][fieldName].value;
+    }
   });
-  return stuff;
+
+  return docData;
 };
 
 export const mapUserData = (state) => ({

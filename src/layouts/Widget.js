@@ -202,11 +202,12 @@ class Widget extends Component {
 
     if (fieldValues[currentStep]) {
       setDisabled(Object.values(fieldValues[currentStep]).some((item) => (
-        item === null
-            || item === ''
-            || item === undefined
-            || item === false
-            || (/^\s+$/).test(item.toString()))));
+        item.required
+            && (item.value === null
+                || item.value === ''
+                || item.value === undefined
+                || item.value === false
+                || (/^\s+$/).test(item.value.toString())))));
     }
 
     return (
@@ -254,7 +255,6 @@ Widget.propTypes = {
   fieldValues: PropTypes.object,
   scans: PropTypes.array,
   formType: PropTypes.string.isRequired,
-  addField: PropTypes.func.isRequired,
   setDisabled: PropTypes.func.isRequired,
   setStep: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,

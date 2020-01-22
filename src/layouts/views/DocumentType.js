@@ -47,16 +47,16 @@ class DocumentType extends React.Component {
     const currentValues = Object.keys(fieldValues[currentStep]).length && fieldValues[currentStep];
 
     if (currentValues && countryList) {
-      if (countryList[currentValues.Country] && currentValues.DocumentType) {
+      if (countryList[currentValues.Country.value] && currentValues.DocumentType.value) {
         this.changeFlowBasedOnDocumentType();
       }
 
-      if (currentValues.Country && !countryList[currentValues.Country]) {
+      if (currentValues.Country.value && !countryList[currentValues.Country.value]) {
         addField('Country', undefined, currentStep);
         console.error('This country is not supported.');
       }
 
-      if (currentValues.DocumentType && !docTypeMapping[currentValues.DocumentType]) {
+      if (currentValues.DocumentType.value && !docTypeMapping[currentValues.DocumentType.value]) {
         addField('DocumentType', '', currentStep);
         console.error('This document type is not supported.');
       }
@@ -103,15 +103,14 @@ class DocumentType extends React.Component {
     } = this.props;
 
     if (idCapturebackIndex < 0) { return; }
-    const docType = fieldValues[currentStep].DocumentType;
-
+    const docType = fieldValues[currentStep].DocumentType.value;
     const duplicatedFlow = flow;
 
     const currentBackPhotoStepIndex = flow
       .findIndex((item) => item === 'IdCaptureBack');
 
     const { composition } = mapCountryValues(countriesAndDocs)
-      .find((item) => item.value === fieldValues[currentStep].Country).documents
+      .find((item) => item.value === fieldValues[currentStep].Country.value).documents
       .find((item) => item.name === docType);
 
     if (composition === 'single' && currentBackPhotoStepIndex !== -1) {
@@ -135,7 +134,7 @@ class DocumentType extends React.Component {
 
     return (
       <Radiobutton
-        selectedvalue={fieldValues[currentStep].DocumentType}
+        selectedvalue={fieldValues[currentStep].DocumentType.value}
         key={`control-${document}`}
         value={document}
         label={docTypeMapping[document]}
@@ -153,8 +152,8 @@ class DocumentType extends React.Component {
     const placeholder = translations['DocumentType_country-placeholder'];
 
     if (!loading && fieldValues[currentStep]) {
-      const currentDocumentType = fieldValues[currentStep].DocumentType;
-      const currentCountryValue = fieldValues[currentStep].Country;
+      const currentDocumentType = fieldValues[currentStep].DocumentType.value;
+      const currentCountryValue = fieldValues[currentStep].Country.value;
 
       const { documents } = countriesAndDocs[currentCountryValue] || [];
 

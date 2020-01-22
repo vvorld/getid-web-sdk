@@ -72,7 +72,6 @@ class Form extends Component {
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
-      eventTarget.type,
       eventTarget.required);
   };
 

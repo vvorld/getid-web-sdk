@@ -52,12 +52,12 @@ class DocumentType extends React.Component {
       }
 
       if (currentValues.Country.value && !countryList[currentValues.Country.value]) {
-        addField('Country', undefined, currentStep);
+        addField('Country', undefined, currentStep, true);
         console.error('This country is not supported.');
       }
 
       if (currentValues.DocumentType.value && !docTypeMapping[currentValues.DocumentType.value]) {
-        addField('DocumentType', '', currentStep);
+        addField('DocumentType', '', currentStep, true);
         console.error('This document type is not supported.');
       }
     }
@@ -69,13 +69,13 @@ class DocumentType extends React.Component {
     } = this.props;
 
     if (!fieldValues[currentStep] && documentData.length) {
-      documentData.forEach((field) => { addField(field.name, field.value, currentStep); });
+      documentData.forEach((field) => { addField(field.name, field.value, currentStep, true); });
       return;
     }
 
     if (!fieldValues[currentStep]) {
-      addField('Country', undefined, currentStep);
-      addField('DocumentType', '', currentStep);
+      addField('Country', undefined, currentStep, true);
+      addField('DocumentType', '', currentStep, true);
     }
   };
 
@@ -89,12 +89,12 @@ class DocumentType extends React.Component {
 
   setNewCountry = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('Country', event.target.value, currentStep);
+    this.props.addField('Country', event.target.value, currentStep, true);
   };
 
   setNewDocType = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('DocumentType', event.target.value, currentStep);
+    this.props.addField('DocumentType', event.target.value, currentStep, true);
   };
 
   changeFlowBasedOnDocumentType = () => {

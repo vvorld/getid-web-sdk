@@ -19,7 +19,7 @@ class Consent extends Component {
       addField, currentStep, fieldValues,
     } = this.props;
     if (!fieldValues[currentStep]) {
-      addField('consent', false, currentStep);
+      addField('consent', false, currentStep, true);
     }
   }
 
@@ -58,9 +58,9 @@ class Consent extends Component {
                   data-role="checkboxConsent"
                   name="consent"
                   key="checkbox-consent"
-                  checked={fieldValues[currentStep].consent}
+                  checked={fieldValues[currentStep].consent.value}
                   onChange={this.handleChange}
-                  value={fieldValues[currentStep].consent}
+                  value={fieldValues[currentStep].consent.value}
                 />
                     )}
               label={(

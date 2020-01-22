@@ -65,7 +65,7 @@ export default {
   ],
   isQA: false,
   formType: 'narrow',
-  cameraDistance: 'far',
+  cameraDistance: 'default',
   onComplete() {
     window.location.reload();
   },

@@ -39,7 +39,7 @@ class Consent extends Component {
 
     return (
       <Grid container alignItems="center" justify="center" data-role="blockConsent">
-        <Grid item xs={11} sm={10} md={10} lg={8}>
+        <Grid item xs={11} sm={8} md={8} lg={8}>
           {showOnfidoLogo && (
             <div className={classes.poweredBlock}>
               <span className={classes.poweredLabel}>Powered by</span>

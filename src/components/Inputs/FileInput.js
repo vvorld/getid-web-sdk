@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, InputLabel, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import styles from '../../assets/jss/components/inputs/FileInput';
 
@@ -18,6 +18,7 @@ const CustomFileInput = (props) => {
 
   return (
     <div className={borderClass}>
+
       <Button
         className={classes.outlinedInput}
         variant="outlined"

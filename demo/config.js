@@ -23,8 +23,6 @@ export default {
       label: 'Last Name',
       type: 'text',
       name: 'Last name',
-      required: true,
-
     },
     {
       label: 'email',

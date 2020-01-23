@@ -1,65 +1,31 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import CustomLogo from '../components/Logo/CustomLogo';
-import headerStyles from '../assets/jss/views/UpperPart';
-import TranslationsContext from '../context/TranslationsContext';
+import Header from './Header';
 
 function UpperPart(props) {
   const { currentStep, flow, currentComponent } = props;
+  const { next } = currentComponent;
 
-  const { translations } = useContext(TranslationsContext);
-
-  const isLast = () => currentComponent.next === null;
-
-  const isThankYou = () => currentComponent.name === 'ThankYou' && currentComponent.name;
-  const header = translations[`${currentComponent.name}_header`];
-  const subHeader = translations[`${currentComponent.name}_subHeader`];
-  const classes = headerStyles();
+  const isLast = () => !next;
 
   return (
     <Grid container alignItems="center" justify="center" data-role="header" spacing={3}>
-      {flow.length > 1 && (
       <Grid container alignItems="flex-start" justify="flex-start" direction="row">
-        <Grid item xs={12} md={2} className={classes.item}>
+        <Grid item xs={12} md={2}>
           <CustomLogo condition="getIdLogo" />
         </Grid>
-        <Grid container alignItems="flex-end" item xs={12} md={8}>
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <ProgressBar
-              isLast={isLast}
-              flowLength={flow.length}
-              activeStepParent={currentStep}
-            />
-          </Grid>
-        </Grid>
+        {flow.length > 1 && (
+        <ProgressBar
+          isLast={isLast}
+          flowLength={flow.length}
+          activeStepParent={currentStep}
+        />
+        )}
       </Grid>
-      )}
-      <Grid className={classes.topPart} container alignItems="center" justify="center">
-        <Grid item xs={10} sm={8} md={4}>
-          <CustomLogo condition={isThankYou()} />
-          { header && (
-          <h3
-            data-role="componentTitle"
-            className={classes.header}
-          >
-            { header }
-          </h3>
-          )}
-          { !isThankYou() && <hr className={classes.hr} /> }
-          { subHeader && (
-          <h5 className={classes.subHeader}>
-            { subHeader }
-          </h5>
-          ) }
-        </Grid>
-      </Grid>
+      <Header currentComponent={currentComponent} />
     </Grid>
   );
 }

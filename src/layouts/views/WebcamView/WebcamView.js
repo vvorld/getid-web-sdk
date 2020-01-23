@@ -41,6 +41,7 @@ class WebcamView extends React.Component {
       saveImage: false,
       stream: null,
     };
+    this.isPassport = Object.keys(props.fieldValues).find((key) => props.fieldValues[key].DocumentType === 'passport');
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
     this.retake = this.retake.bind(this);
@@ -98,15 +99,15 @@ class WebcamView extends React.Component {
   cameraOverlay = () => null;
 
   capture() {
-    const { cameraDistance, fieldValues } = this.props;
+    const { cameraDistance } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
-    if (cameraDistance === 'far'
-      && !Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))
-    ) {
+    if (this.isPassport) {
+      context.drawImage(this.webcam, -213, -18, 1181, 756);
+    } else if (cameraDistance === 'far') {
       context.drawImage(this.webcam, -233, -145, 1575, 1008);
     } else {
-      context.drawImage(this.webcam, 0, 0, 1125, 720);
+      context.drawImage(this.webcam, -30, -18, 1181, 756);
     }
     const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
     this.props.addScan(this.props.component, imageSrc);
@@ -196,7 +197,11 @@ class WebcamView extends React.Component {
               </Grid>
               <Footer {...cameraFooter} />
               {/* eslint-disable-next-line no-return-assign */}
-              <canvas width="1125" height="720" ref={(ref) => (this.canvas = ref)} className={classes.canvas} />
+              {
+                this.isPassport
+                  ? (<canvas width="747" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
+                  : (<canvas width="1125" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
+              }
             </div>
           )}
       </div>

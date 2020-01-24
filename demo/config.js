@@ -33,6 +33,12 @@ export default {
       required: true,
     },
     {
+      label: 'da',
+      type: 'date',
+      name: 'date of birth',
+      required: true,
+    },
+    {
       label: 'Document back side',
       type: 'file',
       name: 'Photo_id',

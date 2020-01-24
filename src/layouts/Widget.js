@@ -245,6 +245,7 @@ Widget.defaultProps = {
   isQA: false,
   currentComponent: null,
   showOnfidoLogo: false,
+  cameraDistance: 'default',
 };
 
 Widget.propTypes = {
@@ -270,6 +271,7 @@ Widget.propTypes = {
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
   showOnfidoLogo: PropTypes.bool,
+  cameraDistance: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

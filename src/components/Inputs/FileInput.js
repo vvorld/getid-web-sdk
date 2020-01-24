@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, InputLabel, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import styles from '../../assets/jss/components/inputs/FileInput';
 

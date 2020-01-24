@@ -98,7 +98,10 @@ class Widget extends Component {
 
   isThankYouPage = () => this.CurrentComponent().name === 'ThankYou';
 
-  getType = () => (this.isThankYouPage() || this.isConsent()) && 'noIcon';
+  getType = () => {
+    if (this.isButtonToSubmitData()) return 'submit';
+    return (this.isThankYouPage() || this.isConsent()) && 'noIcon';
+  };
 
   buttonAction = () => {
     if (this.isThankYouPage()) {
@@ -154,6 +157,7 @@ class Widget extends Component {
       next: {
         action: this.buttonAction(),
         text: this.buttonText(),
+        className: 'isGradient',
         disabled: this.props.isDisabled,
         type: this.getType() || 'next',
       },
@@ -161,6 +165,7 @@ class Widget extends Component {
         hidden: (!this.notFirst() || this.isThankYouPage()) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
+        className: 'prevButton',
       },
     };
   }
@@ -245,6 +250,7 @@ Widget.defaultProps = {
   isQA: false,
   currentComponent: null,
   showOnfidoLogo: false,
+  cameraDistance: 'default',
 };
 
 Widget.propTypes = {
@@ -270,6 +276,7 @@ Widget.propTypes = {
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
   showOnfidoLogo: PropTypes.bool,
+  cameraDistance: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({

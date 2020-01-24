@@ -75,10 +75,21 @@ class Form extends Component {
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
+
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
       eventTarget.required);
+  };
+
+  handleSelectChange = (isRequired) => (event) => {
+    const eventTarget = event.target;
+    const { value } = eventTarget;
+
+    this.props.addField(eventTarget.name,
+      value,
+      this.currentStep,
+      isRequired);
   };
 
   generateInputs() {
@@ -96,7 +107,7 @@ class Form extends Component {
               required={field.required}
               value={fieldValues[this.currentStep][field.name].value}
               placeholder={field.placeholder}
-              onChange={this.handleChange}
+              onChange={this.handleSelectChange(field.required)}
             />
           </Grid>
         );

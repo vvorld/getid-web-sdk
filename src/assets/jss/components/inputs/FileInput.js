@@ -15,9 +15,6 @@ const style = makeStyles((theme) => ({
       backgroundColor: theme.palette.violet,
       color: theme.palette.white,
     },
-    [theme.breakpoints.only('sm')]: {
-      padding: '10px 9px',
-    },
   },
   border: {
     display: 'flex',
@@ -35,6 +32,7 @@ const style = makeStyles((theme) => ({
     },
   },
   labelContainer: {
+    paddingLeft: '5px',
     display: 'flex',
     flexDirection: 'column-reverse',
   },
@@ -46,7 +44,6 @@ const style = makeStyles((theme) => ({
     lineHeight: '22px',
     display: 'none',
     zIndex: -1,
-    paddingLeft: '10px',
     '&.selected': {
       border: 'none',
       outline: 'none',
@@ -61,9 +58,9 @@ const style = makeStyles((theme) => ({
     color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
     lineHeight: '22px',
-    paddingLeft: '10px',
+    paddingLeft: '5px',
     '&.selected': {
-      paddingLeft: '15px',
+      paddingLeft: '5px',
       transformOrigin: 'top left',
       textAlign: 'start',
       transform: ' scale(0.75)',

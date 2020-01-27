@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
-import Grid from '@material-ui/core/Grid';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core';
+import {
+  withStyles, FormHelperText, FormControlLabel, Grid,
+} from '@material-ui/core';
 import TextInput from '../../components/Inputs/TextInput';
 import DateInput from '../../components/Inputs/DateInput';
 import Select from '../../components/Inputs/Select';
@@ -28,6 +28,12 @@ const styles = (theme) => ({
     '& a': {
       color: theme.palette.violet,
     },
+  },
+  helper: {
+    marginBottom: '10px',
+    marginTop: '4px',
+    color: theme.palette.blueDark,
+    opacity: '0.7',
   },
 });
 
@@ -69,28 +75,39 @@ class Form extends Component {
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
+
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
       eventTarget.required);
   };
 
-  generateInputs() {
-    const { fieldValues, classes } = this.props;
+  handleSelectChange = (isRequired) => (event) => {
+    const eventTarget = event.target;
+    const { value } = eventTarget;
 
+    this.props.addField(eventTarget.name,
+      value,
+      this.currentStep,
+      isRequired);
+  };
+
+  generateInputs() {
+    const { fieldValues, classes, translations } = this.props;
+    const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
       if (field.type === 'select') {
         const { options } = field;
 
         return (
-          <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} md={this.gridWidth}>
             <Select
               name={field.name}
               items={options}
               required={field.required}
               value={fieldValues[this.currentStep][field.name].value}
               placeholder={field.placeholder}
-              onChange={this.handleChange}
+              onChange={this.handleSelectChange(field.required)}
             />
           </Grid>
         );
@@ -98,7 +115,8 @@ class Form extends Component {
 
       if (field.type === 'file') {
         return (
-          <Grid item key={`select-${field.label}`} xs={11} sm={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} md={this.gridWidth}>
+            {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
             <CustomFileInput
               onChange={this.handleFiles}
               name={field.name}
@@ -141,7 +159,7 @@ class Form extends Component {
 
       if (field.type === 'date') {
         return (
-          <Grid item key={`dategrid-${field.label}`} xs={11} sm={this.gridWidth}>
+          <Grid item key={`dategrid-${field.label}`} xs={11} md={this.gridWidth}>
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
@@ -156,7 +174,7 @@ class Form extends Component {
       }
 
       return (
-        <Grid item key={`text-${field.label}`} xs={11} sm={this.gridWidth}>
+        <Grid item key={`text-${field.label}`} xs={11} md={this.gridWidth}>
           <TextInput
             type={field.type}
             name={field.name}
@@ -176,7 +194,7 @@ class Form extends Component {
 
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="center" justify="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="flex-end" justify="center" container spacing={2} data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );
@@ -189,6 +207,7 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   fieldValues: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,

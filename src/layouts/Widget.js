@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import store from '../store/store';
 import Loader from '../components/Loader/Loader';
@@ -14,6 +14,7 @@ import TranslationsContext from '../context/TranslationsContext';
 import { eventNames } from '../constants/event-names';
 import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
+import allComponents from './views';
 
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent,
@@ -23,23 +24,40 @@ import ResetView from './views/ResetView';
 class Widget extends Component {
   constructor(props) {
     super(props);
-    const { flow } = this.props;
-    this.idCapturebackIndex = flow.indexOf('IdCaptureBack');
 
     this.state = {
       isFail: false,
       loading: false,
+      stepWithIdCaptureBack: null,
+      idCaptureBackIndex: -1,
+      largeGrid: 8,
+      smallGrid: 10,
     };
   }
 
   componentDidMount() {
-    const {
-      flow, setFlow,
-    } = this.props;
-
-    setFlow(flow);
+    this.getBackStepIndexAndStep();
+    this.setSdkFlow();
     this.loadScans();
   }
+
+  componentDidUpdate() {
+    this.setButtonAsDisabled();
+  }
+
+  getBackStepIndexAndStep = () => {
+    const { flow } = this.props;
+
+    this.setState(() => ({
+      stepWithIdCaptureBack: flow
+        .find((item) => item.component.includes('IdCaptureBack')),
+    }));
+
+    this.setState((state) => ({
+      idCaptureBackIndex: flow.indexOf(state.stepWithIdCaptureBack),
+    }));
+  };
+
 
   loadScans = () => {
     const { scans, addScan } = this.props;
@@ -50,7 +68,15 @@ class Widget extends Component {
     }
   };
 
-  isSingleDocument = () => this.CurrentComponent().name === 'IdCapture' && this.idCapturebackIndex < 0;
+  setSdkFlow = () => {
+    const {
+      flow, setFlow,
+    } = this.props;
+
+    setFlow(flow);
+  };
+
+  isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture') && this.state.idCapturebackIndex < 0;
 
   triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
@@ -61,7 +87,7 @@ class Widget extends Component {
     const { apiUrl, jwtToken } = this.props;
     const stepName = this.isSingleDocument()
       ? eventNames.single
-      : eventNames[this.CurrentComponent().name];
+      : eventNames[this.props.currentComponent.component[0]];
     await apiProvider.sendEvent(apiUrl, stepName, 'completed', jwtToken);
   };
 
@@ -94,9 +120,11 @@ class Widget extends Component {
     });
   };
 
-  isCameraView = () => cameraViews.includes(this.CurrentComponent().name);
+  isCameraView = () => cameraViews.some(
+    (name) => this.props.currentComponent.component.includes(name),
+  );
 
-  isThankYouPage = () => this.CurrentComponent().name === 'ThankYou';
+  isThankYouPage = () => this.props.currentComponent.component.includes('ThankYou');
 
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
@@ -111,7 +139,7 @@ class Widget extends Component {
     return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;
   };
 
-  isConsent = () => this.CurrentComponent().name === 'Consent';
+  isConsent = () => this.props.currentComponent.component.includes('Consent');
 
   buttonText = () => {
     const { translations } = this.context;
@@ -120,37 +148,14 @@ class Widget extends Component {
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
-  resetFormConfig = (translations) => ({
-    cancel: {
-      name: translations.cancel_button,
-      action: this.props.onFail,
-      class: 'prevButton',
-    },
-    retry: {
-      name: translations.retry_button,
-      action: this.submitData,
-      class: 'isGradient',
-    },
-    chooseFlow: {
-      name: translations.choose_flow_button,
-      action: this.props.onFail,
-      class: 'prevButton',
-    },
-  });
-
-  CurrentComponent = () => this.props.currentComponent || null;
-
-  isForm = () => this.CurrentComponent().name === 'Form';
-
-  notFirst = () => this.CurrentComponent().order !== 0;
-
-  isButtonToSubmitData() {
-    return (this.CurrentComponent().next.component === null && !this.isThankYouPage())
-        || this.CurrentComponent().next.name === 'ThankYou';
+  isButtonToSubmitData = () => {
+    const { currentComponent } = this.props;
+    return (currentComponent.next === null && !this.isThankYouPage())
+        || (currentComponent.next.component && currentComponent.next.component.includes('ThankYou'));
   }
 
-  footer() {
-    const { flow } = this.props;
+  footer = () => {
+    const { flow, currentComponent } = this.props;
     return {
       isCameraView: this.isCameraView(),
       isCameraEnabled: false,
@@ -162,7 +167,7 @@ class Widget extends Component {
         type: this.getType() || 'next',
       },
       back: {
-        hidden: (!this.notFirst() || this.isThankYouPage()) || flow.length === 1,
+        hidden: (currentComponent.order === 0 || this.isThankYouPage()) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
         className: 'prevButton',
@@ -170,66 +175,89 @@ class Widget extends Component {
     };
   }
 
-  render() {
-    const { translations } = this.context;
+  setButtonAsDisabled = () => {
     const {
       currentStep,
       setDisabled,
       fieldValues,
+    } = this.props;
+
+    const fieldsOnThisStep = fieldValues[currentStep];
+
+    if (fieldsOnThisStep) {
+      setDisabled(Object.values(fieldsOnThisStep).some((field) => (
+        field.required
+          && (field.value === null
+          || field.value === ''
+          || field.value === undefined
+          || field.value === false
+          || (/^\s+$/).test(field.value.toString())))));
+    }
+  };
+
+  render() {
+    const {
+      currentStep,
       flow,
+      currentComponent,
+      onFail,
     } = this.props;
 
     const { classes, ...other } = this.props;
 
-    const { isFail, loading } = this.state;
+    const {
+      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid,
+    } = this.state;
+
     if (!flow) return null;
 
     if (loading) {
-      return (
-        <Loader />
-      );
+      return (<Loader />);
     }
 
     if (isFail) {
-      return (
-        <Grid container className={classes.root} justify="center" alignItems="center">
-          <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
-            <ResetView buttonConfig={this.resetFormConfig(translations)} />
-          </Grid>
-        </Grid>
-      );
+      return (<ResetView classes={classes} failAction={onFail} submitAction={this.submitData} />);
     }
 
-    if (!this.CurrentComponent()) return null;
-
-    const LoadingComponent = this.CurrentComponent();
-    const { idCapturebackIndex } = this;
-
-    if (fieldValues[currentStep]) {
-      setDisabled(Object.values(fieldValues[currentStep]).some((item) => (
-        item.required
-            && (item.value === null
-                || item.value === ''
-                || item.value === undefined
-                || item.value === false
-                || (/^\s+$/).test(item.value.toString())))));
-    }
+    if (!currentComponent) return null;
+    const { length } = currentComponent.component;
 
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
           <UpperPart
-            currentComponent={LoadingComponent}
+            currentComponent={currentComponent}
             flow={flow}
             currentStep={currentStep}
           />
         </Grid>
-        <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
-          <LoadingComponent.component
-            footer={this.footer()}
-            {...other}
-            idCapturebackIndex={idCapturebackIndex}
-          />
+        <Grid
+          container
+          justify="center"
+          className={classes.item}
+        >
+          {currentComponent.component.map((componentName) => {
+            const CurrentComponent = allComponents[componentName];
+            return (
+              <Grid
+                key={componentName + currentComponent.order.toString()}
+                className={classes.component}
+                item
+                xs={12}
+                sm={smallGrid / length}
+                md={largeGrid / length}
+              >
+                <CurrentComponent
+                  footer={this.footer()}
+                  {...other}
+                  idCapturebackIndex={idCaptureBackIndex}
+                  stepWithIdCaptureBack={stepWithIdCaptureBack}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+        <Grid item xs={12} sm={9} md={12} lg={6} className={classes.item}>
           {!this.isCameraView() && <Footer {...this.footer()} />}
         </Grid>
       </Grid>

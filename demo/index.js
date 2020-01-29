@@ -15,8 +15,8 @@ const checkApiKey = async (token, url) => fetch(`${url}${TOKEN_REQUEST}`, {
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
+    apiKey: token,
   },
-  body: JSON.stringify({ apiKey: token }),
 }).then((response) => response);
 
 // this request should be done from BE

@@ -4,9 +4,7 @@ import {
 
 import {
   buildFlow,
-} from '../../helpers/tree-builder';
-
-import components from '../../layouts/views';
+} from '../../helpers/flow-builder';
 
 const initialState = {
   fields: {},
@@ -59,7 +57,7 @@ export default function (state = initialState, action) {
 
     case SET_FLOW: {
       const { flow } = action.payload;
-      const sdkFlow = buildFlow(flow, components);
+      const sdkFlow = buildFlow(flow);
 
       return {
         ...state,

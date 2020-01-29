@@ -5,21 +5,6 @@ const fileSize = (file) => {
   return (sizeInBytes / 1000).toFixed(2);
 };
 
-export const buildFlow = (flow, components) => {
-  if (!flow) return {};
-
-  return flow.map((item, index) => ({
-    component: components[item],
-    name: item,
-    order: index,
-    next: {
-      component: components[flow[index + 1]] || null,
-      name: flow[index + 1],
-    },
-    previous: components[flow[index - 1]] || null,
-  }));
-};
-
 export const mapScans = (scans) => Object.entries(scans).map((item) => ({
   name: item[0],
   size: fileSize(item[1]),

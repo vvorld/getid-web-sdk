@@ -9,11 +9,12 @@ function Header(props) {
   const { currentComponent } = props;
 
   const { translations } = useContext(TranslationsContext);
-  const { name } = currentComponent;
+  const { component } = currentComponent;
 
-  const isThankYou = () => name === 'ThankYou' && name;
-  const headerText = translations[`${name}_header`];
-  const subHeaderText = translations[`${name}_subHeader`];
+  const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
+  const componentName = component[0];
+  const headerText = translations[`${componentName}_header`];
+  const subHeaderText = translations[`${componentName}_subHeader`];
 
   const {
     header, hr, subHeader, topPart,

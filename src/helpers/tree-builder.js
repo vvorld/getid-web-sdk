@@ -75,22 +75,24 @@ const getDocumentData = (fields, fieldName) => {
 };
 
 export const mapUserData = (state) => ({
-  fields: mapFieldData(state.fields),
-  metadata: {
-    metadata: 'web',
-    submissionTime: new Date(),
+  application: {
+    fields: mapFieldData(state.fields),
+    metadata: {
+      metadata: 'web',
+      submissionTime: new Date(),
+    },
+    documents: [
+      {
+        issuingCountry: getDocumentData(state.fields, 'Country'),
+        documentType: getDocumentData(state.fields, 'DocumentType'),
+        images: mapScans(documentImages(state)),
+      },
+    ],
+    faces: [
+      {
+        category: 'selfie',
+        content: mapScans(selfieImages(state)),
+      },
+    ],
   },
-  documents: [
-    {
-      issuingCountry: getDocumentData(state.fields, 'Country'),
-      documentType: getDocumentData(state.fields, 'DocumentType'),
-      images: mapScans(documentImages(state)),
-    },
-  ],
-  faces: [
-    {
-      category: 'selfie',
-      content: mapScans(selfieImages(state)),
-    },
-  ],
 });

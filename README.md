@@ -39,10 +39,11 @@ In order to start using GetID SDK, you will need an API key and API url. Use a `
 For security reasons, instead of using the API key directly in you client-side code, 
 you will need to generate and include a short-lived JSON Web Token (JWT) every time you initialise the SDK. 
 To generate an SDK Token you should perform a request to the SDK Token endpoint you got from your getID dashboard:
+apiKey must be passed in request headers.
 
-``` j
+``` js
 POST YOUR_SDK_SERVER_BACKEND_URL/sdk/token
-body: {
+headers: {
     apiKey: YOUR_API_KEY
 } 
 ```

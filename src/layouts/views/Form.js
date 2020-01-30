@@ -77,7 +77,7 @@ class Form extends Component {
       this.currentStep,
       eventTarget.required,
       eventTarget.type);
-    //
+
     this.props.addScan(eventTarget.name,
       convertedFile,
       this.currentStep,

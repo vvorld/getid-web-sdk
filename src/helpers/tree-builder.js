@@ -22,16 +22,20 @@ export const mapScans = (scans) => {
   return parsedScans;
 };
 
-export const mapFieldData = (fields) => {
+export const mapFieldData = (fields, filter) => {
   const parsedFields = [];
   Object.keys(fields).forEach((item) => {
-    if (!fields[item].Country || !fields[item].DocumentType) {
-      Object.entries(fields[item]).map((listItem) => parsedFields.push({
-        contentType: 'string',
-        category: listItem[0],
-        content: listItem[1].value,
-      }));
-    }
+    Object.entries(fields[item]).forEach((listItem) => {
+      if (!filter.includes(listItem[0])) {
+        if (!filter.includes(listItem[1].type)) {
+          parsedFields.push({
+            contentType: 'string',
+            category: listItem[0],
+            content: listItem[1].value,
+          });
+        }
+      }
+    });
   });
 
   return parsedFields;
@@ -84,7 +88,7 @@ const getDocumentData = (fields, fieldName) => {
 
 export const mapUserData = (state) => ({
   application: {
-    fields: mapFieldData(state.fields),
+    fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
     metadata: {
       metadata: 'web',
       submissionTime: new Date(),

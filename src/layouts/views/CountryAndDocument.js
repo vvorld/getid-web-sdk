@@ -48,7 +48,6 @@ class CountryAndDocument extends React.Component {
     const currentValues = Object.keys(fieldValues[currentStep]).length && fieldValues[currentStep];
 
     if (currentValues && countryList) {
-      console.log(currentValues)
       if (countryList[currentValues.Country.value] && currentValues.DocumentType.value) {
         this.changeFlowBasedOnDocumentType();
       }

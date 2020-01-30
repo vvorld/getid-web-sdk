@@ -50,23 +50,26 @@ class WebcamView extends React.Component {
   }
 
   async componentDidMount() {
-    const { component, scans, isQA } = this.props;
+    const {
+      component, scans, isQA, currentStep, addScan,
+    } = this.props;
 
     if (isQA) {
-      this.props.addScan(this.props.component, blackSquare);
+      addScan(component, blackSquare, currentStep, true);
       this.setState({ saveImage: true });
       this.setWebStream();
       return;
     }
 
-    this.setState({ saveImage: !!scans[component] });
+    this.setState({ saveImage: scans[currentStep] && !!scans[currentStep][component].value });
 
     this.setWebStream();
     document.addEventListener('keydown', this.spaceActivate, false);
   }
 
   componentWillUnmount() {
-    this.state.stream.getTracks().forEach((track) => track.stop());
+    const { stream } = this.state;
+    if (stream) stream.getTracks().forEach((track) => track.stop());
     document.removeEventListener('keydown', this.spaceActivate, false);
   }
 
@@ -99,7 +102,9 @@ class WebcamView extends React.Component {
   cameraOverlay = () => null;
 
   capture() {
-    const { cameraDistance } = this.props;
+    const {
+      cameraDistance, addScan, component, currentStep,
+    } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     if (this.isPassport) {
@@ -110,12 +115,13 @@ class WebcamView extends React.Component {
       context.drawImage(this.webcam, -30, -18, 1181, 756);
     }
     const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
-    this.props.addScan(this.props.component, imageSrc);
+    addScan(component, imageSrc, currentStep, true);
     this.setState({ saveImage: true });
   }
 
   async retake() {
-    this.props.addScan(this.props.component, null);
+    const { addScan, component, currentStep } = this.props;
+    addScan(component, null, currentStep, true);
     this.setState({ saveImage: false });
     this.setWebStream();
   }
@@ -126,7 +132,9 @@ class WebcamView extends React.Component {
   }
 
   previewForm() {
-    const { footer, component, classes } = this.props;
+    const {
+      footer, component, classes, scans, currentStep,
+    } = this.props;
     const { back } = footer;
     const { translations } = this.context;
     const previewFooter = {
@@ -143,7 +151,7 @@ class WebcamView extends React.Component {
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
             <img
-              src={this.props.scans[component]}
+              src={scans[currentStep][component].value}
               alt="current"
               data-role="cameraPreviewImg"
               className={classes.imgPreview}
@@ -219,6 +227,7 @@ WebcamView.propTypes = {
   cameraDistance: PropTypes.object.isRequired,
   fieldValues: PropTypes.object.isRequired,
   isQA: PropTypes.bool,
+  currentStep: PropTypes.number.isRequired,
 };
 
 WebcamView.defaultProps = {

@@ -5,14 +5,22 @@ const fileSize = (file) => {
   return (sizeInBytes / 1000).toFixed(2);
 };
 
-export const mapScans = (scans) => Object.entries(scans).map((item) => ({
-  name: item[0],
-  size: fileSize(item[1]),
-  format: 'base64',
-  kind: item[0],
-  mediaType: 'image/jpeg',
-  blob: item[1],
-}));
+export const mapScans = (scans) => {
+  const parsedScans = [];
+
+  Object.keys(scans).forEach((step) => {
+    Object.entries(scans[step]).map((scan) => parsedScans.push({
+      name: scan[0],
+      size: fileSize(scan[1].value),
+      format: 'base64',
+      kind: scan[0],
+      mediaType: 'image/jpeg',
+      blob: scan[1].value,
+    }));
+  });
+
+  return parsedScans;
+};
 
 export const mapFieldData = (fields) => {
   const parsedFields = [];
@@ -48,11 +56,11 @@ export const mapCountryValues = (countriesAndDocs) => {
   return countries;
 };
 
-const documentImages = (state) => Object.keys(state.scans)
+const documentImages = (scans) => Object.keys(scans)
   .filter((key) => key !== 'selfie')
   .reduce((obj, key) => ({
     ...obj,
-    [key]: state.scans[key],
+    [key]: scans[key],
   }), {});
 
 const selfieImages = (state) => Object.keys(state.scans)
@@ -85,7 +93,7 @@ export const mapUserData = (state) => ({
       {
         issuingCountry: getDocumentData(state.fields, 'Country'),
         documentType: getDocumentData(state.fields, 'DocumentType'),
-        images: mapScans(documentImages(state)),
+        images: mapScans(documentImages(state.scans)),
       },
     ],
     faces: [

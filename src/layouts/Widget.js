@@ -17,7 +17,7 @@ import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
 
 import {
-  getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent,
+  getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
 import ResetView from './views/ResetView';
 
@@ -38,11 +38,6 @@ class Widget extends Component {
   componentDidMount() {
     this.getBackStepIndexAndStep();
     this.setSdkFlow();
-    this.loadScans();
-  }
-
-  componentDidUpdate() {
-    this.setButtonAsDisabled();
   }
 
   getBackStepIndexAndStep = () => {
@@ -50,22 +45,12 @@ class Widget extends Component {
 
     this.setState(() => ({
       stepWithIdCaptureBack: flow
-        .find((item) => item.component.includes('IdCaptureBack')),
+        .find((item) => item.component.includes('IdCaptureBack')) || {},
     }));
 
     this.setState((state) => ({
-      idCaptureBackIndex: flow.indexOf(state.stepWithIdCaptureBack),
+      idCaptureBackIndex: flow.indexOf(state.stepWithIdCaptureBack) || -1,
     }));
-  };
-
-
-  loadScans = () => {
-    const { scans, addScan } = this.props;
-    if (scans) {
-      scans.forEach((scan) => {
-        addScan(scan.name, scan.value);
-      });
-    }
   };
 
   setSdkFlow = () => {
@@ -151,11 +136,12 @@ class Widget extends Component {
   isButtonToSubmitData = () => {
     const { currentComponent } = this.props;
     return (currentComponent.next === null && !this.isThankYouPage())
-        || (currentComponent.next.component && currentComponent.next.component.includes('ThankYou'));
-  }
+        || (currentComponent.next && currentComponent.next.component.includes('ThankYou'));
+  };
 
   footer = () => {
-    const { flow, currentComponent } = this.props;
+    const { flow, currentComponent, isDisabled } = this.props;
+
     return {
       isCameraView: this.isCameraView(),
       isCameraEnabled: false,
@@ -163,7 +149,7 @@ class Widget extends Component {
         action: this.buttonAction(),
         text: this.buttonText(),
         className: 'isGradient',
-        disabled: this.props.isDisabled,
+        disabled: isDisabled,
         type: this.getType() || 'next',
       },
       back: {
@@ -173,7 +159,7 @@ class Widget extends Component {
         className: 'prevButton',
       },
     };
-  }
+  };
 
   setButtonAsDisabled = () => {
     const {
@@ -182,10 +168,8 @@ class Widget extends Component {
       fieldValues,
     } = this.props;
 
-    const fieldsOnThisStep = fieldValues[currentStep];
-
-    if (fieldsOnThisStep) {
-      setDisabled(Object.values(fieldsOnThisStep).some((field) => (
+    if (fieldValues[currentStep]) {
+      setDisabled(Object.values(fieldValues[currentStep]).some((field) => (
         field.required
           && (field.value === null
           || field.value === ''
@@ -221,7 +205,7 @@ class Widget extends Component {
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
-
+    this.setButtonAsDisabled();
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
@@ -311,6 +295,7 @@ const mapStateToProps = (state) => ({
   fieldValues: getFormValues(state),
   isDisabled: getIsDisabled(state),
   currentStep: getStep(state),
+  scans: getScanValues(state),
   sdkFlow: getFlow(state),
   currentComponent: getCurrentComponent(state),
 });

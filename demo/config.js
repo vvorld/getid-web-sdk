@@ -3,25 +3,24 @@ export default {
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   flow: [
-    // {
-    //   component: ['Form', 'CountryAndDocument'],
-    // },
+    {
+      component: ['Form', 'CountryAndDocument'],
+    },
+    {
+      component: ['Form'],
+    },
     {
       component: ['CountryAndDocument'],
     },
-    // {
-    //   component: ['Form'],
-    // },
     {
-      component: ['IdCaptureBack'],
+      component: ['IdCapture'],
     },
-    // {
-    //   component: ['IdCapture'],
-    // }, {
-    //   component: ['IdSelfie'],
-    // }, {
-    //   component: ['Consent'],
-    // },
+    {
+      component: ['IdSelfie'],
+    },
+    {
+      component: ['Consent'],
+    },
     {
       component: ['ThankYou'],
     },
@@ -48,9 +47,16 @@ export default {
       name: 'Last name',
     },
     {
-      label: 'Document back side',
+      label: 'Document front side',
       type: 'file',
       name: 'Photo_id',
+      required: true,
+    },
+    {
+      label: 'Document back side',
+      type: 'file',
+      name: 'Test_name',
+      required: true,
     },
     {
       label: 'Country',

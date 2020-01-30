@@ -12,7 +12,7 @@ import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
 import { toBase64 } from '../../helpers/tree-builder';
-import { getFormValues } from '../../store/selectors';
+import { getFormValues, getImageValues } from '../../store/selectors';
 
 const styles = (theme) => ({
   labelCheckbox: {
@@ -59,21 +59,29 @@ class Form extends Component {
 
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
-        addField(field.name, field.value, currentStep, (field.required || false));
+        addField(field.name, field.value, currentStep, (field.required || false), field.type);
       });
     }
   }
 
   handleDateChange = (key, isRequired) => (date) => {
-    this.props.addField(key, date, this.currentStep, 'date', isRequired);
+    this.props.addField(key, date, this.currentStep, isRequired, 'date');
   };
 
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
     const convertedFile = await toBase64(file);
-    this.props.addScan(eventTarget.name, convertedFile);
-    this.props.addField(eventTarget.name, file.name, this.currentStep, eventTarget.required);
+    this.props.addField(eventTarget.name,
+      file.name,
+      this.currentStep,
+      eventTarget.required,
+      eventTarget.type);
+    //
+    this.props.addScan(eventTarget.name,
+      convertedFile,
+      this.currentStep,
+      eventTarget.required);
   };
 
   handleChange = (event) => {
@@ -83,21 +91,25 @@ class Form extends Component {
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
-      eventTarget.required);
+      eventTarget.required,
+      eventTarget.type);
   };
 
   handleSelectChange = (isRequired) => (event) => {
     const eventTarget = event.target;
-    const { value } = eventTarget;
+    const { value, type } = eventTarget;
 
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
-      isRequired);
+      isRequired,
+      type);
   };
 
   generateInputs() {
-    const { fieldValues, classes, translations } = this.props;
+    const {
+      fieldValues, classes, translations,
+    } = this.props;
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
       if (field.type === 'select') {
@@ -211,6 +223,7 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   fieldValues: PropTypes.object.isRequired,
+  imageValues: PropTypes.object.isRequired,
   translations: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
@@ -226,6 +239,7 @@ Form.defaultProps = {
 
 const mapStateToProps = (state) => ({
   fieldValues: getFormValues(state),
+  imageValues: getImageValues(state),
 });
 
 export default connect(

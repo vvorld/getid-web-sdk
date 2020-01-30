@@ -4,21 +4,16 @@ export default {
   dictionary: 'amas::u-RU',
   flow: [
     {
-      component: ['Form', 'CountryAndDocument'],
+      component: ['CountryAndDocument'],
     },
     {
       component: ['Form'],
     },
     {
-      component: ['CountryAndDocument'],
-    },
-    {
       component: ['IdCapture'],
-    },
-    {
+    }, {
       component: ['IdSelfie'],
-    },
-    {
+    }, {
       component: ['Consent'],
     },
     {

@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   fields: {},
-  imageValues: {},
   countriesAndDocs: {},
   scans: [],
   isDisabled: false,

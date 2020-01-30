@@ -12,7 +12,7 @@ import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
 import { toBase64 } from '../../helpers/tree-builder';
-import { getFormValues, getImageValues } from '../../store/selectors';
+import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
   labelCheckbox: {
@@ -223,7 +223,6 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   fieldValues: PropTypes.object.isRequired,
-  imageValues: PropTypes.object.isRequired,
   translations: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
@@ -239,7 +238,6 @@ Form.defaultProps = {
 
 const mapStateToProps = (state) => ({
   fieldValues: getFormValues(state),
-  imageValues: getImageValues(state),
 });
 
 export default connect(

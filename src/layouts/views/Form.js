@@ -97,6 +97,8 @@ class Form extends Component {
     const { fieldValues, classes, translations } = this.props;
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
+
+      const required = field.required === false ? field.required : true;
       if (field.type === 'select') {
         const { options } = field;
 
@@ -105,7 +107,7 @@ class Form extends Component {
             <Select
               name={field.name}
               items={options}
-              required={field.required || true}
+              required={required}
               value={fieldValues[this.currentStep][field.name].value}
               placeholder={field.placeholder}
               onChange={this.handleSelectChange(field.required)}
@@ -122,7 +124,7 @@ class Form extends Component {
               onChange={this.handleFiles}
               name={field.name}
               label={field.label}
-              required={field.required || true}
+              required={required}
               type={field.type}
               valueName={fieldValues[this.currentStep][field.name].value}
             />
@@ -147,7 +149,7 @@ class Form extends Component {
                       checked={fieldValues[this.currentStep][field.name].value}
                       onChange={this.handleChange}
                       value={this.props[field.name]}
-                      required={field.required || true}
+                      required={required}
                     />
                   )}
                   label={<label className="label-checkbox">{parse(field.label)}</label>}
@@ -164,7 +166,7 @@ class Form extends Component {
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
-              required={field.required || true}
+              required={required}
               label={field.label}
               format="yyyy-MM-dd"
               value={fieldValues[this.currentStep][field.name].value || null}
@@ -179,7 +181,7 @@ class Form extends Component {
           <TextInput
             type={field.type}
             name={field.name}
-            required={field.required || true}
+            required={required}
             value={fieldValues[this.currentStep][field.name].value}
             onChange={this.handleChange}
             label={field.label}

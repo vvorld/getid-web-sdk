@@ -15,6 +15,7 @@ function DateInput(props) {
       <Grid container justify="space-around">
         <FormControl fullWidth>
           <DatePicker
+            maxDate={new Date()}
             data-role="datePicker"
             openTo="date"
             inputVariant="filled"

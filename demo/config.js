@@ -35,6 +35,7 @@ export default {
       label: 'First Name',
       type: 'text',
       name: 'First name',
+      required: false,
     },
     {
       label: 'Last Name',

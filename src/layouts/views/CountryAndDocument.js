@@ -178,7 +178,7 @@ class CountryAndDocument extends React.Component {
     } = this.props;
 
     const { translations } = this.context;
-    const placeholder = translations['DocumentType_country-placeholder'];
+    const placeholder = translations['CountryAndDocument_country-placeholder'];
 
     if (!loading && fieldValues[currentStep]) {
       const currentDocumentType = fieldValues[currentStep].DocumentType.value;

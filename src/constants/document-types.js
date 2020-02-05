@@ -7,7 +7,7 @@ export const docTypeMapping = {
   'driving-licence': 'Drivers License',
   // 'work-license': 'Work License',
   // 'asylum-residence-permit': 'Asylum Residence Permit',
-  // visa: 'Visa',
+  visa: 'Visa',
   // 'health-insurance': 'Health Insurance',
   // 'home-return': 'Home Return',
   // 'pan-card': 'Pancard',

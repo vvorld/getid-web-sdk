@@ -91,8 +91,6 @@ class Widget extends Component {
 
     this.setState({ loading: true });
 
-    console.log(this.props);
-
     apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {

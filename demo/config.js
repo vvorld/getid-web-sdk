@@ -2,7 +2,13 @@ export default {
   apiUrl: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
-  flow: ['Form', 'DocumentType', 'ThankYou'],
+  flow: [{ component: ['CountryAndDocument'] },
+    { component: ['Form'] },
+    { component: ['IdCapture'] },
+    { component: ['IdCaptureBack'] },
+    { component: ['IdSelfie'] },
+    { component: ['Consent'] },
+    { component: ['ThankYou'] }],
   documentData: [
     {
       name: 'Country',
@@ -18,6 +24,7 @@ export default {
       label: 'First Name',
       type: 'text',
       name: 'First name',
+      required: false,
     },
     {
       label: 'Last Name',
@@ -25,9 +32,16 @@ export default {
       name: 'Last name',
     },
     {
-      label: 'Document back side',
+      label: 'Document front side',
       type: 'file',
       name: 'Photo_id',
+      required: true,
+    },
+    {
+      label: 'Document back side',
+      type: 'file',
+      name: 'Test_name',
+      required: true,
     },
     {
       label: 'Country',

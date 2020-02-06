@@ -40,10 +40,14 @@ const styles = (theme) => ({
 class Form extends Component {
   constructor(props) {
     super(props);
-    const { formType, fields, currentStep } = this.props;
+    const {
+      formType, fields, currentStep, currentComponent,
+    } = this.props;
     this.fields = fields;
     this.currentStep = currentStep;
-    this.gridWidth = formType === 'narrow' ? 6 : 12;
+    const narrow = 5 * currentComponent.component.length;
+    const wide = 10;
+    this.gridWidth = formType === 'narrow' ? narrow : wide;
   }
 
   componentDidMount() {
@@ -56,21 +60,29 @@ class Form extends Component {
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
         const required = field.required === false ? field.required : true;
-        addField(field.name, field.value, currentStep, required);
+        addField(field.name, field.value, currentStep, required, field.type);
       });
     }
   }
 
   handleDateChange = (key, isRequired) => (date) => {
-    this.props.addField(key, date, this.currentStep, 'date', isRequired);
+    this.props.addField(key, date, this.currentStep, isRequired, 'date');
   };
 
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
     const convertedFile = await toBase64(file);
-    this.props.addScan(eventTarget.name, convertedFile);
-    this.props.addField(eventTarget.name, file.name, this.currentStep, eventTarget.required);
+    this.props.addField(eventTarget.name,
+      file.name,
+      this.currentStep,
+      eventTarget.required,
+      eventTarget.type);
+
+    this.props.addScan(eventTarget.name,
+      convertedFile,
+      this.currentStep,
+      eventTarget.required);
   };
 
   handleChange = (event) => {
@@ -80,21 +92,25 @@ class Form extends Component {
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
-      eventTarget.required);
+      eventTarget.required,
+      eventTarget.type);
   };
 
   handleSelectChange = (isRequired) => (event) => {
     const eventTarget = event.target;
-    const { value } = eventTarget;
+    const { value, type } = eventTarget;
 
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
-      isRequired);
+      isRequired,
+      type);
   };
 
   generateInputs() {
-    const { fieldValues, classes, translations } = this.props;
+    const {
+      fieldValues, classes, translations,
+    } = this.props;
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
       const required = field.required === false ? field.required : true;
@@ -102,7 +118,7 @@ class Form extends Component {
         const { options } = field;
 
         return (
-          <Grid item key={`select-${field.label}`} xs={11} md={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
             <Select
               name={field.name}
               items={options}
@@ -117,7 +133,7 @@ class Form extends Component {
 
       if (field.type === 'file') {
         return (
-          <Grid item key={`select-${field.label}`} xs={11} md={this.gridWidth}>
+          <Grid item key={`select-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
             <CustomFileInput
               onChange={this.handleFiles}
@@ -133,7 +149,7 @@ class Form extends Component {
 
       if (field.type === 'checkbox') {
         return (
-          <Grid item key={`checkbox-grid-${field.label}`} xs={11} xl={12}>
+          <Grid item key={`checkbox-grid-${field.label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
@@ -161,7 +177,7 @@ class Form extends Component {
 
       if (field.type === 'date') {
         return (
-          <Grid item key={`dategrid-${field.label}`} xs={11} md={this.gridWidth}>
+          <Grid item key={`dategrid-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
@@ -176,7 +192,7 @@ class Form extends Component {
       }
 
       return (
-        <Grid item key={`text-${field.label}`} xs={11} md={this.gridWidth}>
+        <Grid item key={`text-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
           <TextInput
             type={field.type}
             name={field.name}
@@ -214,6 +230,7 @@ Form.propTypes = {
   addScan: PropTypes.func.isRequired,
   formType: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
+  currentComponent: PropTypes.object.isRequired,
   classes: PropTypes.object,
 };
 

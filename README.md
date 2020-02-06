@@ -33,7 +33,7 @@ upload (capture) ids and face photos.
 - browsers: Chrome, Safari and FF latest
 
 ### Obtaining an API key
-In order to start using GetID SDK, you will need an API key and API url. Use a `sandbox` key to test the integration. Use a `live` key in the production. You can get both keys and urls inside your GetID Dashboard.
+In order to start using GetID SDK, you will need an API key and API url. You can get and set your key and url in your GetID Dashboard.
 
 ### Generating an SDK token.
 For security reasons, instead of using the API key directly in you client-side code, 
@@ -114,17 +114,19 @@ getId.init({
   jwtToken: 'YOUR_JWT_TOKEN',
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flow: ['Form', 'ThankYou'],
+  flow: [ { component: ['Form'] },
+          { component: ['ThankYou'] } ],
   fields: [
       {
         type: 'text',
         title: 'First Name',
-        value: 'John'
+        value: 'John',
+        required: false
       },
       { 
         type: 'text',
         title: 'Last Name',
-        value: 'Doe'
+        value: 'Doe',
       },
       { 
         type: 'text',
@@ -168,7 +170,7 @@ You can customize which steps that will be present in your getId widget.
 Available: 
 - _Consent_ - Client gives their consent to their Personal data processing.
 - _Form_ - Form with basic personal data fields (first name, last name, email, gender etc)
-- _DocumentType_ - country of document and document type selection view
+- _CountryAndDocument_ - country of document and document type selection view
 - _IdCapture_ - web camera view. can consist of up to 2 views, depending on the type of document.
 i.e in case of id card, there are two views: frond and back side.
 - _IdSelfie_ - web camera view. user will have to take a selfie.
@@ -180,8 +182,10 @@ getId.init({
   jwtToken: 'YOUR_JWT_TOKEN',
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  // pass flow options as array of strings in your preferred order
-  flow: ['Form', 'Documents', 'Consent']
+  // pass flow options as array of objects in your preferred order
+    flow: [ { component: ['Form'] },
+            { component: ['CountryAndDocument'] },
+            { component: ['ThankYou'] } ],
 });
 ```
 
@@ -191,10 +195,12 @@ On form view, you can choose which fields to show to client.
 Currently, we support 4 input types:
 - text: plain `string`
 - date: Date represented as a `string` in ISO 8601 format
+- file: file in jpg or png format
 - select: `string` in ISO 3166-1 alpha-2 format ([Wiki](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2))
 - checkbox: boolean
 
 Optionally, you can pre-populate some fields by known values. Pass the values according to formats listed in the table above.
+You can set field's `required` option. All fields are set as `required: true` by default.
 
 Example: 
 ```js
@@ -212,7 +218,8 @@ getId.init({
       // this one client will have to fill in
       {
         type: 'select',
-        title: 'Country'
+        title: 'Country',
+        required: false
       },
   ]
 });
@@ -249,6 +256,7 @@ Console will show error ``This country is not supported`` or `This document type
 For now system is mostly supporting next documents:
 - passport, 
 - id-card, 
+- visa, 
 - driving-licence, 
 - residence-permit,
 - internal-passport.

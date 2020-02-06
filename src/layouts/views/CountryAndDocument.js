@@ -14,11 +14,12 @@ import apiProvider from '../../services/api';
 import { docTypeMapping } from '../../constants/document-types';
 import TranslationsContext from '../../context/TranslationsContext';
 
-class DocumentType extends React.Component {
+class CountryAndDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      fieldWidth: 5,
     };
   }
 
@@ -40,7 +41,7 @@ class DocumentType extends React.Component {
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, state, snapshot) {
     const {
-      countriesAndDocs, currentStep, addField, fieldValues,
+      countriesAndDocs, currentStep, fieldValues,
     } = this.props;
 
     const countryList = Object.keys(countriesAndDocs).length && countriesAndDocs;
@@ -51,17 +52,23 @@ class DocumentType extends React.Component {
         this.changeFlowBasedOnDocumentType();
       }
 
-      if (currentValues.Country.value && !countryList[currentValues.Country.value]) {
-        addField('Country', undefined, currentStep, true);
-        console.error('This country is not supported.');
-      }
-
-      if (currentValues.DocumentType.value && !docTypeMapping[currentValues.DocumentType.value]) {
-        addField('DocumentType', '', currentStep, true);
-        console.error('This document type is not supported.');
-      }
+      this.checkForSupportedValues(currentValues, countryList);
     }
   }
+
+  checkForSupportedValues = (currentValues, countryList) => {
+    const { Country, DocumentType } = currentValues;
+
+    if (Country.value && !countryList[Country.value]) {
+      this.setEmptyCountry();
+      console.error('This country is not supported.');
+    }
+
+    if (DocumentType.value && !docTypeMapping[DocumentType.value]) {
+      this.setEmptyDocumentType();
+      console.error('This document type is not supported.');
+    }
+  };
 
   setFieldsValues = () => {
     const {
@@ -74,9 +81,19 @@ class DocumentType extends React.Component {
     }
 
     if (!fieldValues[currentStep]) {
-      addField('Country', undefined, currentStep, true);
-      addField('DocumentType', '', currentStep, true);
+      this.setEmptyCountry();
+      this.setEmptyDocumentType();
     }
+  };
+
+  setEmptyCountry = () => {
+    const { currentStep, addField } = this.props;
+    addField('Country', undefined, currentStep, true);
+  };
+
+  setEmptyDocumentType = () => {
+    const { currentStep, addField } = this.props;
+    addField('DocumentType', '', currentStep, true);
   };
 
   getCountryAndDocList = () => {
@@ -97,21 +114,33 @@ class DocumentType extends React.Component {
     this.props.addField('DocumentType', event.target.value, currentStep, true);
   };
 
-  changeFlowBasedOnDocumentType = () => {
+  getDocumentComposition = () => {
     const {
-      flow, setFlow, fieldValues, currentStep, idCapturebackIndex, countriesAndDocs,
+      fieldValues,
+      currentStep,
+      countriesAndDocs,
     } = this.props;
 
-    if (idCapturebackIndex < 0) { return; }
     const docType = fieldValues[currentStep].DocumentType.value;
-    const duplicatedFlow = flow;
 
-    const currentBackPhotoStepIndex = flow
-      .findIndex((item) => item === 'IdCaptureBack');
-
-    const { composition } = mapCountryValues(countriesAndDocs)
+    return mapCountryValues(countriesAndDocs)
       .find((item) => item.value === fieldValues[currentStep].Country.value).documents
       .find((item) => item.name === docType);
+  };
+
+  changeFlowBasedOnDocumentType = () => {
+    const {
+      flow,
+      setFlow,
+      idCapturebackIndex,
+      stepWithIdCaptureBack,
+    } = this.props;
+
+    if (idCapturebackIndex < 0 || !stepWithIdCaptureBack) { return; }
+
+    const duplicatedFlow = flow;
+    const currentBackPhotoStepIndex = flow.indexOf(stepWithIdCaptureBack);
+    const { composition } = this.getDocumentComposition();
 
     if (composition === 'single' && currentBackPhotoStepIndex !== -1) {
       duplicatedFlow.splice(currentBackPhotoStepIndex, 1);
@@ -120,7 +149,7 @@ class DocumentType extends React.Component {
     }
 
     if (composition !== 'single' && currentBackPhotoStepIndex < 0) {
-      duplicatedFlow.splice(idCapturebackIndex, 0, 'IdCaptureBack');
+      duplicatedFlow.splice(idCapturebackIndex, 0, stepWithIdCaptureBack);
       setFlow(duplicatedFlow);
     }
   };
@@ -143,23 +172,24 @@ class DocumentType extends React.Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, fieldWidth } = this.state;
     const {
-      countriesAndDocs, fieldValues, currentStep,
+      countriesAndDocs, fieldValues, currentStep, currentComponent,
     } = this.props;
 
     const { translations } = this.context;
-    const placeholder = translations['DocumentType_country-placeholder'];
+    const placeholder = translations['CountryAndDocument_country-placeholder'];
 
     if (!loading && fieldValues[currentStep]) {
       const currentDocumentType = fieldValues[currentStep].DocumentType.value;
       const currentCountryValue = fieldValues[currentStep].Country.value;
 
       const { documents } = countriesAndDocs[currentCountryValue] || [];
+      const { length } = currentComponent.component;
 
       return (
-        <Grid container justify="center" data-role="blockDocument">
-          <Grid item xs={10} sm={8} md={6}>
+        <Grid justify="center" alignItems="center" container spacing={2} data-role="blockDocument">
+          <Grid item xs={11} sm={fieldWidth * length}>
             <Select
               items={mapCountryValues(countriesAndDocs)}
               value={currentCountryValue}
@@ -178,26 +208,28 @@ class DocumentType extends React.Component {
   }
 }
 
-DocumentType.propTypes = {
+CountryAndDocument.propTypes = {
   apiUrl: PropTypes.string.isRequired,
   addField: PropTypes.func.isRequired,
   addCountriesAndDocs: PropTypes.func.isRequired,
   currentStep: PropTypes.number.isRequired,
   idCapturebackIndex: PropTypes.number.isRequired,
+  stepWithIdCaptureBack: PropTypes.object.isRequired,
   fieldValues: PropTypes.object,
   countriesAndDocs: PropTypes.object,
   setFlow: PropTypes.func.isRequired,
   flow: PropTypes.array.isRequired,
   documentData: PropTypes.array,
+  currentComponent: PropTypes.object.isRequired,
 };
 
-DocumentType.defaultProps = {
+CountryAndDocument.defaultProps = {
   countriesAndDocs: {},
   fieldValues: {},
   documentData: [],
 };
 
-DocumentType.contextType = TranslationsContext;
+CountryAndDocument.contextType = TranslationsContext;
 
 const mapStateToProps = (state) => ({
   countriesAndDocs: getCountryAndDocsValues(state),
@@ -207,4 +239,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(DocumentType);
+)(CountryAndDocument);

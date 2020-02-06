@@ -7,6 +7,9 @@ const widgetStyles = (theme) => ({
     textAlign: 'center',
     position: 'relative',
   },
+  component: {
+    marginBottom: '20px',
+  },
 });
 
 export default widgetStyles;

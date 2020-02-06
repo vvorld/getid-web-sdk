@@ -5,40 +5,37 @@ const fileSize = (file) => {
   return (sizeInBytes / 1000).toFixed(2);
 };
 
-export const buildFlow = (flow, components) => {
-  if (!flow) return {};
+export const mapScans = (scans) => {
+  const parsedScans = [];
 
-  return flow.map((item, index) => ({
-    component: components[item],
-    name: item,
-    order: index,
-    next: {
-      component: components[flow[index + 1]] || null,
-      name: flow[index + 1],
-    },
-    previous: components[flow[index - 1]] || null,
-  }));
+  Object.keys(scans).forEach((step) => {
+    Object.entries(scans[step]).map((scan) => parsedScans.push({
+      name: scan[0],
+      size: fileSize(scan[1].value),
+      format: 'base64',
+      kind: scan[0],
+      mediaType: 'image/jpeg',
+      blob: scan[1].value,
+    }));
+  });
+
+  return parsedScans;
 };
 
-export const mapScans = (scans) => Object.entries(scans).map((item) => ({
-  name: item[0],
-  size: fileSize(item[1]),
-  format: 'base64',
-  kind: item[0],
-  mediaType: 'image/jpeg',
-  blob: item[1],
-}));
-
-export const mapFieldData = (fields) => {
+export const mapFieldData = (fields, filter) => {
   const parsedFields = [];
   Object.keys(fields).forEach((item) => {
-    if (!fields[item].Country || !fields[item].DocumentType) {
-      Object.entries(fields[item]).map((listItem) => parsedFields.push({
-        contentType: 'string',
-        category: listItem[0],
-        content: listItem[1].value,
-      }));
-    }
+    Object.entries(fields[item]).forEach((listItem) => {
+      if (!filter.includes(listItem[0])) {
+        if (!filter.includes(listItem[1].type)) {
+          parsedFields.push({
+            contentType: 'string',
+            category: listItem[0],
+            content: listItem[1].value,
+          });
+        }
+      }
+    });
   });
 
   return parsedFields;
@@ -63,11 +60,11 @@ export const mapCountryValues = (countriesAndDocs) => {
   return countries;
 };
 
-const documentImages = (state) => Object.keys(state.scans)
+const documentImages = (scans) => Object.keys(scans)
   .filter((key) => key !== 'selfie')
   .reduce((obj, key) => ({
     ...obj,
-    [key]: state.scans[key],
+    [key]: scans[key],
   }), {});
 
 const selfieImages = (state) => Object.keys(state.scans)
@@ -91,7 +88,7 @@ const getDocumentData = (fields, fieldName) => {
 
 export const mapUserData = (state) => ({
   application: {
-    fields: mapFieldData(state.fields),
+    fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
     metadata: {
       metadata: 'web',
       submissionTime: new Date(),
@@ -100,7 +97,7 @@ export const mapUserData = (state) => ({
       {
         issuingCountry: getDocumentData(state.fields, 'Country'),
         documentType: getDocumentData(state.fields, 'DocumentType'),
-        images: mapScans(documentImages(state)),
+        images: mapScans(documentImages(state.scans)),
       },
     ],
     faces: [

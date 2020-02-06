@@ -2,24 +2,13 @@ export default {
   apiUrl: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
-  flow: [
-    {
-      component: ['CountryAndDocument'],
-    },
-    {
-      component: ['Form'],
-    },
-    {
-      component: ['IdCapture'],
-    }, {
-      component: ['IdSelfie'],
-    }, {
-      component: ['Consent'],
-    },
-    {
-      component: ['ThankYou'],
-    },
-  ],
+  flow: [{ component: ['CountryAndDocument'] },
+    { component: ['Form'] },
+    { component: ['IdCapture'] },
+    { component: ['IdCaptureBack'] },
+    { component: ['IdSelfie'] },
+    { component: ['Consent'] },
+    { component: ['ThankYou'] }],
   documentData: [
     {
       name: 'Country',

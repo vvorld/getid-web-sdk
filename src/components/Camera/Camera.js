@@ -47,7 +47,9 @@ try again
             ref={setWebcamRef}
             autoPlay
             onPlaying={() => { setTimeout(() => { setStream(true); }, 500); }}
-          />
+          >
+            <track kind="captions" {...props} />
+          </video>
           {isStream ? (
             <div>
               <img className={classes.cameraOverlay} src={overlay()} alt="powered by getId" />

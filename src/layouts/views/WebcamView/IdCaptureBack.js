@@ -20,7 +20,7 @@ const IdCaptureBack = (props) => {
 };
 
 IdCaptureBack.propTypes = {
-  cameraDistance: PropTypes.object.isRequired,
+  cameraDistance: PropTypes.string.isRequired,
 };
 
 export default IdCaptureBack;

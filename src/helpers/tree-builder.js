@@ -9,14 +9,16 @@ export const mapScans = (scans) => {
   const parsedScans = [];
 
   Object.keys(scans).forEach((step) => {
-    Object.entries(scans[step]).map((scan) => parsedScans.push({
-      name: scan[0],
-      size: fileSize(scan[1].value),
-      format: 'base64',
-      kind: scan[0],
-      mediaType: 'image/jpeg',
-      blob: scan[1].value,
-    }));
+    Object.entries(scans[step]).forEach((scan) => {
+      parsedScans.push({
+        name: scan[0],
+        size: fileSize(scan[1]),
+        format: 'base64',
+        kind: scan[0],
+        mediaType: 'image/jpeg',
+        blob: scan[1],
+      });
+    });
   });
 
   return parsedScans;
@@ -60,19 +62,15 @@ export const mapCountryValues = (countriesAndDocs) => {
   return countries;
 };
 
-const documentImages = (scans) => Object.keys(scans)
-  .filter((key) => key !== 'selfie')
-  .reduce((obj, key) => ({
-    ...obj,
-    [key]: scans[key],
-  }), {});
+const documentImages = (scans) => Object.keys(scans).map((step) => Object.keys(scans[step]).filter((key) => key !== 'selfie').reduce((obj, key) => ({
+  ...obj,
+  [key]: scans[step][key].value,
+}), {}));
 
-const selfieImages = (state) => Object.keys(state.scans)
-  .filter((key) => key === 'selfie')
-  .reduce((obj, key) => ({
-    ...obj,
-    [key]: state.scans[key],
-  }), {});
+const selfieImages = (scans) => Object.keys(scans).map((step) => Object.keys(scans[step]).filter((key) => key === 'selfie').reduce((obj, key) => ({
+  ...obj,
+  [key]: scans[step][key].value,
+}), {}));
 
 const getDocumentData = (fields, fieldName) => {
   let docData = '';
@@ -103,7 +101,7 @@ export const mapUserData = (state) => ({
     faces: [
       {
         category: 'selfie',
-        content: mapScans(selfieImages(state)),
+        content: mapScans(selfieImages(state.scans)),
       },
     ],
   },

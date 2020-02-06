@@ -113,7 +113,6 @@ class Form extends Component {
     } = this.props;
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
-
       const required = field.required === false ? field.required : true;
       if (field.type === 'select') {
         const { options } = field;

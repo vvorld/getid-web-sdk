@@ -34,7 +34,6 @@ const ActionBar = (props) => {
 
   const CustomButton = (args) => {
     const { type } = args;
-
     const data = { ...defaultProps[type], ...args };
 
     const {

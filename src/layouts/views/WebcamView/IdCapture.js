@@ -31,7 +31,7 @@ const mapStateToProps = (state) => ({
 
 IdCapture.propTypes = {
   fieldValues: PropTypes.object.isRequired,
-  cameraDistance: PropTypes.object.isRequired,
+  cameraDistance: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(IdCapture);

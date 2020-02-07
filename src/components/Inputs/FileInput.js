@@ -56,7 +56,6 @@ CustomFileInput.propTypes = {
 CustomFileInput.defaultProps = {
   valueName: null,
   required: false,
-
 };
 
 export default CustomFileInput;

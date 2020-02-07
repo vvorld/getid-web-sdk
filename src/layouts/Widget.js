@@ -61,7 +61,8 @@ class Widget extends Component {
     setFlow(flow);
   };
 
-  isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture') && this.state.idCapturebackIndex < 0;
+  isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture')
+      && this.state.idCapturebackIndex < 0;
 
   triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
@@ -126,18 +127,21 @@ class Widget extends Component {
 
   isConsent = () => this.props.currentComponent.component.includes('Consent');
 
+  nextComponent = () => {
+    const { currentComponent } = this.props;
+    return currentComponent.next;
+  };
+
   buttonText = () => {
     const { translations } = this.context;
+
     if (this.isThankYouPage()) return translations.button_start_over;
-    if (this.isConsent()) return translations.button_agree;
+    if (this.isConsent() && !this.nextComponent().component.includes('ThankYou')) return translations.button_agree;
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
-  isButtonToSubmitData = () => {
-    const { currentComponent } = this.props;
-    return (currentComponent.next === null && !this.isThankYouPage())
-        || (currentComponent.next && currentComponent.next.component.includes('ThankYou'));
-  };
+  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isThankYouPage())
+        || (this.nextComponent() && this.nextComponent().component.includes('ThankYou'));
 
   footer = () => {
     const { flow, currentComponent, isDisabled } = this.props;
@@ -166,6 +170,7 @@ class Widget extends Component {
       currentStep,
       setDisabled,
       fieldValues,
+      scans,
     } = this.props;
 
     if (fieldValues[currentStep]) {
@@ -176,6 +181,15 @@ class Widget extends Component {
           || field.value === undefined
           || field.value === false
           || (/^\s+$/).test(field.value.toString())))));
+    }
+
+    if (this.isCameraView() && scans[currentStep]) {
+      setDisabled(Object.values(scans[currentStep]).some((scan) => (
+        scan.required
+            && (scan.value === null
+            || scan.value === ''
+            || scan.value === undefined
+            || scan.value === false))));
     }
   };
 
@@ -251,7 +265,7 @@ class Widget extends Component {
 
 Widget.defaultProps = {
   classes: {},
-  scans: [],
+  scans: {},
   flow: [],
   fields: [],
   documentData: [],
@@ -271,7 +285,7 @@ Widget.propTypes = {
   fields: PropTypes.array,
   documentData: PropTypes.array,
   fieldValues: PropTypes.object,
-  scans: PropTypes.array,
+  scans: PropTypes.object,
   formType: PropTypes.string.isRequired,
   setDisabled: PropTypes.func.isRequired,
   setStep: PropTypes.func.isRequired,

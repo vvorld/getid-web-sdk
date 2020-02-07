@@ -9,7 +9,7 @@ import {
 const initialState = {
   fields: {},
   countriesAndDocs: {},
-  scans: [],
+  scans: {},
   isDisabled: false,
   step: 0,
   sdkFlow: [],

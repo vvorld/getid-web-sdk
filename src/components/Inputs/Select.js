@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import CustomSelectStyles from '../../assets/jss/components/inputs/CustomSelect'
 
 const CustomSelect = (props) => {
   const {
-    items, onChange, value, name, placeholder,
+    items, onChange, value, name, placeholder, required,
   } = props;
 
   const classes = CustomSelectStyles();
@@ -23,8 +24,16 @@ const CustomSelect = (props) => {
   );
 
   return (
-    <FormControl fullWidth variant="outlined">
+    <FormControl required={required} fullWidth variant="filled">
+      <InputLabel
+        classes={{
+          root: classes.labelFocused,
+        }}
+      >
+        {placeholder}
+      </InputLabel>
       <Select
+        disableUnderline
         data-role="select"
         MenuProps={{
           MenuListProps: { disablePadding: true },
@@ -37,15 +46,6 @@ const CustomSelect = (props) => {
         onChange={onChange}
         IconComponent={selectIcon}
       >
-        <MenuItem
-          classes={{
-            root: classes.placeholderItem,
-            selected: classes.itemSelected,
-          }}
-          value=""
-        >
-          {placeholder}
-        </MenuItem>
         {items.map((item) => (
           <MenuItem
             classes={{
@@ -69,6 +69,7 @@ CustomSelect.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 CustomSelect.defaultProps = {
@@ -77,6 +78,7 @@ CustomSelect.defaultProps = {
   onChange: null,
   name: '',
   placeholder: '',
+  required: true,
 };
 
 export default CustomSelect;

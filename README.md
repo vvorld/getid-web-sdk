@@ -75,9 +75,9 @@ const getId = require('getid-web-sdk')
 ```
 - HTML Script Tag
 
-include sdk as regular script tag. (the only avaliable option at this moment of time)
+include sdk as regular script tag. (please contact our support for CDN link)
 ```html
-<script src='<folder-name>/getid-web-sdk.min.js'></script>
+<script src='<getid-web-sdk-vx.x.x.min.js'></script>
 ```
 
 ### HTML markup

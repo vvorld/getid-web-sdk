@@ -23,7 +23,6 @@ const CustomSelect = (props) => {
     </Icon>
   );
 
-  console.log(required);
   return (
     <FormControl required={required} fullWidth variant="filled">
       <InputLabel

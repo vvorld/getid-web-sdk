@@ -48,7 +48,7 @@ try again
             autoPlay
             onPlaying={() => { setTimeout(() => { setStream(true); }, 500); }}
           >
-            <track kind="captions" {...props} />
+            <track kind="captions" />
           </video>
           {isStream ? (
             <div>

@@ -18,9 +18,13 @@ const CustomSelectStyles = makeStyles((theme) => ({
     '&.filled': {
       color: theme.palette.deepBlue,
       border: `1px solid ${theme.palette.violet}`,
+      backgroundColor: theme.palette.white,
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.white,
     },
     '&& fieldset': {
-      backgroundColor: 'transparent',
+      backgroundColor: theme.palette.white,
       border: 0,
     },
     '&:focus': {
@@ -36,6 +40,14 @@ const CustomSelectStyles = makeStyles((theme) => ({
     boxShadow: `0px 4px 20px ${fade(theme.palette.blue, 0.15)}`,
     color: theme.palette.deepBlue,
     backgroundColor: theme.palette.white,
+    '&.filled': {
+      backgroundColor: theme.palette.white,
+    },
+    '&:focus': {
+      border: `1px solid ${theme.palette.violet}`,
+      color: theme.palette.deepBlue,
+      backgroundColor: theme.palette.white,
+    },
   },
   icon: {
     position: 'absolute',
@@ -52,14 +64,10 @@ const CustomSelectStyles = makeStyles((theme) => ({
       background: `${fade(theme.palette.violet, 0.05)}`,
     },
   },
-  placeholderItem: {
-    color: `${fade(theme.palette.deepBlue, 0.5)}`,
-    fontSize: '16px',
-    lineHeight: '22px',
-    paddingTop: '14px',
-    paddingBottom: '14px',
-    '&:hover': {
-      background: `${fade(theme.palette.violet, 0.05)}`,
+  labelFocused: {
+    color: theme.palette.deepBlue,
+    '&$labelFocused': {
+      color: `${fade(theme.palette.deepBlue, 0.5)}`,
     },
   },
   itemSelected: {
@@ -72,7 +80,9 @@ const CustomSelectStyles = makeStyles((theme) => ({
     width: '15px',
     height: '20px',
   },
-  focused: {},
+  focused: {
+    backgroundColor: theme.palette.white,
+  },
 }));
 
 export default CustomSelectStyles;

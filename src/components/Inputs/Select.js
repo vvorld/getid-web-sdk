@@ -23,11 +23,18 @@ const CustomSelect = (props) => {
     </Icon>
   );
 
-  console.log(required)
+  console.log(required);
   return (
     <FormControl required={required} fullWidth variant="filled">
-        <InputLabel id="demo-simple-select-required-label">{placeholder}</InputLabel>
+      <InputLabel
+        classes={{
+          root: classes.labelFocused,
+        }}
+      >
+        {placeholder}
+      </InputLabel>
       <Select
+        disableUnderline
         data-role="select"
         MenuProps={{
           MenuListProps: { disablePadding: true },
@@ -40,14 +47,6 @@ const CustomSelect = (props) => {
         onChange={onChange}
         IconComponent={selectIcon}
       >
-        {/*<MenuItem*/}
-        {/*  classes={{*/}
-        {/*    root: classes.placeholderItem,*/}
-        {/*    selected: classes.itemSelected,*/}
-        {/*  }}*/}
-        {/*  value=""*/}
-        {/*>*/}
-        {/*</MenuItem>*/}
         {items.map((item) => (
           <MenuItem
             classes={{
@@ -71,6 +70,7 @@ CustomSelect.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.string,
   placeholder: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 CustomSelect.defaultProps = {
@@ -79,6 +79,7 @@ CustomSelect.defaultProps = {
   onChange: null,
   name: '',
   placeholder: '',
+  required: true,
 };
 
 export default CustomSelect;

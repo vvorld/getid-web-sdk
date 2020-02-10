@@ -47,6 +47,7 @@ class WebcamView extends React.Component {
     this.retake = this.retake.bind(this);
     this.capture = this.capture.bind(this);
     this.requestCamera = this.requestCamera.bind(this);
+    this.cameraResize = this.cameraResize.bind(this);
   }
 
   async componentDidMount() {
@@ -65,18 +66,26 @@ class WebcamView extends React.Component {
 
     this.setWebStream();
     document.addEventListener('keydown', this.spaceActivate, false);
+    window.addEventListener('resize', this.cameraResize, false);
   }
+
 
   componentWillUnmount() {
     const { stream } = this.state;
     if (stream) stream.getTracks().forEach((track) => track.stop());
     document.removeEventListener('keydown', this.spaceActivate, false);
+    window.removeEventListener('resize', this.cameraResize, false);
   }
 
   async setWebStream() {
     try {
       const stream = await navigator.mediaDevices
-        .getUserMedia({ audio: false, video: { deviceId: true, aspectRatio: 25 / 16 } });
+        .getUserMedia({
+          audio: false,
+          video: { deviceId: true, aspectRatio: 25 / 16, width: 1125 },
+        });
+
+      this.webcam.height = this.webcam.clientWidth * 0.64;
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch {
@@ -100,6 +109,10 @@ class WebcamView extends React.Component {
   };
 
   cameraOverlay = () => null;
+
+  cameraResize() {
+    this.webcam.height = this.webcam.clientWidth * 0.64;
+  }
 
   capture() {
     const {

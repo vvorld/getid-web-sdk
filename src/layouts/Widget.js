@@ -136,7 +136,7 @@ class Widget extends Component {
     const { translations } = this.context;
 
     if (this.isThankYouPage()) return translations.button_start_over;
-    if (this.isConsent() && !this.nextComponent().component.includes('ThankYou')) return translations.button_agree;
+    if (this.isConsent() && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 

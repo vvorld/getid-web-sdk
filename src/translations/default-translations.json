@@ -23,6 +23,7 @@
   "choose_flow_button": "Choose Flow",
   "retry_button": "Retry",
   "cancel_button": "Cancel",
+  "done_button": "Done",
   "file_input_tooltip": "Allowed formats: jpg, png.",
   "button_make_photo": "make photo",
   "photo_tip": "Please use <b>Spacebar</b> key to make photo",

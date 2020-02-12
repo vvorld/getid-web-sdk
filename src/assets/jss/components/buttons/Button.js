@@ -84,6 +84,10 @@ const buttonStyles = makeStyles((theme) => ({
     display: 'inline-block',
     margin: '10px',
   },
+  done: {
+    display: 'block',
+    margin: '0 auto',
+  },
   prevButton: {
     border: 0,
     color: theme.palette.violet,

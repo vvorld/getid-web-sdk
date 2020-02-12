@@ -9,52 +9,37 @@ import TranslationsContext from '../../context/TranslationsContext';
 import CustomLogo from '../../components/Logo/CustomLogo';
 
 const ResetView = (props) => {
-  const { failAction, submitAction, classes } = props;
-  const viewStyle = ResetStyles();
+  const { config, classes } = props;
   const buttonStyle = ButtonStyles();
   const { translations } = useContext(TranslationsContext);
 
-  const resetFormConfig = () => ({
-    cancel: {
-      name: translations.cancel_button,
-      action: failAction,
-      class: 'prevButton',
-    },
-    retry: {
-      name: translations.retry_button,
-      action: submitAction,
-      class: 'isGradient',
-    },
-    chooseFlow: {
-      name: translations.choose_flow_button,
-      action: failAction,
-      class: 'prevButton',
-    },
-  });
+  const {
+    hrLong, hr, subHeader, center, header,
+  } = ResetStyles();
 
   return (
     <Grid container className={classes.root} justify="center" alignItems="center">
       <Grid item xs={12} sm={9} md={7} lg={6} className={classes.item}>
         <CustomLogo condition="Reset" />
-        <h3 className={viewStyle.header}>
+        <h3 className={header}>
           {translations.ResetPage_header}
         </h3>
-        <hr className={viewStyle.hr} />
-        <h5 className={viewStyle.subHeader}>
+        <hr className={hr} />
+        <h5 className={subHeader}>
           {translations.ResetPage_subHeader}
         </h5>
-        <hr className={viewStyle.hrLong} />
-        <div className={viewStyle.center}>
-          {Object.keys(resetFormConfig()).map((key) => (
+        <hr className={hrLong} />
+        <div className={center}>
+          {Object.keys(config).map((key) => (
             <Grid key={`button-${key}`} item xs={6} sm={4}>
               <Button
                 classes={{
                   root: buttonStyle.root,
                 }}
-                className={buttonStyle[resetFormConfig()[key].class]}
-                onClick={resetFormConfig()[key].action}
+                className={buttonStyle[config[key].class]}
+                onClick={config[key].action}
               >
-                {resetFormConfig()[key].name}
+                {config[key].name}
               </Button>
             </Grid>
           ))}
@@ -65,9 +50,8 @@ const ResetView = (props) => {
 };
 
 ResetView.propTypes = {
-  failAction: PropTypes.func.isRequired,
-  submitAction: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
 };
 
 export default ResetView;

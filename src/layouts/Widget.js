@@ -90,20 +90,20 @@ class Widget extends Component {
     setStep(currentStep);
 
     this.setState({ loading: true });
-
-    apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
-      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
-      res.json().then(async (data) => {
+    await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
+    try {
+      const submitResponse = await apiProvider
+        .submitData(mapUserData(store.getState()), jwtToken, apiUrl);
+      const { responseCode } = submitResponse;
+      if (responseCode === 200) {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);
-        if (data.responseCode !== 200) {
-          console.log(`Error: ${data.errorMessage}`);
-          this.setState({ isFail: true });
-          return;
-        }
-        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
-        this.triggerNextComponent();
-      });
-    });
+      }
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      this.setState({ isFail: true });
+    }
+    await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
+    this.triggerNextComponent();
   };
 
   isCameraView = () => cameraViews.some(
@@ -193,12 +193,45 @@ class Widget extends Component {
     }
   };
 
+  finalViewConfig = () => {
+    const { translations } = this.context;
+    const { onFail, onExists } = this.props;
+
+    return {
+      exists: {
+        done: {
+          name: translations.done_button,
+          action: onExists,
+          class: 'isGradient',
+        },
+      },
+      isFail: {
+        cancel: {
+          name: translations.cancel_button,
+          action: onFail,
+          class: 'prevButton',
+        },
+        retry: {
+          name: translations.retry_button,
+          action: this.submitData,
+          class: 'isGradient',
+        },
+        chooseFlow: {
+          name: translations.choose_flow_button,
+          action: onFail,
+          class: 'prevButton',
+        },
+      },
+
+    };
+  };
+
   render() {
     const {
       currentStep,
       flow,
       currentComponent,
-      onFail,
+      exists,
     } = this.props;
 
     const { classes, ...other } = this.props;
@@ -207,14 +240,20 @@ class Widget extends Component {
       isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid,
     } = this.state;
 
+
+    if (exists) {
+      return (<ResetView classes={classes} config={this.finalViewConfig().exists} />);
+    }
+
     if (!flow) return null;
+
 
     if (loading) {
       return (<Loader />);
     }
 
     if (isFail) {
-      return (<ResetView classes={classes} failAction={onFail} submitAction={this.submitData} />);
+      return (<ResetView classes={classes} config={this.finalViewConfig().isFail} />);
     }
 
     if (!currentComponent) return null;
@@ -272,11 +311,14 @@ Widget.defaultProps = {
   onComplete: null,
   onFail: null,
   onCancel: null,
+  onExists: null,
   fieldValues: null,
   isQA: false,
   currentComponent: null,
   showOnfidoLogo: false,
+  exists: false,
   cameraDistance: 'default',
+  jwtToken: '',
 };
 
 Widget.propTypes = {
@@ -291,10 +333,11 @@ Widget.propTypes = {
   setStep: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,
-  jwtToken: PropTypes.string.isRequired,
+  jwtToken: PropTypes.string,
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
+  onExists: PropTypes.func,
   onCancel: PropTypes.func,
   isDisabled: PropTypes.bool.isRequired,
   isQA: PropTypes.bool,
@@ -302,6 +345,7 @@ Widget.propTypes = {
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
   showOnfidoLogo: PropTypes.bool,
+  exists: PropTypes.bool,
   cameraDistance: PropTypes.string,
 };
 

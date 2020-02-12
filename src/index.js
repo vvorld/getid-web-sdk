@@ -43,7 +43,6 @@ const renderMainComponent = (widgetOptions) => {
   ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
 };
 
-
 const getJWTToken = (config, customerId) => {
   const { apiUrl, apiKey } = config;
   return apiProvider

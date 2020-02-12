@@ -19,7 +19,7 @@ import allComponents from './views';
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
-import ResetView from './views/ResetView';
+import ErrorView from './views/ErrorView';
 
 class Widget extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ class Widget extends Component {
       idCaptureBackIndex: -1,
       largeGrid: 8,
       smallGrid: 10,
+      appExists: false,
     };
   }
 
@@ -94,9 +95,13 @@ class Widget extends Component {
     try {
       const submitResponse = await apiProvider
         .submitData(mapUserData(store.getState()), jwtToken, apiUrl);
-      const { responseCode } = submitResponse;
+      const { responseCode, exists } = submitResponse;
+      if (exists) { this.setState({ appExists: true }); }
       if (responseCode === 200) {
-        setTimeout(() => { this.setState({ loading: false }); }, 2000);
+        setTimeout(() => {
+          this.setState({ loading: false });
+        },
+        2000);
       }
     } catch (e) {
       console.log(`Error: ${e}`);
@@ -193,68 +198,34 @@ class Widget extends Component {
     }
   };
 
-  finalViewConfig = () => {
-    const { translations } = this.context;
-    const { onFail, onExists } = this.props;
-
-    return {
-      exists: {
-        done: {
-          name: translations.done_button,
-          action: onExists,
-          class: 'isGradient',
-        },
-      },
-      isFail: {
-        cancel: {
-          name: translations.cancel_button,
-          action: onFail,
-          class: 'prevButton',
-        },
-        retry: {
-          name: translations.retry_button,
-          action: this.submitData,
-          class: 'isGradient',
-        },
-        chooseFlow: {
-          name: translations.choose_flow_button,
-          action: onFail,
-          class: 'prevButton',
-        },
-      },
-
-    };
-  };
-
   render() {
     const {
       currentStep,
       flow,
       currentComponent,
+      onFail,
       exists,
+      onExists,
     } = this.props;
 
     const { classes, ...other } = this.props;
 
     const {
-      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid,
+      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid, appExists,
     } = this.state;
 
-
-    if (exists) {
-      return (<ResetView classes={classes} config={this.finalViewConfig().exists} />);
-    }
-
+    const callbacks = {
+      onSubmit: this.submitData,
+      onFail,
+      onExists,
+    };
     if (!flow) return null;
 
+    if (exists || appExists) { return (<ErrorView classes={classes} callbacks={callbacks} condition="exists" />); }
 
-    if (loading) {
-      return (<Loader />);
-    }
+    if (loading) { return (<Loader />); }
 
-    if (isFail) {
-      return (<ResetView classes={classes} config={this.finalViewConfig().isFail} />);
-    }
+    if (isFail) { return (<ErrorView classes={classes} callbacks={callbacks} condition="isFail" />); }
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;

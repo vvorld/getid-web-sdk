@@ -10,6 +10,15 @@ const widgetStyles = (theme) => ({
   component: {
     marginBottom: '20px',
   },
+  center: {
+    fontFamily: theme.typography.fontFamily,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    minHeight: '100vh',
+  },
 });
 
 export default widgetStyles;

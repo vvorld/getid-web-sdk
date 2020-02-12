@@ -30,12 +30,18 @@ const ResetStyles = makeStyles((theme) => ({
     margin: '20px auto',
     width: '100%',
   },
+  marginAuto: {
+    margin: '0 auto',
+  },
   center: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     textAlign: 'center',
     padding: '1rem 0',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+    },
   },
 }));
 

@@ -44,9 +44,6 @@ export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
   if (!apiKey) {
     throw new Error('Missing api key');
   }
-  if (!apiKey) {
-    throw new Error('Missing customer id');
-  }
   return fetch(`${apiUrl}${TOKEN_REQUEST}`, {
     method: 'POST',
     headers: {
@@ -58,7 +55,7 @@ export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
   }).then((res) => res.json());
 };
 
-const checkProps = (options) => {
+const checkContainerId = (options) => {
   const { containerId } = options;
   if (!containerId) {
     throw new Error('Please provide container id.');
@@ -85,7 +82,7 @@ const getOkAnswer = (params) => (resp) => {
  * @param customerId
  */
 export const init = (options, tokenProvider) => {
-  checkProps(options);
+  checkContainerId(options);
   tokenProvider().then((result) => {
     const { responseCode, errorMessage, token, exists } = result;
     const api = createApiProvider(options.apiUrl, token);

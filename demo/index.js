@@ -1,7 +1,7 @@
 import { init, createPublicTokenProvider } from '../src/index';
 import config from './config';
 
-const cfg = config;
+const cfg = { ...config };
 try {
   // You can use custom.js for customising config object
   // Example:
@@ -19,7 +19,7 @@ try {
 }
 
 try {
-  const customerId = 24;
+  const customerId = 26;
   const tokenProvider = createPublicTokenProvider(cfg.apiUrl, cfg.apiKey, customerId);
   init(cfg, tokenProvider);
 } catch (e) {

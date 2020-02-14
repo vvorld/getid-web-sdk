@@ -90,8 +90,11 @@ export const init = (options, tokenProvider) => {
     Promise.all([
       api.getInfo().then(getOkAnswer({ field: 'showOnfidoLogo' })),
       api.getTranslations(config.dictionary).then(getOkAnswer({ default: defaultTranslations })),
-    ]).then(([showOnfidoLogo, translations]) => {
-      renderMainComponent({ ...config, translations, showOnfidoLogo });
+      api.getPermissions().then(getOkAnswer({ field: 'sdkPermissions' })),
+    ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
+      renderMainComponent({
+        ...config, translations, showOnfidoLogo, sdkPermissions,
+      });
     });
   });
 };

@@ -1,19 +1,20 @@
 import {
-  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY, TOKEN_REQUEST,
+  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT,
+  EVENT, DICTIONARY, TOKEN_REQUEST, PERMISSIONS,
 } from '../constants/api';
 
-const headers = {
+const defaultHeaders = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
 };
 
-const post = (url, query) => fetch(url, {
+const post = (url, query, headers) => fetch(url, {
   method: 'POST',
-  headers,
+  headers: { ...defaultHeaders, ...headers },
   body: JSON.stringify(query),
 }).then((res) => res.json());
 
-const get = (url) => fetch(url, { headers })
+const get = (url) => fetch(url, { ...defaultHeaders })
   .then((res) => res.json());
 
 export const createApi = (url, jwt) => {
@@ -37,20 +38,12 @@ export const createApi = (url, jwt) => {
     }
   };
 
+  const getPermissions = () => post(`${url}${PERMISSIONS}`, { jwt });
   return {
-    submitData, getInfo, getCountryAndDocList, sendEvent, getTranslations,
+    submitData, getInfo, getCountryAndDocList, sendEvent, getTranslations, getPermissions,
   };
 };
 
-
 export function getJwtToken(apiUrl, apiKey, customerId) {
-  return fetch(`${apiUrl}${TOKEN_REQUEST}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      apiKey,
-    },
-    body: JSON.stringify({ customerId }),
-  }).then((res) => res.json());
+  return post(`${apiUrl}${TOKEN_REQUEST}`, { customerId }, { apiKey });
 }

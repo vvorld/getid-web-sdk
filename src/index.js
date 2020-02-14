@@ -5,9 +5,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import Widget from './layouts/Widget';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
-import apiProvider from './services/api';
+import { createApi, getJwtToken } from './services/api';
 import defaultTranslations from './translations/default-translations.json';
 import MainTheme from './assets/jss/MainTheme';
+
 
 const supportedBrowsers = require('../supportedBrowsers');
 
@@ -15,13 +16,6 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
   console.error('Your browser is not supported.');
 }
 
-const getTranslations = (url, dictionary) => apiProvider.getTranslations(url, dictionary)
-  .then((res) => res.json())
-  .then((data) => {
-    const { responseCode, translations } = data;
-    if (responseCode !== 200) { return defaultTranslations; }
-    return translations;
-  });
 
 const MainModule = (widgetOptions) => (
   <ThemeProvider theme={MainTheme}>
@@ -43,47 +37,35 @@ const renderMainComponent = (widgetOptions) => {
   ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
 };
 
-const getJWTToken = (config, customerId) => {
-  const { apiUrl, apiKey } = config;
-  return apiProvider
-    .checkApiKey(apiKey, apiUrl, customerId)
-    .then((res) => res.json()
-      .then((data) => {
-        const { responseCode, errorMessage } = data;
-        if (responseCode === 200 || responseCode === 400) { return data; }
-
-        throw new Error(errorMessage);
-      }));
-};
-
-const getInfoAndRender = (args) => {
-  const { jwtToken, apiUrl, dictionary } = args;
-
-  apiProvider.getInfo(jwtToken, apiUrl)
-    .then((res) => res
-      .json())
-    .then((data) => {
-      const { responseCode, errorMessage, showOnfidoLogo } = data;
-
-      if (responseCode !== 200) { throw new Error(` ${errorMessage}`); }
-
-      getTranslations(apiUrl, dictionary)
-        .then((result) => {
-          renderMainComponent({ ...args, translations: result, showOnfidoLogo });
-        });
-    });
-};
-
-const checkProps = (options) => {
-  const { apiUrl, apiKey, containerId } = options;
-
-  if (!apiKey || !apiUrl) {
-    throw new Error('Missing credentials');
+export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
+  if (!apiUrl) {
+    throw new Error('Missing api url');
   }
+  if (!apiKey) {
+    throw new Error('Missing api key');
+  }
+  return getJwtToken(apiUrl, apiKey, customerId);
+};
 
+const checkContainerId = (options) => {
+  const { containerId } = options;
   if (!containerId) {
     throw new Error('Please provide container id.');
   }
+};
+
+
+const getOkAnswer = (params) => (resp) => {
+  if (resp.responseCode === 200) {
+    if (params.field) {
+      return resp[params.field];
+    }
+    return resp;
+  }
+  if (params.default !== undefined) {
+    return params.default;
+  }
+  throw Error(resp.errorMessage);
 };
 
 /**
@@ -91,20 +73,25 @@ const checkProps = (options) => {
  * @param options
  * @param customerId
  */
-export const init = (options, customerId) => {
-  checkProps(options);
-
-  getJWTToken(options, customerId).then((result) => {
-    const { token, exists } = result;
-    if (exists) {
-      const config = {
-        ...options, exists, translations: defaultTranslations,
-      };
-      renderMainComponent({ ...config });
+export const init = (options, tokenProvider) => {
+  checkContainerId(options);
+  tokenProvider().then((result) => {
+    const {
+      responseCode, errorMessage, token, exists,
+    } = result;
+    const api = createApi(options.apiUrl, token);
+    const config = {
+      ...options, exists, api, translations: defaultTranslations, errorMessage,
+    };
+    if (responseCode !== 200 || exists) {
+      renderMainComponent(config);
       return;
     }
-
-    const config = { ...options, jwtToken: token };
-    getInfoAndRender(config);
+    Promise.all([
+      api.getInfo().then(getOkAnswer({ field: 'showOnfidoLogo' })),
+      api.getTranslations(config.dictionary).then(getOkAnswer({ default: defaultTranslations })),
+    ]).then(([showOnfidoLogo, translations]) => {
+      renderMainComponent({ ...config, translations, showOnfidoLogo });
+    });
   });
 };

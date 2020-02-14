@@ -8,7 +8,6 @@ import Loader from '../components/Loader/Loader';
 import { mapUserData } from '../helpers/tree-builder';
 import UpperPart from './UpperPart';
 import actions from '../store/actions';
-import apiProvider from '../services/api';
 import Footer from '../components/Footer';
 import TranslationsContext from '../context/TranslationsContext';
 import { eventNames } from '../constants/event-names';
@@ -16,15 +15,16 @@ import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
 
+
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
-import ErrorView from './views/ErrorView';
+import { ExistAppError, FailError } from './views/ErrorView';
 
 class Widget extends Component {
   constructor(props) {
     super(props);
-
+    this.api = props.api;
     this.state = {
       isFail: false,
       loading: false,
@@ -71,11 +71,10 @@ class Widget extends Component {
   };
 
   sendStepCompleteEvent = async () => {
-    const { apiUrl, jwtToken } = this.props;
     const stepName = this.isSingleDocument()
       ? eventNames.single
       : eventNames[this.props.currentComponent.component[0]];
-    await apiProvider.sendEvent(apiUrl, stepName, 'completed', jwtToken);
+    await this.api.sendEvent(stepName, 'completed');
   };
 
   triggerPreviousComponent = () => {
@@ -84,17 +83,14 @@ class Widget extends Component {
 
   submitData = async () => {
     await this.sendStepCompleteEvent();
-    const {
-      apiUrl, jwtToken, currentStep, setStep,
-    } = this.props;
+    const { currentStep, setStep } = this.props;
 
     setStep(currentStep);
 
     this.setState({ loading: true });
-    await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
+    await this.api.sendEvent(eventNames.Submit, 'started');
     try {
-      const submitResponse = await apiProvider
-        .submitData(mapUserData(store.getState()), jwtToken, apiUrl);
+      const submitResponse = await this.api.submitData(mapUserData(store.getState()));
       const { responseCode, exists } = submitResponse;
       if (exists) { this.setState({ appExists: true }); }
       if (responseCode === 200) {
@@ -107,7 +103,7 @@ class Widget extends Component {
       console.log(`Error: ${e}`);
       this.setState({ isFail: true });
     }
-    await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
+    await this.api.sendEvent(eventNames.Submit, 'completed');
     this.triggerNextComponent();
   };
 
@@ -214,18 +210,17 @@ class Widget extends Component {
       isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid, appExists,
     } = this.state;
 
-    const callbacks = {
-      onSubmit: this.submitData,
-      onFail,
-      onExists,
-    };
     if (!flow) return null;
 
-    if (exists || appExists) { return (<ErrorView classes={classes} callbacks={callbacks} condition="exists" />); }
+    if (exists || appExists) {
+      return <ExistAppError classes={classes} callbacks={{ onExists }} />;
+    }
+    if (isFail) {
+      return <FailError classes={classes} callbacks={{ onFail, onSubmit: this.submitData }} />;
+    }
 
     if (loading) { return (<Loader />); }
 
-    if (isFail) { return (<ErrorView classes={classes} callbacks={callbacks} condition="isFail" />); }
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
@@ -318,6 +313,7 @@ Widget.propTypes = {
   showOnfidoLogo: PropTypes.bool,
   exists: PropTypes.bool,
   cameraDistance: PropTypes.string,
+  api: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

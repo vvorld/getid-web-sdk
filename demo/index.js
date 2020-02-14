@@ -1,8 +1,10 @@
-import { init } from '../src/index';
+import { init, createPublicTokenProvider } from '../src/index';
 import config from './config';
 
 try {
-  init(config, 9);
+  const customerId = 24;
+  const tokenProvider = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
+  init(config, tokenProvider);
 } catch (e) {
   console.log(`Error: ${e.message}`);
 }

@@ -58,9 +58,16 @@ export const init = (options) => {
       return;
     }
     const { showOnfidoLogo } = data;
-
-    getTranslations(options.apiUrl, options.dictionary).then((result) => {
-      renderComponent({ ...options, translations: result, showOnfidoLogo });
-    });
+    apiProvider.getPermissions(options.jwtToken, options.apiUrl)
+      .then((res) => res.json()).then((permissions) => {
+        if (permissions.responseCode !== 200) {
+          console.log(`Error: ${permissions.errorMessage}`);
+          return;
+        }
+        Object.assign(options, { sdkPermissions: permissions.sdkPermissions });
+        getTranslations(options.apiUrl, options.dictionary).then((result) => {
+          renderComponent({ ...options, translations: result, showOnfidoLogo });
+        });
+      });
   });
 };

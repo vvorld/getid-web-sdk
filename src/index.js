@@ -93,7 +93,6 @@ export const init = (options, tokenProvider) => {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };
     if (responseCode !== 200 || exists) {
-      //TODO errorMessage
       renderMainComponent(config);
       return;
     }

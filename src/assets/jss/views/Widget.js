@@ -10,6 +10,14 @@ const widgetStyles = (theme) => ({
   component: {
     marginBottom: '20px',
   },
+  verticalLine: {
+    borderLeft: '1px solid rgba(120, 97, 162, 0.2)',
+    position: 'relative',
+    height: '100%',
+    [theme.breakpoints.down('xs')]: {
+      borderRight: 'none',
+    },
+  },
 });
 
 export default widgetStyles;

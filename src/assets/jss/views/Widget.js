@@ -11,9 +11,9 @@ const widgetStyles = (theme) => ({
     marginBottom: '20px',
   },
   verticalLine: {
-    borderRight: '1px solid rgba(120, 97, 162, 0.2)',
+    borderLeft: '1px solid rgba(120, 97, 162, 0.2)',
     position: 'relative',
-    marginTop: '10px',
+    height: '100%',
     [theme.breakpoints.down('xs')]: {
       borderRight: 'none',
     },

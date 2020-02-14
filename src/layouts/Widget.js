@@ -237,7 +237,7 @@ class Widget extends Component {
         >
           {currentComponent.component.map((componentName) => {
             const CurrentComponent = allComponents[componentName];
-            const isLastItem = currentComponent.component[length - 1] === componentName;
+            const index = currentComponent.component.indexOf(componentName);
             return (
               <Grid
                 key={componentName + currentComponent.order.toString()}
@@ -247,7 +247,7 @@ class Widget extends Component {
                 sm={smallGrid / length}
                 md={largeGrid / length}
               >
-                <div className={(length > 1 && !isLastItem) && classes.verticalLine}>
+                <div className={(length > 1 && index !== 0) && classes.verticalLine}>
                   <CurrentComponent
                     footer={this.footer()}
                     {...other}

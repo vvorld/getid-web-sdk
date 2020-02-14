@@ -5,10 +5,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import Widget from './layouts/Widget';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
-import createApiProvider from './services/api';
+import { createApi, getJwtToken } from './services/api';
 import defaultTranslations from './translations/default-translations.json';
 import MainTheme from './assets/jss/MainTheme';
-import { TOKEN_REQUEST } from './constants/api';
+
 
 const supportedBrowsers = require('../supportedBrowsers');
 
@@ -44,15 +44,7 @@ export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
   if (!apiKey) {
     throw new Error('Missing api key');
   }
-  return fetch(`${apiUrl}${TOKEN_REQUEST}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      apiKey,
-    },
-    body: JSON.stringify({ customerId }),
-  }).then((res) => res.json());
+  return getJwtToken(apiUrl, apiKey, customerId);
 };
 
 const checkContainerId = (options) => {
@@ -84,8 +76,10 @@ const getOkAnswer = (params) => (resp) => {
 export const init = (options, tokenProvider) => {
   checkContainerId(options);
   tokenProvider().then((result) => {
-    const { responseCode, errorMessage, token, exists } = result;
-    const api = createApiProvider(options.apiUrl, token);
+    const {
+      responseCode, errorMessage, token, exists,
+    } = result;
+    const api = createApi(options.apiUrl, token);
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };

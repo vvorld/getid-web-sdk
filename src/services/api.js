@@ -1,7 +1,6 @@
 import {
-  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY,
+  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY, TOKEN_REQUEST,
 } from '../constants/api';
-
 
 const headers = {
   'Content-Type': 'application/json',
@@ -17,7 +16,7 @@ const post = (url, query) => fetch(url, {
 const get = (url) => fetch(url, { headers })
   .then((res) => res.json());
 
-const createApi = (url, jwt) => {
+export const createApi = (url, jwt) => {
   const submitData = async (userData) => {
     try {
       return await post(`${url}${VERIFICATION_REQUEST}`, { userData, jwt });
@@ -38,7 +37,20 @@ const createApi = (url, jwt) => {
     }
   };
 
-  return { submitData, getInfo, getCountryAndDocList, sendEvent, getTranslations };
+  return {
+    submitData, getInfo, getCountryAndDocList, sendEvent, getTranslations,
+  };
 };
 
-export default createApi;
+
+export function getJwtToken(apiUrl, apiKey, customerId) {
+  return fetch(`${apiUrl}${TOKEN_REQUEST}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      apiKey,
+    },
+    body: JSON.stringify({ customerId }),
+  }).then((res) => res.json());
+}

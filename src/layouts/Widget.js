@@ -222,6 +222,7 @@ class Widget extends Component {
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
+
     this.setButtonAsDisabled();
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
@@ -239,6 +240,7 @@ class Widget extends Component {
         >
           {currentComponent.component.map((componentName) => {
             const CurrentComponent = allComponents[componentName];
+            const index = currentComponent.component.indexOf(componentName);
             return (
               <Grid
                 key={componentName + currentComponent.order.toString()}
@@ -248,12 +250,14 @@ class Widget extends Component {
                 sm={smallGrid / length}
                 md={largeGrid / length}
               >
-                <CurrentComponent
-                  footer={this.footer()}
-                  {...other}
-                  idCapturebackIndex={idCaptureBackIndex}
-                  stepWithIdCaptureBack={stepWithIdCaptureBack}
-                />
+                <div className={(length > 1 && index !== 0) && classes.verticalLine}>
+                  <CurrentComponent
+                    footer={this.footer()}
+                    {...other}
+                    idCapturebackIndex={idCaptureBackIndex}
+                    stepWithIdCaptureBack={stepWithIdCaptureBack}
+                  />
+                </div>
               </Grid>
             );
           })}

@@ -72,7 +72,7 @@ class Widget extends Component {
     const stepName = this.isSingleDocument()
       ? stepNames.single
       : stepNames[this.props.currentComponent.component[0]];
-    await this.api.sendEvent(stepName, 'completed');
+    await this.api.trySendEvent(stepName, 'completed');
   };
 
   triggerPreviousComponent = () => {
@@ -85,7 +85,7 @@ class Widget extends Component {
     setStep(currentStep);
 
     this.setState({ loading: true });
-    await this.api.sendEvent(stepNames.Submit, 'started');
+    await this.api.trySendEvent(stepNames.Submit, 'started');
     try {
       const submitResponse = await this.api.submitData();
       const { responseCode, exists } = submitResponse;
@@ -100,7 +100,7 @@ class Widget extends Component {
       console.log(`Error: ${e}`);
       this.setState({ isFail: true });
     } finally {
-      await this.api.sendEvent(stepNames.Submit, 'completed');
+      await this.api.trySendEvent(stepNames.Submit, 'completed');
       this.triggerNextComponent();
     }
   };

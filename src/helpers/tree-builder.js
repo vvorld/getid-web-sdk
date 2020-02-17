@@ -86,7 +86,7 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const mapUserData = () => {
+export const createEAForSubmission = () => {
   const state = store.getState();
   return {
     application: {

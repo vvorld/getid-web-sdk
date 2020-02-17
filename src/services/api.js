@@ -2,13 +2,12 @@ import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY,
 } from '../constants/api';
 
-const submitData = (userData, jwt, url) => fetch(`${url}${VERIFICATION_REQUEST}`, {
+const submitData = (formData, url) => fetch(`${url}${VERIFICATION_REQUEST}`, {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
   },
-  body: JSON.stringify({ userData, jwt }),
+  body: formData,
 }).then((response) => response);
 
 const verifyJWT = (jwt, url) => fetch(`${url}${VERIFY_JWT}`, {

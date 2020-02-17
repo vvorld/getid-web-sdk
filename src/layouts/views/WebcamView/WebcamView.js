@@ -114,9 +114,13 @@ class WebcamView extends React.Component {
     } else {
       context.drawImage(this.webcam, -30, -18, 1181, 756);
     }
-    const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
-    addScan(component, imageSrc, currentStep, true);
-    this.setState({ saveImage: true });
+
+    const blobCallback = (blob) => {
+      addScan(component, blob, currentStep, true);
+      this.setState({ saveImage: true });
+    };
+
+    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
   }
 
   async retake() {
@@ -145,13 +149,13 @@ class WebcamView extends React.Component {
         text: translations.button_retake,
       },
     };
-
+    const urlCreator = window.URL || window.webkitURL;
     return (
       <div>
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
             <img
-              src={scans[currentStep][component].value}
+              src={urlCreator.createObjectURL(scans[currentStep][component].value)}
               alt="current"
               data-role="cameraPreviewImg"
               className={classes.imgPreview}

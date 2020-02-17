@@ -1,27 +1,11 @@
-const fileSize = (file) => {
-  const stringLength = file.length - 'data:image/png;base64,'.length;
-
-  const sizeInBytes = 4 * Math.ceil((stringLength / 3)) * 0.5624896334383812;
-  return (sizeInBytes / 1000).toFixed(2);
-};
-
-export const mapScans = (scans) => {
-  const parsedScans = [];
-
+export const appendScansToForm = (form, scans) => {
   Object.keys(scans).forEach((step) => {
     Object.entries(scans[step]).forEach((scan) => {
-      parsedScans.push({
-        name: scan[0],
-        size: fileSize(scan[1]),
-        format: 'base64',
-        kind: scan[0],
-        mediaType: 'image/jpeg',
-        blob: scan[1],
-      });
+      form.append(scan[0], scan[1]);
     });
   });
 
-  return parsedScans;
+  return form;
 };
 
 export const mapFieldData = (fields, filter) => {
@@ -43,12 +27,6 @@ export const mapFieldData = (fields, filter) => {
   return parsedFields;
 };
 
-export const toBase64 = (file) => new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result);
-  reader.onerror = (error) => reject(error);
-});
 
 export const mapCountryValues = (countriesAndDocs) => {
   const countries = [];
@@ -62,15 +40,12 @@ export const mapCountryValues = (countriesAndDocs) => {
   return countries;
 };
 
-const documentImages = (scans) => Object.keys(scans).map((step) => Object.keys(scans[step]).filter((key) => key !== 'selfie').reduce((obj, key) => ({
-  ...obj,
-  [key]: scans[step][key].value,
-}), {}));
+const documentImages = (scans) => Object.keys(scans)
+  .map((step) => Object.keys(scans[step]).reduce((obj, key) => ({
+    ...obj,
+    [key]: scans[step][key].value,
+  }), {}));
 
-const selfieImages = (scans) => Object.keys(scans).map((step) => Object.keys(scans[step]).filter((key) => key === 'selfie').reduce((obj, key) => ({
-  ...obj,
-  [key]: scans[step][key].value,
-}), {}));
 
 const getDocumentData = (fields, fieldName) => {
   let docData = '';
@@ -84,25 +59,34 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const mapUserData = (state) => ({
-  application: {
-    fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
-    metadata: {
-      metadata: 'web',
-      submissionTime: new Date(),
+export const mapUserData = (state, jwtToken) => {
+  let form = new FormData();
+  form.append('data', JSON.stringify({
+    userData: {
+      application: {
+        fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
+        metadata: {
+          metadata: 'web',
+          submissionTime: new Date(),
+        },
+        documents: [
+          {
+            issuingCountry: getDocumentData(state.fields, 'Country'),
+            documentType: getDocumentData(state.fields, 'DocumentType'),
+            images: [],
+          },
+        ],
+        faces: [
+          {
+            category: 'selfie',
+            content: [],
+          },
+        ],
+      },
     },
-    documents: [
-      {
-        issuingCountry: getDocumentData(state.fields, 'Country'),
-        documentType: getDocumentData(state.fields, 'DocumentType'),
-        images: mapScans(documentImages(state.scans)),
-      },
-    ],
-    faces: [
-      {
-        category: 'selfie',
-        content: mapScans(selfieImages(state.scans)),
-      },
-    ],
-  },
-});
+    jwt: jwtToken,
+  }));
+  form = appendScansToForm(form, documentImages(state.scans));
+
+  return form;
+};

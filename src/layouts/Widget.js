@@ -91,7 +91,7 @@ class Widget extends Component {
 
     this.setState({ loading: true });
 
-    apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
+    apiProvider.submitData(mapUserData(store.getState(), jwtToken), apiUrl).then((res) => {
       apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
       res.json().then(async (data) => {
         setTimeout(() => { this.setState({ loading: false }); }, 2000);

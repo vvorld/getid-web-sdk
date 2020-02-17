@@ -4,20 +4,19 @@
 *   [Overview](#overview)
 *   [Getting started](#getting-started)
     *   [Requirements](#requirements)
-    *   [Obtaining an API key](#obtaining-an-api-key)
     *   [Camera usage description](#camera-usage-description)
 *   [Installation](#installation)
-*   [Usage](#usage)
+    *   [Obtaining JWT](#obtaining-jwt)
     *   [HTML markup](#html-markup)
-    *   [Initializing](#initializing)
-*    [Callbacks](#callbacks)
-*   [Customisation](#customisation)
-    *   [Styles](#styles)
+*   [Initializing](#initializing)
+*   [Customization](#customization)
+    *   [Callbacks](#callbacks)
     *   [Flow](#flow)
     *   [Fields](#fields)
-    *   [Logo](#logo)
-    *   [Setting acceptable documents](#setting-acceptable-documents)
-*   [Localisation](#localisation)
+    *   [Supported countries and types of documents](#supported-countries-and-types-of-documents)
+    *   [Form grid](#form-grid)
+*   [Localization](#localization)
+    *   [Dictionary](#dictionary)
 *   [External libraries](#external-libraries)
 
 ## Overview
@@ -26,23 +25,20 @@ Also, this SDK provides a possibility to add a customisable form component
 for users to enter text information about themselves or/and 
 upload (capture) ids and face photos.
 
-
 ## Getting started
 ### Requirements
 - node 10+
 - browsers: Chrome, Safari and FF latest
-
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url. You can get and set your key and url in your 
 GetID Dashboard.
-
 ### Camera usage description
-The SDK uses the camera for capturing photos during verification. The app is responsible for describing the reason for using the camera. 
-
-In order to use camera you need to first give permission in your browser notification. 
-
-For better verification try to hold the document exactly within the frame while capturing photo. Do not place document in inverted alignment or at an angle. Please avoid too dark or bright lightning. In process of capturing selfie be sure that there is no more than one face in a photo.
-
+The SDK uses the camera for capturing photos during verification. 
+The app is responsible for describing the reason for using the camera. 
+For better verification try to hold the document exactly within the frame 
+while capturing photo. Do not place document in inverted alignment or at an 
+angle. Please avoid too dark or bright lightning. 
+In process of capturing selfie be sure that there is no more than one face in a photo.
 ## Installation
 - NPM style import
 ```sh
@@ -57,9 +53,7 @@ import {init} from 'getid-web-sdk'
 // commonjs style require
 const getId = require('getid-web-sdk')
 ```
-
-- HTML Script Tag
-
+- CDN
 include sdk as regular script tag. (please contact technical support for CDN link)
 ``` html
 <script src='<getid-web-sdk-vx.x.x.min.js'></script>
@@ -97,12 +91,14 @@ Our team strongly encourages making a JWT call using server-side code.
 
 ### HTML markup
 In case you are planning to use getId form, place an empty element for the interface to mount itself on:
-```html
+``` html
 <div id='getid-component'></div>
 ```
+
 Place the snippet in the bottom of your index file.
 
 ## Initializing
+
 _In order to initialize an SDK instance, simply call:_ 
 ``` js
 import { init } from 'getid-web-sdk'
@@ -153,7 +149,9 @@ const token = _your_jwt_here_;
 init(config, token);
 ```
 
-## Callbacks
+## Customization
+
+### Callbacks
 All callbacks are optional, you can specify yours on `init` call. 
 getId web SDK allows several callbacks:
 - **onComplete** function - callback executed on Success event (client has been successfully verified)
@@ -176,9 +174,6 @@ const config = {
 const token = _your_jwt_here_;
 init(config, token);
 ```
-
-## Customization
-
 ### Flow
 You can customize which steps that will be present in your getId widget.
 Available: 
@@ -315,12 +310,33 @@ Example:
  init(config, token);
 ```
 
+## Localization
+Sdk can be localised. 
+Please contact technical support for more details.
+
+### Dictionary
+Example of using `dictionary` key.
+
+``` js
+ import { init } from 'getid-web-sdk'
+ const config = {
+   apiUrl: 'YOUR_URL',
+   dictionary: '_lang_key_',
+   flow: [ { component: ['Form'] },
+           { component: ['CountryAndDocument'] },
+           { component: ['ThankYou'] } ],
+ }; 
+ 
+ const token = _your_jwt_here_;
+ init(config, token);
+```
+
 ## External libraries
 
 Current software is using external libraries, which are released under MIT license:
 
 ```
- Copyright (c) 2019 GetID
+ Copyright (c) 2020 GetID
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal

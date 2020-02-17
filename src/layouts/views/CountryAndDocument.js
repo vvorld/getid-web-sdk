@@ -23,11 +23,11 @@ class CountryAndDocument extends React.Component {
   }
 
   componentDidMount() {
-    const { countriesAndDocs, api } = this.props;
+    const { countriesAndDocs, api, addCountriesAndDocs } = this.props;
 
     if (!countriesAndDocs || !Object.entries(countriesAndDocs).length) {
       api.getCountryAndDocList().then((data) => {
-        this.props.addCountriesAndDocs(data.countries);
+        addCountriesAndDocs(data.countries);
         this.setState({ loading: false });
       });
     } else {

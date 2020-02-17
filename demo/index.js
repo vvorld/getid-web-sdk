@@ -19,7 +19,7 @@ try {
 }
 
 try {
-  const customerId = 26;
+  const customerId = 122;
   const tokenProvider = createPublicTokenProvider(cfg.apiUrl, cfg.apiKey, customerId);
   init(cfg, tokenProvider);
 } catch (e) {

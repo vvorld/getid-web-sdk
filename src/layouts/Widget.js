@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import store from '../store/store';
 import Loader from '../components/Loader/Loader';
-import { mapUserData } from '../helpers/tree-builder';
 import UpperPart from './UpperPart';
 import actions from '../store/actions';
 import Footer from '../components/Footer';
 import TranslationsContext from '../context/TranslationsContext';
-import { eventNames } from '../constants/event-names';
+import { stepNames } from '../constants/step-names';
 import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
@@ -19,7 +17,7 @@ import allComponents from './views';
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
-import { ExistAppError, FailError } from './views/ErrorView';
+import { AppExistsView, FailError } from './views/ErrorView';
 
 class Widget extends Component {
   constructor(props) {
@@ -72,8 +70,8 @@ class Widget extends Component {
 
   sendStepCompleteEvent = async () => {
     const stepName = this.isSingleDocument()
-      ? eventNames.single
-      : eventNames[this.props.currentComponent.component[0]];
+      ? stepNames.single
+      : stepNames[this.props.currentComponent.component[0]];
     await this.api.sendEvent(stepName, 'completed');
   };
 
@@ -84,13 +82,12 @@ class Widget extends Component {
   submitData = async () => {
     await this.sendStepCompleteEvent();
     const { currentStep, setStep } = this.props;
-
     setStep(currentStep);
 
     this.setState({ loading: true });
-    await this.api.sendEvent(eventNames.Submit, 'started');
+    await this.api.sendEvent(stepNames.Submit, 'started');
     try {
-      const submitResponse = await this.api.submitData(mapUserData(store.getState()));
+      const submitResponse = await this.api.submitData();
       const { responseCode, exists } = submitResponse;
       if (exists) { this.setState({ appExists: true }); }
       if (responseCode === 200) {
@@ -102,9 +99,10 @@ class Widget extends Component {
     } catch (e) {
       console.log(`Error: ${e}`);
       this.setState({ isFail: true });
+    } finally {
+      await this.api.sendEvent(stepNames.Submit, 'completed');
+      this.triggerNextComponent();
     }
-    await this.api.sendEvent(eventNames.Submit, 'completed');
-    this.triggerNextComponent();
   };
 
   isCameraView = () => cameraViews.some(
@@ -213,7 +211,7 @@ class Widget extends Component {
     if (!flow) return null;
 
     if (exists || appExists) {
-      return <ExistAppError classes={classes} callbacks={{ onExists }} />;
+      return <AppExistsView classes={classes} callbacks={{ onExists }} />;
     }
     if (isFail) {
       return <FailError classes={classes} callbacks={{ onFail, onSubmit: this.submitData }} />;

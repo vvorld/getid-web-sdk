@@ -1,3 +1,5 @@
+import store from '../store/store';
+
 const fileSize = (file) => {
   const stringLength = file.length - 'data:image/png;base64,'.length;
 
@@ -84,25 +86,28 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const mapUserData = (state) => ({
-  application: {
-    fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
-    metadata: {
-      metadata: 'web',
-      submissionTime: new Date(),
+export const mapUserData = () => {
+  const state = store.getState();
+  return {
+    application: {
+      fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
+      metadata: {
+        metadata: 'web',
+        submissionTime: new Date(),
+      },
+      documents: [
+        {
+          issuingCountry: getDocumentData(state.fields, 'Country'),
+          documentType: getDocumentData(state.fields, 'DocumentType'),
+          images: mapScans(documentImages(state.scans)),
+        },
+      ],
+      faces: [
+        {
+          category: 'selfie',
+          content: mapScans(selfieImages(state.scans)),
+        },
+      ],
     },
-    documents: [
-      {
-        issuingCountry: getDocumentData(state.fields, 'Country'),
-        documentType: getDocumentData(state.fields, 'DocumentType'),
-        images: mapScans(documentImages(state.scans)),
-      },
-    ],
-    faces: [
-      {
-        category: 'selfie',
-        content: mapScans(selfieImages(state.scans)),
-      },
-    ],
-  },
-});
+  };
+};

@@ -2,6 +2,7 @@ import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT,
   EVENT, DICTIONARY, TOKEN_REQUEST, PERMISSIONS,
 } from '../constants/api';
+import { mapUserData } from '../helpers/tree-builder';
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
@@ -18,13 +19,8 @@ const get = (url) => fetch(url, { ...defaultHeaders })
   .then((res) => res.json());
 
 export const createApi = (url, jwt) => {
-  const submitData = async (userData) => {
-    try {
-      return await post(`${url}${VERIFICATION_REQUEST}`, { userData, jwt });
-    } catch (e) {
-      return e;
-    }
-  };
+  const userData = mapUserData();
+  const submitData = () => post(`${url}${VERIFICATION_REQUEST}`, { userData, jwt });
 
   const getInfo = () => post(`${url}${VERIFY_JWT}`, { jwt });
   const getCountryAndDocList = () => get(`${url}${COUNTRY_AND_DOC_LIST}`);

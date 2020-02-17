@@ -1,4 +1,4 @@
-export const eventNames = {
+export const stepNames = {
   Form: 'form',
   Consent: 'consent',
   CountryAndDocument: 'country-and-document',

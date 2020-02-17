@@ -55,7 +55,7 @@ const checkContainerId = (options) => {
 };
 
 
-const getOkAnswer = (params) => (resp) => {
+const convertAnswer = (params) => (resp) => {
   if (resp.responseCode === 200) {
     if (params.field) {
       return resp[params.field];
@@ -71,7 +71,7 @@ const getOkAnswer = (params) => (resp) => {
 /**
  * Init. Checks for token => returns the widget.
  * @param options
- * @param customerId
+ * @param tokenProvider
  */
 export const init = (options, tokenProvider) => {
   checkContainerId(options);
@@ -88,9 +88,9 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(getOkAnswer({ field: 'showOnfidoLogo' })),
-      api.getTranslations(config.dictionary).then(getOkAnswer({ default: defaultTranslations })),
-      api.getPermissions().then(getOkAnswer({ field: 'sdkPermissions' })),
+      api.getInfo().then(convertAnswer({ field: 'showOnfidoLogo' })),
+      api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
+      api.getPermissions().then(convertAnswer({ field: 'sdkPermissions' })),
     ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,

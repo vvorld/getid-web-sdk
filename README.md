@@ -27,7 +27,7 @@ upload (capture) ids and face photos.
 
 ## Getting started
 ### Requirements
-- node 10+
+- node 12.15.0
 - browsers: Chrome, Safari and FF latest
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url. You can get and set your key and url in your 

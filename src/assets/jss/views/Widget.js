@@ -10,6 +10,15 @@ const widgetStyles = (theme) => ({
   component: {
     marginBottom: '20px',
   },
+  center: {
+    fontFamily: theme.typography.fontFamily,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    minHeight: '100vh',
+  },
   verticalLine: {
     borderLeft: '1px solid rgba(120, 97, 162, 0.2)',
     position: 'relative',

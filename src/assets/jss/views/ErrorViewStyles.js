@@ -1,6 +1,6 @@
 import { fade, makeStyles } from '@material-ui/core';
 
-const ResetStyles = makeStyles((theme) => ({
+const ErrorViewStyles = makeStyles((theme) => ({
   header: {
     color: theme.palette.blue,
     fontSize: '32px',
@@ -30,13 +30,19 @@ const ResetStyles = makeStyles((theme) => ({
     margin: '20px auto',
     width: '100%',
   },
+  marginAuto: {
+    margin: '0 auto',
+  },
   center: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     textAlign: 'center',
     padding: '1rem 0',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+    },
   },
 }));
 
-export default ResetStyles;
+export default ErrorViewStyles;

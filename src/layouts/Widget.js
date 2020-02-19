@@ -3,28 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import store from '../store/store';
 import Loader from '../components/Loader/Loader';
-import { mapUserData } from '../helpers/tree-builder';
 import UpperPart from './UpperPart';
 import actions from '../store/actions';
-import apiProvider from '../services/api';
 import Footer from '../components/Footer';
 import TranslationsContext from '../context/TranslationsContext';
-import { eventNames } from '../constants/event-names';
+import { stepNames } from '../constants/step-names';
 import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
 
+
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
-import ResetView from './views/ResetView';
+import { AppExistsView, FailError } from './views/ErrorView';
 
 class Widget extends Component {
   constructor(props) {
     super(props);
-
+    this.api = props.api;
     this.state = {
       isFail: false,
       loading: false,
@@ -32,6 +30,7 @@ class Widget extends Component {
       idCaptureBackIndex: -1,
       largeGrid: 8,
       smallGrid: 10,
+      appExists: false,
     };
   }
 
@@ -70,11 +69,10 @@ class Widget extends Component {
   };
 
   sendStepCompleteEvent = async () => {
-    const { apiUrl, jwtToken } = this.props;
     const stepName = this.isSingleDocument()
-      ? eventNames.single
-      : eventNames[this.props.currentComponent.component[0]];
-    await apiProvider.sendEvent(apiUrl, stepName, 'completed', jwtToken);
+      ? stepNames.single
+      : stepNames[this.props.currentComponent.component[0]];
+    await this.api.trySendEvent(stepName, 'completed');
   };
 
   triggerPreviousComponent = () => {
@@ -83,27 +81,28 @@ class Widget extends Component {
 
   submitData = async () => {
     await this.sendStepCompleteEvent();
-    const {
-      apiUrl, jwtToken, currentStep, setStep,
-    } = this.props;
-
+    const { currentStep, setStep } = this.props;
     setStep(currentStep);
 
     this.setState({ loading: true });
-
-    apiProvider.submitData(mapUserData(store.getState()), jwtToken, apiUrl).then((res) => {
-      apiProvider.sendEvent(apiUrl, eventNames.Submit, 'started', jwtToken);
-      res.json().then(async (data) => {
-        setTimeout(() => { this.setState({ loading: false }); }, 2000);
-        if (data.responseCode !== 200) {
-          console.log(`Error: ${data.errorMessage}`);
-          this.setState({ isFail: true });
-          return;
-        }
-        await apiProvider.sendEvent(apiUrl, eventNames.Submit, 'completed', jwtToken);
-        this.triggerNextComponent();
-      });
-    });
+    await this.api.trySendEvent(stepNames.Submit, 'started');
+    try {
+      const submitResponse = await this.api.submitData();
+      const { responseCode, exists } = submitResponse;
+      if (exists) { this.setState({ appExists: true }); }
+      if (responseCode === 200) {
+        setTimeout(() => {
+          this.setState({ loading: false });
+        },
+        2000);
+      }
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      this.setState({ isFail: true });
+    } finally {
+      await this.api.trySendEvent(stepNames.Submit, 'completed');
+      this.triggerNextComponent();
+    }
   };
 
   isCameraView = () => cameraViews.some(
@@ -199,23 +198,27 @@ class Widget extends Component {
       flow,
       currentComponent,
       onFail,
+      exists,
+      onExists,
     } = this.props;
 
     const { classes, ...other } = this.props;
 
     const {
-      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid,
+      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid, appExists,
     } = this.state;
 
     if (!flow) return null;
 
-    if (loading) {
-      return (<Loader />);
+    if (exists || appExists) {
+      return <AppExistsView classes={classes} callbacks={{ onExists }} />;
+    }
+    if (isFail) {
+      return <FailError classes={classes} callbacks={{ onFail, onSubmit: this.submitData }} />;
     }
 
-    if (isFail) {
-      return (<ResetView classes={classes} failAction={onFail} submitAction={this.submitData} />);
-    }
+    if (loading) { return (<Loader />); }
+
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
@@ -276,11 +279,14 @@ Widget.defaultProps = {
   onComplete: null,
   onFail: null,
   onCancel: null,
+  onExists: null,
   fieldValues: null,
   isQA: false,
   currentComponent: null,
   showOnfidoLogo: false,
+  exists: false,
   cameraDistance: 'default',
+  jwtToken: '',
 };
 
 Widget.propTypes = {
@@ -295,10 +301,11 @@ Widget.propTypes = {
   setStep: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,
-  jwtToken: PropTypes.string.isRequired,
+  jwtToken: PropTypes.string,
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
+  onExists: PropTypes.func,
   onCancel: PropTypes.func,
   isDisabled: PropTypes.bool.isRequired,
   isQA: PropTypes.bool,
@@ -306,7 +313,9 @@ Widget.propTypes = {
   currentComponent: PropTypes.any,
   setFlow: PropTypes.func.isRequired,
   showOnfidoLogo: PropTypes.bool,
+  exists: PropTypes.bool,
   cameraDistance: PropTypes.string,
+  api: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

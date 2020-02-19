@@ -1,13 +1,14 @@
 export default {
   apiUrl: '',
+  apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   flow: [{ component: ['CountryAndDocument'] },
-    { component: ['Form'] },
-    { component: ['IdCapture'] },
-    { component: ['IdCaptureBack'] },
-    { component: ['IdSelfie'] },
-    { component: ['Consent'] },
+    // { component: ['Form'] },
+    // { component: ['IdCapture'] },
+    // { component: ['IdCaptureBack'] },
+    // { component: ['IdSelfie'] },
+    // { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {
@@ -51,7 +52,6 @@ export default {
         { name: 'Estonia', value: 'Estonia' },
         { name: 'Russia', value: 'Russia' },
         { name: 'United Kingdom', value: 'uk' },
-        { name: 'Norway', value: 'Norway' },
       ],
       name: 'Country of user',
       required: true,
@@ -77,5 +77,8 @@ export default {
   },
   onFail() {
     window.location.reload();
+  },
+  onExists() {
+    console.log('exists');
   },
 };

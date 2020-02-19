@@ -19,8 +19,10 @@ const get = (url) => fetch(url, { ...defaultHeaders })
   .then((res) => res.json());
 
 export const createApi = (url, jwt) => {
-  const userData = createEAForSubmission();
-  const submitData = () => post(`${url}${VERIFICATION_REQUEST}`, { userData, jwt });
+  const submitData = () => {
+    const userData = createEAForSubmission();
+    return post(`${url}${VERIFICATION_REQUEST}`, { userData, jwt });
+  };
 
   const getInfo = () => post(`${url}${VERIFY_JWT}`, { jwt });
   const getCountryAndDocList = () => get(`${url}${COUNTRY_AND_DOC_LIST}`);

@@ -9,7 +9,6 @@ import { createApi, getJwtToken } from './services/api';
 import defaultTranslations from './translations/default-translations.json';
 import MainTheme from './assets/jss/MainTheme';
 
-
 const supportedBrowsers = require('../supportedBrowsers');
 
 if (!supportedBrowsers.test(navigator.userAgent)) {
@@ -75,7 +74,23 @@ const convertAnswer = (params) => (resp) => {
  */
 export const init = (options, tokenProvider) => {
   checkContainerId(options);
-  tokenProvider().then((result) => {
+  const getToken = (typeof tokenProvider === 'object')
+    ? () => new Promise(((resolve) => resolve(tokenProvider)))
+    : tokenProvider;
+
+  const tokenProviderError = 'token provider must be a function that returns promise or jwt response object';
+
+  if (typeof getToken !== 'function') {
+    throw new Error(tokenProviderError);
+  }
+
+  const tokenPromise = getToken();
+
+  if (typeof tokenPromise.then !== 'function') {
+    throw new Error(tokenProviderError);
+  }
+
+  tokenPromise.then((result) => {
     const {
       responseCode, errorMessage, token, exists,
     } = result;

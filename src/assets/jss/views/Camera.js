@@ -18,9 +18,10 @@ const cameraStyles = makeStyles((theme) => ({
   mediaWrapper: {
     position: 'relative',
     display: 'flex',
+    overflow: 'hidden',
   },
   video: {
-    transform: 'scaleX(-1)',
+    transform : 'scale(-1.145, 1.145)',
   },
   cameraOverlay: {
     width: '100%',

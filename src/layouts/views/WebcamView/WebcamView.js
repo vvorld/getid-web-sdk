@@ -63,6 +63,7 @@ class WebcamView extends React.Component {
     }
 
     this.setState({ saveImage: scans[currentStep] && !!scans[currentStep][component].value });
+
     this.setWebStream();
     document.addEventListener('keydown', this.spaceActivate, false);
     window.addEventListener('resize', this.cameraResize, false);
@@ -71,7 +72,6 @@ class WebcamView extends React.Component {
   componentWillUnmount() {
     const { stream } = this.state;
     if (stream) stream.getTracks().forEach((track) => track.stop());
-
     document.removeEventListener('keydown', this.spaceActivate, false);
     window.removeEventListener('resize', this.cameraResize, false);
   }
@@ -86,7 +86,6 @@ class WebcamView extends React.Component {
 
       this.webcam.height = this.webcam.clientWidth * 0.64;
       this.setState({ stream });
-
       this.webcam.srcObject = stream;
     } catch {
       if (!this.state.saveImage) {

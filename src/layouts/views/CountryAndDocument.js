@@ -10,7 +10,6 @@ import {
   mapCountryValues,
 } from '../../helpers/tree-builder';
 import Radiobutton from '../../components/Inputs/RadioButton';
-import apiProvider from '../../services/api';
 import { docTypeMapping } from '../../constants/document-types';
 import TranslationsContext from '../../context/TranslationsContext';
 
@@ -24,11 +23,11 @@ class CountryAndDocument extends React.Component {
   }
 
   componentDidMount() {
-    const { countriesAndDocs } = this.props;
+    const { countriesAndDocs, api, addCountriesAndDocs } = this.props;
 
     if (!countriesAndDocs || !Object.entries(countriesAndDocs).length) {
-      this.getCountryAndDocList().then((data) => {
-        this.props.addCountriesAndDocs(data.countries);
+      api.getCountryAndDocList().then((data) => {
+        addCountriesAndDocs(data.countries);
         this.setState({ loading: false });
       });
     } else {
@@ -96,13 +95,6 @@ class CountryAndDocument extends React.Component {
     addField('DocumentType', '', currentStep, true);
   };
 
-  getCountryAndDocList = () => {
-    const { apiUrl } = this.props;
-    return apiProvider
-      .getCountryAndDocList(apiUrl)
-      .then((res) => res.json())
-      .then((data) => data);
-  };
 
   setNewCountry = (event) => {
     const { currentStep } = this.props;
@@ -209,7 +201,7 @@ class CountryAndDocument extends React.Component {
 }
 
 CountryAndDocument.propTypes = {
-  apiUrl: PropTypes.string.isRequired,
+  api: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addCountriesAndDocs: PropTypes.func.isRequired,
   currentStep: PropTypes.number.isRequired,

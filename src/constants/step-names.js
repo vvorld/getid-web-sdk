@@ -1,7 +1,7 @@
-export const eventNames = {
+export const stepNames = {
   Form: 'form',
   Consent: 'consent',
-  DocumentType: 'document-type',
+  CountryAndDocument: 'country-and-document',
   IdCapture: 'front',
   Single: 'single',
   IdCaptureBack: 'back',

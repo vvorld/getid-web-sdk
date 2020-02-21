@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import Widget from './layouts/Widget';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
-import apiProvider from './services/api';
+import { createApi, getJwtToken } from './services/api';
 import defaultTranslations from './translations/default-translations.json';
 import MainTheme from './assets/jss/MainTheme';
 
@@ -15,15 +15,6 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
   console.error('Your browser is not supported.');
 }
 
-const getTranslations = (url, dictionary) => apiProvider.getTranslations(url, dictionary)
-  .then((res) => res.json())
-  .then((data) => {
-    if (data.responseCode !== 200) {
-      return defaultTranslations;
-    }
-    const { translations } = data;
-    return translations;
-  });
 
 const MainModule = (widgetOptions) => (
   <ThemeProvider theme={MainTheme}>
@@ -41,26 +32,84 @@ const MainModule = (widgetOptions) => (
  * Renders main widget component
  * @param widgetOptions
  */
-const renderComponent = (widgetOptions) => {
-  if (widgetOptions.containerId) {
-    ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
+const renderMainComponent = (widgetOptions) => {
+  ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
+};
+
+export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
+  if (!apiUrl) {
+    throw new Error('Missing api url');
   }
+  if (!apiKey) {
+    throw new Error('Missing api key');
+  }
+  return getJwtToken(apiUrl, apiKey, customerId);
+};
+
+const checkContainerId = (options) => {
+  const { containerId } = options;
+  if (!containerId) {
+    throw new Error('Please provide container id.');
+  }
+};
+
+
+const convertAnswer = (params) => (resp) => {
+  if (resp.responseCode === 200) {
+    if (params.field) {
+      return resp[params.field];
+    }
+    return resp;
+  }
+  if (params.default !== undefined) {
+    return params.default;
+  }
+  throw Error(resp.errorMessage);
 };
 
 /**
  * Init. Checks for token => returns the widget.
  * @param options
+ * @param tokenProvider
  */
-export const init = (options) => {
-  apiProvider.verifyJWT(options.jwtToken, options.apiUrl).then((res) => res.json()).then((data) => {
-    if (data.responseCode !== 200) {
-      console.log(`Error: ${data.errorMessage}`);
+export const init = (options, tokenProvider) => {
+  checkContainerId(options);
+  const getToken = (typeof tokenProvider === 'object')
+    ? () => new Promise(((resolve) => resolve(tokenProvider)))
+    : tokenProvider;
+
+  const tokenProviderError = 'token provider must be a function that returns promise or jwt response object';
+
+  if (typeof getToken !== 'function') {
+    throw new Error(tokenProviderError);
+  }
+
+  const tokenPromise = getToken();
+
+  if (typeof tokenPromise.then !== 'function') {
+    throw new Error(tokenProviderError);
+  }
+
+  tokenPromise.then((result) => {
+    const {
+      responseCode, errorMessage, token, exists,
+    } = result;
+    const api = createApi(options.apiUrl, token);
+    const config = {
+      ...options, exists, api, translations: defaultTranslations, errorMessage,
+    };
+    if (responseCode !== 200 || exists) {
+      renderMainComponent(config);
       return;
     }
-    const { showOnfidoLogo } = data;
-
-    getTranslations(options.apiUrl, options.dictionary).then((result) => {
-      renderComponent({ ...options, translations: result, showOnfidoLogo });
+    Promise.all([
+      api.getInfo().then(convertAnswer({ field: 'showOnfidoLogo' })),
+      api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
+      api.getPermissions().then(convertAnswer({ field: 'sdkPermissions' })),
+    ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
+      renderMainComponent({
+        ...config, translations, showOnfidoLogo, sdkPermissions,
+      });
     });
   });
 };

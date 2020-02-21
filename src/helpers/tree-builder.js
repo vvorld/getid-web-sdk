@@ -1,3 +1,5 @@
+import store from '../store/store';
+
 export const appendScansToForm = (form, scans) => {
   Object.keys(scans).forEach((step) => {
     Object.entries(scans[step]).forEach((scan) => {
@@ -59,7 +61,8 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const mapUserData = (state, jwtToken) => {
+export const createEAForSubmission = (jwt) => {
+  const state = store.getState();
   let form = new FormData();
   form.append('data', JSON.stringify({
     userData: {
@@ -84,7 +87,7 @@ export const mapUserData = (state, jwtToken) => {
         ],
       },
     },
-    jwt: jwtToken,
+    jwt,
   }));
   form = appendScansToForm(form, documentImages(state.scans));
 

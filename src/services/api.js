@@ -1,58 +1,53 @@
 import {
-  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT, EVENT, DICTIONARY,
+  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT,
+  EVENT, DICTIONARY, TOKEN_REQUEST, PERMISSIONS,
 } from '../constants/api';
+import { createEAForSubmission } from '../helpers/tree-builder';
 
-const submitData = (formData, url) => fetch(`${url}${VERIFICATION_REQUEST}`, {
+const defaultHeaders = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+};
+
+const postFormData = (url, formData) => fetch(url, {
   method: 'POST',
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-  },
+  headers: { 'Access-Control-Allow-Origin': '*' },
   body: formData,
-}).then((response) => response);
+}).then((res) => res.json());
 
-const verifyJWT = (jwt, url) => fetch(`${url}${VERIFY_JWT}`, {
+const post = (url, query, headers) => fetch(url, {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
-  body: JSON.stringify({ jwt }),
-}).then((response) => response);
+  headers: { ...defaultHeaders, ...headers },
+  body: JSON.stringify(query),
+}).then((res) => res.json());
 
+const get = (url) => fetch(url, { ...defaultHeaders })
+  .then((res) => res.json());
 
-const getCountryAndDocList = (url) => fetch(`${url}${COUNTRY_AND_DOC_LIST}`, {
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
-}).then((response) => response);
+export const createApi = (url, jwt) => {
+  const submitData = () => {
+    const formData = createEAForSubmission(jwt);
+    return postFormData(`${url}${VERIFICATION_REQUEST}`, formData);
+  };
 
-const getTranslations = (url, dictionary) => fetch(`${url}${DICTIONARY}`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-  },
-  body: JSON.stringify({ dictionary }),
-}).then((response) => response);
+  const getInfo = () => post(`${url}${VERIFY_JWT}`, { jwt });
+  const getCountryAndDocList = () => get(`${url}${COUNTRY_AND_DOC_LIST}`);
+  const getTranslations = (dictionary) => post(`${url}${DICTIONARY}`, { dictionary });
 
-const sendEvent = async (url, step, stepPhase, jwt) => {
-  try {
-    const fetchResponse = await fetch(`${url}${EVENT}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({ jwt, event: { stepPhase, step } }),
-    });
-    return await fetchResponse.json();
-  } catch (e) {
-    return e;
-  }
+  const trySendEvent = async (step, stepPhase) => {
+    try {
+      await post(`${url}${EVENT}`, { jwt, event: { stepPhase, step } });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getPermissions = () => post(`${url}${PERMISSIONS}`, { jwt });
+  return {
+    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, getPermissions,
+  };
 };
 
-
-export default {
-  submitData, verifyJWT, getCountryAndDocList, sendEvent, getTranslations,
-};
+export function getJwtToken(apiUrl, apiKey, customerId) {
+  return post(`${apiUrl}${TOKEN_REQUEST}`, { customerId }, { apiKey });
+}

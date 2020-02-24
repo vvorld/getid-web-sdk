@@ -18,6 +18,7 @@ const useStyles = () => ({
   },
   imgPreview: {
     width: '100%',
+    height: 'calc(100vh * 0.64)',
   },
   poweredBy: {
     position: 'absolute',
@@ -25,7 +26,7 @@ const useStyles = () => ({
     bottom: '10px',
   },
   canvas: {
-    dispay: 'none',
+    display: 'none',
   },
   item: {
     textAlign: 'center',
@@ -85,7 +86,7 @@ class WebcamView extends React.Component {
           video: { deviceId: true, aspectRatio: 25 / 16, width: 1125 },
         });
 
-      this.webcam.height = this.webcam.clientWidth * 0.64;
+      this.cameraResize();
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch {
@@ -163,12 +164,13 @@ class WebcamView extends React.Component {
       },
     };
     const urlCreator = window.URL || window.webkitURL;
+    const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
     return (
       <div>
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
             <img
-              src={urlCreator.createObjectURL(scans[currentStep][component].value)}
+              src={imageSrc}
               alt="current"
               data-role="cameraPreviewImg"
               className={classes.imgPreview}

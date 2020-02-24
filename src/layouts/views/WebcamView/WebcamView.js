@@ -82,7 +82,7 @@ class WebcamView extends React.Component {
       const stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, aspectRatio: 25 / 16, width: 1125 },
+          video: { deviceId: true, width: 1920 },
         });
 
       this.webcam.height = this.webcam.clientWidth * 0.64;
@@ -121,11 +121,11 @@ class WebcamView extends React.Component {
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     if (this.isPassport) {
-      context.drawImage(this.webcam, -213, -18, 1181, 756);
+      context.drawImage(this.webcam, -305, -20, 1355, 756);
     } else if (cameraDistance === 'far') {
-      context.drawImage(this.webcam, -233, -145, 1575, 1008);
+      context.drawImage(this.webcam, -350, -165, 1830, 1070);
     } else {
-      context.drawImage(this.webcam, -30, -18, 1181, 756);
+      context.drawImage(this.webcam, -115, -20, 1355, 756);
     }
     const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
     addScan(component, imageSrc, currentStep, true);

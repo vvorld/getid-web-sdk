@@ -70,7 +70,6 @@ class WebcamView extends React.Component {
     window.addEventListener('resize', this.cameraResize, false);
   }
 
-
   componentWillUnmount() {
     const { stream } = this.state;
     if (stream) stream.getTracks().forEach((track) => track.stop());
@@ -83,7 +82,7 @@ class WebcamView extends React.Component {
       const stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, aspectRatio: 25 / 16, width: 1125 },
+          video: { deviceId: true, width: 1920 },
         });
 
       this.cameraResize();
@@ -116,17 +115,20 @@ class WebcamView extends React.Component {
   }
 
   capture() {
+    const videoElement = document.getElementById('video-capture');
+    if (videoElement && videoElement.readyState !== 4) { return; }
+
     const {
       cameraDistance, addScan, component, currentStep,
     } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     if (this.isPassport) {
-      context.drawImage(this.webcam, -213, -18, 1181, 756);
+      context.drawImage(this.webcam, -305, -20, 1355, 756);
     } else if (cameraDistance === 'far') {
-      context.drawImage(this.webcam, -233, -145, 1575, 1008);
+      context.drawImage(this.webcam, -350, -165, 1830, 1070);
     } else {
-      context.drawImage(this.webcam, -30, -18, 1181, 756);
+      context.drawImage(this.webcam, -115, -20, 1355, 756);
     }
 
     const blobCallback = (blob) => {
@@ -192,6 +194,7 @@ class WebcamView extends React.Component {
     const {
       footer, cameraOverlay, classes,
     } = this.props;
+    const { isCameraEnabled, saveImage } = this.state;
     const { translations } = this.context;
     const { next } = footer;
 
@@ -202,20 +205,20 @@ class WebcamView extends React.Component {
         action: this.capture,
         text: translations.button_make_photo,
         iconItem: PhotoSVG,
-        disabled: !this.state.isCameraEnabled,
+        disabled: !isCameraEnabled,
       },
-      isCameraEnabled: this.state.isCameraEnabled,
+      isCameraEnabled,
     };
 
     return (
       <div className="selfie">
-        {this.state.saveImage ? this.previewForm()
+        {saveImage ? this.previewForm()
           : (
             <div>
               <Grid container justify="center">
                 <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
                   <Camera
-                    isCameraEnabled={this.state.isCameraEnabled}
+                    isCameraEnabled={isCameraEnabled}
                     setWebcamRef={this.setWebcamRef}
                     requestCamera={this.requestCamera}
                     overlay={cameraOverlay}

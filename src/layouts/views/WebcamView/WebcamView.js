@@ -69,7 +69,6 @@ class WebcamView extends React.Component {
     window.addEventListener('resize', this.cameraResize, false);
   }
 
-
   componentWillUnmount() {
     const { stream } = this.state;
     if (stream) stream.getTracks().forEach((track) => track.stop());
@@ -115,6 +114,9 @@ class WebcamView extends React.Component {
   }
 
   capture() {
+    const videoElement = document.getElementById('video-capture');
+    if (videoElement && videoElement.readyState !== 4) { return; }
+
     const {
       cameraDistance, addScan, component, currentStep,
     } = this.props;
@@ -186,6 +188,7 @@ class WebcamView extends React.Component {
     const {
       footer, cameraOverlay, classes,
     } = this.props;
+    const { isCameraEnabled, saveImage } = this.state;
     const { translations } = this.context;
     const { next } = footer;
 
@@ -196,20 +199,20 @@ class WebcamView extends React.Component {
         action: this.capture,
         text: translations.button_make_photo,
         iconItem: PhotoSVG,
-        disabled: !this.state.isCameraEnabled,
+        disabled: !isCameraEnabled,
       },
-      isCameraEnabled: this.state.isCameraEnabled,
+      isCameraEnabled,
     };
 
     return (
       <div className="selfie">
-        {this.state.saveImage ? this.previewForm()
+        {saveImage ? this.previewForm()
           : (
             <div>
               <Grid container justify="center">
                 <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
                   <Camera
-                    isCameraEnabled={this.state.isCameraEnabled}
+                    isCameraEnabled={isCameraEnabled}
                     setWebcamRef={this.setWebcamRef}
                     requestCamera={this.requestCamera}
                     overlay={cameraOverlay}

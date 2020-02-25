@@ -42,6 +42,7 @@ try again
       ? (
         <div className={classes.mediaWrapper}>
           <video
+            id="video-capture"
             className={classes.video}
             width="100%"
             ref={setWebcamRef}

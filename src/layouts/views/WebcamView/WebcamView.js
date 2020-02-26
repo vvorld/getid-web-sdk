@@ -41,7 +41,9 @@ class WebcamView extends React.Component {
       isCameraEnabled: true,
       saveImage: false,
       stream: null,
+      mediaRecorders: [],
     };
+    this.videoChunks = [];
     this.isPassport = Object.keys(props.fieldValues).find((key) => props.fieldValues[key].DocumentType === 'passport');
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
@@ -85,10 +87,33 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: 1920 },
         });
 
+      const duration = 3000;
+
+      const mediaRecorder1 = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      const mediaRecorder2 = new MediaRecorder(stream, { mimeType: 'video/webm' });
+      const mediaRecorders = [mediaRecorder1, mediaRecorder2];
+      mediaRecorder1.start(duration * 2);
+      setTimeout(() => {
+        mediaRecorder2.start(duration * 2);
+      }, duration);
+
+      const thisInstance = this;
+
+      this.setState({ mediaRecorders });
+
+      this.state.mediaRecorders.forEach((recorder) => {
+        recorder.ondataavailable = function (e) {
+          if (thisInstance.videoChunks.length > 1) thisInstance.videoChunks.shift();
+          thisInstance.videoChunks.push(e.data);
+        }
+      })
+
+      
       this.cameraResize();
       this.setState({ stream });
       this.webcam.srcObject = stream;
-    } catch {
+    } catch (error) {
+      console.error(error)
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -133,10 +158,15 @@ class WebcamView extends React.Component {
 
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
-      this.setState({ saveImage: true });
+      this.setState({ saveImage: true, mediaRecorders: [] });
     };
 
+    this.state.mediaRecorders.forEach((recorder) => { console.log('stop'); recorder.stop });
     this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
+
+
+    console.log(this.videoChunks);
+    console.log("recorder stopped");
   }
 
   async retake() {
@@ -167,6 +197,11 @@ class WebcamView extends React.Component {
     };
     const urlCreator = window.URL || window.webkitURL;
     const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
+    const totalBlob = this.videoChunks.reduce((longestChunk, chunk) => {
+      return chunk.size >= longestChunk.size ? chunk : longestChunk;
+    });
+    const videoSrc = urlCreator.createObjectURL(totalBlob)
+    console.log(totalBlob)
     return (
       <div>
         <Grid container justify="center">
@@ -183,6 +218,7 @@ class WebcamView extends React.Component {
               alt="powered by getId"
               data-role="poweredImg"
             />
+            <video controls={true} autoPlay={true} type="video/webm" width="200" height="200" src={videoSrc} />
           </Grid>
         </Grid>
         <Footer {...previewFooter} />

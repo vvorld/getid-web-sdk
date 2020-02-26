@@ -48,7 +48,8 @@ class CountryAndDocument extends React.Component {
 
     if (currentValues && countryList) {
       if (countryList[currentValues.Country.value] && currentValues.DocumentType.value) {
-        this.changeFlowBasedOnDocumentType();
+        if (!this.getCurrentDocumentProperties()) { this.setEmptyDocumentType(); }
+        this.changeFlowBasedOnDocumentComposition();
       }
 
       this.checkForSupportedValues(currentValues, countryList);
@@ -95,7 +96,6 @@ class CountryAndDocument extends React.Component {
     addField('DocumentType', '', currentStep, true);
   };
 
-
   setNewCountry = (event) => {
     const { currentStep } = this.props;
     this.props.addField('Country', event.target.value, currentStep, true);
@@ -106,7 +106,7 @@ class CountryAndDocument extends React.Component {
     this.props.addField('DocumentType', event.target.value, currentStep, true);
   };
 
-  getDocumentComposition = () => {
+  getCurrentDocumentProperties = () => {
     const {
       fieldValues,
       currentStep,
@@ -120,7 +120,7 @@ class CountryAndDocument extends React.Component {
       .find((item) => item.name === docType);
   };
 
-  changeFlowBasedOnDocumentType = () => {
+  changeFlowBasedOnDocumentComposition = () => {
     const {
       flow,
       setFlow,
@@ -132,7 +132,8 @@ class CountryAndDocument extends React.Component {
 
     const duplicatedFlow = flow;
     const currentBackPhotoStepIndex = flow.indexOf(stepWithIdCaptureBack);
-    const { composition } = this.getDocumentComposition();
+
+    const { composition } = this.getCurrentDocumentProperties() || '';
 
     if (composition === 'single' && currentBackPhotoStepIndex !== -1) {
       duplicatedFlow.splice(currentBackPhotoStepIndex, 1);

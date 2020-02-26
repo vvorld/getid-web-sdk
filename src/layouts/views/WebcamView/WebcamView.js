@@ -41,9 +41,9 @@ class WebcamView extends React.Component {
       isCameraEnabled: true,
       saveImage: false,
       stream: null,
-      mediaRecorders: [],
     };
     this.videoChunks = [];
+    this.mediaRecorders = [];
     this.isPassport = Object.keys(props.fieldValues).find((key) => props.fieldValues[key].DocumentType === 'passport');
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
@@ -79,6 +79,28 @@ class WebcamView extends React.Component {
     window.removeEventListener('resize', this.cameraResize, false);
   }
 
+  initVideoRecorder(stream) {
+    const { duration } = this.props;
+    const startTime = Date.now()/1000;
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+    this.mediaRecorders.push(mediaRecorder);
+
+    const thisInstance = this;
+    mediaRecorder.onstop = function() {
+      thisInstance.mediaRecorders.shift();
+      if(!thisInstance.state.saveImage) thisInstance.initVideoRecorder(stream);
+    }
+    mediaRecorder.ondataavailable = function ({data}) {
+      const chunkDuration = Date.now()/1000 - startTime;
+      if (thisInstance.videoChunks.length > 1) thisInstance.videoChunks.shift();
+      thisInstance.videoChunks.push({ time: chunkDuration, data});
+    }
+    mediaRecorder.start();
+    setTimeout(() => {
+      mediaRecorder.stop();
+    }, duration * 2000);
+  }
+
   async setWebStream() {
     try {
       const stream = await navigator.mediaDevices
@@ -87,33 +109,14 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: 1920 },
         });
 
-      const duration = 3000;
+      const { duration } = this.props;
+      this.initVideoRecorder(stream, duration);
+      setTimeout(() => {this.initVideoRecorder(stream)}, duration * 1000);
 
-      const mediaRecorder1 = new MediaRecorder(stream, { mimeType: 'video/webm' });
-      const mediaRecorder2 = new MediaRecorder(stream, { mimeType: 'video/webm' });
-      const mediaRecorders = [mediaRecorder1, mediaRecorder2];
-      mediaRecorder1.start(duration * 2);
-      setTimeout(() => {
-        mediaRecorder2.start(duration * 2);
-      }, duration);
-
-      const thisInstance = this;
-
-      this.setState({ mediaRecorders });
-
-      this.state.mediaRecorders.forEach((recorder) => {
-        recorder.ondataavailable = function (e) {
-          if (thisInstance.videoChunks.length > 1) thisInstance.videoChunks.shift();
-          thisInstance.videoChunks.push(e.data);
-        }
-      })
-
-      
       this.cameraResize();
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
-      console.error(error)
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -161,12 +164,8 @@ class WebcamView extends React.Component {
       this.setState({ saveImage: true, mediaRecorders: [] });
     };
 
-    this.state.mediaRecorders.forEach((recorder) => { console.log('stop'); recorder.stop });
+    this.mediaRecorders.forEach((recorder) => { recorder.stop() });
     this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
-
-
-    console.log(this.videoChunks);
-    console.log("recorder stopped");
   }
 
   async retake() {
@@ -183,7 +182,7 @@ class WebcamView extends React.Component {
 
   previewForm() {
     const {
-      footer, component, classes, scans, currentStep,
+      footer, component, classes, scans, currentStep, videoDuration,
     } = this.props;
     const { back } = footer;
     const { translations } = this.context;
@@ -198,9 +197,9 @@ class WebcamView extends React.Component {
     const urlCreator = window.URL || window.webkitURL;
     const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
     const totalBlob = this.videoChunks.reduce((longestChunk, chunk) => {
-      return chunk.size >= longestChunk.size ? chunk : longestChunk;
+      return (chunk.time >= longestChunk.time && chunk.time > videoDuration) ? chunk : longestChunk;
     });
-    const videoSrc = urlCreator.createObjectURL(totalBlob)
+    const videoSrc = urlCreator.createObjectURL(totalBlob.data)
     console.log(totalBlob)
     return (
       <div>

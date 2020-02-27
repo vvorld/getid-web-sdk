@@ -90,11 +90,11 @@ class WebcamView extends React.Component {
 
       const { videoDuration, component } = this.props;
 
-      if (videoDuration && component === 'selfie') {
+      if (parseInt(videoDuration, 10) && component === 'selfie') {
         // start video recording
-        this.initVideoRecorder(stream, videoDuration);
+        this.initVideoRecorder(stream);
         setTimeout(() => {
-          this.initVideoRecorder(stream, videoDuration);
+          this.initVideoRecorder(stream);
         }, videoDuration * 1000);
       }
 
@@ -102,7 +102,6 @@ class WebcamView extends React.Component {
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
-      console.log(error);
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -133,7 +132,7 @@ class WebcamView extends React.Component {
     if (videoElement && videoElement.readyState !== 4) { return; }
 
     const {
-      cameraDistance, addScan, component, currentStep, videoDuration,
+      cameraDistance, addScan, component, currentStep,
     } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
@@ -151,7 +150,6 @@ class WebcamView extends React.Component {
       addScan(component, blob, currentStep, true);
       this.setState({ saveImage: true });
     };
-    
     this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
   }
 
@@ -162,15 +160,15 @@ class WebcamView extends React.Component {
     }
   }
 
-  initVideoRecorder(stream, videoDuration) {
-    if (!this.state.recording) return false;
+  initVideoRecorder(stream) {
+    if (!this.state.recording) return;
+    const { videoDuration, addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\;codecs=vp8' });
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\\;codecs=vp8' });
     this.mediaRecorders.push(mediaRecorder);
 
     mediaRecorder.onstop = () => {
-      // create new recorder
-      this.initVideoRecorder(stream, videoDuration);
+      this.initVideoRecorder(stream);
     };
 
     mediaRecorder.ondataavailable = ({ data }) => {
@@ -182,14 +180,13 @@ class WebcamView extends React.Component {
       this.setState({ videoChunks });
 
       this.mediaRecorders.shift();
-      // filter and store video in case no more recorder is running
-      if (this.mediaRecorders.length == 0) {
-        const acceptedBlob = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
+      // filter and store video in case no more recorders are running
+      if (this.mediaRecorders.length === 0) {
+        const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
           (chunk.time < acceptedChunk.time && chunk.time > videoDuration) ? chunk : acceptedChunk
         ));
-        console.log(acceptedBlob);
+        addScan('selfieVideo', acceptedVideo.data, currentStep, true);
       }
-
     };
 
     mediaRecorder.start();
@@ -202,7 +199,7 @@ class WebcamView extends React.Component {
   async retake() {
     const { addScan, component, currentStep } = this.props;
     addScan(component, null, currentStep, true);
-    this.setState({ saveImage: false, videoChunks: [], recording: true, });
+    this.setState({ saveImage: false, videoChunks: [], recording: true });
     this.setWebStream();
   }
 
@@ -213,7 +210,7 @@ class WebcamView extends React.Component {
 
   previewForm() {
     const {
-      footer, component, classes, scans, currentStep, videoDuration,
+      footer, component, classes, scans, currentStep,
     } = this.props;
     const { back } = footer;
     const { translations } = this.context;

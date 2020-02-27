@@ -17,7 +17,7 @@ import allComponents from './views';
 import {
   getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
 } from '../store/selectors';
-import { AppExistsView, FailError } from './views/ErrorView';
+import { AppExistsView, FailError, ErrorView } from './views/ErrorView';
 
 class Widget extends Component {
   constructor(props) {
@@ -200,6 +200,7 @@ class Widget extends Component {
       onFail,
       exists,
       onExists,
+      errorMessage,
     } = this.props;
 
     const { classes, ...other } = this.props;
@@ -212,6 +213,9 @@ class Widget extends Component {
 
     if (exists || appExists) {
       return <AppExistsView classes={classes} callbacks={{ onExists }} />;
+    }
+    if (errorMessage) {
+      return <ErrorView classes={classes} callbacks={{ onFail }} />;
     }
     if (isFail) {
       return <FailError classes={classes} callbacks={{ onFail, onSubmit: this.submitData }} />;
@@ -287,6 +291,7 @@ Widget.defaultProps = {
   exists: false,
   cameraDistance: 'default',
   jwtToken: '',
+  errorMessage: '',
 };
 
 Widget.propTypes = {
@@ -314,6 +319,7 @@ Widget.propTypes = {
   setFlow: PropTypes.func.isRequired,
   showOnfidoLogo: PropTypes.bool,
   exists: PropTypes.bool,
+  errorMessage: PropTypes.string,
   cameraDistance: PropTypes.string,
   api: PropTypes.object.isRequired,
 };

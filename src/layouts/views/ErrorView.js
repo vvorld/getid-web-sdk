@@ -67,6 +67,17 @@ export const AppExistsView = createErrorView({
     },
   },
 });
+export const ErrorView = createErrorView({
+  header: (dictionary) => dictionary.error_header,
+  subHeader: (dictionary) => dictionary.error_subHeader,
+  buttons: {
+    done: {
+      name: (dictionary) => dictionary.done_button,
+      action: (callbacks) => callbacks.onFail,
+      class: 'isGradient',
+    },
+  },
+});
 
 export const FailError = createErrorView({
   header: (dictionary) => dictionary.isFail_header,
@@ -92,3 +103,4 @@ export const FailError = createErrorView({
 
 FailError.props = errorProps;
 AppExistsView.props = errorProps;
+ErrorView.props = errorProps;

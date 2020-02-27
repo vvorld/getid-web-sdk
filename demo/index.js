@@ -19,7 +19,7 @@ try {
 }
 
 try {
-  const customerId = 122;
+  const customerId = Math.floor(Math.random() * 1000000);
   const tokenProvider = createPublicTokenProvider(cfg.apiUrl, cfg.apiKey, customerId);
   init(cfg, tokenProvider);
 } catch (e) {

@@ -88,14 +88,16 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: 1920 },
         });
 
-      const { videoDuration, component } = this.props;
-
-      if (parseInt(videoDuration, 10) && component === 'selfie') {
-        // start video recording
-        this.initVideoRecorder(stream);
-        setTimeout(() => {
-          this.initVideoRecorder(stream);
-        }, videoDuration * 1000);
+      const { sdkPermissions, component } = this.props;
+      if (component === 'selfie') {
+        const { videoRecording, videoDuration = 3 } = sdkPermissions;
+        if (videoRecording && parseInt(videoDuration)) {
+          // start video recording
+          this.initVideoRecorder(stream, videoDuration);
+          setTimeout(() => {
+            this.initVideoRecorder(stream, videoDuration);
+          }, videoDuration * 1000);
+        }
       }
 
       this.cameraResize();
@@ -160,15 +162,15 @@ class WebcamView extends React.Component {
     }
   }
 
-  initVideoRecorder(stream) {
+  initVideoRecorder(stream, videoDuration) {
     if (!this.state.recording) return;
-    const { videoDuration, addScan, currentStep } = this.props;
+    const { addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\\;codecs=vp8' });
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\;codecs=vp8' });
     this.mediaRecorders.push(mediaRecorder);
 
     mediaRecorder.onstop = () => {
-      this.initVideoRecorder(stream);
+      this.initVideoRecorder(stream, videoDuration);
     };
 
     mediaRecorder.ondataavailable = ({ data }) => {
@@ -307,12 +309,11 @@ WebcamView.propTypes = {
   fieldValues: PropTypes.object.isRequired,
   isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
-  videoDuration: PropTypes.number,
+  sdkPermissions: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {
   isQA: false,
-  videoDuration: 0,
 };
 
 const mapStateToProps = (state) => ({

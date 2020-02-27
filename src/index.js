@@ -103,12 +103,11 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(convertAnswer({ field: 'showOnfidoLogo' })),
+      api.getInfo().then(convertAnswer({ field: 'sdkPermissions' })),
       api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
-      api.getPermissions().then(convertAnswer({ field: 'sdkPermissions' })),
-    ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
+    ]).then(([sdkPermissions, translations]) => {
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions,
+        ...config, translations, sdkPermissions,
       });
     });
   });

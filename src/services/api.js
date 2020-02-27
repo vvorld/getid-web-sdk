@@ -1,6 +1,6 @@
 import {
-  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, VERIFY_JWT,
-  EVENT, DICTIONARY, TOKEN_REQUEST, PERMISSIONS,
+  COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
+  EVENT, DICTIONARY, TOKEN_REQUEST,
 } from '../constants/api';
 import { createEAForSubmission } from '../helpers/tree-builder';
 
@@ -30,7 +30,7 @@ export const createApi = (url, jwt) => {
     return postFormData(`${url}${VERIFICATION_REQUEST}`, formData);
   };
 
-  const getInfo = () => post(`${url}${VERIFY_JWT}`, { jwt });
+  const getInfo = () => post(`${url}${CONFIGURATION}`, { jwt });
   const getCountryAndDocList = () => get(`${url}${COUNTRY_AND_DOC_LIST}`);
   const getTranslations = (dictionary) => post(`${url}${DICTIONARY}`, { dictionary });
 
@@ -42,9 +42,8 @@ export const createApi = (url, jwt) => {
     }
   };
 
-  const getPermissions = () => post(`${url}${PERMISSIONS}`, { jwt });
   return {
-    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, getPermissions,
+    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations,
   };
 };
 

@@ -41,8 +41,9 @@ class WebcamView extends React.Component {
       isCameraEnabled: true,
       saveImage: false,
       stream: null,
+      recording: true,
+      videoChunks: [],
     };
-    this.videoChunks = [];
     this.mediaRecorders = [];
     this.isPassport = Object.keys(props.fieldValues).find((key) => props.fieldValues[key].DocumentType === 'passport');
     this.setWebcamRef = this.setWebcamRef.bind(this);
@@ -79,28 +80,6 @@ class WebcamView extends React.Component {
     window.removeEventListener('resize', this.cameraResize, false);
   }
 
-  initVideoRecorder(stream) {
-    const { duration } = this.props;
-    const startTime = Date.now()/1000;
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-    this.mediaRecorders.push(mediaRecorder);
-
-    const thisInstance = this;
-    mediaRecorder.onstop = function() {
-      thisInstance.mediaRecorders.shift();
-      if(!thisInstance.state.saveImage) thisInstance.initVideoRecorder(stream);
-    }
-    mediaRecorder.ondataavailable = function ({data}) {
-      const chunkDuration = Date.now()/1000 - startTime;
-      if (thisInstance.videoChunks.length > 1) thisInstance.videoChunks.shift();
-      thisInstance.videoChunks.push({ time: chunkDuration, data});
-    }
-    mediaRecorder.start();
-    setTimeout(() => {
-      mediaRecorder.stop();
-    }, duration * 2000);
-  }
-
   async setWebStream() {
     try {
       const stream = await navigator.mediaDevices
@@ -109,14 +88,21 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: 1920 },
         });
 
-      const { duration } = this.props;
-      this.initVideoRecorder(stream, duration);
-      setTimeout(() => {this.initVideoRecorder(stream)}, duration * 1000);
+      const { videoDuration, component } = this.props;
+
+      if (videoDuration && component === 'selfie') {
+        // start video recording
+        this.initVideoRecorder(stream, videoDuration);
+        setTimeout(() => {
+          this.initVideoRecorder(stream, videoDuration);
+        }, videoDuration * 1000);
+      }
 
       this.cameraResize();
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
+      console.log(error);
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -147,7 +133,7 @@ class WebcamView extends React.Component {
     if (videoElement && videoElement.readyState !== 4) { return; }
 
     const {
-      cameraDistance, addScan, component, currentStep,
+      cameraDistance, addScan, component, currentStep, videoDuration,
     } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
@@ -159,19 +145,64 @@ class WebcamView extends React.Component {
       context.drawImage(this.webcam, -115, -20, 1355, 756);
     }
 
+    this.stopRecording();
+
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
-      this.setState({ saveImage: true, mediaRecorders: [] });
+      this.setState({ saveImage: true });
+    };
+    
+    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
+  }
+
+  stopRecording() {
+    this.setState({ recording: false });
+    if (this.mediaRecorders.length > 0) {
+      this.mediaRecorders.forEach((recorder) => { recorder.stop(); });
+    }
+  }
+
+  initVideoRecorder(stream, videoDuration) {
+    if (!this.state.recording) return false;
+    const startTime = Date.now() / 1000;
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\;codecs=vp8' });
+    this.mediaRecorders.push(mediaRecorder);
+
+    mediaRecorder.onstop = () => {
+      // create new recorder
+      this.initVideoRecorder(stream, videoDuration);
     };
 
-    this.mediaRecorders.forEach((recorder) => { recorder.stop() });
-    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
+    mediaRecorder.ondataavailable = ({ data }) => {
+      // store chunk with data
+      const duration = Date.now() / 1000 - startTime;
+      const { videoChunks } = this.state;
+      if (videoChunks.length > 1) videoChunks.shift();
+      videoChunks.push({ time: duration, data });
+      this.setState({ videoChunks });
+
+      this.mediaRecorders.shift();
+      // filter and store video in case no more recorder is running
+      if (this.mediaRecorders.length == 0) {
+        const acceptedBlob = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
+          (chunk.time < acceptedChunk.time && chunk.time > videoDuration) ? chunk : acceptedChunk
+        ));
+        console.log(acceptedBlob);
+      }
+
+    };
+
+    mediaRecorder.start();
+    // stop recording and gather data after delay
+    setTimeout(() => {
+      if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    }, videoDuration * 2000);
   }
 
   async retake() {
     const { addScan, component, currentStep } = this.props;
     addScan(component, null, currentStep, true);
-    this.setState({ saveImage: false });
+    this.setState({ saveImage: false, videoChunks: [], recording: true, });
     this.setWebStream();
   }
 
@@ -196,11 +227,6 @@ class WebcamView extends React.Component {
     };
     const urlCreator = window.URL || window.webkitURL;
     const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
-    const totalBlob = this.videoChunks.reduce((longestChunk, chunk) => {
-      return (chunk.time >= longestChunk.time && chunk.time > videoDuration) ? chunk : longestChunk;
-    });
-    const videoSrc = urlCreator.createObjectURL(totalBlob.data)
-    console.log(totalBlob)
     return (
       <div>
         <Grid container justify="center">
@@ -217,7 +243,6 @@ class WebcamView extends React.Component {
               alt="powered by getId"
               data-role="poweredImg"
             />
-            <video controls={true} autoPlay={true} type="video/webm" width="200" height="200" src={videoSrc} />
           </Grid>
         </Grid>
         <Footer {...previewFooter} />
@@ -285,10 +310,12 @@ WebcamView.propTypes = {
   fieldValues: PropTypes.object.isRequired,
   isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
+  videoDuration: PropTypes.number,
 };
 
 WebcamView.defaultProps = {
   isQA: false,
+  videoDuration: 0,
 };
 
 const mapStateToProps = (state) => ({

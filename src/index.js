@@ -54,7 +54,7 @@ const checkContainerId = (options) => {
 };
 
 
-const convertAnswer = (params) => (resp) => {
+const convertAnswer = (params = {}) => (resp) => {
   if (resp.responseCode === 200) {
     if (params.field) {
       return resp[params.field];
@@ -103,10 +103,10 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(convertAnswer({ field: 'showOnfidoLogo' })),
+      api.getInfo().then(convertAnswer()),
       api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
-      api.getPermissions().then(convertAnswer({ field: 'sdkPermissions' })),
-    ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
+    ]).then(([info, translations]) => {
+      const { showOnfidoLogo, sdkPermissions } = info;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,
       });

@@ -104,6 +104,7 @@ class WebcamView extends React.Component {
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
+      console.error(error);
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }

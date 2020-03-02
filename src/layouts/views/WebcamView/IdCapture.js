@@ -10,8 +10,13 @@ import { getFormValues } from '../../../store/selectors';
 const IdCapture = (props) => {
   const { fieldValues, cameraDistance } = props;
 
+  const isPassport = Object.keys(fieldValues)
+    .reduce((passType = false, key) => (
+      fieldValues[key].DocumentType !== undefined ? fieldValues[key].DocumentType.value === 'passport' : passType
+    ));
+
   const cameraOverlay = () => {
-    if (Object.keys(fieldValues).find((key) => (fieldValues[key].DocumentType === 'passport'))) {
+    if (isPassport) {
       return PassportSVG;
     }
     if (cameraDistance === 'far') {
@@ -21,7 +26,7 @@ const IdCapture = (props) => {
   };
 
   return (
-    <WebcamView {...props} cameraOverlay={cameraOverlay} component="front" />
+    <WebcamView {...props} isPassport={isPassport} cameraOverlay={cameraOverlay} component="front" />
   );
 };
 

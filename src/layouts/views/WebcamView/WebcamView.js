@@ -90,13 +90,13 @@ class WebcamView extends React.Component {
 
       const { sdkPermissions, component } = this.props;
       if (component === 'selfie') {
-        const { videoRecording, videoDuration = 3 } = sdkPermissions;
-        if (videoRecording && parseInt(videoDuration)) {
+        const { videoRecording, maxVideoDuration = 3 } = sdkPermissions;
+        if (videoRecording && parseInt(maxVideoDuration)) {
           // start video recording
-          this.initVideoRecorder(stream, videoDuration);
+          this.initVideoRecorder(stream, maxVideoDuration);
           setTimeout(() => {
-            this.initVideoRecorder(stream, videoDuration);
-          }, videoDuration * 1000);
+            this.initVideoRecorder(stream, maxVideoDuration);
+          }, maxVideoDuration * 1000);
         }
       }
 

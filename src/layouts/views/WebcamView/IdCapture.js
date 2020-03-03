@@ -10,10 +10,8 @@ import { getFormValues } from '../../../store/selectors';
 const IdCapture = (props) => {
   const { fieldValues, cameraDistance } = props;
 
-  const isPassport = Object.keys(fieldValues)
-    .reduce((passType = false, key) => (
-      fieldValues[key].DocumentType !== undefined ? fieldValues[key].DocumentType.value === 'passport' : passType
-    ));
+  const isPassport = !!Object.values(fieldValues)
+    .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
 
   const cameraOverlay = () => {
     if (isPassport) {

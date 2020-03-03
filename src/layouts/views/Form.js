@@ -65,7 +65,10 @@ class Form extends Component {
   }
 
   handleDateChange = (key, isRequired) => (date) => {
-    this.props.addField(key, date, this.currentStep, isRequired, 'date');
+    // temporary workaround because of @material-ui/pickers bug with format
+    // issue: https://github.com/mui-org/material-ui-pickers/issues/1348
+    const convertToUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    this.props.addField(key, convertToUTC, this.currentStep, isRequired, 'date');
   };
 
   handleFiles = async (event) => {

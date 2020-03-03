@@ -1,5 +1,5 @@
 import React from 'react';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
@@ -14,12 +14,13 @@ function DateInput(props) {
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid container justify="space-around">
         <FormControl fullWidth>
-          <DatePicker
+          <KeyboardDatePicker
             maxDate={new Date()}
             data-role="datePicker"
             openTo="date"
             inputVariant="filled"
             variant="inline"
+            disableFuture
             views={['year', 'month', 'date']}
             {...props}
             InputLabelProps={{

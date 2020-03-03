@@ -66,7 +66,7 @@ const convertAnswer = (params = {}) => (resp) => {
   throw Error(resp.errorMessage);
 };
 
-const checkValues = () => (resp) => {
+const addDefaultValues = () => (resp) => {
   const defaultValues = {
     sdkPermissions: {
       videoRecording: false,
@@ -124,7 +124,7 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(convertAnswer()).then(checkValues()),
+      api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
     ]).then(([info, translations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;

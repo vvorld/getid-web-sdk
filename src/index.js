@@ -53,7 +53,6 @@ const checkContainerId = (options) => {
   }
 };
 
-
 const convertAnswer = (params = {}) => (resp) => {
   if (resp.responseCode === 200) {
     if (params.field) {
@@ -65,6 +64,28 @@ const convertAnswer = (params = {}) => (resp) => {
     return params.default;
   }
   throw Error(resp.errorMessage);
+};
+
+const checkValues = () => (resp) => {
+  const defaultValues = {
+    sdkPermissions: {
+      videoRecording: false,
+      maxVideoDuration: 3,
+      liveness: false,
+    },
+    showOnfidoLogo: false,
+    tokenIsValid: false,
+    tokenExpiresIn: 3600,
+  };
+
+  return {
+    ...resp,
+    ...defaultValues,
+    sdkPermissions: {
+      ...defaultValues.sdkPermissions,
+      ...resp.sdkPermissions,
+    },
+  };
 };
 
 /**
@@ -103,7 +124,7 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(convertAnswer()),
+      api.getInfo().then(convertAnswer()).then(checkValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
     ]).then(([info, translations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;

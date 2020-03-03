@@ -4,4 +4,3 @@ export const COUNTRY_AND_DOC_LIST = '/sdk/v1/supported-documents';
 export const DICTIONARY = '/sdk/v1/dictionary';
 export const EVENT = '/sdk/v1/event';
 export const TOKEN_REQUEST = '/sdk/v1/token';
-

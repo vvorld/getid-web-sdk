@@ -18,7 +18,6 @@ const useStyles = () => ({
   },
   imgPreview: {
     width: '100%',
-    minHeight: 'calc(100vh * 0.64)',
   },
   poweredBy: {
     position: 'absolute',

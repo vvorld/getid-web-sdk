@@ -25,7 +25,7 @@ const useStyles = () => ({
     bottom: '10px',
   },
   canvas: {
-    dispay: 'none',
+    display: 'none',
   },
   item: {
     textAlign: 'center',
@@ -40,8 +40,10 @@ class WebcamView extends React.Component {
       isCameraEnabled: true,
       saveImage: false,
       stream: null,
+      recording: true,
+      videoChunks: [],
     };
-    this.isPassport = Object.keys(props.fieldValues).find((key) => props.fieldValues[key].DocumentType === 'passport');
+    this.mediaRecorders = [];
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
     this.retake = this.retake.bind(this);
@@ -84,10 +86,27 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: 1920 },
         });
 
-      this.webcam.height = this.webcam.clientWidth * 0.64;
+      const { sdkPermissions, component } = this.props;
+      if (component === 'selfie') {
+        const { videoRecording, maxVideoDuration } = sdkPermissions;
+        let duration = maxVideoDuration;
+        if (typeof maxVideoDuration !== 'number') {
+          duration = parseInt(maxVideoDuration, 10);
+        }
+        if (videoRecording && !Number.isNaN(duration)) {
+          // start video recording
+          this.initVideoRecorder(stream, duration);
+          setTimeout(() => {
+            this.initVideoRecorder(stream, duration);
+          }, duration * 1000);
+        }
+      }
+
+      this.cameraResize();
       this.setState({ stream });
       this.webcam.srcObject = stream;
-    } catch {
+    } catch (error) {
+      console.error(error);
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -118,26 +137,74 @@ class WebcamView extends React.Component {
     if (videoElement && videoElement.readyState !== 4) { return; }
 
     const {
-      cameraDistance, addScan, component, currentStep,
+      cameraDistance, addScan, component, currentStep, isPassport,
     } = this.props;
     // draw image in canvas
     const context = this.canvas.getContext('2d');
-    if (this.isPassport) {
+    if (isPassport) {
       context.drawImage(this.webcam, -305, -20, 1355, 756);
     } else if (cameraDistance === 'far') {
       context.drawImage(this.webcam, -350, -165, 1830, 1070);
     } else {
       context.drawImage(this.webcam, -115, -20, 1355, 756);
     }
-    const imageSrc = this.canvas.toDataURL('image/jpeg', 1.0);
-    addScan(component, imageSrc, currentStep, true);
-    this.setState({ saveImage: true });
+
+    this.stopRecording();
+
+    const blobCallback = (blob) => {
+      addScan(component, blob, currentStep, true);
+      this.setState({ saveImage: true });
+    };
+    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
+  }
+
+  stopRecording() {
+    this.setState({ recording: false });
+    if (this.mediaRecorders.length > 0) {
+      this.mediaRecorders.forEach((recorder) => { recorder.stop(); });
+    }
+  }
+
+  initVideoRecorder(stream, maxVideoDuration) {
+    if (!this.state.recording) return;
+    const { addScan, currentStep } = this.props;
+    const startTime = Date.now() / 1000;
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
+    this.mediaRecorders.push(mediaRecorder);
+
+    mediaRecorder.onstop = () => {
+      this.initVideoRecorder(stream, maxVideoDuration);
+    };
+
+    mediaRecorder.ondataavailable = ({ data }) => {
+      // store chunk with data
+      const duration = Date.now() / 1000 - startTime;
+      const { videoChunks } = this.state;
+      if (videoChunks.length > 1) videoChunks.shift();
+      videoChunks.push({ time: duration, data });
+      this.setState({ videoChunks });
+
+      this.mediaRecorders.shift();
+      // filter and store video in case no more recorders are running
+      if (this.mediaRecorders.length === 0) {
+        const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
+          (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration) ? chunk : acceptedChunk
+        ));
+        addScan('selfieVideo', acceptedVideo.data, currentStep, true);
+      }
+    };
+
+    mediaRecorder.start();
+    // stop recording and gather data after delay
+    setTimeout(() => {
+      if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    }, maxVideoDuration * 2000);
   }
 
   async retake() {
     const { addScan, component, currentStep } = this.props;
     addScan(component, null, currentStep, true);
-    this.setState({ saveImage: false });
+    this.setState({ saveImage: false, videoChunks: [], recording: true });
     this.setWebStream();
   }
 
@@ -160,13 +227,14 @@ class WebcamView extends React.Component {
         text: translations.button_retake,
       },
     };
-
+    const urlCreator = window.URL || window.webkitURL;
+    const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
     return (
       <div>
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
             <img
-              src={scans[currentStep][component].value}
+              src={imageSrc}
               alt="current"
               data-role="cameraPreviewImg"
               className={classes.imgPreview}
@@ -186,7 +254,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      footer, cameraOverlay, classes,
+      footer, cameraOverlay, classes, isPassport,
     } = this.props;
     const { isCameraEnabled, saveImage } = this.state;
     const { translations } = this.context;
@@ -222,7 +290,7 @@ class WebcamView extends React.Component {
               <Footer {...cameraFooter} />
               {/* eslint-disable-next-line no-return-assign */}
               {
-                this.isPassport
+                isPassport
                   ? (<canvas width="747" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
                   : (<canvas width="1125" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
               }
@@ -238,12 +306,14 @@ WebcamView.propTypes = {
   addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,
+  isPassport: PropTypes.bool.isRequired,
   scans: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
   fieldValues: PropTypes.object.isRequired,
   isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
+  sdkPermissions: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {

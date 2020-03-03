@@ -11,7 +11,6 @@ import Select from '../../components/Inputs/Select';
 import CustomCheckBox from '../../components/Inputs/Checkbox';
 import CustomFileInput from '../../components/Inputs/FileInput';
 import actions from '../../store/actions';
-import { toBase64 } from '../../helpers/tree-builder';
 import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
@@ -72,7 +71,6 @@ class Form extends Component {
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
-    const convertedFile = await toBase64(file);
     this.props.addField(eventTarget.name,
       file.name,
       this.currentStep,
@@ -80,7 +78,7 @@ class Form extends Component {
       eventTarget.type);
 
     this.props.addScan(eventTarget.name,
-      convertedFile,
+      file,
       this.currentStep,
       eventTarget.required);
   };

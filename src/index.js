@@ -53,8 +53,7 @@ const checkContainerId = (options) => {
   }
 };
 
-
-const convertAnswer = (params) => (resp) => {
+const convertAnswer = (params = {}) => (resp) => {
   if (resp.responseCode === 200) {
     if (params.field) {
       return resp[params.field];
@@ -65,6 +64,28 @@ const convertAnswer = (params) => (resp) => {
     return params.default;
   }
   throw Error(resp.errorMessage);
+};
+
+const addDefaultValues = () => (resp) => {
+  const defaultValues = {
+    sdkPermissions: {
+      videoRecording: false,
+      maxVideoDuration: 3,
+      liveness: false,
+    },
+    showOnfidoLogo: false,
+    tokenIsValid: false,
+    tokenExpiresIn: 3600,
+  };
+
+  return {
+    ...resp,
+    ...defaultValues,
+    sdkPermissions: {
+      ...defaultValues.sdkPermissions,
+      ...resp.sdkPermissions,
+    },
+  };
 };
 
 /**
@@ -103,10 +124,10 @@ export const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      api.getInfo().then(convertAnswer({ field: 'showOnfidoLogo' })),
+      api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
-      api.getPermissions().then(convertAnswer({ field: 'sdkPermissions' })),
-    ]).then(([showOnfidoLogo, translations, sdkPermissions]) => {
+    ]).then(([info, translations]) => {
+      const { showOnfidoLogo, sdkPermissions } = info;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,
       });

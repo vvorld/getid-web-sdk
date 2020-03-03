@@ -21,7 +21,7 @@ const cameraStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   video: {
-    transform : 'scale(-1.145, 1.145)',
+    transform: 'scale(-1.145, 1.145)',
   },
   cameraOverlay: {
     width: '100%',

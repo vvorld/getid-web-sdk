@@ -88,13 +88,17 @@ class WebcamView extends React.Component {
 
       const { sdkPermissions, component } = this.props;
       if (component === 'selfie') {
-        const { videoRecording, videoDuration = 3 } = sdkPermissions;
-        if (videoRecording && parseInt(videoDuration)) {
+        const { videoRecording, maxVideoDuration } = sdkPermissions;
+        let duration = maxVideoDuration;
+        if (typeof maxVideoDuration !== 'number') {
+          duration = parseInt(maxVideoDuration, 10);
+        }
+        if (videoRecording && !Number.isNaN(duration)) {
           // start video recording
-          this.initVideoRecorder(stream, videoDuration);
+          this.initVideoRecorder(stream, duration);
           setTimeout(() => {
-            this.initVideoRecorder(stream, videoDuration);
-          }, videoDuration * 1000);
+            this.initVideoRecorder(stream, duration);
+          }, duration * 1000);
         }
       }
 
@@ -161,15 +165,15 @@ class WebcamView extends React.Component {
     }
   }
 
-  initVideoRecorder(stream, videoDuration) {
+  initVideoRecorder(stream, maxVideoDuration) {
     if (!this.state.recording) return;
     const { addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm\;codecs=vp8' });
+    const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
     this.mediaRecorders.push(mediaRecorder);
 
     mediaRecorder.onstop = () => {
-      this.initVideoRecorder(stream, videoDuration);
+      this.initVideoRecorder(stream, maxVideoDuration);
     };
 
     mediaRecorder.ondataavailable = ({ data }) => {
@@ -184,7 +188,7 @@ class WebcamView extends React.Component {
       // filter and store video in case no more recorders are running
       if (this.mediaRecorders.length === 0) {
         const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
-          (chunk.time < acceptedChunk.time && chunk.time > videoDuration) ? chunk : acceptedChunk
+          (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration) ? chunk : acceptedChunk
         ));
         addScan('selfieVideo', acceptedVideo.data, currentStep, true);
       }
@@ -194,7 +198,7 @@ class WebcamView extends React.Component {
     // stop recording and gather data after delay
     setTimeout(() => {
       if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-    }, videoDuration * 2000);
+    }, maxVideoDuration * 2000);
   }
 
   async retake() {

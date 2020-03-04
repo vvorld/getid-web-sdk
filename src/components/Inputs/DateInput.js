@@ -22,7 +22,6 @@ function DateInput(props) {
             autoOk
             inputVariant="filled"
             variant="inline"
-            disableToolbar
             disableFuture
             keyboardIcon={(
               <Icon className={classes.iconStyle}>

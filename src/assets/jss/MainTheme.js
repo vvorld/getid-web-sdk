@@ -35,6 +35,9 @@ const mainTheme = createMuiTheme({
       toolbarBtnSelected: {
         color: '#0e1c2c',
       },
+      toolbarTxt: {
+        color: '#0e1c2c',
+      },
     },
     MuiPickersDatePickerRoot: {
       toolbar: {

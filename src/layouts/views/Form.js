@@ -44,6 +44,8 @@ class Form extends Component {
     } = this.props;
     this.fields = fields;
     this.currentStep = currentStep;
+    const hundredYearsAgo = new Date();
+    this.minDate = hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
     const narrow = 5 * currentComponent.component.length;
     const wide = 10;
     this.gridWidth = formType === 'narrow' ? narrow : wide;
@@ -67,6 +69,10 @@ class Form extends Component {
   handleDateChange = (key, isRequired) => (date) => {
     // temporary workaround because of @material-ui/pickers bug with format
     // issue: https://github.com/mui-org/material-ui-pickers/issues/1348
+    if (Date.parse(date) < this.minDate) {
+      this.props.addField(key, 'Invalid Date', this.currentStep, isRequired, 'date');
+      return;
+    }
     if (date) {
       const convertToUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
       this.props.addField(key, convertToUTC, this.currentStep, isRequired, 'date');
@@ -91,7 +97,6 @@ class Form extends Component {
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
@@ -128,7 +133,7 @@ class Form extends Component {
               required={required}
               value={fieldValues[this.currentStep][field.name].value}
               placeholder={field.placeholder}
-              onChange={this.handleSelectChange(field.required)}
+              onChange={this.handleSelectChange(required)}
             />
           </Grid>
         );
@@ -184,11 +189,12 @@ class Form extends Component {
             <DateInput
               key={`dateinput-${field.label}`}
               name={field.name}
+              minDate={this.minDate}
               required={required}
               label={field.label}
               format="yyyy-MM-dd"
               value={fieldValues[this.currentStep][field.name].value || null}
-              onChange={this.handleDateChange(field.name, field.required)}
+              onChange={this.handleDateChange(field.name, required)}
             />
           </Grid>
         );

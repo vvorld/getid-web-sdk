@@ -214,6 +214,9 @@ Currently, we support 4 input types:
 Optionally, you can pre-populate some fields by known values. Pass the values according to formats listed in the table above.
 You can set field's `required` option. All fields are set as `required: true` by default.
 
+Also you can set already prefilled invisible fields by adding them to `hiddenFields` array. Those fields will be not accessible for
+client, but included in total form result
+
 Example: 
 ``` js
 import { init } from 'getid-web-sdk'
@@ -237,7 +240,13 @@ const config = {
         title: 'Country',
         required: true
       },
-  ]
+  ],
+  hiddenFields: [
+    {
+      name: 'Field name',
+      value: 'Field value'
+    },
+  ],
 }; 
 
 const token = _your_jwt_here_;

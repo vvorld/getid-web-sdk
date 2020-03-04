@@ -81,9 +81,15 @@ class Widget extends Component {
 
   submitData = async () => {
     await this.sendStepCompleteEvent();
-    const { currentStep, setStep } = this.props;
-    setStep(currentStep);
+    const {
+      currentStep, setStep, addField, hiddenFields,
+    } = this.props;
 
+    hiddenFields.forEach((field) => {
+      addField(field.name, field.value, currentStep + 1);
+    });
+
+    setStep(currentStep);
     this.setState({ loading: true });
     await this.api.trySendEvent(stepNames.Submit, 'started');
     try {
@@ -279,6 +285,7 @@ Widget.defaultProps = {
   scans: {},
   flow: [],
   fields: [],
+  hiddenFields: [],
   documentData: [],
   onComplete: null,
   onFail: null,
@@ -298,12 +305,14 @@ Widget.propTypes = {
   flow: PropTypes.array,
   sdkFlow: PropTypes.array.isRequired,
   fields: PropTypes.array,
+  hiddenFields: PropTypes.array,
   documentData: PropTypes.array,
   fieldValues: PropTypes.object,
   scans: PropTypes.object,
   formType: PropTypes.string.isRequired,
   setDisabled: PropTypes.func.isRequired,
   setStep: PropTypes.func.isRequired,
+  addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,
   jwtToken: PropTypes.string,

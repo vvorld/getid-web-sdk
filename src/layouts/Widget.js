@@ -57,7 +57,7 @@ class Widget extends Component {
       flow, setFlow, fields,
     } = this.props;
     const duplicatedFlow = flow;
-    const allFormFieldsHidden = fields.every((field) => Object.prototype.hasOwnProperty.call(field, 'hidden') && field.hidden === true);
+    const allFormFieldsHidden = fields.every((field) => field && field.hidden === true);
 
     if (allFormFieldsHidden) {
       const index = flow.indexOf(flow.find((item) => item.component.includes('Form')));

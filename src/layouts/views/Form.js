@@ -61,8 +61,7 @@ class Form extends Component {
 
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
-        const required = field.required === false ? field.required : true;
-        addField(field.name, field.value, currentStep, required, field.type);
+        addField(field.name, field.value, currentStep, field.required !== false, field.type);
       });
     }
   }
@@ -115,22 +114,22 @@ class Form extends Component {
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
       const {
-        options, type, name, label, placeholder, hidden,
+        options, type, name, label, placeholder, hidden, required,
       } = field;
 
       const inputName = fieldValues[this.currentStep][name];
 
-      const required = field.required === false ? field.required : true;
+      const isRequired = required !== false;
       if (type === 'select') {
         return (
           <Grid className={hidden && classes.hidden} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             <Select
               name={name}
               items={options}
-              required={required}
+              required={isRequired}
               value={inputName.value}
               placeholder={placeholder}
-              onChange={this.handleSelectChange(required, type)}
+              onChange={this.handleSelectChange(isRequired, type)}
             />
           </Grid>
         );
@@ -144,7 +143,7 @@ class Form extends Component {
               onChange={this.handleFiles}
               name={name}
               label={label}
-              required={required}
+              required={isRequired}
               type={type}
               valueName={inputName.value}
             />
@@ -169,7 +168,7 @@ class Form extends Component {
                       checked={inputName.value}
                       onChange={this.handleChange}
                       value={this.props[name]}
-                      required={required}
+                      required={isRequired}
                     />
                   )}
                   label={<label className="label-checkbox">{parse(label)}</label>}
@@ -187,11 +186,11 @@ class Form extends Component {
               key={`dateinput-${label}`}
               name={name}
               minDate={this.minDate}
-              required={required}
+              required={isRequired}
               label={label}
               format="yyyy-MM-dd"
               value={inputName.value || null}
-              onChange={this.handleDateChange(name, required)}
+              onChange={this.handleDateChange(name, isRequired)}
             />
           </Grid>
         );
@@ -202,7 +201,7 @@ class Form extends Component {
           <TextInput
             type={type}
             name={name}
-            required={required}
+            required={isRequired}
             value={inputName.value}
             onChange={this.handleChange}
             label={label}

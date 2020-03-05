@@ -37,7 +37,7 @@ export default {
       label: 'Document front side',
       type: 'file',
       name: 'Photo_id',
-      required: true,
+      required: false,
     },
     {
       label: 'Document back side',

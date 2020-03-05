@@ -243,6 +243,7 @@ const config = {
   ],
   hiddenFields: [
     {
+      type: 'text',
       name: 'Field name',
       value: 'Field value'
     },

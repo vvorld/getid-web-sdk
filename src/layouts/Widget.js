@@ -86,7 +86,7 @@ class Widget extends Component {
     } = this.props;
 
     hiddenFields.forEach((field) => {
-      addField(field.name, field.value, currentStep + 1);
+      addField(field.name, field.value, currentStep + 1, false, field.type);
     });
 
     setStep(currentStep);

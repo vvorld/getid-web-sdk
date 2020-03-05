@@ -54,7 +54,6 @@ try again
           {isStream ? (
             <div>
               <img className={classes.cameraOverlay} src={overlay()} alt="powered by getId" />
-              {/* <img className={classes.imgOverlay} src={PoweredBy} alt="powered by getId" /> */}
             </div>
           )
             : null}

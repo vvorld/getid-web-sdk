@@ -31,49 +31,33 @@ const mainTheme = createMuiTheme({
     mainHeaderSize: '26px',
   },
   overrides: {
-    MuiPickersToolbar: {
+    MuiPickersToolbarText: {
+      toolbarBtnSelected: {
+        color: '#0e1c2c',
+      },
+      toolbarTxt: {
+        color: '#0e1c2c',
+      },
+    },
+    MuiPickersDatePickerRoot: {
       toolbar: {
-        backgroundColor: '#7861A2',
-      },
-    },
-    'MuiPickersBasePicker-pickerView': {
-      color: 'rgba(255, 255, 255, 0.54)',
-    },
-    MuiPickersYear: {
-      root: {
-        '&:focus': {
-          color: '#7861A2',
-        },
-        color: '#7861A2',
-      },
-      yearSelected: {
-        color: '#7861A2',
-      },
-    },
-    MuiPickersMonth: {
-      root: {
-        '&:focus': {
-          color: '#7861A2',
-        },
-        color: '#7861A2',
-      },
-      monthSelected: {
-        color: '#7861A2',
+        color: '#0e1c2c',
+        backgroundColor: 'transparent',
       },
     },
     MuiPickersDay: {
       day: {
         '&:hover': {
-          backgroundColor: '#7861A2!important',
-          color: 'rgba(255, 255, 255, 0.54)!important',
+          backgroundColor: '#F8F7FA',
+          border: '1px solid #7861a2',
         },
       },
       daySelected: {
-        backgroundColor: '#7861A2',
-        color: 'rgba(255, 255, 255, 0.54)!important',
+        backgroundColor: 'transparent',
+        color: '#0e1c2c',
         '&:hover': {
-          backgroundColor: '#7861A2!important',
-          color: 'rgba(255, 255, 255, 0.54)!important',
+          backgroundColor: '#F8F7FA',
+          border: '1px solid #7861a2',
         },
       },
     },

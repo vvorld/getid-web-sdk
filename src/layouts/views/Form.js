@@ -47,6 +47,8 @@ class Form extends Component {
     } = this.props;
     this.fields = fields;
     this.currentStep = currentStep;
+    const hundredYearsAgo = new Date();
+    this.minDate = hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
     const narrow = 5 * currentComponent.component.length;
     const wide = 10;
     this.gridWidth = formType === 'narrow' ? narrow : wide;
@@ -67,7 +69,16 @@ class Form extends Component {
   }
 
   handleDateChange = (key, isRequired) => (date) => {
-    this.props.addField(key, date, this.currentStep, isRequired, 'date');
+    // temporary workaround because of @material-ui/pickers bug with format
+    // issue: https://github.com/mui-org/material-ui-pickers/issues/1348
+    if (Date.parse(date) < this.minDate) {
+      this.props.addField(key, 'Invalid Date', this.currentStep, isRequired, 'date');
+      return;
+    }
+    if (date) {
+      const convertToUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      this.props.addField(key, convertToUTC, this.currentStep, isRequired, 'date');
+    }
   };
 
   handleFiles = async (event) => {
@@ -88,7 +99,6 @@ class Form extends Component {
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,

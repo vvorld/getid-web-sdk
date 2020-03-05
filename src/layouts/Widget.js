@@ -187,6 +187,7 @@ class Widget extends Component {
       setDisabled(Object.values(fieldValues[currentStep]).some((field) => (
         field.required
           && (field.value === null
+          || (field.type === 'date' && Number.isNaN(Date.parse(field.value)))
           || field.value === ''
           || field.value === undefined
           || field.value === false

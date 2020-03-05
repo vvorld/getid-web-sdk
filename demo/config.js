@@ -26,6 +26,7 @@ export default {
       type: 'text',
       name: 'First name',
       required: false,
+      hidden: true,
     },
     {
       label: 'Last Name',

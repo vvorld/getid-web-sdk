@@ -63,6 +63,10 @@ include sdk as regular script tag. (please contact technical support for CDN lin
 For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
 time you initialise the SDK. 
 To generate JWT make a post request with api key in header on your designated api url:
+Make sure to pass the whole response object on `init` function as `token` param
+
+### Customer Id (optional)
+In case you don't want your clients to complete verification more than once you can pass customerId param when generating jwt token.
 
 ``` js
 import { init } from 'getid-web-sdk'
@@ -71,6 +75,9 @@ const config = {_your_config_here_}
 const token = post YOUR_SDK_SERVER_BACKEND_URL/sdk/token
 headers: {
     apiKey: YOUR_API_KEY
+},
+body: {
+    customerId: YOUR_CUSTOMER_ID
 }
 init(config, token);
 ```
@@ -81,11 +88,11 @@ In this scenario, apiKey must be passed to `init` method along with SDK config a
 ``` js
 import { init, createPublicTokenProvider } from 'getid-web-sdk'
 const config = {_your_config_here_}
-const token = createPublicTokenProvider(config.apiUrl, config.apiKey)
+const token = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
 init(config, token);
 ```
 
-Our team strongly encourages making a JWT call using server-side code.
+Our team strongly encourages making a JWT call using server-side code and first option of obtaining a .
 
 * Tokens expire 90 minutes after creation. (length of a token's life is a matter of configuration)
 
@@ -156,6 +163,7 @@ All callbacks are optional, you can specify yours on `init` call.
 getId web SDK allows several callbacks:
 - **onComplete** function - callback executed on Success event (client has been successfully verified)
 - **onError** function - callback executed on fail event (client has not been successfully verified) - we will tell you why in `error.message` - now it's up to you to handle this accordingly
+- **OnExists** function - callback executed when we detect existing application with id that was passed on init
 
 Example:
 ``` js
@@ -214,8 +222,8 @@ Currently, we support 4 input types:
 Optionally, you can pre-populate some fields by known values. Pass the values according to formats listed in the table above.
 You can set field's `required` option. All fields are set as `required: true` by default.
 
-Also you can set already prefilled invisible fields by adding them to `hiddenFields` array. Those fields will be not accessible for
-client, but included in total form result
+Also you can set already prefilled invisible fields by adding `hidden` flag to each field you want ot hide. 
+Those fields will be not accessible for client, but included in total form result
 
 Example: 
 ``` js
@@ -227,11 +235,12 @@ const config = {
           { component: ['CountryAndDocument'] },
           { component: ['ThankYou'] } ],
   fields: [
-     // pre-populated 
+     // pre-populated and not visible
       {
         type: 'text',
         title: 'First Name',
         value: 'John',
+        hidden: true,
         required: false
       },
       // this one client will have to fill in
@@ -240,12 +249,6 @@ const config = {
         title: 'Country',
         required: true
       },
-  ],
-  hiddenFields: [
-    {
-      name: 'Field name',
-      value: 'Field value'
-    },
   ],
 }; 
 

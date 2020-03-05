@@ -75,7 +75,7 @@ class CountryAndDocument extends React.Component {
     } = this.props;
 
     if (!fieldValues[currentStep] && documentData.length) {
-      documentData.forEach((field) => { addField(field.name, field.value, currentStep, true); });
+      documentData.forEach((field) => { addField(field.name, field.value, currentStep, true, 'text'); });
       return;
     }
 
@@ -98,12 +98,12 @@ class CountryAndDocument extends React.Component {
 
   setNewCountry = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('Country', event.target.value, currentStep, true);
+    this.props.addField('Country', event.target.value, currentStep, true, 'text');
   };
 
   setNewDocType = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('DocumentType', event.target.value, currentStep, true);
+    this.props.addField('DocumentType', event.target.value, currentStep, true, 'text');
   };
 
   getDocumentComposition = () => {

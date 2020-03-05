@@ -54,10 +54,19 @@ class Widget extends Component {
 
   setSdkFlow = () => {
     const {
-      flow, setFlow,
+      flow, setFlow, fields,
     } = this.props;
+    const duplicatedFlow = flow;
+    const allFormFieldsHidden = fields.every((field) => Object.prototype.hasOwnProperty.call(field, 'hidden') && field.hidden === true);
 
-    setFlow(flow);
+    if (allFormFieldsHidden) {
+      const index = flow.indexOf(flow.find((item) => item.component.includes('Form')));
+      if (index !== -1) {
+        duplicatedFlow.splice(index, 1);
+      }
+    }
+
+    setFlow(duplicatedFlow);
   };
 
   isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture')
@@ -82,12 +91,8 @@ class Widget extends Component {
   submitData = async () => {
     await this.sendStepCompleteEvent();
     const {
-      currentStep, setStep, addField, hiddenFields,
+      currentStep, setStep,
     } = this.props;
-
-    hiddenFields.forEach((field) => {
-      addField(field.name, field.value, currentStep + 1);
-    });
 
     setStep(currentStep);
     this.setState({ loading: true });

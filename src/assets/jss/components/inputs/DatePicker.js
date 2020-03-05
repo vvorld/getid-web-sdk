@@ -2,6 +2,13 @@ import { fade, makeStyles } from '@material-ui/core';
 
 const datePickerStyles = makeStyles((theme) => ({
   root: {
+    '& .MuiButtonBase-root': {
+      padding: '3px',
+      backgroundColor: 'transparent',
+      '&:hover': {
+        backgroundColor: 'transparent',
+      },
+    },
     fontSize: '1rem',
     border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
     overflow: 'hidden',

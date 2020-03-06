@@ -28,8 +28,7 @@ class Widget extends Component {
     };
   }
 
-  isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture')
-      && this.props.idCaptureBackIndex < 0;
+  isSingleDocument = () => this.isPage('IdCapture') && this.props.idCaptureBackIndex < 0;
 
   triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
@@ -73,41 +72,34 @@ class Widget extends Component {
     }
   };
 
-  isCameraView = () => cameraViews.some(
-    (name) => this.props.currentComponent.component.includes(name),
-  );
+  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
 
-  isThankYouPage = () => this.props.currentComponent.component.includes('ThankYou');
+  isCameraView = () => cameraViews.some((name) => this.isPage(name));
 
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
-    return (this.isThankYouPage() || this.isConsent()) && 'noIcon';
+    return (this.isPage('ThankYou') || this.isPage('Consent')) && 'noIcon';
   };
 
   buttonAction = () => {
-    if (this.isThankYouPage()) {
+    if (this.isPage('ThankYou')) {
       return this.props.onComplete;
     }
 
     return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;
   };
 
-  isConsent = () => this.props.currentComponent.component.includes('Consent');
-
-  nextComponent = () => {
-    const { currentComponent } = this.props;
-    return currentComponent.next;
-  };
+  nextComponent = () => this.props.currentComponent.next;
 
   buttonText = () => {
     const { translations } = this.context;
 
-    if (this.isThankYouPage()) return translations.button_start_over;
-    if (this.isConsent() && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
+    if (this.isPage('ThankYou')) return translations.button_start_over;
+    if (this.isPage('Consent') && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
-  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isThankYouPage())
+  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isPage('ThankYou'))
         || (this.nextComponent() && this.nextComponent().component.includes('ThankYou'));
 
   footer = () => {
@@ -124,7 +116,7 @@ class Widget extends Component {
         type: this.getType() || 'next',
       },
       back: {
-        hidden: (currentComponent.order === 0 || this.isThankYouPage()) || flow.length === 1,
+        hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
         className: 'prevButton',

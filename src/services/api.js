@@ -1,6 +1,6 @@
 import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
-  EVENT, DICTIONARY, TOKEN_REQUEST,
+  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR,
 } from '../constants/api';
 import { createEAForSubmission } from '../helpers/tree-builder';
 
@@ -42,8 +42,16 @@ export const createApi = (url, jwt) => {
     }
   };
 
+  const sendErrorToServer = async (info) => {
+    try {
+      await post(`${url}${LOG_ERROR}`, { error: { info } });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
-    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations,
+    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, sendErrorToServer,
   };
 };
 

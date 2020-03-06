@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/styles';
-import Widget from './layouts/Widget';
+import Main from './layouts/Main';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
 import { createApi, getJwtToken } from './services/api';
@@ -20,7 +20,7 @@ const MainModule = (widgetOptions) => (
   <ThemeProvider theme={MainTheme}>
     <Provider store={store}>
       <TranslationsContext.Provider value={{ translations: widgetOptions.translations }}>
-        <Widget
+        <Main
           {...widgetOptions}
         />
       </TranslationsContext.Provider>

@@ -42,9 +42,7 @@ class Widget extends Component {
     await this.api.trySendEvent(stepName, 'completed');
   };
 
-  triggerPreviousComponent = () => {
-    this.props.setStep(this.props.currentStep - 1);
-  };
+  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
 
   submitData = async () => {
     await this.sendStepCompleteEvent();
@@ -78,7 +76,8 @@ class Widget extends Component {
 
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
-    return (this.isPage('ThankYou') || this.isPage('Consent')) && 'noIcon';
+    if (this.isPage('ThankYou') || this.isPage('Consent')) return 'noIcon';
+    return 'next';
   };
 
   buttonAction = () => {
@@ -113,7 +112,7 @@ class Widget extends Component {
         text: this.buttonText(),
         className: 'isGradient',
         disabled: isDisabled,
-        type: this.getType() || 'next',
+        type: this.getType(),
       },
       back: {
         hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,

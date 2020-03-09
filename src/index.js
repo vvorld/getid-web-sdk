@@ -125,9 +125,10 @@ export const init = (options, tokenProvider) => {
     }
     Promise.all([
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
-      api.getTranslations(config.dictionary).then(convertAnswer({ default: defaultTranslations })),
+      api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
     ]).then(([info, translations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
+      Object.assign(translations, defaultTranslations);
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,
       });

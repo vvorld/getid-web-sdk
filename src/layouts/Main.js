@@ -26,37 +26,37 @@ class Main extends React.Component {
     this.api.sendErrorToServer(error.toString(), errorInfo.componentStack);
   }
 
-    getBackStepIndexAndStep = () => {
-      const { flow, setIdCaptureBack } = this.props;
-      this.setState(() => ({
-        initialStep: flow
-          .find((item) => item.component.includes('IdCaptureBack')) || {},
-      }));
+  getBackStepIndexAndStep = () => {
+    const { flow, setIdCaptureBack } = this.props;
+    this.setState(() => ({
+      initialStep: flow
+        .find((item) => item.component.includes('IdCaptureBack')) || {},
+    }));
 
-      this.setState((state) => ({
-        initialBSIndex: flow.indexOf(state.initialStep) || -1,
-      }));
-      const stepWithIdCaptureBack = flow
-        .find((item) => item.component.includes('IdCaptureBack')) || {};
-      setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
-    };
+    this.setState((state) => ({
+      initialBSIndex: flow.indexOf(state.initialStep) || -1,
+    }));
+    const stepWithIdCaptureBack = flow
+      .find((item) => item.component.includes('IdCaptureBack')) || {};
+    setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
+  };
 
-    setSdkFlow = () => {
-      const {
-        flow, setFlow,
-      } = this.props;
+  setSdkFlow = () => {
+    const {
+      flow, setFlow,
+    } = this.props;
 
-      setFlow(flow);
-    };
+    setFlow(flow);
+  };
 
-    render() {
-      const { flow } = this.props;
-      if (!flow) return null;
-      const properties = { ...this.props, ...this.state };
-      return (
-        <Widget {...properties} />
-      );
-    }
+  render() {
+    const { flow } = this.props;
+    if (!flow) return null;
+    const properties = { ...this.props, ...this.state };
+    return (
+      <Widget {...properties} />
+    );
+  }
 }
 
 Main.defaultProps = {

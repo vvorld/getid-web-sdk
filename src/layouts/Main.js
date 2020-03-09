@@ -23,8 +23,7 @@ class Main extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log(error, errorInfo);
-    this.api.sendErrorToServer(errorInfo.componentStack);
+    this.api.sendErrorToServer(error.toString(), errorInfo.componentStack);
   }
 
     getBackStepIndexAndStep = () => {

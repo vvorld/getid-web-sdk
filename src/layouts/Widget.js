@@ -153,7 +153,6 @@ class Widget extends Component {
   };
 
   render() {
-    console.log(this.props);
     const {
       currentStep,
       flow,

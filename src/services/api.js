@@ -42,13 +42,7 @@ export const createApi = (url, jwt) => {
     }
   };
 
-  const sendErrorToServer = async (info) => {
-    try {
-      await post(`${url}${LOG_ERROR}`, { error: { info } });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  const sendErrorToServer = (errorText, stack) => post(`${url}${LOG_ERROR}`, { error: { errorText, stack } });
 
   return {
     submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, sendErrorToServer,

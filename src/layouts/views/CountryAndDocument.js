@@ -131,9 +131,10 @@ class CountryAndDocument extends React.Component {
 
       const docType = fieldValues[currentStep].DocumentType.value;
 
-      return mapCountryValues(countriesAndDocs)
-        .find((item) => item.value === fieldValues[currentStep].Country.value).documents
-        .find((item) => item.name === docType);
+      const country = mapCountryValues(countriesAndDocs)
+        .find((item) => item.value === fieldValues[currentStep].Country.value);
+      return country
+              && country.documents.find((item) => item.name === docType);
     };
 
     changeFlowBasedOnDocumentComposition = () => {
@@ -189,32 +190,34 @@ class CountryAndDocument extends React.Component {
 
       const { translations } = this.context;
       const placeholder = translations['CountryAndDocument_country-placeholder'];
+      const values = fieldValues[currentStep];
 
-      if (!loading && fieldValues[currentStep]) {
-        const currentDocumentType = fieldValues[currentStep].DocumentType.value;
-        const currentCountryValue = fieldValues[currentStep].Country.value;
-
-        const { documents } = countriesAndDocs[currentCountryValue] || [];
-        const { length } = currentComponent.component;
-
-        return (
-          <Grid justify="center" alignItems="center" container spacing={2} data-role="blockDocument">
-            <Grid item xs={11} sm={fieldWidth * length}>
-              <Select
-                items={mapCountryValues(countriesAndDocs)}
-                value={currentCountryValue}
-                onChange={this.setNewCountry}
-                placeholder={placeholder}
-              />
-
-              <RadioGroup value={currentDocumentType} onChange={this.setNewDocType}>
-                {documents && documents.map((docType) => this.radioButton(docType.name))}
-              </RadioGroup>
-            </Grid>
-          </Grid>
-        );
+      if (loading && !values) {
+        return null;
       }
-      return null;
+
+      const currentDocumentType = values.DocumentType.value;
+      const currentCountryValue = values.Country.value;
+
+      const { documents } = countriesAndDocs[currentCountryValue] || [];
+      const { length } = currentComponent.component;
+
+      return (
+        <Grid justify="center" alignItems="center" container spacing={2} data-role="blockDocument">
+          <Grid item xs={11} sm={fieldWidth * length}>
+            <Select
+              items={mapCountryValues(countriesAndDocs)}
+              value={currentCountryValue}
+              onChange={this.setNewCountry}
+              placeholder={placeholder}
+            />
+
+            <RadioGroup value={currentDocumentType} onChange={this.setNewDocType}>
+              {documents && documents.map((docType) => this.radioButton(docType.name))}
+            </RadioGroup>
+          </Grid>
+        </Grid>
+      );
     }
 }
 

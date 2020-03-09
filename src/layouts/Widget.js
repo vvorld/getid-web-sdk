@@ -13,10 +13,6 @@ import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
 
-
-import {
-  getIsDisabled, getStep, getFormValues, getFlow, getCurrentComponent, getScanValues,
-} from '../store/selectors';
 import { AppExistsView, FailError, ErrorView } from './views/ErrorView';
 
 class Widget extends Component {
@@ -26,42 +22,13 @@ class Widget extends Component {
     this.state = {
       isFail: false,
       loading: false,
-      stepWithIdCaptureBack: null,
-      idCaptureBackIndex: -1,
       largeGrid: 8,
       smallGrid: 10,
       appExists: false,
     };
   }
 
-  componentDidMount() {
-    this.getBackStepIndexAndStep();
-    this.setSdkFlow();
-  }
-
-  getBackStepIndexAndStep = () => {
-    const { flow } = this.props;
-
-    this.setState(() => ({
-      stepWithIdCaptureBack: flow
-        .find((item) => item.component.includes('IdCaptureBack')) || {},
-    }));
-
-    this.setState((state) => ({
-      idCaptureBackIndex: flow.indexOf(state.stepWithIdCaptureBack) || -1,
-    }));
-  };
-
-  setSdkFlow = () => {
-    const {
-      flow, setFlow,
-    } = this.props;
-
-    setFlow(flow);
-  };
-
-  isSingleDocument = () => this.props.currentComponent.component.includes('IdCapture')
-      && this.state.idCapturebackIndex < 0;
+  isSingleDocument = () => this.isPage('IdCapture') && this.props.idCaptureBackIndex < 0;
 
   triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
@@ -70,14 +37,12 @@ class Widget extends Component {
 
   sendStepCompleteEvent = async () => {
     const stepName = this.isSingleDocument()
-      ? stepNames.single
+      ? stepNames.Single
       : stepNames[this.props.currentComponent.component[0]];
     await this.api.trySendEvent(stepName, 'completed');
   };
 
-  triggerPreviousComponent = () => {
-    this.props.setStep(this.props.currentStep - 1);
-  };
+  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
 
   submitData = async () => {
     await this.sendStepCompleteEvent();
@@ -105,41 +70,35 @@ class Widget extends Component {
     }
   };
 
-  isCameraView = () => cameraViews.some(
-    (name) => this.props.currentComponent.component.includes(name),
-  );
+  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
 
-  isThankYouPage = () => this.props.currentComponent.component.includes('ThankYou');
+  isCameraView = () => cameraViews.some((name) => this.isPage(name));
 
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
-    return (this.isThankYouPage() || this.isConsent()) && 'noIcon';
+    if (this.isPage('ThankYou') || this.isPage('Consent')) return 'noIcon';
+    return 'next';
   };
 
   buttonAction = () => {
-    if (this.isThankYouPage()) {
+    if (this.isPage('ThankYou')) {
       return this.props.onComplete;
     }
 
     return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;
   };
 
-  isConsent = () => this.props.currentComponent.component.includes('Consent');
-
-  nextComponent = () => {
-    const { currentComponent } = this.props;
-    return currentComponent.next;
-  };
+  nextComponent = () => this.props.currentComponent.next;
 
   buttonText = () => {
     const { translations } = this.context;
 
-    if (this.isThankYouPage()) return translations.button_start_over;
-    if (this.isConsent() && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
+    if (this.isPage('ThankYou')) return translations.button_start_over;
+    if (this.isPage('Consent') && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
 
-  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isThankYouPage())
+  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isPage('ThankYou'))
         || (this.nextComponent() && this.nextComponent().component.includes('ThankYou'));
 
   footer = () => {
@@ -153,10 +112,10 @@ class Widget extends Component {
         text: this.buttonText(),
         className: 'isGradient',
         disabled: isDisabled,
-        type: this.getType() || 'next',
+        type: this.getType(),
       },
       back: {
-        hidden: (currentComponent.order === 0 || this.isThankYouPage()) || flow.length === 1,
+        hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
         className: 'prevButton',
@@ -207,10 +166,8 @@ class Widget extends Component {
     const { classes, ...other } = this.props;
 
     const {
-      isFail, loading, idCaptureBackIndex, stepWithIdCaptureBack, largeGrid, smallGrid, appExists,
+      isFail, loading, largeGrid, smallGrid, appExists,
     } = this.state;
-
-    if (!flow) return null;
 
     if (exists || appExists) {
       return <AppExistsView classes={classes} callbacks={{ onExists }} />;
@@ -223,7 +180,6 @@ class Widget extends Component {
     }
 
     if (loading) { return (<Loader />); }
-
 
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
@@ -259,8 +215,6 @@ class Widget extends Component {
                   <CurrentComponent
                     footer={this.footer()}
                     {...other}
-                    idCapturebackIndex={idCaptureBackIndex}
-                    stepWithIdCaptureBack={stepWithIdCaptureBack}
                   />
                 </div>
               </Grid>
@@ -288,16 +242,14 @@ Widget.defaultProps = {
   fieldValues: null,
   isQA: false,
   currentComponent: null,
-  showOnfidoLogo: false,
   exists: false,
   cameraDistance: 'default',
-  jwtToken: '',
   errorMessage: '',
+  idCaptureBackIndex: -1,
 };
 
 Widget.propTypes = {
   flow: PropTypes.array,
-  sdkFlow: PropTypes.array.isRequired,
   fields: PropTypes.array,
   documentData: PropTypes.array,
   fieldValues: PropTypes.object,
@@ -307,7 +259,6 @@ Widget.propTypes = {
   setStep: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,
-  jwtToken: PropTypes.string,
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
@@ -317,26 +268,16 @@ Widget.propTypes = {
   isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
-  setFlow: PropTypes.func.isRequired,
-  showOnfidoLogo: PropTypes.bool,
+  idCaptureBackIndex: PropTypes.number,
   exists: PropTypes.bool,
   errorMessage: PropTypes.string,
   cameraDistance: PropTypes.string,
   api: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  fieldValues: getFormValues(state),
-  isDisabled: getIsDisabled(state),
-  currentStep: getStep(state),
-  scans: getScanValues(state),
-  sdkFlow: getFlow(state),
-  currentComponent: getCurrentComponent(state),
-});
-
 Widget.contextType = TranslationsContext;
 
 export default connect(
-  mapStateToProps,
+  null,
   actions,
 )(withStyles(widgetStyles)(Widget));

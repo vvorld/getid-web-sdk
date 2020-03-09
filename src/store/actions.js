@@ -1,5 +1,6 @@
 import {
   ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
+  SET_ID_CAPTURE_BACK,
 } from './actionTypes';
 
 const addField = (key, value, whichStep, required, type) => ({
@@ -36,6 +37,11 @@ const setFlow = (flow) => ({
   payload: { flow },
 });
 
+const setIdCaptureBack = (index, step) => ({
+  type: SET_ID_CAPTURE_BACK,
+  payload: { index, step },
+});
+
 export default {
-  addField, addCountriesAndDocs, addScan, setDisabled, setStep, setFlow,
+  addField, addCountriesAndDocs, addScan, setDisabled, setStep, setFlow, setIdCaptureBack,
 };

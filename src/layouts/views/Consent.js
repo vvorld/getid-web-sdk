@@ -65,7 +65,7 @@ class Consent extends Component {
                     )}
               label={(
                 <label data-role="textConsent">
-                  { parse(translations.consent) }
+                  { parse(translations.consent || '') }
                 </label>
                     )}
             />

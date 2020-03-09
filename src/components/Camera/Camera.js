@@ -6,17 +6,22 @@ import cameraStyles from '../../assets/jss/views/Camera';
 import buttonStyles from '../../assets/jss/components/buttons/Button';
 import SadSmileSVG from '../../assets/icons/views/sad-smile.svg';
 
+
 const Camera = (props) => {
   const [isStream, setStream] = useState(false);
 
   const classes = cameraStyles();
   const buttonClass = buttonStyles();
 
+  const {
+    errorMessage,
+  } = props;
+
   const cameraDisabled = (requestCamera) => (
     <Grid container direction="column" alignItems="center" className={classes.cameraDisabled}>
       <Grid item xs={10} sm={9} md={8} lg={7}>
         <img src={SadSmileSVG} alt="something wrong" />
-        <div>To make a photo you need to give access for webcam</div>
+        <div>{errorMessage}</div>
         <Button
           classes={{
             root: buttonClass.root,
@@ -72,6 +77,7 @@ Camera.propTypes = {
   setWebcamRef: PropTypes.func.isRequired,
   requestCamera: PropTypes.func.isRequired,
   overlay: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string.isRequired,
 };
 
 export default Camera;

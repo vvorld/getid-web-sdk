@@ -10,23 +10,25 @@ export const appendScansToForm = (form, scans) => {
   return form;
 };
 
-export const mapFieldData = (fields, filter) => {
-  const parsedFields = [];
-  Object.keys(fields).forEach((item) => {
-    Object.entries(fields[item]).forEach((listItem) => {
-      if (!filter.includes(listItem[0])) {
-        if (!filter.includes(listItem[1].type)) {
-          parsedFields.push({
-            contentType: 'string',
-            category: listItem[0],
-            content: listItem[1].value,
-          });
-        }
-      }
-    });
-  });
+const typeMap = {
+  text: 'string',
+  date: 'date',
+  checkbox: 'boolean',
+  select: 'string',
+};
 
-  return parsedFields;
+export const mapFieldData = (fields, filter) => {
+  const allFields = Object.values(fields).map(
+    (fieldList) => Object.entries(fieldList)
+      .filter(([name, properties]) => !(filter.includes(name) || filter.includes(properties.type)))
+      .map(([name, properties]) => ({
+        contentType: typeMap[properties.type] || 'string',
+        category: name,
+        content: properties.value,
+      })),
+  );
+
+  return Array.prototype.concat(...allFields);
 };
 
 

@@ -1,5 +1,6 @@
 import {
   ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
+  SET_ID_CAPTURE_BACK,
 } from '../actionTypes';
 
 import {
@@ -13,13 +14,14 @@ const initialState = {
   isDisabled: false,
   step: 0,
   sdkFlow: [],
+  idCaptureBackIndex: -1,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case ADD_FIELD: {
       const {
-        key, value, whichStep, required, type,
+        key, value, whichStep, required, type, hidden,
       } = action.payload;
 
       return {
@@ -32,6 +34,7 @@ export default function (state = initialState, action) {
               value,
               required,
               type,
+              hidden,
             },
           },
         },
@@ -63,6 +66,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         sdkFlow,
+      };
+    }
+
+    case SET_ID_CAPTURE_BACK: {
+      const { index: idCaptureBackIndex } = action.payload;
+
+      return {
+        ...state,
+        idCaptureBackIndex,
       };
     }
 

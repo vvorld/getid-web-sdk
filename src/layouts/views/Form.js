@@ -14,6 +14,9 @@ import actions from '../../store/actions';
 import { getFormValues } from '../../store/selectors';
 
 const styles = (theme) => ({
+  hidden: {
+    display: 'none',
+  },
   labelCheckbox: {
     margin: '40px 0 0 0',
     textAlign: 'left',
@@ -44,6 +47,8 @@ class Form extends Component {
     } = this.props;
     this.fields = fields;
     this.currentStep = currentStep;
+    const hundredYearsAgo = new Date();
+    this.minDate = hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
     const narrow = 5 * currentComponent.component.length;
     const wide = 10;
     this.gridWidth = formType === 'narrow' ? narrow : wide;
@@ -58,14 +63,25 @@ class Form extends Component {
 
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
-        const required = field.required === false ? field.required : true;
-        addField(field.name, field.value, currentStep, required, field.type);
+        const {
+          name, value, required, type, hidden,
+        } = field;
+        addField(name, value, currentStep, required !== false, type, hidden);
       });
     }
   }
 
   handleDateChange = (key, isRequired) => (date) => {
-    this.props.addField(key, date, this.currentStep, isRequired, 'date');
+    // temporary workaround because of @material-ui/pickers bug with format
+    // issue: https://github.com/mui-org/material-ui-pickers/issues/1348
+    if (Date.parse(date) < this.minDate) {
+      this.props.addField(key, 'Invalid Date', this.currentStep, isRequired, 'date');
+      return;
+    }
+    if (date) {
+      const convertToUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      this.props.addField(key, convertToUTC, this.currentStep, isRequired, 'date');
+    }
   };
 
   handleFiles = async (event) => {
@@ -86,7 +102,6 @@ class Form extends Component {
   handleChange = (event) => {
     const eventTarget = event.target;
     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-
     this.props.addField(eventTarget.name,
       value,
       this.currentStep,
@@ -94,9 +109,9 @@ class Form extends Component {
       eventTarget.type);
   };
 
-  handleSelectChange = (isRequired) => (event) => {
+  handleSelectChange = (isRequired, type) => (event) => {
     const eventTarget = event.target;
-    const { value, type } = eventTarget;
+    const { value } = eventTarget;
 
     this.props.addField(eventTarget.name,
       value,
@@ -111,61 +126,65 @@ class Form extends Component {
     } = this.props;
     const fileTooltip = translations.file_input_tooltip;
     return this.fields.map((field) => {
-      const required = field.required === false ? field.required : true;
-      if (field.type === 'select') {
-        const { options } = field;
+      const {
+        options, type, name, label, placeholder, hidden, required,
+      } = field;
 
+      const inputName = fieldValues[this.currentStep][name];
+
+      const isRequired = required !== false;
+      if (type === 'select') {
         return (
-          <Grid item key={`select-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={hidden && classes.hidden} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             <Select
-              name={field.name}
+              name={name}
               items={options}
-              required={required}
-              value={fieldValues[this.currentStep][field.name].value}
-              placeholder={field.placeholder}
-              onChange={this.handleSelectChange(field.required)}
+              required={isRequired}
+              value={inputName.value}
+              placeholder={placeholder}
+              onChange={this.handleSelectChange(isRequired, type)}
             />
           </Grid>
         );
       }
 
-      if (field.type === 'file') {
+      if (type === 'file') {
         return (
-          <Grid item key={`select-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={hidden && classes.hidden} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
             <CustomFileInput
               onChange={this.handleFiles}
-              name={field.name}
-              label={field.label}
-              required={required}
-              type={field.type}
-              valueName={fieldValues[this.currentStep][field.name].value}
+              name={name}
+              label={label}
+              required={isRequired}
+              type={type}
+              valueName={inputName.value}
             />
           </Grid>
         );
       }
 
-      if (field.type === 'checkbox') {
+      if (type === 'checkbox') {
         return (
-          <Grid item key={`checkbox-grid-${field.label}`} xs={11} sm={9} xl={12}>
+          <Grid className={hidden && classes.hidden} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
                   data-role="checkbox"
                   className={classes.labelCheckbox}
-                  key={`control-${field.label}`}
+                  key={`control-${label}`}
                   control={(
                     <CustomCheckBox
                       data-role="checkboxInput"
-                      name={field.name}
-                      key={`checkbox-${field.label}`}
-                      checked={fieldValues[this.currentStep][field.name].value}
+                      name={name}
+                      key={`checkbox-${label}`}
+                      checked={inputName.value}
                       onChange={this.handleChange}
-                      value={this.props[field.name]}
-                      required={required}
+                      value={this.props[name]}
+                      required={isRequired}
                     />
                   )}
-                  label={<label className="label-checkbox">{parse(field.label)}</label>}
+                  label={<label className="label-checkbox">{parse(label)}</label>}
                 />
               </Grid>
             </Grid>
@@ -173,32 +192,33 @@ class Form extends Component {
         );
       }
 
-      if (field.type === 'date') {
+      if (type === 'date') {
         return (
-          <Grid item key={`dategrid-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={hidden && classes.hidden} item key={`dategrid-${label}`} xs={11} sm={9} md={this.gridWidth}>
             <DateInput
-              key={`dateinput-${field.label}`}
-              name={field.name}
-              required={required}
-              label={field.label}
+              key={`dateinput-${label}`}
+              name={name}
+              minDate={this.minDate}
+              required={isRequired}
+              label={label}
               format="yyyy-MM-dd"
-              value={fieldValues[this.currentStep][field.name].value || null}
-              onChange={this.handleDateChange(field.name, field.required)}
+              value={inputName.value || null}
+              onChange={this.handleDateChange(name, isRequired)}
             />
           </Grid>
         );
       }
 
       return (
-        <Grid item key={`text-${field.label}`} xs={11} sm={9} md={this.gridWidth}>
+        <Grid className={hidden && classes.hidden} item key={`text-${label}`} xs={11} sm={9} md={this.gridWidth}>
           <TextInput
-            type={field.type}
-            name={field.name}
-            required={required}
-            value={fieldValues[this.currentStep][field.name].value}
+            type={type}
+            name={name}
+            required={isRequired}
+            value={inputName.value}
             onChange={this.handleChange}
-            label={field.label}
-            key={`input-${field.label}`}
+            label={label}
+            key={`input-${label}`}
           />
         </Grid>
       );

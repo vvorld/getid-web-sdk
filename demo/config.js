@@ -3,12 +3,13 @@ export default {
   apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
-  flow: [{ component: ['CountryAndDocument'] },
+  flow: [
+      // { component: ['CountryAndDocument'] },
     { component: ['Form'] },
-    { component: ['IdCapture'] },
-    { component: ['IdCaptureBack'] },
-    { component: ['IdSelfie'] },
-    { component: ['Consent'] },
+    // { component: ['IdCapture'] },
+    // { component: ['IdCaptureBack'] },
+    // { component: ['IdSelfie'] },
+    // { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {
@@ -24,8 +25,10 @@ export default {
     {
       label: 'First Name',
       type: 'text',
+      // value: 'John',
       name: 'First name',
-      required: false,
+      required: true,
+      hidden: true,
     },
     {
       label: 'Last Name',
@@ -36,7 +39,7 @@ export default {
       label: 'Document front side',
       type: 'file',
       name: 'Photo_id',
-      required: true,
+      required: false,
     },
     {
       label: 'Document back side',

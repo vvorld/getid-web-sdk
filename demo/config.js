@@ -3,7 +3,8 @@ export default {
   apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
-  flow: [{ component: ['CountryAndDocument'] },
+  flow: [
+      // { component: ['CountryAndDocument'] },
     { component: ['Form'] },
     // { component: ['IdCapture'] },
     // { component: ['IdCaptureBack'] },
@@ -24,8 +25,9 @@ export default {
     {
       label: 'First Name',
       type: 'text',
+      // value: 'John',
       name: 'First name',
-      required: false,
+      required: true,
       hidden: true,
     },
     {

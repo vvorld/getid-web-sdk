@@ -184,14 +184,19 @@ class Widget extends Component {
     } = this.props;
 
     if (fieldValues[currentStep]) {
-      setDisabled(Object.values(fieldValues[currentStep]).some((field) => (
-        field.required
-          && (field.value === null
-          || (field.type === 'date' && Number.isNaN(Date.parse(field.value)))
-          || field.value === ''
-          || field.value === undefined
-          || field.value === false
-          || (/^\s+$/).test(field.value.toString())))));
+      const fieldsToCheck = Object.values(fieldValues[currentStep])
+        .filter((field) => field.required && !field.hidden);
+
+      setDisabled(fieldsToCheck.some((field) => {
+        const { value, type } = field;
+
+        return (value === null
+            || (type === 'date' && Number.isNaN(Date.parse(value)))
+            || value === ''
+            || value === undefined
+            || value === false
+            || (/^\s+$/).test(value.toString()));
+      }));
     }
 
     if (this.isCameraView() && scans[currentStep]) {

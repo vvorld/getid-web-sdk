@@ -19,7 +19,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case ADD_FIELD: {
       const {
-        key, value, whichStep, required, type,
+        key, value, whichStep, required, type, hidden,
       } = action.payload;
 
       return {
@@ -32,6 +32,7 @@ export default function (state = initialState, action) {
               value,
               required,
               type,
+              hidden,
             },
           },
         },

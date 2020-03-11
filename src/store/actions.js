@@ -2,10 +2,10 @@ import {
   ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
 } from './actionTypes';
 
-const addField = (key, value, whichStep, required, type) => ({
+const addField = (key, value, whichStep, required, type, hidden) => ({
   type: ADD_FIELD,
   payload: {
-    key, value, whichStep, required, type,
+    key, value, whichStep, required, type, hidden,
   },
 });
 

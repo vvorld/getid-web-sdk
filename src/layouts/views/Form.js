@@ -63,7 +63,10 @@ class Form extends Component {
 
     if (fields && !isFormFilledIn) {
       fields.forEach((field) => {
-        addField(field.name, field.value, currentStep, field.required !== false, field.type);
+        const {
+          name, value, required, type, hidden,
+        } = field;
+        addField(name, value, currentStep, required !== false, type, hidden);
       });
     }
   }

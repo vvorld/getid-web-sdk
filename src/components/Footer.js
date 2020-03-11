@@ -9,7 +9,7 @@ import TranslationsContext from '../context/TranslationsContext';
 const Footer = (props) => {
   const { isCameraView, isCameraEnabled } = props;
   const classes = FooterStyles();
-  const { translations } = useContext(TranslationsContext);
+  const { translations } = useContext(TranslationsContext) || {};
 
   return (
     <div>
@@ -18,7 +18,7 @@ const Footer = (props) => {
       {isCameraView && isCameraEnabled && (
         <div className={classes.spacebar} data-role="photoHelp">
           <div className={classes.text} data-role="textHelp">
-            {parse(translations.photo_tip)}
+            {parse(translations.photo_tip || '')}
           </div>
           <img src={Spacebar} alt="click space to make selfie" className={classes.image} data-role="imgHelp" />
         </div>

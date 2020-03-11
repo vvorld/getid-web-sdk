@@ -79,6 +79,7 @@ class WebcamView extends React.Component {
   }
 
   async setWebStream() {
+    const { translations } = this.context;
     try {
       const stream = await navigator.mediaDevices
         .getUserMedia({
@@ -106,7 +107,9 @@ class WebcamView extends React.Component {
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
-      console.error(error);
+      if (error.name === 'NotFoundError') {
+        this.setState(() => ({ errorMessage: translations.camera_error_not_found }));
+      }
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
@@ -283,6 +286,7 @@ class WebcamView extends React.Component {
                     isCameraEnabled={isCameraEnabled}
                     setWebcamRef={this.setWebcamRef}
                     requestCamera={this.requestCamera}
+                    errorMessage={this.state.errorMessage || translations.camera_error_generic}
                     overlay={cameraOverlay}
                   />
                 </Grid>

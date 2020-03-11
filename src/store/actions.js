@@ -3,10 +3,10 @@ import {
   SET_ID_CAPTURE_BACK,
 } from './actionTypes';
 
-const addField = (key, value, whichStep, required, type) => ({
+const addField = (key, value, whichStep, required, type, hidden) => ({
   type: ADD_FIELD,
   payload: {
-    key, value, whichStep, required, type,
+    key, value, whichStep, required, type, hidden,
   },
 });
 

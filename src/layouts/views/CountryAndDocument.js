@@ -68,7 +68,7 @@ class CountryAndDocument extends React.Component {
       const stepWithIdCaptureBack = flow
         .find((item) => item.component.includes('IdCaptureBack')) || {};
       setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
-    }
+    };
 
     checkForSupportedValues = (currentValues, countryList) => {
       const { Country, DocumentType } = currentValues;
@@ -91,7 +91,7 @@ class CountryAndDocument extends React.Component {
 
       if (!fieldValues[currentStep] && documentData.length) {
         documentData.forEach((field) => {
-          addField(field.name, field.value, currentStep, true);
+          addField(field.name, field.value, currentStep, true, 'text');
         });
         return;
       }
@@ -107,19 +107,19 @@ class CountryAndDocument extends React.Component {
       addField('Country', undefined, currentStep, true);
     };
 
-    setEmptyDocumentType = () => {
-      const { currentStep, addField } = this.props;
-      addField('DocumentType', '', currentStep, true);
-    };
-
     setNewCountry = (event) => {
       const { currentStep } = this.props;
-      this.props.addField('Country', event.target.value, currentStep, true);
+      this.props.addField('Country', event.target.value, currentStep, true, 'text');
     };
 
     setNewDocType = (event) => {
       const { currentStep } = this.props;
-      this.props.addField('DocumentType', event.target.value, currentStep, true);
+      this.props.addField('DocumentType', event.target.value, currentStep, true, 'text');
+    };
+
+    setEmptyDocumentType = () => {
+      const { currentStep, addField } = this.props;
+      addField('DocumentType', '', currentStep, true, 'text');
     };
 
     getCurrentDocumentProperties = () => {

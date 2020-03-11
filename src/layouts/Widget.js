@@ -28,12 +28,16 @@ class Widget extends Component {
     };
   }
 
+  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
+
   isSingleDocument = () => this.isPage('IdCapture') && this.props.idCaptureBackIndex < 0;
 
   triggerNextComponent = async () => {
     this.props.setStep(this.props.currentStep + 1);
     await this.sendStepCompleteEvent();
   };
+
+  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
 
   sendStepCompleteEvent = async () => {
     const stepName = this.isSingleDocument()
@@ -42,13 +46,13 @@ class Widget extends Component {
     await this.api.trySendEvent(stepName, 'completed');
   };
 
-  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
-
   submitData = async () => {
     await this.sendStepCompleteEvent();
-    const { currentStep, setStep } = this.props;
-    setStep(currentStep);
+    const {
+      currentStep, setStep,
+    } = this.props;
 
+    setStep(currentStep);
     this.setState({ loading: true });
     await this.api.trySendEvent(stepNames.Submit, 'started');
     try {
@@ -69,8 +73,6 @@ class Widget extends Component {
       this.triggerNextComponent();
     }
   };
-
-  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
 
   isCameraView = () => cameraViews.some((name) => this.isPage(name));
 
@@ -132,14 +134,19 @@ class Widget extends Component {
     } = this.props;
 
     if (fieldValues[currentStep]) {
-      setDisabled(Object.values(fieldValues[currentStep]).some((field) => (
-        field.required
-          && (field.value === null
-          || (field.type === 'date' && Number.isNaN(Date.parse(field.value)))
-          || field.value === ''
-          || field.value === undefined
-          || field.value === false
-          || (/^\s+$/).test(field.value.toString())))));
+      const fieldsToCheck = Object.values(fieldValues[currentStep])
+        .filter((field) => field.required && !field.hidden);
+
+      setDisabled(fieldsToCheck.some((field) => {
+        const { value, type } = field;
+
+        return (value === null
+            || (type === 'date' && Number.isNaN(Date.parse(value)))
+            || value === ''
+            || value === undefined
+            || value === false
+            || (/^\s+$/).test(value.toString()));
+      }));
     }
 
     if (this.isCameraView() && scans[currentStep]) {
@@ -257,6 +264,7 @@ Widget.propTypes = {
   formType: PropTypes.string.isRequired,
   setDisabled: PropTypes.func.isRequired,
   setStep: PropTypes.func.isRequired,
+  addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,
   classes: PropTypes.object,

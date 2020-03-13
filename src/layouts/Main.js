@@ -43,7 +43,7 @@ class Main extends React.Component {
 
   setSdkFlow = () => {
     const {
-      flow, setFlow, fields,
+      flow, setFlow, fields, addField,
     } = this.props;
 
     const duplicatedFlow = flow;
@@ -51,7 +51,16 @@ class Main extends React.Component {
 
     if (allFormFieldsHidden) {
       const index = flow.indexOf(flow.find((item) => item.component.includes('Form')));
+
       if (index !== -1) {
+        if (fields.length > 0) {
+          fields.forEach((field) => {
+            const {
+              name, value, required, type, hidden,
+            } = field;
+            addField(name, value, index, required !== false, type, hidden);
+          });
+        }
         duplicatedFlow.splice(index, 1);
       }
     }
@@ -77,6 +86,7 @@ Main.defaultProps = {
 Main.propTypes = {
   flow: PropTypes.array,
   setFlow: PropTypes.func.isRequired,
+  addField: PropTypes.func.isRequired,
   fields: PropTypes.array,
   setIdCaptureBack: PropTypes.func.isRequired,
   api: PropTypes.object.isRequired,

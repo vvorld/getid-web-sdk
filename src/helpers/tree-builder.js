@@ -63,7 +63,7 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const createEAForSubmission = (jwt) => {
+export const createEAForSubmission = (jwt, verificationTypes) => {
   const state = store.getState();
   let form = new FormData();
   form.append('data', JSON.stringify({
@@ -73,6 +73,7 @@ export const createEAForSubmission = (jwt) => {
         metadata: {
           metadata: 'web',
           submissionTime: new Date(),
+          verificationTypes,
         },
         documents: [
           {

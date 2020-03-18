@@ -115,7 +115,7 @@ export const init = (options, tokenProvider) => {
     const {
       responseCode, errorMessage, token, exists,
     } = result;
-    const api = createApi(options.apiUrl, token);
+    const api = createApi(options.apiUrl, token, options.verificationTypes);
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };

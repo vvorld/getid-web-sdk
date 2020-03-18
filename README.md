@@ -13,6 +13,7 @@
     *   [Callbacks](#callbacks)
     *   [Flow](#flow)
     *   [Fields](#fields)
+    *   [Verification Types](#verification-types)
     *   [Supported countries and types of documents](#supported-countries-and-types-of-documents)
     *   [Form grid](#form-grid)
 *   [Localization](#localization)
@@ -255,6 +256,24 @@ const config = {
 const token = _your_jwt_here_;
 init(config, token);
 ```
+
+### Verification types
+You may also configure desirable types of verification by simple passing a
+``` verificationTypes``` (array of strings) property in config. 
+
+Example: 
+``` js
+import { init } from 'getid-web-sdk'
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  verificationTypes: ['F', 'E'],
+}; 
+
+const token = _your_jwt_here_;
+init(config, token);
+```
+Where 'F' stands for 'face matching' and 'E' stands for 'extraction'.
 
 ### Supported countries and types of documents
 In process of passing flow you have to choose one of the offered document types. Depending on country user is allowed to select one or other document type. 

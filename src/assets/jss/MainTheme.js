@@ -20,6 +20,9 @@ const mainTheme = createMuiTheme({
       paper: 'white',
       default: 'white',
     },
+    error: {
+      main: '#F0809B',
+    },
   },
   stepperShape: {
     width: 20,
@@ -31,6 +34,13 @@ const mainTheme = createMuiTheme({
     mainHeaderSize: '26px',
   },
   overrides: {
+    MuiInputBase: {
+      root: {
+        '&$error': {
+          borderColor: '#F0809B !important',
+        },
+      },
+    },
     MuiPickersToolbarText: {
       toolbarBtnSelected: {
         color: '#0e1c2c',

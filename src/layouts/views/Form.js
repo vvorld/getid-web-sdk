@@ -24,6 +24,9 @@ const styles = (theme) => ({
       position: 'absolute',
       bottom: '-14px',
     },
+    '& $helper': {
+      position: 'initial',
+    },
   },
   labelCheckbox: {
     margin: '40px 0 0 0',
@@ -40,8 +43,7 @@ const styles = (theme) => ({
     },
   },
   helper: {
-    marginBottom: '10px',
-    marginTop: '4px',
+    margin: '0 8px 10px',
     color: theme.palette.blueDark,
     opacity: '0.7',
   },
@@ -239,7 +241,7 @@ class Form extends Component {
 
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="flex-start" justify="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="flex-end" justify="center" container spacing={2} data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );

@@ -90,9 +90,14 @@ const addDefaultValues = () => (resp) => {
 
 const sanitizeConfig = (options) => {
   const { fields } = options;
-  return fields
-    .filter((field, index, self) => index === self
-      .findIndex((t) => t.name.toLowerCase() === field.name.toLowerCase()));
+  return Object.values(
+    fields.reduce((list, item) => {
+      const name = item.name.toLowerCase();
+      // eslint-disable-next-line no-param-reassign
+      list[name] = list[name] || item;
+      return list;
+    }, {}),
+  );
 };
 
 /**

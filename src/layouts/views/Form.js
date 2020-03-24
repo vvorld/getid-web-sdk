@@ -17,6 +17,17 @@ const styles = (theme) => ({
   hidden: {
     display: 'none',
   },
+  fieldWrapper: {
+    position: 'relative',
+    marginBottom: '4px',
+    '& p': {
+      position: 'absolute',
+      bottom: '-14px',
+    },
+    '& $helper': {
+      position: 'initial',
+    },
+  },
   labelCheckbox: {
     margin: '40px 0 0 0',
     textAlign: 'left',
@@ -32,8 +43,7 @@ const styles = (theme) => ({
     },
   },
   helper: {
-    marginBottom: '10px',
-    marginTop: '4px',
+    margin: '0 8px 10px',
     color: theme.palette.blueDark,
     opacity: '0.7',
   },
@@ -131,11 +141,12 @@ class Form extends Component {
       } = field;
 
       const inputName = fieldValues[this.currentStep][name];
+      const wrapperClass = (isHidden) => `${classes.fieldWrapper} ${isHidden && classes.hidden}`;
 
       const isRequired = required !== false;
       if (type === 'select') {
         return (
-          <Grid className={hidden && classes.hidden} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             <Select
               name={name}
               items={options}
@@ -150,7 +161,7 @@ class Form extends Component {
 
       if (type === 'file') {
         return (
-          <Grid className={hidden && classes.hidden} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
             <CustomFileInput
               onChange={this.handleFiles}
@@ -166,7 +177,7 @@ class Form extends Component {
 
       if (type === 'checkbox') {
         return (
-          <Grid className={hidden && classes.hidden} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
+          <Grid className={wrapperClass(hidden)} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
               <Grid item xs={12} sm={10} md={10} lg={8}>
                 <FormControlLabel
@@ -194,7 +205,7 @@ class Form extends Component {
 
       if (type === 'date') {
         return (
-          <Grid className={hidden && classes.hidden} item key={`dategrid-${label}`} xs={11} sm={9} md={this.gridWidth}>
+          <Grid className={wrapperClass(hidden)} item key={`dategrid-${label}`} xs={11} sm={9} md={this.gridWidth}>
             <DateInput
               key={`dateinput-${label}`}
               name={name}
@@ -210,7 +221,7 @@ class Form extends Component {
       }
 
       return (
-        <Grid className={hidden && classes.hidden} item key={`text-${label}`} xs={11} sm={9} md={this.gridWidth}>
+        <Grid className={wrapperClass(hidden)} item key={`text-${label}`} xs={11} sm={9} md={this.gridWidth}>
           <TextInput
             type={type}
             name={name}

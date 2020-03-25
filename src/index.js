@@ -119,6 +119,10 @@ export const init = (options, tokenProvider) => {
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };
+
+    config.documentData = config.documentData
+      .map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
+
     if (responseCode !== 200 || exists) {
       renderMainComponent(config);
       return;

@@ -19,13 +19,13 @@ class Consent extends Component {
       addField, currentStep, fieldValues,
     } = this.props;
     if (!fieldValues[currentStep]) {
-      addField('consent', false, currentStep, true, 'consent');
+      addField('consent', false, currentStep, true, 'checkbox');
     }
   }
 
   handleChange = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('consent', event.target.checked, currentStep, true, 'boolean');
+    this.props.addField('consent', event.target.checked, currentStep, true, 'checkbox');
   };
 
   render() {

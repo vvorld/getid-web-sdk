@@ -13,7 +13,7 @@ export const appendScansToForm = (form, scans) => {
 const typeMap = {
   text: 'string',
   date: 'date',
-  boolean: 'boolean',
+  checkbox: 'boolean',
   select: 'string',
 };
 

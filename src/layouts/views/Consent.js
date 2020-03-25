@@ -25,7 +25,7 @@ class Consent extends Component {
 
   handleChange = (event) => {
     const { currentStep } = this.props;
-    this.props.addField('consent', event.target.checked, currentStep, 'consent');
+    this.props.addField('consent', event.target.checked, currentStep, true, 'boolean');
   };
 
   render() {

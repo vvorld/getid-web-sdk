@@ -1,4 +1,5 @@
 import store from '../store/store';
+import { version } from '../../package.json';
 
 export const appendScansToForm = (form, scans) => {
   Object.keys(scans).forEach((step) => {
@@ -72,6 +73,8 @@ export const createEAForSubmission = (jwt, verificationTypes) => {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
           metadata: 'web',
+          sdkVersion: version,
+          locale: window.navigator.language,
           submissionTime: new Date(),
           verificationTypes,
         },

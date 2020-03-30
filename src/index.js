@@ -88,6 +88,18 @@ const addDefaultValues = () => (resp) => {
   };
 };
 
+const sanitizeConfig = (options) => {
+  const { fields } = options;
+  return Object.values(
+    fields.reduce((list, item) => {
+      const name = item.name.toLowerCase();
+      // eslint-disable-next-line no-param-reassign
+      list[name] = list[name] || item;
+      return list;
+    }, {}),
+  );
+};
+
 /**
  * Init. Checks for token => returns the widget.
  * @param options
@@ -119,16 +131,19 @@ export const init = (options, tokenProvider) => {
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };
+
     if (responseCode !== 200 || exists) {
       renderMainComponent(config);
       return;
     }
     Promise.all([
+      sanitizeConfig(config),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([info, translations]) => {
+    ]).then(([filteredFields, info, translations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
       Object.assign(translations, defaultTranslations);
+      config.fields = filteredFields;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,
       });

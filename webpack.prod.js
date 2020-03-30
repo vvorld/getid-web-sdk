@@ -3,6 +3,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
 const path = require('path');
+const { version } = require('./package');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -12,7 +13,7 @@ module.exports = merge(common, {
   output: {
     library: 'getidWebSdk',
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].min.js',
+    filename: `[name]-v${version}.min.js`,
   },
   optimization: {
     minimize: true,

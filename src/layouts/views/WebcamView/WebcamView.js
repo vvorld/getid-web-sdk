@@ -42,6 +42,11 @@ class WebcamView extends React.Component {
       stream: null,
       recording: true,
       videoChunks: [],
+      videoHeight: 720,
+      videoWidth: 1125,
+      originVideoWidth: 1280,
+      cropX: 0,
+      cropY: 0,
     };
     this.mediaRecorders = [];
     this.setWebcamRef = this.setWebcamRef.bind(this);
@@ -65,6 +70,7 @@ class WebcamView extends React.Component {
     }
 
     this.setState({ saveImage: scans[currentStep] && !!scans[currentStep][component].value });
+    this.cropCoefficient();
 
     this.setWebStream();
     document.addEventListener('keydown', this.spaceActivate, false);
@@ -84,8 +90,17 @@ class WebcamView extends React.Component {
       const stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, width: 1920 },
+          video: { deviceId: true, width: 4096 },
         });
+
+      const streamSettings = stream.getVideoTracks()[0].getSettings();
+      const { width: originVideoWidth, height: videoHeight } = streamSettings;
+      // set width and height of original stream and stream in 25/16 ratio to state
+      this.setState({
+        videoHeight,
+        videoWidth: videoHeight * (25 / 16),
+        originVideoWidth,
+      });
 
       const { sdkPermissions, component } = this.props;
       if (component === 'selfie') {
@@ -131,6 +146,18 @@ class WebcamView extends React.Component {
 
   cameraOverlay = () => null;
 
+  cropCoefficient() {
+    const { isPassport, cameraDistance } = this.props;
+    // cropx, cropY are calculated for each available overlays
+    if (isPassport) {
+      this.setState({ cropX: 0.193, cropY: 0.036 });
+    } else if (cameraDistance === 'far') {
+      this.setState({ cropX: 0.161, cropY: 0.164 });
+    } else {
+      this.setState({ cropX: 0.033, cropY: 0.036 });
+    }
+  }
+
   cameraResize() {
     this.webcam.height = this.webcam.clientWidth * 0.64;
   }
@@ -139,18 +166,18 @@ class WebcamView extends React.Component {
     const videoElement = document.getElementById('video-capture');
     if (videoElement && videoElement.readyState !== 4) { return; }
 
+    const { addScan, component, currentStep } = this.props;
     const {
-      cameraDistance, addScan, component, currentStep, isPassport,
-    } = this.props;
+      videoWidth, videoHeight, originVideoWidth, cropX, cropY,
+    } = this.state;
+
     // draw image in canvas
     const context = this.canvas.getContext('2d');
-    if (isPassport) {
-      context.drawImage(this.webcam, -305, -20, 1355, 756);
-    } else if (cameraDistance === 'far') {
-      context.drawImage(this.webcam, -350, -165, 1830, 1070);
-    } else {
-      context.drawImage(this.webcam, -115, -20, 1355, 756);
-    }
+    context.drawImage(
+      this.webcam,
+      -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
+      -videoHeight * cropY,
+    );
 
     this.stopRecording();
 
@@ -256,10 +283,10 @@ class WebcamView extends React.Component {
   }
 
   render() {
+    const { footer, cameraOverlay, classes } = this.props;
     const {
-      footer, cameraOverlay, classes, isPassport,
-    } = this.props;
-    const { isCameraEnabled, saveImage } = this.state;
+      isCameraEnabled, saveImage, videoHeight, videoWidth, cropX, cropY,
+    } = this.state;
     const { translations } = this.context;
     const { next } = footer;
 
@@ -274,6 +301,9 @@ class WebcamView extends React.Component {
       },
       isCameraEnabled,
     };
+
+    const canvasWidth = videoWidth * (1 - cropX * 2);
+    const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
       <div className="selfie">
@@ -293,11 +323,12 @@ class WebcamView extends React.Component {
               </Grid>
               <Footer {...cameraFooter} />
               {/* eslint-disable-next-line no-return-assign */}
-              {
-                isPassport
-                  ? (<canvas width="747" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
-                  : (<canvas width="1125" height="720" ref={(ref) => { this.canvas = ref; }} className={classes.canvas} />)
-              }
+              <canvas
+                width={canvasWidth}
+                height={canvasHeight}
+                ref={(ref) => { this.canvas = ref; }}
+                className={classes.canvas}
+              />
             </div>
           )}
       </div>

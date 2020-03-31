@@ -1,6 +1,6 @@
 import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
-  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR,
+  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK,
 } from '../constants/api';
 import { createEAForSubmission } from '../helpers/tree-builder';
 
@@ -51,4 +51,8 @@ export const createApi = (url, jwt, verificationTypes) => {
 
 export function getJwtToken(apiUrl, apiKey, customerId) {
   return post(`${apiUrl}${TOKEN_REQUEST}`, { customerId }, { apiKey });
+}
+
+export function getScriptLink(apiUrl, apiKey) {
+  return post(`${apiUrl}${SCRIPT_LINK}`, {}, { apiKey });
 }

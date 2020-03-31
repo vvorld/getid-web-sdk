@@ -54,10 +54,26 @@ import {init} from 'getid-web-sdk'
 // commonjs style require
 const getId = require('getid-web-sdk')
 ```
+
 - CDN
 include sdk as regular script tag. (please contact technical support for CDN link)
 ``` html
-<script src='<getid-web-sdk-vx.x.x.min.js'></script>
+<script src='getid-web-sdk-vx.x.x.min.js'></script>
+```
+
+In case you want to automatically keep up with latest version of sdk cdn script, we advice to use our `launcher.js`
+Just include the script in your html page, it will insert the latest script into the <head> tag of your page.
+Example:
+``` html
+<script src='launcher.min.js'></script>
+```
+
+```js
+window.getIdLauncher.launcher(apiUrl, apiKey).then(() => {
+    window.onload = () => {
+      // init the application using global window object 
+    };
+});
 ```
 
 ### Obtaining JWT
@@ -91,6 +107,12 @@ import { init, createPublicTokenProvider } from 'getid-web-sdk'
 const config = {_your_config_here_}
 const token = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
 init(config, token);
+```
+
+In case you are using our launcher script, `init` function will be accessible through window object.
+
+```js
+window.getidWebSdk.init(config, token);
 ```
 
 Our team strongly encourages making a JWT call using server-side code and first option of obtaining a .

@@ -102,7 +102,7 @@ In case you are using our launcher script, initialize sdk like you would with si
 window.getidWebSdk.init(config, token);
 ```
 --------------
-Also, you can use SDK built in function `createPublicTokenProvider` that you can import along with `init`.
+Also, you can use SDK built-in function `createPublicTokenProvider` that you can import along with `init`.
 In this scenario, apiKey must be passed to `init` method along with SDK config and API url.
 
 ``` js

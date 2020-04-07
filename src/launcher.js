@@ -1,5 +1,5 @@
 import { getScriptLink } from './services/api';
-import { createPublicTokenProvider } from './index';
+import { createPublicTokenProvider } from './helpers/token-provider';
 
 const init = async (cfg, token) => {
   const { scriptLink } = await getScriptLink(cfg.apiUrl, cfg.apiKey);

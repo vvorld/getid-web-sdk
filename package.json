@@ -13,6 +13,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
+    "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
     "lint": "eslint ./src",
     "test": "jest ./test",

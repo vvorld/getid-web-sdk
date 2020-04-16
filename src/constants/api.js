@@ -5,3 +5,4 @@ export const DICTIONARY = '/sdk/v1/dictionary';
 export const EVENT = '/sdk/v1/event';
 export const TOKEN_REQUEST = '/sdk/v1/token';
 export const LOG_ERROR = '/sdk/v1/log-error';
+export const SCRIPT_LINK = '/sdk/v1/script-link';

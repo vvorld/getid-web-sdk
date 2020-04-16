@@ -12,7 +12,7 @@ module.exports = merge(common, {
   },
   output: {
     library: 'getidWebSdk',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/lib/'),
     filename: `[name]-v${version}.min.js`,
   },
   optimization: {

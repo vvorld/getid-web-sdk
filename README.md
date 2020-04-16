@@ -54,10 +54,25 @@ import {init} from 'getid-web-sdk'
 // commonjs style require
 const getId = require('getid-web-sdk')
 ```
+
 - CDN
 include sdk as regular script tag. (please contact technical support for CDN link)
 ``` html
-<script src='<getid-web-sdk-vx.x.x.min.js'></script>
+<script src='getid-web-sdk-vx.x.x.min.js'></script>
+```
+
+In case you want to automatically keep up with latest version of sdk cdn script, we advice to use our `launcher.js`
+Just include the script in your html page, it will insert the latest script into the <head> tag of your page.
+Example:
+``` html
+<script src='launcher.min.js'></script>
+```
+
+it will handle versioning and sdk script loading and init. 
+Load it the same way you would load with sdk init
+
+```js
+window.getidWebSdk.init(config, token);
 ```
 
 ### Obtaining JWT
@@ -82,8 +97,12 @@ body: {
 }
 init(config, token);
 ```
-
-or, you can use SDK built in function `createPublicTokenProvider` that you can import along with `init`.
+In case you are using our launcher script, initialize sdk like you would with simple sdk script
+```js
+window.getidWebSdk.init(config, token);
+```
+--------------
+Also, you can use SDK built-in function `createPublicTokenProvider` that you can import along with `init`.
 In this scenario, apiKey must be passed to `init` method along with SDK config and API url.
 
 ``` js
@@ -93,7 +112,16 @@ const token = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId
 init(config, token);
 ```
 
+In case you are using our launcher script, 
+`createPublicTokenProvider` will be accessible via `window.getidWebSdk` object.
+```js
+const config = {_your_config_here_}
+const token = window.getidWebSdk.createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
+window.getidWebSdk.init(config, token);
+```
+
 Our team strongly encourages making a JWT call using server-side code and first option of obtaining a .
+
 
 * Tokens expire 90 minutes after creation. (length of a token's life is a matter of configuration)
 

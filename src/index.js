@@ -5,16 +5,16 @@ import { ThemeProvider } from '@material-ui/styles';
 import Main from './layouts/Main';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
-import { createApi, getJwtToken } from './services/api';
+import { createApi } from './services/api';
 import defaultTranslations from './translations/default-translations.json';
 import MainTheme from './assets/jss/MainTheme';
+import { createPublicTokenProvider } from './helpers/token-provider';
 
 const supportedBrowsers = require('../supportedBrowsers');
 
 if (!supportedBrowsers.test(navigator.userAgent)) {
   console.error('Your browser is not supported.');
 }
-
 
 const MainModule = (widgetOptions) => (
   <ThemeProvider theme={MainTheme}>
@@ -34,16 +34,6 @@ const MainModule = (widgetOptions) => (
  */
 const renderMainComponent = (widgetOptions) => {
   ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
-};
-
-export const createPublicTokenProvider = (apiUrl, apiKey, customerId) => () => {
-  if (!apiUrl) {
-    throw new Error('Missing api url');
-  }
-  if (!apiKey) {
-    throw new Error('Missing api key');
-  }
-  return getJwtToken(apiUrl, apiKey, customerId);
 };
 
 const checkContainerId = (options) => {
@@ -105,7 +95,7 @@ const sanitizeConfig = (options) => {
  * @param options
  * @param tokenProvider
  */
-export const init = (options, tokenProvider) => {
+const init = (options, tokenProvider) => {
   checkContainerId(options);
   const getToken = (typeof tokenProvider === 'object')
     ? () => new Promise(((resolve) => resolve(tokenProvider)))
@@ -145,9 +135,9 @@ export const init = (options, tokenProvider) => {
       sanitizeConfig(config),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([filteredFields, info, translations]) => {
+    ]).then(([filteredFields, info, responseTranslations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
-      Object.assign(translations, defaultTranslations);
+      const translations = { ...defaultTranslations, ...responseTranslations };
       config.fields = filteredFields;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,
@@ -155,3 +145,5 @@ export const init = (options, tokenProvider) => {
     });
   });
 };
+
+export { createPublicTokenProvider, init };

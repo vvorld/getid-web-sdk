@@ -119,7 +119,7 @@ const init = (options, tokenProvider) => {
     } = result;
     const api = createApi(options.apiUrl, token, options.verificationTypes);
     const config = {
-      ...options, exists, api, errorMessage,
+      ...options, exists, api, translations: defaultTranslations, errorMessage,
     };
 
     if (config.documentData) {

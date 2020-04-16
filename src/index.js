@@ -119,7 +119,7 @@ const init = (options, tokenProvider) => {
     } = result;
     const api = createApi(options.apiUrl, token, options.verificationTypes);
     const config = {
-      ...options, exists, api, translations: defaultTranslations, errorMessage,
+      ...options, exists, api, errorMessage,
     };
 
     if (config.documentData) {
@@ -135,9 +135,9 @@ const init = (options, tokenProvider) => {
       sanitizeConfig(config),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([filteredFields, info, translations]) => {
+    ]).then(([filteredFields, info, responseTranslations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
-      Object.assign(translations, defaultTranslations);
+      const translations = { ...defaultTranslations, ...responseTranslations };
       config.fields = filteredFields;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,

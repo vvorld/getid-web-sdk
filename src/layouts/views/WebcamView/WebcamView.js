@@ -118,7 +118,7 @@ class WebcamView extends React.Component {
               this.initVideoRecorder(stream, duration);
             }, duration * 1000);
           } catch (e) {
-            console.error('video recorder ', e);
+            console.log('initVideoRecorder error', e);
           }
         }
       }
@@ -127,6 +127,7 @@ class WebcamView extends React.Component {
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
+      console.log('error', error);
       if (error.name === 'NotFoundError') {
         this.setState(() => ({ errorMessage: translations.camera_error_not_found }));
       }
@@ -140,216 +141,218 @@ class WebcamView extends React.Component {
     this.webcam = webcam;
   }
 
-    spaceActivate = (e) => {
-      if (e.keyCode === 32) {
-        e.preventDefault();
-        if (!this.state.saveImage) {
-          this.capture();
-        }
+  spaceActivate = (e) => {
+    if (e.keyCode === 32) {
+      e.preventDefault();
+      if (!this.state.saveImage) {
+        this.capture();
+      }
+    }
+  };
+
+  cameraOverlay = () => null;
+
+  cropCoefficient() {
+    const { isPassport, cameraDistance } = this.props;
+    // cropx, cropY are calculated for each available overlays
+    if (isPassport) {
+      this.setState({ cropX: 0.193, cropY: 0.036 });
+    } else if (cameraDistance === 'far') {
+      this.setState({ cropX: 0.161, cropY: 0.164 });
+    } else {
+      this.setState({ cropX: 0.033, cropY: 0.036 });
+    }
+  }
+
+  cameraResize() {
+    console.log('this.webcam', this.webcam);
+    this.webcam.height = this.webcam.clientWidth * 0.64;
+  }
+
+  capture() {
+    const videoElement = document.getElementById('video-capture');
+    if (videoElement && videoElement.readyState !== 4) { return; }
+
+    const { addScan, component, currentStep } = this.props;
+    const {
+      videoWidth, videoHeight, originVideoWidth, cropX, cropY,
+    } = this.state;
+
+    // draw image in canvas
+    const context = this.canvas.getContext('2d');
+    context.drawImage(
+      this.webcam,
+      -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
+      -videoHeight * cropY,
+    );
+
+    this.stopRecording();
+
+    const blobCallback = (blob) => {
+      addScan(component, blob, currentStep, true);
+      this.setState({ saveImage: true });
+    };
+    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
+  }
+
+  stopRecording() {
+    this.setState({ recording: false });
+    if (this.mediaRecorders.length > 0) {
+      this.mediaRecorders.forEach((recorder) => { recorder.stop(); });
+    }
+  }
+
+  initVideoRecorder(stream, maxVideoDuration) {
+    if (!this.state.recording) return;
+    const { addScan, currentStep } = this.props;
+    const startTime = Date.now() / 1000;
+    const options = { mimeType: 'video/webm;codecs=vp8' };
+    if (!window.MediaRecorder) {
+      window.MediaRecorder = OpusMediaRecorder;
+      console.log('window.MediaRecorder', window.MediaRecorder);
+    }
+    console.log('window.MediaRecorder 2', window.MediaRecorder);
+    const mediaRecorder = new MediaRecorder(stream, options);
+    console.log('mediaRecorder', mediaRecorder);
+    this.mediaRecorders.push(mediaRecorder);
+
+    console.log('this.mediaRecorders', this.mediaRecorders);
+
+    mediaRecorder.onstop = () => {
+      this.initVideoRecorder(stream, maxVideoDuration);
+      console.log('here 1 stream', stream);
+    };
+
+    mediaRecorder.ondataavailable = ({ data }) => {
+      console.log('here 2 data', data);
+      // store chunk with data
+      const duration = Date.now() / 1000 - startTime;
+      const { videoChunks } = this.state;
+      if (videoChunks.length > 1) videoChunks.shift();
+      videoChunks.push({ time: duration, data });
+      this.setState({ videoChunks });
+
+      this.mediaRecorders.shift();
+      // filter and store video in case no more recorders are running
+      if (this.mediaRecorders.length === 0) {
+        const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
+          (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration) ? chunk : acceptedChunk
+        ));
+        addScan('selfieVideo', acceptedVideo.data, currentStep, true);
       }
     };
 
-    cameraOverlay = () => null;
+    mediaRecorder.start();
+    console.log('mediaRecorder start', mediaRecorder);
+    // stop recording and gather data after delay
+    setTimeout(() => {
+      if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    }, maxVideoDuration * 2000);
+  }
 
-    cropCoefficient() {
-      const { isPassport, cameraDistance } = this.props;
-      // cropx, cropY are calculated for each available overlays
-      if (isPassport) {
-        this.setState({ cropX: 0.193, cropY: 0.036 });
-      } else if (cameraDistance === 'far') {
-        this.setState({ cropX: 0.161, cropY: 0.164 });
-      } else {
-        this.setState({ cropX: 0.033, cropY: 0.036 });
-      }
-    }
+  async retake() {
+    const { addScan, component, currentStep } = this.props;
+    addScan(component, null, currentStep, true);
+    this.setState({ saveImage: false, videoChunks: [], recording: true });
+    this.setWebStream();
+  }
 
-    cameraResize() {
-      this.webcam.height = this.webcam.clientWidth * 0.64;
-    }
+  async requestCamera() {
+    this.setState(() => ({ isCameraEnabled: true }));
+    this.setWebStream();
+  }
 
-    capture() {
-      const videoElement = document.getElementById('video-capture');
-      if (videoElement && videoElement.readyState !== 4) {
-        return;
-      }
-
-      const { addScan, component, currentStep } = this.props;
-      const {
-        videoWidth, videoHeight, originVideoWidth, cropX, cropY,
-      } = this.state;
-
-      // draw image in canvas
-      const context = this.canvas.getContext('2d');
-      context.drawImage(
-        this.webcam,
-        -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
-        -videoHeight * cropY,
-      );
-
-      this.stopRecording();
-
-      const blobCallback = (blob) => {
-        addScan(component, blob, currentStep, true);
-        this.setState({ saveImage: true });
-      };
-      this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
-    }
-
-    stopRecording() {
-      this.setState({ recording: false });
-      if (this.mediaRecorders.length > 0) {
-        this.mediaRecorders.forEach((recorder) => {
-          recorder.stop();
-        });
-      }
-    }
-
-    initVideoRecorder(stream, maxVideoDuration) {
-      if (!this.state.recording) return;
-      const { addScan, currentStep } = this.props;
-      const startTime = Date.now() / 1000;
-      const options = { mimeType: 'video/webm;codecs=vp8' };
-      if (!window.MediaRecorder) {
-        window.MediaRecorder = OpusMediaRecorder;
-      }
-      const mediaRecorder = new MediaRecorder(stream, options);
-      this.mediaRecorders.push(mediaRecorder);
-
-      mediaRecorder.onstop = () => {
-        this.initVideoRecorder(stream, maxVideoDuration);
-      };
-
-      mediaRecorder.ondataavailable = ({ data }) => {
-        // store chunk with data
-        const duration = Date.now() / 1000 - startTime;
-        const { videoChunks } = this.state;
-        if (videoChunks.length > 1) videoChunks.shift();
-        videoChunks.push({ time: duration, data });
-        this.setState({ videoChunks });
-
-        this.mediaRecorders.shift();
-        // filter and store video in case no more recorders are running
-        if (this.mediaRecorders.length === 0) {
-          const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
-            (chunk.time < acceptedChunk.time
-                && chunk.time > maxVideoDuration) ? chunk : acceptedChunk
-          ));
-          addScan('selfieVideo', acceptedVideo.data, currentStep, true);
-        }
-      };
-
-      mediaRecorder.start();
-      // stop recording and gather data after delay
-      setTimeout(() => {
-        if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-      }, maxVideoDuration * 2000);
-    }
-
-    async retake() {
-      const { addScan, component, currentStep } = this.props;
-      addScan(component, null, currentStep, true);
-      this.setState({ saveImage: false, videoChunks: [], recording: true });
-      this.setWebStream();
-    }
-
-    async requestCamera() {
-      this.setState(() => ({ isCameraEnabled: true }));
-      this.setWebStream();
-    }
-
-    previewForm() {
-      const {
-        footer, component, classes, scans, currentStep,
-      } = this.props;
-      const { back } = footer;
-      const { translations } = this.context;
-      const previewFooter = {
-        ...footer,
-        back: {
-          ...back,
-          action: this.retake,
-          text: translations.button_retake,
-        },
-      };
-      const urlCreator = window.URL || window.webkitURL;
-      const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
-      return (
-        <div>
-          <Grid container justify="center">
-            <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
-              <img
-                src={imageSrc}
-                alt="current"
-                data-role="cameraPreviewImg"
-                className={classes.imgPreview}
-              />
-              <img
-                className={classes.poweredBy}
-                src={poweredBy}
-                alt="powered by getId"
-                data-role="poweredImg"
-              />
-            </Grid>
+  previewForm() {
+    const {
+      footer, component, classes, scans, currentStep,
+    } = this.props;
+    const { back } = footer;
+    const { translations } = this.context;
+    const previewFooter = {
+      ...footer,
+      back: {
+        ...back,
+        action: this.retake,
+        text: translations.button_retake,
+      },
+    };
+    const urlCreator = window.URL || window.webkitURL;
+    const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
+    return (
+      <div>
+        <Grid container justify="center">
+          <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
+            <img
+              src={imageSrc}
+              alt="current"
+              data-role="cameraPreviewImg"
+              className={classes.imgPreview}
+            />
+            <img
+              className={classes.poweredBy}
+              src={poweredBy}
+              alt="powered by getId"
+              data-role="poweredImg"
+            />
           </Grid>
-          <Footer {...previewFooter} />
-        </div>
-      );
-    }
+        </Grid>
+        <Footer {...previewFooter} />
+      </div>
+    );
+  }
 
-    render() {
-      const { footer, cameraOverlay, classes } = this.props;
-      const {
-        isCameraEnabled, saveImage, videoHeight, videoWidth, cropX, cropY,
-      } = this.state;
-      const { translations } = this.context;
-      const { next } = footer;
+  render() {
+    const { footer, cameraOverlay, classes } = this.props;
+    const {
+      isCameraEnabled, saveImage, videoHeight, videoWidth, cropX, cropY,
+    } = this.state;
+    const { translations } = this.context;
+    const { next } = footer;
 
-      const cameraFooter = {
-        ...footer,
-        next: {
-          ...next,
-          action: this.capture,
-          text: translations.button_make_photo,
-          iconItem: PhotoSVG,
-          disabled: !isCameraEnabled,
-        },
-        isCameraEnabled,
-      };
+    const cameraFooter = {
+      ...footer,
+      next: {
+        ...next,
+        action: this.capture,
+        text: translations.button_make_photo,
+        iconItem: PhotoSVG,
+        disabled: !isCameraEnabled,
+      },
+      isCameraEnabled,
+    };
 
-      const canvasWidth = videoWidth * (1 - cropX * 2);
-      const canvasHeight = videoHeight * (1 - cropY * 2);
+    const canvasWidth = videoWidth * (1 - cropX * 2);
+    const canvasHeight = videoHeight * (1 - cropY * 2);
 
-      return (
-        <div className="selfie">
-          {saveImage ? this.previewForm()
-            : (
-              <div>
-                <Grid container justify="center">
-                  <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
-                    <Camera
-                      isCameraEnabled={isCameraEnabled}
-                      setWebcamRef={this.setWebcamRef}
-                      requestCamera={this.requestCamera}
-                      errorMessage={this.state.errorMessage || translations.camera_error_generic}
-                      overlay={cameraOverlay}
-                    />
-                  </Grid>
+    return (
+      <div className="selfie">
+        {saveImage ? this.previewForm()
+          : (
+            <div>
+              <Grid container justify="center">
+                <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
+                  <Camera
+                    isCameraEnabled={isCameraEnabled}
+                    setWebcamRef={this.setWebcamRef}
+                    requestCamera={this.requestCamera}
+                    errorMessage={this.state.errorMessage || translations.camera_error_generic}
+                    overlay={cameraOverlay}
+                  />
                 </Grid>
-                <Footer {...cameraFooter} />
-                {/* eslint-disable-next-line no-return-assign */}
-                <canvas
-                  width={canvasWidth}
-                  height={canvasHeight}
-                  ref={(ref) => {
-                    this.canvas = ref;
-                  }}
-                  className={classes.canvas}
-                />
-              </div>
-            )}
-        </div>
-      );
-    }
+              </Grid>
+              <Footer {...cameraFooter} />
+              {/* eslint-disable-next-line no-return-assign */}
+              <canvas
+                width={canvasWidth}
+                height={canvasHeight}
+                ref={(ref) => { this.canvas = ref; }}
+                className={classes.canvas}
+              />
+            </div>
+          )}
+      </div>
+    );
+  }
 }
 
 WebcamView.propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import OpusMediaRecorder from 'opus-media-recorder';
+import MediaStreamRecorder from 'msr';
 import Footer from '../../../components/Footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Camera from '../../../components/Camera/Camera';
@@ -204,16 +204,21 @@ class WebcamView extends React.Component {
 
   initVideoRecorder(stream, maxVideoDuration) {
     if (!this.state.recording) return;
+    let mediaRecorder;
     const { addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
     const options = { mimeType: 'video/webm;codecs=vp8' };
+
     if (!window.MediaRecorder) {
-      window.MediaRecorder = OpusMediaRecorder;
-      console.log('window.MediaRecorder', window.MediaRecorder);
+      mediaRecorder = new MediaStreamRecorder(stream);
+      mediaRecorder.mimeType = options.mimeType;
+      console.log('mediaRecorder 1', mediaRecorder);
+    } else {
+      console.log('window.MediaRecorder 2', window.MediaRecorder);
+      mediaRecorder = new window.MediaRecorder(stream, options);
+      console.log('mediaRecorder 2', mediaRecorder);
     }
-    console.log('window.MediaRecorder 2', window.MediaRecorder);
-    const mediaRecorder = new MediaRecorder(stream, options);
-    console.log('mediaRecorder', mediaRecorder);
+
     this.mediaRecorders.push(mediaRecorder);
 
     console.log('this.mediaRecorders', this.mediaRecorders);

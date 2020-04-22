@@ -228,6 +228,8 @@ class WebcamView extends React.Component {
       console.log('here 1 stream', stream);
     };
 
+    console.log('ondataavailable', mediaRecorder.ondataavailable);
+
     mediaRecorder.ondataavailable = ({ data }) => {
       console.log('here 2 data', data);
       // store chunk with data

@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import { init, createPublicTokenProvider } from '../src/index';
 import config from './config';
 

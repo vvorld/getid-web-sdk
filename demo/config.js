@@ -75,13 +75,13 @@ export default {
   isQA: false,
   formType: 'narrow',
   cameraDistance: 'default',
-  onComplete() {
+  onComplete: function() {
     window.location.reload();
   },
-  onFail() {
+  onFail: function() {
     window.location.reload();
   },
-  onExists() {
+  onExists: function() {
     console.log('exists');
   },
 };

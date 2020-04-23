@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import MediaStreamRecorder from 'msr';
 import Footer from '../../../components/Footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Camera from '../../../components/Camera/Camera';
@@ -118,7 +117,7 @@ class WebcamView extends React.Component {
               this.initVideoRecorder(stream, duration);
             }, duration * 1000);
           } catch (e) {
-            console.log('initVideoRecorder error', e);
+            console.error('videoRecorder', e);
           }
         }
       }
@@ -127,7 +126,6 @@ class WebcamView extends React.Component {
       this.setState({ stream });
       this.webcam.srcObject = stream;
     } catch (error) {
-      console.log('error', error);
       if (error.name === 'NotFoundError') {
         this.setState(() => ({ errorMessage: translations.camera_error_not_found }));
       }
@@ -165,7 +163,6 @@ class WebcamView extends React.Component {
   }
 
   cameraResize() {
-    console.log('this.webcam', this.webcam);
     this.webcam.height = this.webcam.clientWidth * 0.64;
   }
 
@@ -204,34 +201,18 @@ class WebcamView extends React.Component {
 
   initVideoRecorder(stream, maxVideoDuration) {
     if (!this.state.recording) return;
-    let mediaRecorder;
     const { addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
     const options = { mimeType: 'video/webm;codecs=vp8' };
 
-    if (!window.MediaRecorder) {
-      mediaRecorder = new MediaStreamRecorder(stream);
-      mediaRecorder.mimeType = options.mimeType;
-      console.log('mediaRecorder 1', mediaRecorder);
-    } else {
-      console.log('window.MediaRecorder 2', window.MediaRecorder);
-      mediaRecorder = new window.MediaRecorder(stream, options);
-      console.log('mediaRecorder 2', mediaRecorder);
-    }
-
+    const mediaRecorder = new window.MediaRecorder(stream, options);
     this.mediaRecorders.push(mediaRecorder);
-
-    console.log('this.mediaRecorders', this.mediaRecorders);
 
     mediaRecorder.onstop = () => {
       this.initVideoRecorder(stream, maxVideoDuration);
-      console.log('here 1 stream', stream);
     };
 
-    console.log('ondataavailable', mediaRecorder.ondataavailable);
-
     mediaRecorder.ondataavailable = ({ data }) => {
-      console.log('here 2 data', data);
       // store chunk with data
       const duration = Date.now() / 1000 - startTime;
       const { videoChunks } = this.state;
@@ -250,7 +231,6 @@ class WebcamView extends React.Component {
     };
 
     mediaRecorder.start();
-    console.log('mediaRecorder start', mediaRecorder);
     // stop recording and gather data after delay
     setTimeout(() => {
       if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
@@ -367,7 +347,7 @@ WebcamView.propTypes = {
   addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,
-  isPassport: PropTypes.bool.isRequired,
+  isPassport: PropTypes.bool,
   scans: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
@@ -379,6 +359,7 @@ WebcamView.propTypes = {
 
 WebcamView.defaultProps = {
   isQA: false,
+  isPassport: false,
 };
 
 const mapStateToProps = (state) => ({

@@ -61,7 +61,8 @@
     "redux": "^4.0.4",
     "rollup": "^1.27.14",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.0.3"
+    "rollup-plugin-postcss": "^2.0.3",
+    "webm-wasm": "^0.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

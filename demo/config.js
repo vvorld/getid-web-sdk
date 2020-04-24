@@ -4,12 +4,13 @@ export default {
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   flow: [
-    { component: ['CountryAndDocument'] },
-    { component: ['Form'] },
+    // { component: ['CountryAndDocument'] },
+    // { component: ['Form'] },
+    { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
-    { component: ['IdSelfie'] },
-    { component: ['Consent'] },
+
+    // { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {

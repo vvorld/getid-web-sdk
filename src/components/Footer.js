@@ -7,14 +7,13 @@ import FooterStyles from '../assets/jss/views/Footer';
 import TranslationsContext from '../context/TranslationsContext';
 
 const Footer = (props) => {
-  const { isCameraView, isCameraEnabled } = props;
+  const { isCameraView, isCameraEnabled, ...other } = props;
   const classes = FooterStyles();
   const { translations } = useContext(TranslationsContext) || {};
-
   return (
     <div>
       <div className={classes.lineLong} style={!isCameraView ? ({ marginTop: '50px' }) : {}} data-role="preFooter" />
-      <ActionBar {...(props)} />
+      <ActionBar {...(other)} />
       {isCameraView && isCameraEnabled && (
         <div className={classes.spacebar} data-role="photoHelp">
           <div className={classes.text} data-role="textHelp">

@@ -1,23 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import { Button } from '@material-ui/core';
-import cameraStyles from '../../assets/jss/views/Camera';
 import Footer from '../Footer';
 import TranslationsContext from '../../context/TranslationsContext';
+import CustomButton from '../CustomButton';
+import PhotoSVG from '../../assets/icons/views/photo-camera-purple.svg';
 
 const MobileCamera = ({
   footer,
   capture,
+  isPhotoTaken,
 }) => {
-  const [isPhotoTaken, setIsPhotoTaken] = useState(false);
-  const classes = cameraStyles();
   const { translations } = useContext(TranslationsContext);
-
-  const captureStuff = (e) => {
-    capture(e);
-    setIsPhotoTaken(true);
-  };
 
   const { next } = footer;
 
@@ -25,20 +19,26 @@ const MobileCamera = ({
     ...footer,
     next: {
       ...next,
-      text: translations.button_next,
       disabled: !isPhotoTaken,
     },
-    isPhotoTaken,
+  };
+
+  const makePhotoButton = {
+    direction: 'center',
+    width: 6,
+    text: translations.button_make_photo,
+    className: 'makePhotoButton',
+    component: 'label',
+    type: 'next',
+    iconItem: PhotoSVG,
+    children: <input onChange={capture} hidden type="file" accept="image/*" capture="environment" />,
   };
 
   return (
     <div>
       <Grid container justify="center">
         <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
-          <Button variant="outlined" component="label" className={classes.stuff}>
-            {translations.button_make_photo}
-            <input onChange={captureStuff} hidden type="file" accept="image/*" capture="environment" />
-          </Button>
+          <CustomButton args={makePhotoButton} />
         </Grid>
       </Grid>
       <Footer {...cameraFooter} />
@@ -51,6 +51,7 @@ MobileCamera.propTypes = {
     next: PropTypes.shape({}).isRequired,
   }).isRequired,
   capture: PropTypes.func.isRequired,
+  isPhotoTaken: PropTypes.bool.isRequired,
 };
 
 export default MobileCamera;

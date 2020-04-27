@@ -34,12 +34,6 @@ const cameraStyles = makeStyles((theme) => ({
     position: 'absolute',
     right: '10px',
   },
-  stuff: {
-    border: '1px solid #ccc',
-    display: 'inline-block',
-    padding: '6px 12px',
-    cursor: 'pointer',
-  },
 }));
 
 export default cameraStyles;

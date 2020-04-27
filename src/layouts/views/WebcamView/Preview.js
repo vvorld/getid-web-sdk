@@ -1,10 +1,9 @@
 import Grid from '@material-ui/core/Grid';
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import poweredBy from '../../../assets/icons/views/powered-by.svg';
 import Footer from '../../../components/Footer';
-import TranslationsContext from '../../../context/TranslationsContext';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -21,21 +20,19 @@ const useStyles = makeStyles(() => ({
 }));
 
 const PreviewForm = ({
-  footer, component, scans, currentStep, retake,
+  footer, component, scans, currentStep, retakeAction,
 }) => {
   const urlCreator = window.URL || window.webkitURL;
   const classes = useStyles();
 
-  const { translations } = useContext(TranslationsContext);
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
-  const { back } = footer;
 
+  const { retake } = footer;
   const footerConfig = {
     ...footer,
-    back: {
-      ...back,
-      action: retake,
-      text: translations.button_retake,
+    retake: {
+      ...retake,
+      action: retakeAction,
     },
   };
 
@@ -64,10 +61,10 @@ const PreviewForm = ({
 
 PreviewForm.propTypes = {
   footer: PropTypes.shape({
-    back: PropTypes.shape({}).isRequired,
+    retake: PropTypes.shape({}).isRequired,
   }).isRequired,
   component: PropTypes.string.isRequired,
-  retake: PropTypes.func.isRequired,
+  retakeAction: PropTypes.func.isRequired,
   scans: PropTypes.object.isRequired,
   currentStep: PropTypes.number.isRequired,
 };

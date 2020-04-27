@@ -4,17 +4,23 @@ import { Grid } from '@material-ui/core';
 import CustomLogo from '../components/Logo/CustomLogo';
 import headerStyles from '../assets/jss/views/UpperPart';
 import TranslationsContext from '../context/TranslationsContext';
+import { isMobile } from '../helpers/generic';
 
 function Header(props) {
   const { currentComponent } = props;
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
+  let subHeaderText;
 
   const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
   const headerText = translations[`${componentName}_header`];
-  const subHeaderText = translations[`${componentName}_subHeader`];
+  subHeaderText = translations[`${componentName}_subHeader`];
+
+  if (isMobile()) {
+    subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
+  }
 
   const {
     header, hr, subHeader, topPart,

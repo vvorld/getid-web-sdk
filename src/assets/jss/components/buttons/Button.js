@@ -2,9 +2,9 @@ import { fade, makeStyles } from '@material-ui/core';
 
 const buttonStyles = makeStyles((theme) => ({
   root: {
-    // '&.hidden': {
-    //   visibility: 'hidden',
-    // },
+    '&.hidden': {
+      visibility: 'hidden',
+    },
     '& img': {
       verticalAlign: 'middle',
     },

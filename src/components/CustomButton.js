@@ -30,28 +30,26 @@ const CustomButton = ({ args }) => {
   const buttonStyle = buttonStyles();
   const actionBar = actionBarStyles();
 
-  return (!hidden
-&& (
-<div className={actionBar[`${direction}`]}>
-  <Grid xs={width}>
-    <Button
-      data-role={`btn_${type}`}
-      classes={{
-        root: buttonStyle.root,
-      }}
-      component={component}
-      className={buttonStyle[className] + (hidden ? ' hidden' : '')}
-      startIcon={(type === 'back' && icon(iconItem))}
-      endIcon={(type === 'next' && icon(iconItem))}
-      onClick={action}
-      disabled={disabled}
-    >
-      {text}
-      {children}
-    </Button>
-  </Grid>
-</div>
-)
+  return (
+    <div className={actionBar[`${direction}`]}>
+      <Grid item xs={width}>
+        <Button
+          data-role={`btn_${type}`}
+          classes={{
+            root: buttonStyle.root,
+          }}
+          component={component}
+          className={buttonStyle[className] + (hidden ? ' hidden' : '')}
+          startIcon={(type === 'back' && icon(iconItem))}
+          endIcon={(type === 'next' && icon(iconItem))}
+          onClick={action}
+          disabled={disabled}
+        >
+          {text}
+          {children}
+        </Button>
+      </Grid>
+    </div>
   );
 };
 
@@ -64,8 +62,10 @@ CustomButton.propTypes = {
     disabled: PropTypes.bool,
     action: PropTypes.func,
     className: PropTypes.string,
+    direction: PropTypes.string,
     component: PropTypes.elementType,
     children: PropTypes.element,
+    width: PropTypes.number,
   }),
 };
 
@@ -80,6 +80,8 @@ CustomButton.defaultProps = {
     className: '',
     component: 'button',
     children: '',
+    direction: '',
+    width: 12,
   },
 };
 

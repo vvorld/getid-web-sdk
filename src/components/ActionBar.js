@@ -1,14 +1,17 @@
 import React from 'react';
 import actionBarStyles from '../assets/jss/views/ActionBar';
+
 import CustomButton from './CustomButton';
 
 const ActionBar = (props) => {
   const styles = actionBarStyles();
-  return (
 
+  return (
     <div className={styles.footerBlock} data-role="footerBlock">
       {Object.values(props).map((item) => (item
-                && (<CustomButton args={item} />)
+            && (
+            <CustomButton key={item.type} args={item} />
+            )
       ))}
     </div>
   );

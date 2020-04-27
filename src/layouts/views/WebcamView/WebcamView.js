@@ -82,7 +82,7 @@ class WebcamView extends React.Component {
   }
 
   async setWebStream() {
-    if (!hasGetUserMedia || isMobile()) return;
+    if (isMobile()) return;
     const { translations } = this.context;
     const { component } = this.props;
     try {

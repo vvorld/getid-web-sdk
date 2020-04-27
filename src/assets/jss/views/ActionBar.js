@@ -10,7 +10,7 @@ const actionBarStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     [theme.breakpoints.down('sm')]: {
-      marginTop: 50,
+      marginTop: '40px',
     },
   },
   right: {
@@ -18,7 +18,7 @@ const actionBarStyles = makeStyles((theme) => ({
     display: 'flex',
     order: 4,
     [theme.breakpoints.down('xs')]: {
-      marginTop: 20,
+      marginTop: '10px',
     },
   },
   center: {
@@ -37,7 +37,7 @@ const actionBarStyles = makeStyles((theme) => ({
     display: 'flex',
     marginTop: 10,
     [theme.breakpoints.down('xs')]: {
-      marginTop: 20,
+      marginTop: '10px',
     },
   },
 }));

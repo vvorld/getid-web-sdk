@@ -17,11 +17,6 @@ const useStyles = () => ({
   },
 });
 
-const { mediaDevices } = navigator;
-const getUserMedia = mediaDevices
-&& mediaDevices.getUserMedia ? mediaDevices.getUserMedia.bind(mediaDevices) : null;
-const hasGetUserMedia = !!(getUserMedia);
-
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
@@ -326,7 +321,6 @@ class WebcamView extends React.Component {
             />
           </div>
         )}
-()
       </div>
     );
   }

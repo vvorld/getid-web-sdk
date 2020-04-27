@@ -26,7 +26,7 @@ const PreviewForm = ({
   const classes = useStyles();
 
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
-  console.log(imageSrc)
+
   const { retake } = footer;
   const footerConfig = {
     ...footer,

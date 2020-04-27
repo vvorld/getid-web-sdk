@@ -43,8 +43,8 @@ const Camera = (props) => {
               className={classes.video}
               width="100%"
               playsinline
-              muted
               ref={setWebcamRef}
+              muted
               autoPlay
               onPlaying={() => { setTimeout(() => { setStream(true); }, 500); }}
             >

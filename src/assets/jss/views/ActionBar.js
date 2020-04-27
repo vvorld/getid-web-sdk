@@ -5,12 +5,11 @@ const actionBarStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     flexFlow: 'row wrap',
-    height: '100%',
     lineHeight: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '40px',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '30px',
     },
   },
   right: {
@@ -18,11 +17,10 @@ const actionBarStyles = makeStyles((theme) => ({
     display: 'flex',
     order: 4,
     [theme.breakpoints.down('xs')]: {
-      marginTop: '10px',
+      marginTop: '15px',
     },
   },
   center: {
-    marginTop: 10,
     justifyContent: 'center',
     display: 'flex',
     order: 3,
@@ -34,10 +32,8 @@ const actionBarStyles = makeStyles((theme) => ({
   left: {
     justifyContent: 'flex-start',
     order: 2,
-    display: 'flex',
-    marginTop: 10,
     [theme.breakpoints.down('xs')]: {
-      marginTop: '10px',
+      marginTop: '15px',
     },
   },
 }));

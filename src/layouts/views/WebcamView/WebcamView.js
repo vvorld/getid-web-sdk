@@ -30,7 +30,6 @@ class WebcamView extends React.Component {
     this.state = {
       isCameraEnabled: true,
       saveImage: false,
-      stream: null,
       errorMessage: '',
       recording: true,
       videoChunks: [],
@@ -51,21 +50,16 @@ class WebcamView extends React.Component {
 
   async componentDidMount() {
     const {
-      component, scans, isQA, currentStep, addScan,
+      component, scans, currentStep,
     } = this.props;
 
-    if (isQA) {
-      addScan(component, blackSquare, currentStep, true);
-      this.setState({ saveImage: true });
-      this.setWebStream();
-      return;
+    if(scans.length && scans[currentStep]) {
+      this.setState({
+        saveImage:
+            (scans[currentStep] && !!scans[currentStep][component].value)
+            || false,
+      });
     }
-
-    this.setState({
-      saveImage:
-          (scans[currentStep] && !!scans[currentStep][component].value)
-          || false,
-    });
 
     this.cropCoefficient();
     this.setWebStream();
@@ -75,8 +69,8 @@ class WebcamView extends React.Component {
   }
 
   componentWillUnmount() {
-    const { stream } = this.state;
-    if (stream) stream.getTracks().forEach((track) => track.stop());
+    console.log(this.stream)
+    if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
     document.removeEventListener('keydown', this.spaceActivate, false);
     window.removeEventListener('resize', this.cameraResize, false);
   }
@@ -86,12 +80,12 @@ class WebcamView extends React.Component {
     const { translations } = this.context;
     const { component } = this.props;
     try {
-      const stream = await navigator.mediaDevices
+      this.stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
           video: { deviceId: true, width: 4096 },
         });
-      const streamSettings = stream.getVideoTracks()[0].getSettings();
+      const streamSettings = this.stream.getVideoTracks()[0].getSettings();
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
@@ -100,11 +94,10 @@ class WebcamView extends React.Component {
         originVideoWidth,
       });
 
-      if (component === 'selfie') { this.recordLiveness(stream); }
+      if (component === 'selfie') { this.recordLiveness(this.stream); }
 
       this.cameraResize();
-      this.setState({ stream });
-      this.webcam.srcObject = stream;
+      this.webcam.srcObject = this.stream;
     } catch (error) {
       console.log(error);
       if (error.name === 'NotAllowedError') {
@@ -161,13 +154,11 @@ class WebcamView extends React.Component {
     // cropx, cropY are calculated for each available overlays
     if (isPassport) {
       this.setState({ cropX: 0.193, cropY: 0.036 });
-      return;
-    }
-    if (cameraDistance === 'far') {
+    } else if (cameraDistance === 'far') {
       this.setState({ cropX: 0.161, cropY: 0.164 });
-      return;
+    } else {
+      this.setState({ cropX: 0.033, cropY: 0.036 });
     }
-    this.setState({ cropX: 0.033, cropY: 0.036 });
   };
 
   cameraResize = () => {
@@ -211,9 +202,8 @@ class WebcamView extends React.Component {
     if (!this.state.recording) return;
     const { addScan, currentStep } = this.props;
     const startTime = Date.now() / 1000;
-    const options = { mimeType: 'video/webm;codecs=vp8' };
-
-    const mediaRecorder = new window.MediaRecorder(stream, options);
+    const mediaRecorder = new window.MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
+    console.log()
     this.mediaRecorders.push(mediaRecorder);
 
     mediaRecorder.onstop = () => {
@@ -342,13 +332,11 @@ WebcamView.propTypes = {
   scans: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
-  isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
   sdkPermissions: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {
-  isQA: false,
   isPassport: false,
 };
 

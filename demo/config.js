@@ -5,7 +5,7 @@ export default {
   dictionary: 'amas::u-RU',
   flow: [
     { component: ['CountryAndDocument'] },
-    { component: ['Form'] },
+    // { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
@@ -72,7 +72,6 @@ export default {
       value: true,
     },
   ],
-  isQA: false,
   formType: 'narrow',
   cameraDistance: 'default',
   onComplete: function() {

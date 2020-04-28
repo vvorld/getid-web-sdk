@@ -17,8 +17,6 @@ const CustomButton = ({ args }) => {
     disabled,
     action,
     className,
-    component,
-    children,
   } = args;
 
   const icon = (iconSVG) => (
@@ -38,7 +36,6 @@ const CustomButton = ({ args }) => {
           classes={{
             root: buttonStyle.root,
           }}
-          component={component}
           className={buttonStyle[className] + (hidden ? ' hidden' : '')}
           startIcon={(type === 'back' && icon(iconItem))}
           endIcon={(type === 'next' && icon(iconItem))}
@@ -46,7 +43,6 @@ const CustomButton = ({ args }) => {
           disabled={disabled}
         >
           {text}
-          {children}
         </Button>
       </Grid>
     </div>
@@ -63,8 +59,6 @@ CustomButton.propTypes = {
     action: PropTypes.func,
     className: PropTypes.string,
     direction: PropTypes.string,
-    component: PropTypes.elementType,
-    children: PropTypes.element,
     width: PropTypes.number,
   }),
 };
@@ -78,8 +72,6 @@ CustomButton.defaultProps = {
     disabled: false,
     action: () => {},
     className: '',
-    component: 'button',
-    children: '',
     direction: '',
     width: 12,
   },

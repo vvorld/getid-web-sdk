@@ -62,18 +62,17 @@ class Widget extends Component {
       if (exists) { this.setState({ appExists: true }); }
       if (responseCode === 200) {
         setTimeout(() => {
-          this.setState({ loading: false });
+          this.setState({ isFail: false, loading: false });
         },
         2000);
       }
+      await this.api.trySendEvent(stepNames.Submit, 'completed');
+      this.triggerNextComponent();
     } catch (e) {
       console.log(`Error: ${e}`);
       setTimeout(() => {
         this.setState({ isFail: true, loading: false });
       }, 2000);
-    } finally {
-      await this.api.trySendEvent(stepNames.Submit, 'completed');
-      this.triggerNextComponent();
     }
   };
 

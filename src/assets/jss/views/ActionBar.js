@@ -8,21 +8,19 @@ const actionBarStyles = makeStyles((theme) => ({
     lineHeight: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       marginTop: '30px',
     },
   },
   right: {
     justifyContent: 'flex-end',
-    display: 'flex',
     order: 4,
     [theme.breakpoints.down('xs')]: {
       marginTop: '15px',
     },
   },
   center: {
-    justifyContent: 'center',
-    display: 'flex',
+    margin: 'auto',
     order: 3,
     [theme.breakpoints.down('xs')]: {
       flexBasis: '100%',

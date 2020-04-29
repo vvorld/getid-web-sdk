@@ -16,6 +16,7 @@
   "CountryAndDocument_subHeader": "Select document issuing country and its type.",
   "ThankYou_subHeader": "The identification process is complete.",
   "isFail_subHeader": "Error occurs when you try to send data to the server.",
+  "camera_access_tooltip": "Make sure camera is enabled and browser has access to it.",
   "CountryAndDocument_country-placeholder": "Choose country",
   "button_next": "next",
   "button_back": "back",

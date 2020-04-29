@@ -42,7 +42,7 @@ const Camera = (props) => {
               id="video-capture"
               className={classes.video}
               width="100%"
-              playsinline
+              playsInline
               ref={setWebcamRef}
               muted
               autoPlay

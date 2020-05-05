@@ -38,13 +38,13 @@ export default {
     {
       label: 'Document front side',
       type: 'file',
-      name: 'Photo_id',
+      name: 'front',
       required: false,
     },
     {
       label: 'Document back side',
       type: 'file',
-      name: 'Test_name',
+      name: 'back',
       required: true,
     },
     {

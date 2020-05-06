@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core';
 const RadioButtonStyles = makeStyles((theme) => ({
   root: {
     '&:hover': {
-      backgroundColor: theme.palette.white,
+      backgroundColor: 'transparent!important',
     },
   },
   icon: {
@@ -42,6 +42,7 @@ const RadioButtonStyles = makeStyles((theme) => ({
       color: theme.palette.deepBlue,
     },
   },
+  checked: {},
 }));
 
 export default RadioButtonStyles;

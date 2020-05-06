@@ -1,15 +1,10 @@
 .idea/
-/dist/reports/
-/dist/getid-web-sdk.min.js.LICENSE
-/dist/index.html
+/dist/
 
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
 
 # production
 /build

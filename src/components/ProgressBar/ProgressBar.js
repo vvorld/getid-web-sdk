@@ -26,7 +26,7 @@ function ProgressBar(props) {
       <Grid
         container
         direction="row"
-        justify="space-evenly"
+        justify="center"
         alignItems="center"
       >
         <Grid item xs={12} sm={9} md={6}>

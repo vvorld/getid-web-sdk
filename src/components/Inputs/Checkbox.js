@@ -8,7 +8,7 @@ function CustomCheckbox(props) {
 
   return (
     <Checkbox
-      classes={{ root: classes.root, checked: classes.checked }}
+      classes={{ root: classes.root, checked: classes.checked, label: classes.label }}
       icon={<span className={classes.icon} />}
       checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
       {...props}

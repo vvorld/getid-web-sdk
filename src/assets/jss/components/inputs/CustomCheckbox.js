@@ -9,6 +9,11 @@ const customCheckbox = makeStyles((theme) => ({
     borderRadius: '8px',
     marginRight: 10,
     '&$checked': {
+      '& .MuiIconButton-label': {
+        position: 'relative',
+        zIndex: 0,
+        display: 'block',
+      },
       background: `linear-gradient(46.87deg, ${theme.palette.aqua} -57.75%, ${theme.palette.crimson} 193.27%)`,
     },
   },
@@ -16,7 +21,11 @@ const customCheckbox = makeStyles((theme) => ({
     '&:before': {
       display: 'block',
       width: 25,
+      position: 'absolute',
+      bottom: '-12px',
+      right: '-8px',
       height: 25,
+      background: 'no-repeat',
       backgroundImage:
                 "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath"
                 + " fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 "

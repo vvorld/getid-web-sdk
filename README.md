@@ -29,7 +29,30 @@ upload (capture) ids and face photos.
 ## Getting started
 ### Requirements
 - node 12.15.0
-- browsers: Chrome, Safari and FF latest
+- browsers and features we support: 
+            
+| OS | Browser | photos | liveness |
+| --- | --- | --- | --- |
+| iOS | Chrome, last versions | ✔️ | ― |
+| iOS | Safari, last versions | ✔️ | ― |
+| iOS | Firefox, last versions | ✔️ | ― |
+| Android | Chrome | ✔️ | ― |
+| Android | Samsung Internet | ✔️ | ― |
+| Android | Firefox | ✔️ | ― |
+| Android | Native | ✔️ | ― |
+| Android | UC | ✔️ | ― |
+| Android | Opera | ✔️ | ― |
+| Android | Web browser  | ✔️ | ― |
+| Desktop mac | Chrome | ✔️ | ✔️ |
+| Desktop mac | Safari | ✔️ | ― |
+| Desktop mac | Firefox | ✔️ | ✔️ |
+| Desktop mac | Opera | ✔️ | ✔️ |
+| Desktop mac | Edge | ✔️ | ✔️ |
+| Windows | Edge | ✔️ | ― |
+| Windows | Chrome | ✔️ | ✔️ |
+| Windows | Opera | ✔️ | ✔️ |
+| Windows | Firefox | ✔️ | ✔️ |
+    
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url. You can get and set your key and url in your 
 GetID Dashboard.

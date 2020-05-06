@@ -1,23 +1,10 @@
 import { fade, makeStyles } from '@material-ui/core';
 
 const buttonStyles = makeStyles((theme) => ({
-  footerBlock: {
-    [theme.breakpoints.down('sm')]: {
-      marginTop: 50,
-    },
-  },
-  backButtonWrapper: {
-    [theme.breakpoints.down('xs')]: {
-      order: 2,
-      marginTop: 10,
-    },
-  },
-  nextButtonWrapper: {
-    [theme.breakpoints.down('xs')]: {
-      order: 1,
-    },
-  },
   root: {
+    '&.hidden': {
+      visibility: 'hidden',
+    },
     '& img': {
       verticalAlign: 'middle',
     },
@@ -34,6 +21,8 @@ const buttonStyles = makeStyles((theme) => ({
       verticalAlign: 'middle',
       height: 'auto',
       width: 'auto',
+      display: 'flex',
+      alignItems: 'center',
       '& .material-icons': {
         display: 'flex',
         height: 'auto',
@@ -48,7 +37,7 @@ const buttonStyles = makeStyles((theme) => ({
     boxShadow: `0 4px 14px ${fade(theme.palette.blue, 0.5)}, inset 0 1px 2px ${fade(theme.palette.white, 0.45)}`,
     boxSizing: 'border-box',
     color: theme.palette.blue,
-    fontSize: '14px',
+    fontSize: '12px',
     fontWeight: 'bold',
     letterSpacing: '2px',
     textAlign: 'center',
@@ -114,6 +103,14 @@ const buttonStyles = makeStyles((theme) => ({
     '&:hover': {
       background: 'white',
     },
+  },
+  makePhotoButton: {
+    border: '1px solid #7861A2',
+    display: 'inline-block',
+    padding: '12px',
+    cursor: 'pointer',
+    color: '#7861A2',
+    boxShadow: 'none',
   },
 }));
 

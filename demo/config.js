@@ -4,11 +4,12 @@ export default {
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   flow: [
+    { component: ['Consent'] },
     { component: ['CountryAndDocument'] },
-    { component: ['Form'] },
+    // { component: ['Form'] },
+    { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
-    { component: ['IdSelfie'] },
     { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
@@ -72,16 +73,15 @@ export default {
       value: true,
     },
   ],
-  isQA: false,
   formType: 'narrow',
   cameraDistance: 'default',
-  onComplete() {
+  onComplete: function() {
     window.location.reload();
   },
-  onFail() {
+  onFail: function() {
     window.location.reload();
   },
-  onExists() {
+  onExists: function() {
     console.log('exists');
   },
 };

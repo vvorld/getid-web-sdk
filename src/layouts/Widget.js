@@ -12,7 +12,8 @@ import { stepNames } from '../constants/step-names';
 import cameraViews from '../constants/camera-views';
 import widgetStyles from '../assets/jss/views/Widget';
 import allComponents from './views';
-
+import NextIcon from '../assets/icons/views/arrow-next.svg';
+import BackIcon from '../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError, ErrorView } from './views/ErrorView';
 
 class Widget extends Component {
@@ -61,16 +62,17 @@ class Widget extends Component {
       if (exists) { this.setState({ appExists: true }); }
       if (responseCode === 200) {
         setTimeout(() => {
-          this.setState({ loading: false });
+          this.setState({ isFail: false, loading: false });
         },
         2000);
       }
-    } catch (e) {
-      console.log(`Error: ${e}`);
-      this.setState({ isFail: true });
-    } finally {
       await this.api.trySendEvent(stepNames.Submit, 'completed');
       this.triggerNextComponent();
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      setTimeout(() => {
+        this.setState({ isFail: true, loading: false });
+      }, 2000);
     }
   };
 
@@ -92,7 +94,7 @@ class Widget extends Component {
 
   nextComponent = () => this.props.currentComponent.next;
 
-  buttonText = () => {
+  nextButtonText = () => {
     const { translations } = this.context;
 
     if (this.isPage('ThankYou')) return translations.button_start_over;
@@ -105,22 +107,36 @@ class Widget extends Component {
 
   footer = () => {
     const { flow, currentComponent, isDisabled } = this.props;
+    const { translations } = this.context;
 
     return {
       isCameraView: this.isCameraView(),
       isCameraEnabled: false,
       next: {
+        width: 12,
+        direction: 'center',
         action: this.buttonAction(),
-        text: this.buttonText(),
+        text: this.nextButtonText(),
         className: 'isGradient',
         disabled: isDisabled,
         type: this.getType(),
+        iconItem: NextIcon,
       },
       back: {
+        direction: 'left',
         hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
         className: 'prevButton',
+        iconItem: BackIcon,
+        text: translations.button_back,
+      },
+      retake: {
+        direction: 'right',
+        type: 'retake',
+        hidden: !this.isCameraView(),
+        className: 'prevButton',
+        text: translations.button_retake,
       },
     };
   };
@@ -218,7 +234,7 @@ class Widget extends Component {
                 sm={smallGrid / length}
                 md={largeGrid / length}
               >
-                <div className={(length > 1 && index !== 0) && classes.verticalLine}>
+                <div className={(length > 1 && index !== 0) ? classes.verticalLine : ''}>
                   <CurrentComponent
                     footer={this.footer()}
                     {...other}

@@ -20,9 +20,8 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
 }
 
 /**
- * Init. Checks for token => returns the widget.
- * @param options
- * @param tokenProvider
+ * @param options - sdk config object
+ * @param tokenProvider - object with token or function, depends on usage
  */
 const init = (options, tokenProvider) => {
   checkContainerId(options);

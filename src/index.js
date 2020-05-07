@@ -10,8 +10,8 @@ import Main from './layouts/Main';
 import TranslationsContext from './context/TranslationsContext';
 import store from './store/store';
 import { createApi } from './services/api';
-import defaultTranslations from './translations/default-translations.json';
-import MainTheme from './assets/jss/MainTheme';
+import defaultTranslations from './translations/default.json';
+import MainTheme from './theme';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 const supportedBrowsers = require('../supportedBrowsers');

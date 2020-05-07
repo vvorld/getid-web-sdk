@@ -1,10 +1,10 @@
-import Consent from './Consent';
-import Form from './Form';
-import ThankYou from './ThankYou';
-import CountryAndDocument from './CountryAndDocument';
-import IdSelfie from './WebcamView/IdSelfie';
-import IdCapture from './WebcamView/IdCapture';
-import IdCaptureBack from './WebcamView/IdCaptureBack';
+import Consent from './consent/Consent';
+import Form from './form/Form';
+import ThankYou from './thank-you/ThankYou';
+import CountryAndDocument from './country-doc/CountryAndDocument';
+import IdSelfie from './webcam/selfie/IdSelfie';
+import IdCapture from './webcam/front/IdCapture';
+import IdCaptureBack from './webcam/back/IdCaptureBack';
 
 const components = {
   Consent,

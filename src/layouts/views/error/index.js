@@ -21,7 +21,7 @@ const createErrorView = (config) => (props) => {
   } = ErrorViewStyles();
 
   const { buttons } = config;
-  if (submitAttempts === 0) { delete buttons.retry; }
+  if (submitAttempts < 0) { delete buttons.retry; }
   const { length } = Object.keys(buttons);
   return (
     <Grid container className={classes.center} justify="center" alignItems="center">
@@ -70,6 +70,7 @@ export const AppExistsView = createErrorView({
     },
   },
 });
+
 export const ErrorView = createErrorView({
   header: (dictionary) => dictionary.error_header,
   subHeader: (dictionary) => dictionary.error_subHeader,
@@ -95,11 +96,6 @@ export const FailError = createErrorView({
       name: (dictionary) => dictionary.retry_button,
       action: (callbacks) => callbacks.onSubmit,
       class: 'isGradient',
-    },
-    chooseFlow: {
-      name: (dictionary) => dictionary.choose_flow_button,
-      action: (callbacks) => callbacks.onFail,
-      class: 'prevButton',
     },
   },
 });

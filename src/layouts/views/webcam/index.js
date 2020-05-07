@@ -6,8 +6,8 @@ import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
 import TranslationsContext from '../../../context/TranslationsContext';
-import CameraDisabled from './cam-disabled/CameraDisabled';
-import PreviewForm from './photo-preview/Preview';
+import CameraDisabled from './cam-disabled';
+import PreviewForm from './photo-preview';
 import MobileCamera from '../../../components/mobile-camera/mobile-camera';
 import { isMobile } from '../../../helpers/generic';
 

@@ -6,7 +6,7 @@ import SadSmileSVG from '../../../../assets/icons/views/sad-smile.svg';
 import buttonStyles from '../../../../components/buttons/style';
 import cameraStyles from '../../../../components/camera/style';
 
-const cameraDisabled = ({ requestCamera, errorMessage }) => {
+const index = ({ requestCamera, errorMessage }) => {
   const buttonClass = buttonStyles();
   const classes = cameraStyles();
 
@@ -29,9 +29,9 @@ const cameraDisabled = ({ requestCamera, errorMessage }) => {
   );
 };
 
-cameraDisabled.propTypes = {
+index.propTypes = {
   requestCamera: PropTypes.func.isRequired,
   errorMessage: PropTypes.string.isRequired,
 };
 
-export default cameraDisabled;
+export default index;

@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import Loader from '../../components/loader/loader';
-import UpperPart from '../../components/blocks/upper-block/upper-part';
-import actions from '../../store/actions';
-import Footer from '../../components/blocks/footer/footer';
-import TranslationsContext from '../../context/TranslationsContext';
-import { stepNames } from '../../constants/step-names';
-import cameraViews from '../../constants/camera-views';
+import Loader from '../../../components/loader/loader';
+import UpperPart from '../../../components/blocks/upper-block/upper-part';
+import actions from '../../../store/actions';
+import Footer from '../../../components/blocks/footer/footer';
+import TranslationsContext from '../../../context/TranslationsContext';
+import { stepNames } from '../../../constants/step-names';
+import cameraViews from '../../../constants/camera-views';
 import widgetStyles from './style';
-import allComponents from '../views';
-import NextIcon from '../../assets/icons/views/arrow-next.svg';
-import BackIcon from '../../assets/icons/views/arrow-back.svg';
-import { AppExistsView, FailError, ErrorView } from '../views/error/ErrorView';
+import allComponents from '../index';
+import NextIcon from '../../../assets/icons/views/arrow-next.svg';
+import BackIcon from '../../../assets/icons/views/arrow-back.svg';
+import { AppExistsView, FailError, ErrorView } from '../error';
 
 class Widget extends Component {
   constructor(props) {

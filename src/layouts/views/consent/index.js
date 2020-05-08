@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
-import CustomCheckBox from '../../../components/inputs/checkbox';
+import { Checkbox } from '../../../components/inputs';
 import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
 import TranslationsContext from '../../../context/TranslationsContext';
@@ -54,7 +54,7 @@ class Consent extends Component {
             <FormControlLabel
               className={classes.labelCheckbox}
               control={(
-                <CustomCheckBox
+                <Checkbox
                   data-role="checkboxConsent"
                   name="consent"
                   key="checkbox-consent"

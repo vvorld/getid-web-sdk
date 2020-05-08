@@ -48,18 +48,32 @@ class Widget extends Component {
     await this.api.trySendEvent(stepName, 'completed');
   };
 
+  promiseTimeout = (ms, promise) => {
+    const timeout = new Promise((resolve, reject) => {
+      const id = setTimeout(() => {
+        clearTimeout(id);
+        reject(new Error(`Timed out in ${ms}ms.`));
+      }, ms);
+    });
+
+    return Promise.race([
+      promise,
+      timeout,
+    ]);
+  }
+
   submitData = async () => {
     await this.sendStepCompleteEvent();
     const { currentStep, setStep } = this.props;
     setStep(currentStep);
-
     this.setState({ loading: true });
     await this.api.trySendEvent(stepNames.Submit, 'started');
-    try {
-      const submitResponse = await this.api.submitData();
-      const { responseCode, exists } = submitResponse;
-      if (exists) { this.setState({ appExists: true }); }
 
+    const racing = this.promiseTimeout(60000, this.api.submitData());
+
+    racing.then(async (res) => {
+      const { responseCode, exists } = res;
+      if (exists) { this.setState({ appExists: true }); }
       if (responseCode >= 500) {
         this.dealWithResponse(500);
         return;
@@ -73,10 +87,10 @@ class Widget extends Component {
       this.dealWithResponse(200);
       await this.api.trySendEvent(stepNames.Submit, 'completed');
       await this.triggerNextComponent();
-    } catch (e) {
-      console.log(`Error: ${e}`);
+    }).catch((e) => {
+      console.log(e);
       this.dealWithResponse(null);
-    }
+    });
   };
 
   dealWithResponse = (code) => {

@@ -5,49 +5,13 @@ import { connect } from 'react-redux';
 import {
   withStyles, FormHelperText, FormControlLabel, Grid,
 } from '@material-ui/core';
-import TextInput from '../../../components/inputs/text-input/text-input';
-import DateInput from '../../../components/inputs/date-input/date-input';
-import Select from '../../../components/inputs/select-input/select';
-import CustomCheckBox from '../../../components/inputs/checkbox/checkbox';
-import CustomFileInput from '../../../components/inputs/file-input/file-input';
+import {
+  Select, Checkbox, DateInput, FileInput, TextInput,
+} from '../../../components/inputs';
 import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
+import { styles } from './style';
 
-const styles = (theme) => ({
-  hidden: {
-    display: 'none',
-  },
-  fieldWrapper: {
-    position: 'relative',
-    marginBottom: '4px',
-    '& p': {
-      position: 'absolute',
-      bottom: '-14px',
-    },
-    '& $helper': {
-      position: 'initial',
-    },
-  },
-  labelCheckbox: {
-    margin: '40px 0 0 0',
-    textAlign: 'left',
-    '& label': {
-      color: theme.palette.blueDark,
-      lineHeight: '22px',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '15px',
-    },
-    '& a': {
-      color: theme.palette.violet,
-    },
-  },
-  helper: {
-    margin: '0 8px 10px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
-  },
-});
 
 class Form extends Component {
   constructor(props) {
@@ -163,7 +127,7 @@ class Form extends Component {
         return (
           <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
-            <CustomFileInput
+            <FileInput
               onChange={this.handleFiles}
               name={name}
               label={label}
@@ -185,7 +149,7 @@ class Form extends Component {
                   className={classes.labelCheckbox}
                   key={`control-${label}`}
                   control={(
-                    <CustomCheckBox
+                    <Checkbox
                       data-role="checkboxInput"
                       name={name}
                       key={`checkbox-${label}`}

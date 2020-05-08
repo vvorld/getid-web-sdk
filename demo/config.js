@@ -5,11 +5,11 @@ export default {
   dictionary: 'amas::u-RU',
   flow: [
     { component: ['CountryAndDocument'] },
-    // { component: ['Form'] },
-    // { component: ['IdSelfie'] },
-    // { component: ['IdCapture'] },
-    // { component: ['IdCaptureBack'] },
-    // { component: ['Consent'] },
+    { component: ['Form'] },
+    { component: ['IdSelfie'] },
+    { component: ['IdCapture'] },
+    { component: ['IdCaptureBack'] },
+    { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {

@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
-import CustomCheckBox from '../../../components/inputs/checkbox/checkbox';
+import CustomCheckBox from '../../../components/inputs/checkbox';
 import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
 import TranslationsContext from '../../../context/TranslationsContext';

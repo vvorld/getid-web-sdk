@@ -61,39 +61,33 @@ class Widget extends Component {
       if (exists) { this.setState({ appExists: true }); }
 
       if (responseCode >= 500) {
-        setTimeout(() => {
-          this.setState((state) => ({
-            responseCode: 500, loading: false, submitAttempts: state.submitAttempts - 1,
-          }));
-        }, 2000);
+        this.dealWithResponse(500);
         return;
       }
 
       if (responseCode >= 400 && responseCode < 500) {
-        setTimeout(() => {
-          this.setState((state) => ({
-            responseCode: 400,
-            loading: false,
-            submitAttempts: state.submitAttempts - 1,
-          }));
-        }, 2000);
+        this.dealWithResponse(400);
         return;
       }
 
-      setTimeout(() => {
-        this.setState({ responseCode: 200, loading: false });
-      }, 2000);
-
-
+      this.dealWithResponse(200);
       await this.api.trySendEvent(stepNames.Submit, 'completed');
-      this.triggerNextComponent();
+      await this.triggerNextComponent();
     } catch (e) {
       console.log(`Error: ${e}`);
-      setTimeout(() => {
-        this.setState({ responseCode: 400, loading: false });
-      }, 2000);
+      this.dealWithResponse(null);
     }
   };
+
+  dealWithResponse = (code) => {
+    setTimeout(() => {
+      this.setState((state) => ({
+        responseCode: code,
+        loading: false,
+        submitAttempts: state.submitAttempts - 1,
+      }));
+    }, 2000);
+  }
 
   isCameraView = () => cameraViews.some((name) => this.isPage(name));
 

@@ -4,9 +4,8 @@ export default {
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   flow: [
-    { component: ['Consent'] },
     { component: ['CountryAndDocument'] },
-    // { component: ['Form'] },
+    { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },

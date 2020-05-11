@@ -2,102 +2,26 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { Provider } from 'react-redux';
-import { ThemeProvider } from '@material-ui/styles';
-import Main from './layouts/Main';
-import TranslationsContext from './context/TranslationsContext';
-import store from './store/store';
+import { renderMainComponent } from './main-module';
 import { createApi } from './services/api';
-import defaultTranslations from './translations/default-translations.json';
-import MainTheme from './assets/jss/MainTheme';
+import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+import {
+  sanitizeConfig,
+  checkContainerId,
+  convertAnswer,
+  addDefaultValues,
+} from './helpers/generic';
 
 const supportedBrowsers = require('../supportedBrowsers');
 
 if (!supportedBrowsers.test(navigator.userAgent)) {
-  console.error('Your browser is not supported.');
+  console.log('Your browser is not supported.');
 }
 
-const MainModule = (widgetOptions) => (
-  <ThemeProvider theme={MainTheme}>
-    <Provider store={store}>
-      <TranslationsContext.Provider value={{ translations: widgetOptions.translations }}>
-        <Main
-          {...widgetOptions}
-        />
-      </TranslationsContext.Provider>
-    </Provider>
-  </ThemeProvider>
-);
-
 /**
- * Renders main widget component
- * @param widgetOptions
- */
-const renderMainComponent = (widgetOptions) => {
-  ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
-};
-
-const checkContainerId = (options) => {
-  const { containerId } = options;
-  if (!containerId) {
-    throw new Error('Please provide container id.');
-  }
-};
-
-const convertAnswer = (params = {}) => (resp) => {
-  if (resp.responseCode === 200) {
-    if (params.field) {
-      return resp[params.field];
-    }
-    return resp;
-  }
-  if (params.default !== undefined) {
-    return params.default;
-  }
-  throw Error(resp.errorMessage);
-};
-
-const addDefaultValues = () => (resp) => {
-  const defaultValues = {
-    sdkPermissions: {
-      videoRecording: false,
-      maxVideoDuration: 3,
-      liveness: false,
-    },
-    showOnfidoLogo: false,
-    tokenIsValid: false,
-    tokenExpiresIn: 3600,
-  };
-
-  return {
-    ...resp,
-    ...defaultValues,
-    sdkPermissions: {
-      ...defaultValues.sdkPermissions,
-      ...resp.sdkPermissions,
-    },
-  };
-};
-
-const sanitizeConfig = (options) => {
-  const { fields } = options;
-  return Object.values(
-    fields.reduce((list, item) => {
-      const name = item.name.toLowerCase();
-      // eslint-disable-next-line no-param-reassign
-      list[name] = list[name] || item;
-      return list;
-    }, {}),
-  );
-};
-
-/**
- * Init. Checks for token => returns the widget.
- * @param options
- * @param tokenProvider
+ * @param options - sdk config object
+ * @param tokenProvider - object with token or function, depends on usage
  */
 const init = (options, tokenProvider) => {
   checkContainerId(options);

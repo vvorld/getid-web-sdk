@@ -72,12 +72,12 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
       application: {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
-          labels: metadata.labels,
+          externalId: metadata.externalId,
           metadata: 'web',
           sdkVersion: version,
           locale: window.navigator.language,
           submissionTime: new Date(),
-          verificationTypes: verificationTypes || metadata.verificationTypes,
+          verificationTypes,
         },
         documents: [
           {

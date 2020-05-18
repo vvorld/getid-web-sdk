@@ -4,9 +4,7 @@ export default {
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   metadata: {
-    labels: {
-      externalId: 123123,
-    },
+    externalId: 121212,
   },
   flow: [
     { component: ['CountryAndDocument'] },

@@ -64,7 +64,7 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-export const createEAForSubmission = (jwt, verificationTypes) => {
+export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
   const state = store.getState();
   let form = new FormData();
   form.append('data', JSON.stringify({
@@ -72,11 +72,12 @@ export const createEAForSubmission = (jwt, verificationTypes) => {
       application: {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
+          labels: metadata.labels,
           metadata: 'web',
           sdkVersion: version,
           locale: window.navigator.language,
           submissionTime: new Date(),
-          verificationTypes,
+          verificationTypes: verificationTypes || metadata.verificationTypes,
         },
         documents: [
           {

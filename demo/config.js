@@ -7,12 +7,12 @@ export default {
     externalId: 121212,
   },
   flow: [
-    { component: ['CountryAndDocument'] },
+    // { component: ['CountryAndDocument'] },
     { component: ['Form'] },
-    { component: ['IdSelfie'] },
-    { component: ['IdCapture'] },
-    { component: ['IdCaptureBack'] },
-    { component: ['Consent'] },
+    // { component: ['IdSelfie'] },
+    // { component: ['IdCapture'] },
+    // { component: ['IdCaptureBack'] },
+    // { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {
@@ -51,6 +51,12 @@ export default {
       required: true,
     },
     {
+      label: 'Date Of Birth',
+      type: 'date',
+      value: '1991-08-15',
+      name: 'Date Of Birth',
+    },
+    {
       label: 'Country',
       type: 'select',
       placeholder: 'sum placeholder',
@@ -66,7 +72,7 @@ export default {
       label: 'Date Of Birth',
       type: 'date',
       value: '1991-08-15',
-      name: 'Date Of Birth',
+      name: 'D',
     },
     {
       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',

@@ -1,4 +1,10 @@
 export const styles = (theme) => ({
+  error: {
+    color: theme.palette.error.main,
+    fontSize: '12px',
+    textAlign: 'left',
+    margin: '8px 14px 0',
+  },
   hidden: {
     display: 'none',
   },
@@ -11,6 +17,10 @@ export const styles = (theme) => ({
     },
     '& $helper': {
       position: 'initial',
+    },
+    '& $error': {
+      position: 'absolute',
+      bottom: '-6px',
     },
   },
   labelCheckbox: {

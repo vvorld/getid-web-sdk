@@ -5,7 +5,7 @@ import styles from './style';
 
 const CustomFileInput = (props) => {
   const {
-    type, onChange, label, valueName, name, required,
+    type, onChange, label, valueName, name, required, isError,
   } = props;
   const classes = styles();
   const isValue = valueName;
@@ -17,30 +17,32 @@ const CustomFileInput = (props) => {
   const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
 
   return (
-    <div className={borderClass}>
-
-      <Button
-        className={classes.outlinedInput}
-        variant="outlined"
-        component="label"
-      >
-                Browse file
-        <input
-          accept="image/x-png,image/jpeg"
-          name={name}
-          onChange={onChange}
+    <div>
+      <div className={borderClass + (isError ? ' error' : '')}>
+        <Button
           className={classes.outlinedInput}
-          hidden
-          type={type}
-        />
-      </Button>
-      <div className={classes.labelContainer}>
-        <input disabled value={valueName || ''} className={inputClass} />
-        <label className={labelClass}>
-          { customLabel }
-        </label>
+          variant="outlined"
+          component="label"
+        >
+            Browse file
+          <input
+            accept="image/x-png,image/jpeg"
+            name={name}
+            onChange={onChange}
+            className={classes.outlinedInput}
+            hidden
+            type={type}
+          />
+        </Button>
+        <div className={classes.labelContainer}>
+          <input disabled value={valueName || ''} className={inputClass} />
+          <label className={labelClass}>
+            { customLabel }
+          </label>
+        </div>
       </div>
     </div>
+
   );
 };
 
@@ -51,11 +53,13 @@ CustomFileInput.propTypes = {
   name: PropTypes.string.isRequired,
   valueName: PropTypes.any,
   required: PropTypes.bool,
+  isError: PropTypes.bool,
 };
 
 CustomFileInput.defaultProps = {
   valueName: null,
   required: false,
+  isError: false,
 };
 
 export default CustomFileInput;

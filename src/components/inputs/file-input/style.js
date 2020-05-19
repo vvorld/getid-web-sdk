@@ -30,6 +30,9 @@ const style = makeStyles((theme) => ({
     '&.selected': {
       border: `1px solid ${fade(theme.palette.violet, 1)}`,
     },
+    '&.error': {
+      border: `1px solid ${fade(theme.palette.error.main, 1)}`,
+    },
   },
   labelContainer: {
     paddingLeft: '5px',

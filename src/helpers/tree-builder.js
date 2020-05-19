@@ -64,11 +64,6 @@ const getDocumentData = (fields, fieldName) => {
   return docData;
 };
 
-const mapFileNames = (fields) => Object.values(fields)
-  .map((data) => Object.entries(data)
-    .filter(([, val]) => val.type === 'file')
-    .map(([name]) => name));
-
 export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
   const state = store.getState();
   let form = new FormData();
@@ -84,7 +79,6 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
           submissionTime: new Date(),
           verificationTypes,
         },
-        files: mapFileNames(state.fields),
         documents: [
           {
             issuingCountry: getDocumentData(state.fields, 'Country'),
@@ -103,6 +97,5 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
     jwt,
   }));
   form = appendScansToForm(form, documentImages(state.scans));
-
   return form;
 };

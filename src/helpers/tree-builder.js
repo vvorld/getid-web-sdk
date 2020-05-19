@@ -97,5 +97,6 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
     jwt,
   }));
   form = appendScansToForm(form, documentImages(state.scans));
+
   return form;
 };

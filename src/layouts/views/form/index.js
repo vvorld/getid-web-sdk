@@ -125,6 +125,7 @@ class Form extends Component {
     } = this.props;
     const { isError, errorText } = this.state;
     const fileTooltip = translations.file_input_tooltip;
+    const browseButtonText = translations.browse_file_button;
     return this.fields.map((field) => {
       const {
         options, type, name, label, placeholder, hidden, required,
@@ -158,6 +159,7 @@ class Form extends Component {
               onChange={this.handleFiles}
               name={name}
               label={label}
+              buttonText={browseButtonText}
               required={isRequired}
               type={type}
               valueName={inputName.value}

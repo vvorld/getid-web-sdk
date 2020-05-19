@@ -5,7 +5,7 @@ import styles from './style';
 
 const CustomFileInput = (props) => {
   const {
-    type, onChange, label, valueName, name, required, isError,
+    type, onChange, label, valueName, name, required, isError, buttonText,
   } = props;
   const classes = styles();
   const isValue = valueName;
@@ -23,7 +23,7 @@ const CustomFileInput = (props) => {
         variant="outlined"
         component="label"
       >
-            Browse file
+        {buttonText}
         <input
           accept="image/x-png,image/jpeg"
           name={name}
@@ -45,6 +45,7 @@ const CustomFileInput = (props) => {
 
 CustomFileInput.propTypes = {
   type: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

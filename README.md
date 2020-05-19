@@ -267,7 +267,7 @@ On form view, you can choose which fields to show to client.
 Currently, we support 4 input types:
 - text: plain `string`
 - date: Date represented as a `string` in ISO 8601 format
-- file: file in jpg or png format max 6MB
+- file: any format max 6MB
 - select: `string` in ISO 3166-1 alpha-2 format ([Wiki](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2))
 - checkbox: boolean
 

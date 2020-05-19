@@ -17,32 +17,29 @@ const CustomFileInput = (props) => {
   const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
 
   return (
-    <div>
-      <div className={borderClass + (isError ? ' error' : '')}>
-        <Button
-          className={classes.outlinedInput}
-          variant="outlined"
-          component="label"
-        >
+    <div className={borderClass + (isError ? ' error' : '')}>
+      <Button
+        className={classes.outlinedInput}
+        variant="outlined"
+        component="label"
+      >
             Browse file
-          <input
-            accept="image/x-png,image/jpeg"
-            name={name}
-            onChange={onChange}
-            className={classes.outlinedInput}
-            hidden
-            type={type}
-          />
-        </Button>
-        <div className={classes.labelContainer}>
-          <input disabled value={valueName || ''} className={inputClass} />
-          <label className={labelClass}>
-            { customLabel }
-          </label>
-        </div>
+        <input
+          accept="image/x-png,image/jpeg"
+          name={name}
+          onChange={onChange}
+          className={classes.outlinedInput}
+          hidden
+          type={type}
+        />
+      </Button>
+      <div className={classes.labelContainer}>
+        <input disabled value={valueName || ''} className={inputClass} />
+        <label className={labelClass}>
+          { customLabel }
+        </label>
       </div>
     </div>
-
   );
 };
 

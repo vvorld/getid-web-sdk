@@ -3,6 +3,9 @@ export default {
   apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
+  metadata: {
+    externalId: 121212,
+  },
   flow: [
     { component: ['CountryAndDocument'] },
     { component: ['Form'] },

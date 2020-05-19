@@ -69,7 +69,7 @@ const mapFileNames = (fields) => Object.values(fields)
     .filter(([, val]) => val.type === 'file')
     .map(([name]) => name));
 
-export const createEAForSubmission = (jwt, verificationTypes) => {
+export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
   const state = store.getState();
   let form = new FormData();
   form.append('data', JSON.stringify({
@@ -77,6 +77,7 @@ export const createEAForSubmission = (jwt, verificationTypes) => {
       application: {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
+          externalId: metadata && metadata.externalId,
           metadata: 'web',
           sdkVersion: version,
           locale: window.navigator.language,

@@ -45,7 +45,9 @@ const init = (options, tokenProvider) => {
     const {
       responseCode, errorMessage, token, exists,
     } = result;
-    const api = createApi(options.apiUrl, token, options.verificationTypes);
+    const { metadata, verificationTypes, apiUrl } = options;
+    const api = createApi(apiUrl, token, verificationTypes, metadata);
+
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };

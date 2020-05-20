@@ -5,7 +5,7 @@ import styles from './style';
 
 const CustomFileInput = (props) => {
   const {
-    type, onChange, label, valueName, name, required,
+    type, onChange, label, valueName, name, required, isError, buttonText,
   } = props;
   const classes = styles();
   const isValue = valueName;
@@ -17,14 +17,13 @@ const CustomFileInput = (props) => {
   const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
 
   return (
-    <div className={borderClass}>
-
+    <div className={borderClass + (isError ? ' error' : '')}>
       <Button
         className={classes.outlinedInput}
         variant="outlined"
         component="label"
       >
-                Browse file
+        {buttonText}
         <input
           accept="image/x-png,image/jpeg"
           name={name}
@@ -46,16 +45,19 @@ const CustomFileInput = (props) => {
 
 CustomFileInput.propTypes = {
   type: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   valueName: PropTypes.any,
   required: PropTypes.bool,
+  isError: PropTypes.bool,
 };
 
 CustomFileInput.defaultProps = {
   valueName: null,
   required: false,
+  isError: false,
 };
 
 export default CustomFileInput;

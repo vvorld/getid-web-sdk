@@ -3,10 +3,12 @@ export default {
   apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
+  metadata: {
+    externalId: 121212,
+  },
   flow: [
-    { component: ['Consent'] },
     { component: ['CountryAndDocument'] },
-    // { component: ['Form'] },
+    { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },

@@ -14,7 +14,7 @@ import widgetStyles from './style';
 import allComponents from '../index';
 import NextIcon from '../../../assets/icons/views/arrow-next.svg';
 import BackIcon from '../../../assets/icons/views/arrow-back.svg';
-import { AppExistsView, FailError, ErrorView } from '../error';
+import { AppExistsView, FailError } from '../error';
 
 class Widget extends Component {
   constructor(props) {
@@ -209,9 +209,7 @@ class Widget extends Component {
       flow,
       currentComponent,
       onFail,
-      exists,
       onExists,
-      errorMessage,
     } = this.props;
 
     const { classes, ...other } = this.props;
@@ -222,17 +220,14 @@ class Widget extends Component {
 
     if (loading) { return (<Loader />); }
 
-    if (exists || appExists) {
-      return <AppExistsView classes={classes} callbacks={{ onExists }} />;
+    if (appExists) {
+      return <AppExistsView callbacks={{ onExists }} />;
     }
-    if (errorMessage) {
-      return <ErrorView classes={classes} callbacks={{ onFail }} />;
-    }
+
     if (responseCode !== 200) {
       return (
         <FailError
           submitAttempts={submitAttempts}
-          classes={classes}
           responseCode={responseCode}
           callbacks={{ onFail, onSubmit: this.submitData }}
         />
@@ -300,9 +295,7 @@ Widget.defaultProps = {
   fieldValues: null,
   isQA: false,
   currentComponent: null,
-  exists: false,
   cameraDistance: 'default',
-  errorMessage: '',
   idCaptureBackIndex: -1,
 };
 
@@ -328,8 +321,6 @@ Widget.propTypes = {
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
   idCaptureBackIndex: PropTypes.number,
-  exists: PropTypes.bool,
-  errorMessage: PropTypes.string,
   cameraDistance: PropTypes.string,
   api: PropTypes.object.isRequired,
 };

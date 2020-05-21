@@ -6,14 +6,17 @@ import MainTheme from './theme';
 import store from './store/store';
 import TranslationsContext from './context/TranslationsContext';
 import Main from './layouts/Main';
+import ErrorBoundary from './layouts/ErrorBoundary';
 
 const MainModule = (widgetOptions) => (
   <ThemeProvider theme={MainTheme}>
     <Provider store={store}>
       <TranslationsContext.Provider value={{ translations: widgetOptions.translations }}>
-        <Main
-          {...widgetOptions}
-        />
+        <ErrorBoundary>
+          <Main
+            {...widgetOptions}
+          />
+        </ErrorBoundary>
       </TranslationsContext.Provider>
     </Provider>
   </ThemeProvider>

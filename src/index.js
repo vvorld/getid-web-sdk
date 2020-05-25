@@ -26,7 +26,9 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
  */
 const init = (options, tokenProvider) => {
   checkContainerId(options);
-  const found = options.flow.some((view) => view.component.some((step) => cameraViews.includes(step)));
+  const found = options.flow
+    .some((view) => view.component
+      .some((step) => cameraViews.includes(step)));
 
   if (found) {
     if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {

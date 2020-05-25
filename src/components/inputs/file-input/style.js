@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core';
 const style = makeStyles((theme) => ({
   outlinedInput: {
     border: 'none',
-    lineHeight: 'normal',
+    lineHeight: '12px',
     padding: '14px 9px',
     color: theme.palette.blueDark,
     marginRight: '7px',
@@ -44,7 +44,7 @@ const style = makeStyles((theme) => ({
     color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
     textAlign: 'left',
-    lineHeight: '22px',
+    lineHeight: '16px',
     display: 'none',
     zIndex: -1,
     '&.selected': {
@@ -57,10 +57,12 @@ const style = makeStyles((theme) => ({
     },
   },
   label: {
+    wordWrap: 'break-word',
+    wordBreak: 'break-all',
     textAlign: 'left',
     color: `${fade(theme.palette.deepBlue, 0.5)}`,
     fontSize: '16px',
-    lineHeight: '22px',
+    lineHeight: '16px',
     paddingLeft: '5px',
     '&.selected': {
       paddingLeft: '5px',

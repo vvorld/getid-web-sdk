@@ -35,7 +35,6 @@ const style = makeStyles((theme) => ({
     },
   },
   labelContainer: {
-    // width: '70%',
     paddingLeft: '5px',
     display: 'flex',
     flexDirection: 'column-reverse',

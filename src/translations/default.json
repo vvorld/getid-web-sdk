@@ -31,7 +31,6 @@
   "choose_flow_button": "Choose Flow",
   "retry_button": "Retry",
   "cancel_button": "Cancel",
-  "browse_file_button": "Browse file",
   "exists_header": "Application already exists.",
   "exists_subHeader": "Please contact your provider for further information.",
   "done_button": "Done",

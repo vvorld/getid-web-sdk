@@ -3,17 +3,18 @@ import { fade, makeStyles } from '@material-ui/core';
 const style = makeStyles((theme) => ({
   outlinedInput: {
     border: 'none',
-    lineHeight: '12px',
-    padding: '14px 9px',
     color: theme.palette.blueDark,
-    marginRight: '7px',
-    fontSize: '14px',
+    marginRight: '8px',
     backgroundColor: theme.palette.lightViolet,
     borderRadius: '5px',
-    textTransform: 'none',
     '&:hover': {
+      '& .icon': {
+        stroke: theme.palette.white,
+      },
       backgroundColor: theme.palette.violet,
-      color: theme.palette.white,
+    },
+    '& .icon': {
+      stroke: theme.palette.violet,
     },
   },
   border: {

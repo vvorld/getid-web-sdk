@@ -9,12 +9,12 @@ const style = makeStyles((theme) => ({
     borderRadius: '5px',
     '&:hover': {
       '& .icon': {
-        stroke: 'white',
+        stroke: theme.palette.white,
       },
       backgroundColor: theme.palette.violet,
     },
     '& .icon': {
-      stroke: '#7861A2',
+      stroke: theme.palette.violet,
     },
   },
   border: {

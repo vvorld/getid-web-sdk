@@ -267,9 +267,22 @@ On form view, you can choose which fields to show to client.
 Currently, we support 4 input types:
 - text: plain `string`
 - date: Date represented as a `string` in ISO 8601 format
-- file: file in jpg or png format
+- file: any format max 6MB
 - select: `string` in ISO 3166-1 alpha-2 format ([Wiki](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2))
 - checkbox: boolean
+
+**_Important note:_**
+
+If you want to add custom file fields on the form step, please refrain from using reserved field names such as:
+- front
+- back
+- selfie
+- selfie-video
+
+These can only be used to send out 
+document photos (front and back), 
+selfie (selfie) and liveness recording (selfie video). 
+Unless you want to use those file inputs to do just that, please opt for some other naming.
 
 Optionally, you can pre-populate some fields by known values. Pass the values according to formats listed in the table above.
 You can set field's `required` option. All fields are set as `required: true` by default.

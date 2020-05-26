@@ -7,11 +7,12 @@ import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
 import {
-  sanitizeConfig,
+  removeFieldDupes,
   checkContainerId,
   convertAnswer,
   addDefaultValues,
 } from './helpers/generic';
+import cameraViews from './constants/camera-views';
 
 const supportedBrowsers = require('../supportedBrowsers');
 
@@ -25,6 +26,25 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
  */
 const init = (options, tokenProvider) => {
   checkContainerId(options);
+  const found = options.flow
+    .some((view) => view.component
+      .some((step) => cameraViews.includes(step)));
+
+  if (found) {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+      if (options.onFail && typeof options.onFail === 'function') {
+        const error = new Error('mediaDevices_no_supported');
+        options.onFail(error);
+        return;
+      }
+      const config = {
+        ...options, cameraNoSupported: true, translations: defaultTranslations,
+      };
+      renderMainComponent(config);
+      return;
+    }
+  }
+
   const getToken = (typeof tokenProvider === 'object')
     ? () => new Promise(((resolve) => resolve(tokenProvider)))
     : tokenProvider;
@@ -45,7 +65,9 @@ const init = (options, tokenProvider) => {
     const {
       responseCode, errorMessage, token, exists,
     } = result;
-    const api = createApi(options.apiUrl, token, options.verificationTypes);
+    const { metadata, verificationTypes, apiUrl } = options;
+    const api = createApi(apiUrl, token, verificationTypes, metadata);
+
     const config = {
       ...options, exists, api, translations: defaultTranslations, errorMessage,
     };
@@ -60,7 +82,7 @@ const init = (options, tokenProvider) => {
       return;
     }
     Promise.all([
-      sanitizeConfig(config),
+      removeFieldDupes(config.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
     ]).then(([filteredFields, info, responseTranslations]) => {

@@ -238,7 +238,7 @@ class WebcamView extends React.Component {
             (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration)
               ? chunk : acceptedChunk
           ));
-          addScan('selfieVideo', acceptedVideo.data, currentStep, true);
+          addScan('selfie-video', acceptedVideo.data, currentStep, true);
         }
       };
 

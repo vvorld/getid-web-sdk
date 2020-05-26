@@ -7,6 +7,19 @@ const ErrorViewStyles = makeStyles((theme) => ({
     letterSpacing: '0.192941px',
     lineHeight: '41px',
   },
+  centerBlock: {
+    fontFamily: theme.typography.fontFamily,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    minHeight: '100vh',
+  },
+  item: {
+    textAlign: 'center',
+    position: 'relative',
+  },
   subHeader: {
     margin: '16px 8px 30px 8px',
     fontSize: '15px',

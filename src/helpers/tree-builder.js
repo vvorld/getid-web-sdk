@@ -77,6 +77,7 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
           sdkVersion: version,
           locale: window.navigator.language,
           submissionTime: new Date(),
+          userAgent: window.navigator.userAgent,
           verificationTypes,
         },
         documents: [

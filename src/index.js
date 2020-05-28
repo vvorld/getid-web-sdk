@@ -30,6 +30,7 @@ const init = (options, tokenProvider) => {
     .some((view) => view.component
       .some((step) => cameraViews.includes(step)));
   const isIOSChrome = navigator.userAgent.match('CriOS');
+  document.addEventListener('touchstart', {});
   if (found) {
     if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
       if (options.onFail && typeof options.onFail === 'function') {

@@ -13,13 +13,8 @@ import { isMobile } from '../../../helpers/generic';
 
 const useStyles = (theme) => ({
   subHeader: {
+    ...theme.typography.subHeader,
     margin: '0 8px 30px 8px',
-    fontSize: '15px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    lineHeight: '22px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
     [theme.breakpoints.down('sm')]: {
       marginTop: '13px',
     },

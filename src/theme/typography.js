@@ -11,11 +11,18 @@ export default {
     fontWeight: 'bold',
   },
   subHeader: {
+    margin: '0 8px 30px 8px',
     fontSize: '15px',
     fontStyle: 'normal',
     fontWeight: 'normal',
     lineHeight: '22px',
     color: palette.blue.dark,
     opacity: '0.7',
+  },
+  main: {
+    fontSize: '12px'
+  },
+  tooltip: {
+
   },
 };

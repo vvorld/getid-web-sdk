@@ -1,7 +1,13 @@
 export default {
+  blue: {
+    main: '#173d69',
+    dark: '#0e2846',
+    shadow: '#1b3361',
+    loader: '#194373',
+  },
   black: '#000',
   white: '#fff',
-  blue: '#173d69',
+  // blue: '#173d69',
   blueDark: '#0e2846',
   blueShadow: '#1b3361',
   stepperLight: '#ece8f3',

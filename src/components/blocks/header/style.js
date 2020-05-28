@@ -13,19 +13,11 @@ const headerStyles = makeStyles((theme) => ({
   },
   header: {
     marginTop: 1,
-    color: theme.palette.blue,
-    fontSize: theme.typography.mainHeaderSize,
-    letterSpacing: '0.192941px',
-    lineHeight: '41px',
+    ...theme.typography.header
   },
   subHeader: {
     margin: '0 8px 30px 8px',
-    fontSize: '15px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    lineHeight: '22px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
+    ...theme.typography.subHeader,
     [theme.breakpoints.down('sm')]: {
       marginTop: '13px',
     },

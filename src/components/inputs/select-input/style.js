@@ -37,7 +37,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.violet}`,
     boxSizing: 'border-box',
     borderRadius: 8,
-    boxShadow: `0px 4px 20px ${fade(theme.palette.blue, 0.15)}`,
+    boxShadow: `0px 4px 20px ${fade(theme.palette.blue.main, 0.15)}`,
     color: theme.palette.deepBlue,
     backgroundColor: theme.palette.white,
     '&.filled': {

@@ -14,7 +14,7 @@ const FooterStyles = makeStyles((theme) => ({
   },
   text: {
     lineHeight: '22px',
-    color: theme.palette.blue,
+    color: theme.palette.blue.main,
     opacity: 0.8,
     fontSize: '15px',
     display: 'inline-block',

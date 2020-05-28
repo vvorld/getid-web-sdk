@@ -3,7 +3,7 @@ import { fade, makeStyles } from '@material-ui/core';
 const style = makeStyles((theme) => ({
   outlinedInput: {
     border: 'none',
-    color: theme.palette.blueDark,
+    color: theme.palette.blue.dark,
     marginRight: '8px',
     backgroundColor: theme.palette.lightViolet,
     borderRadius: '5px',

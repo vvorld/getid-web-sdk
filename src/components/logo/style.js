@@ -19,7 +19,7 @@ const imgStyles = makeStyles((theme) => ({
     fontWeight: 'normal',
     fontSize: '15px',
     lineHeight: '22px',
-    color: theme.palette.blue,
+    color: theme.palette.blue.main,
   },
 }));
 

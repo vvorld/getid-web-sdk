@@ -2,7 +2,7 @@ import { fade, makeStyles } from '@material-ui/core';
 
 const ErrorViewStyles = makeStyles((theme) => ({
   header: {
-    color: theme.palette.blue,
+    color: theme.palette.blue.main,
     fontSize: '32px',
     letterSpacing: '0.192941px',
     lineHeight: '41px',

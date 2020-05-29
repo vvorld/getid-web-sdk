@@ -24,7 +24,6 @@ const customInputStyles = makeStyles((theme) => ({
     },
   },
   labelRoot: {
-    width: '95%',
     wordWrap: 'break-word',
     wordBreak: 'break-all',
     color: `${fade(theme.palette.deepBlue, 0.5)}`,

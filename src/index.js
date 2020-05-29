@@ -29,9 +29,10 @@ const init = (options, tokenProvider) => {
   const found = options.flow
     .some((view) => view.component
       .some((step) => cameraViews.includes(step)));
+  const isIOSChrome = navigator.userAgent.match('CriOS');
 
   if (found) {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+    if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
       if (options.onFail && typeof options.onFail === 'function') {
         const error = new Error('mediaDevices_no_supported');
         options.onFail(error);

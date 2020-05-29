@@ -54,8 +54,11 @@ upload (capture) ids and face photos.
 | Windows | Firefox | ✔️ | ✔️ |
     
 ### Obtaining an API key
-In order to start using GetID SDK, you will need an API key and API url. You can get and set your key and url in your 
-GetID Dashboard.
+In order to start using GetID SDK, you will need an API key and API url.
+In your GetID Dashboard, you can get and set API key and SDK key.
+API key - grants you access to public API calls and SDK API calls.
+SDK key - grants you access to only SDK API calls.
+For security reasons, strongly recommended use "SDK key" in your SDK.
 ### Camera usage description
 The SDK uses the camera for capturing photos during verification. 
 The app is responsible for describing the reason for using the camera. 

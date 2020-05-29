@@ -33,7 +33,7 @@ const consentStyles = (theme) => ({
       fontSize: '15px',
     },
     '& a': {
-      color: theme.palette.violet,
+      color: theme.palette.violet.main,
     },
   },
 });

@@ -5,7 +5,7 @@ const customCheckbox = makeStyles((theme) => ({
     width: 30,
     height: 30,
     boxSizing: 'border-box',
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     borderRadius: '8px',
     marginRight: 10,
     '&$checked': {

@@ -10,7 +10,7 @@ const datePickerStyles = makeStyles((theme) => ({
       },
     },
     fontSize: '1rem',
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     overflow: 'hidden',
     borderRadius: 8,
     backgroundColor: 'transparent',
@@ -24,10 +24,10 @@ const datePickerStyles = makeStyles((theme) => ({
     '&$focused': {
       color: theme.palette.deepBlue,
       backgroundColor: theme.palette.white,
-      borderColor: theme.palette.violet,
+      borderColor: theme.palette.violet.main,
     },
     '&.filled': {
-      border: `1px solid ${theme.palette.violet}`,
+      border: `1px solid ${theme.palette.viole.maint}`,
     },
   },
   labelRoot: {

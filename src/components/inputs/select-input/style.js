@@ -10,14 +10,14 @@ const CustomSelectStyles = makeStyles((theme) => ({
     textAlign: 'left',
     height: 58,
     borderRadius: 8,
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     '&& div': {
       backgroundColor: 'transparent',
       fontSize: 16,
     },
     '&.filled': {
       color: theme.palette.deepBlue,
-      border: `1px solid ${theme.palette.violet}`,
+      border: `1px solid ${theme.palette.violet.main}`,
       backgroundColor: theme.palette.white,
     },
     '&:hover': {
@@ -28,13 +28,13 @@ const CustomSelectStyles = makeStyles((theme) => ({
       border: 0,
     },
     '&:focus': {
-      border: `1px solid ${theme.palette.violet}`,
+      border: `1px solid ${theme.palette.violet.main}`,
       color: theme.palette.deepBlue,
       backgroundColor: theme.palette.white,
     },
   },
   dropdownStyle: {
-    border: `1px solid ${theme.palette.violet}`,
+    border: `1px solid ${theme.palette.violet.main}`,
     boxSizing: 'border-box',
     borderRadius: 8,
     boxShadow: `0px 4px 20px ${fade(theme.palette.blue.main, 0.15)}`,
@@ -44,7 +44,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.white,
     },
     '&:focus': {
-      border: `1px solid ${theme.palette.violet}`,
+      border: `1px solid ${theme.palette.violet.main}`,
       color: theme.palette.deepBlue,
       backgroundColor: theme.palette.white,
     },
@@ -61,7 +61,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
     paddingTop: '14px',
     paddingBottom: '14px',
     '&:hover': {
-      background: `${fade(theme.palette.violet, 0.05)}`,
+      background: `${fade(theme.palette.violet.main, 0.05)}`,
     },
   },
   labelFocused: {
@@ -71,9 +71,9 @@ const CustomSelectStyles = makeStyles((theme) => ({
     },
   },
   itemSelected: {
-    background: `${fade(theme.palette.violet, 0.05)}!important`,
+    background: `${fade(theme.palette.violet.main, 0.05)}!important`,
     '&:hover': {
-      background: `${fade(theme.palette.violet, 0.05)}`,
+      background: `${fade(theme.palette.violet.main, 0.05)}`,
     },
   },
   img: {

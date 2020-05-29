@@ -10,7 +10,7 @@ const RadioButtonStyles = makeStyles((theme) => ({
     borderRadius: '50%',
     width: 29,
     height: 29,
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     'input:hover ~ &': {
       boxShadow: 'none',
     },
@@ -33,7 +33,7 @@ const RadioButtonStyles = makeStyles((theme) => ({
     borderRadius: 8,
     margin: '10px 0 5px',
     padding: '4px 0',
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     '&.MuiFormControlLabel-root > .MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1': {
       paddingLeft: 15,
     },

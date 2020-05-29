@@ -12,7 +12,7 @@ const loader = makeStyles((theme) => ({
     color: theme.palette.blueLight,
   },
   bottom: {
-    color: theme.palette.violet,
+    color: theme.palette.violet.main,
     animationDuration: '850ms',
     position: 'absolute',
     left: 0,

@@ -5,6 +5,10 @@ export default {
     shadow: '#1b3361',
     loader: '#194373',
   },
+  violet: {
+    dark: '#7861a2',
+    main: '#9C77E0'
+  },
   black: '#000',
   white: '#fff',
   // blue: '#173d69',
@@ -14,7 +18,6 @@ export default {
   blueLight: '#eef3fd',
   aqua: '#00b1c9',
   crimson: '#ea167c',
-  violet: '#7861a2',
   orange: '#ff5630',
   deepBlue: '#0e1c2c',
   lightViolet: '#F5F3FA',

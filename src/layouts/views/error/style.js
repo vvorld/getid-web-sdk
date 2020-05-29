@@ -30,14 +30,14 @@ const ErrorViewStyles = makeStyles((theme) => ({
     opacity: '0.7',
   },
   hr: {
-    background: fade(theme.palette.violet, 0.5),
+    background: fade(theme.palette.violet.dark, 0.5),
     border: '0',
     height: '1px',
     margin: '20px auto',
     width: '30px',
   },
   hrLong: {
-    background: fade(theme.palette.violet, 0.5),
+    background: fade(theme.palette.violet.dark, 0.5),
     border: '0',
     height: '1px',
     margin: '20px auto',

@@ -23,7 +23,7 @@ const headerStyles = makeStyles((theme) => ({
     },
   },
   hr: {
-    background: fade(theme.palette.violet, 0.5),
+    background: fade(theme.palette.violet.main, 0.5),
     border: '0',
     height: '1px',
     margin: '0 auto 20px',

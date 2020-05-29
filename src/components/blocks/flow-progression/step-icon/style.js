@@ -14,12 +14,12 @@ const customisedStepIconStyles = makeStyles((theme) => ({
   active: {
     width: theme.stepperShape.width,
     height: theme.stepperShape.height,
-    background: theme.palette.violet,
+    background: theme.palette.violet.main,
   },
   completed: {
     width: theme.stepperShape.width,
     height: theme.stepperShape.height,
-    background: theme.palette.violet,
+    background: theme.palette.violet.main,
   },
   none: {
     background: 'transparent',

@@ -11,10 +11,10 @@ const style = makeStyles((theme) => ({
       '& .icon': {
         stroke: theme.palette.white,
       },
-      backgroundColor: theme.palette.violet,
+      backgroundColor: theme.palette.violet.main,
     },
     '& .icon': {
-      stroke: theme.palette.violet,
+      stroke: theme.palette.violet.main,
     },
   },
   border: {
@@ -27,9 +27,9 @@ const style = makeStyles((theme) => ({
     color: theme.palette.deepBlue,
     width: '100%',
     height: 56,
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
+    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     '&.selected': {
-      border: `1px solid ${fade(theme.palette.violet, 1)}`,
+      border: `1px solid ${fade(theme.palette.violet.main, 1)}`,
     },
     '&.error': {
       border: `1px solid ${fade(theme.palette.error.main, 1)}`,

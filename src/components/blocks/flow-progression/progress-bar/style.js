@@ -8,12 +8,12 @@ const stepperStyles = (theme) => ({
   },
   active: {
     '& $line': {
-      border: `3px solid ${theme.palette.violet}`,
+      border: `3px solid ${theme.palette.violet.main}`,
     },
   },
   completed: {
     '& $line': {
-      border: `3px solid  ${theme.palette.violet}`,
+      border: `3px solid  ${theme.palette.violet.main}`,
     },
   },
   line: {

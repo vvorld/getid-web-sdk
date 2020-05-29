@@ -12,7 +12,7 @@ const buttonStyles = makeStyles((theme) => ({
       marginLeft: '10px',
     },
     '& .MuiIconButton-root': {
-      color: theme.palette.violet,
+      color: theme.palette.violet.main,
       '&:hover': {
         backgroundColor: 'transparent',
       },
@@ -79,7 +79,7 @@ const buttonStyles = makeStyles((theme) => ({
   },
   prevButton: {
     border: 0,
-    color: theme.palette.violet,
+    color: theme.palette.violet.main,
     background: 'transparent',
     boxShadow: 'none',
     borderColor: 'transparent',

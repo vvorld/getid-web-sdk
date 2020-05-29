@@ -7,7 +7,7 @@ const FooterStyles = makeStyles((theme) => ({
     margin: '50px auto',
     border: 0,
     height: '1px',
-    background: fade(theme.palette.violet, 0.5),
+    background: fade(theme.palette.violet.main, 0.5),
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },

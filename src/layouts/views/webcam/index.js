@@ -297,7 +297,7 @@ class WebcamView extends React.Component {
     const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
-      <div className="webcam">
+      <div className="webcam" data-role="webcamContainer">
         <div className={classes.subHeader}>{translations.camera_access_tooltip}</div>
         {saveImage ? (
           <PreviewForm

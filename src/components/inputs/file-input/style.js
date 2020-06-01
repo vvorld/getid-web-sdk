@@ -29,7 +29,6 @@ const style = makeStyles((theme) => ({
     flexDirection: 'column-reverse',
   },
   inputValue: {
-    // paddingLeft: '5px',
     ...theme.typography.mainInput,
     width: '95%!important',
     display: 'none',

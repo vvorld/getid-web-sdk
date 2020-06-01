@@ -20,7 +20,9 @@ const Radiobutton = (props) => {
       control={(
         <Radio
           data-role="radioBtn"
-          className={classes.root}
+          classes={{
+            root: classes.root,
+          }}
           disableRipple
           key={`radio-${props.value}`}
           checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
@@ -30,7 +32,6 @@ const Radiobutton = (props) => {
     />
   );
 };
-
 
 Radiobutton.propTypes = {
   value: PropTypes.any,

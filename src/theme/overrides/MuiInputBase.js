@@ -14,6 +14,7 @@ export default {
       },
       '&$focused fieldset': {
         borderColor: palette.violet.main,
+
       },
       '&.selected fieldset': {
         borderColor: palette.violet.main,
@@ -23,7 +24,15 @@ export default {
       backgroundColor: 'transparent',
     },
     '&.MuiOutlinedInput-root&$focused': {
+      '& .select-icon': {
+        transform: 'rotateX(180deg)',
+        display: 'flex',
+        alignItems: 'center',
+      },
       backgroundColor: 'transparent',
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderWidth: 1,
+      },
     },
     '&$error': {
       borderColor: '#F0809B !important',

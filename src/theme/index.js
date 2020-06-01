@@ -15,6 +15,10 @@ const mainTheme = createMuiTheme({
   inputBorder: {
     borderRadius: '8px',
     border: `1px solid ${palette.gray.main}`,
+    '&.selectedVal': {
+      borderColor: palette.violet.main,
+      color: palette.blue.deep,
+    },
     '&.filled': {
       borderColor: palette.violet.main,
     },

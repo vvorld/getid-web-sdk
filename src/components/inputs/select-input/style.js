@@ -1,85 +1,42 @@
-import { fade, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const CustomSelectStyles = makeStyles((theme) => ({
   customSelect: {
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
-    color: theme.palette.deepBlue,
-    backgroundColor: 'transparent',
-    textAlign: 'left',
+    ...theme.typography.mainInput,
     height: 58,
-    // ...theme.
-    // borderRadius: 8,
-    border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
-    '&& div': {
-      backgroundColor: 'transparent',
-      fontSize: 16,
-    },
-    '&.filled': {
-      color: theme.palette.deepBlue,
-      border: `1px solid ${theme.palette.violet.main}`,
-      backgroundColor: theme.palette.white,
-    },
-    '&:hover': {
-      backgroundColor: theme.palette.white,
-    },
-    '&& fieldset': {
-      backgroundColor: theme.palette.white,
-      border: 0,
-    },
-    '&:focus': {
-      border: `1px solid ${theme.palette.violet.main}`,
-      color: theme.palette.deepBlue,
-      backgroundColor: theme.palette.white,
-    },
   },
   dropdownStyle: {
-    border: `1px solid ${theme.palette.violet.main}`,
-    boxSizing: 'border-box',
-    borderRadius: 8,
-    boxShadow: `0px 4px 20px ${fade(theme.palette.blue.main, 0.15)}`,
-    color: theme.palette.deepBlue,
-    backgroundColor: theme.palette.white,
-    '&.filled': {
-      backgroundColor: theme.palette.white,
-    },
-    '&:focus': {
-      border: `1px solid ${theme.palette.violet.main}`,
-      color: theme.palette.deepBlue,
-      backgroundColor: theme.palette.white,
-    },
+    ...theme.inputBorder,
   },
   icon: {
     position: 'absolute',
     right: 10,
-    top: '35%',
+    display: 'flex',
+    alignItems: 'center',
     pointerEvents: 'none',
   },
   item: {
-    fontSize: '16px',
-    lineHeight: '22px',
+    ...theme.typography.mainInput,
     paddingTop: '14px',
     paddingBottom: '14px',
     '&:hover': {
-      background: `${fade(theme.palette.violet.main, 0.05)}`,
+      backgroundColor: theme.palette.violet.light,
     },
   },
   labelRoot: {
+    paddingLeft: '5px',
+    paddingRight: '5px',
     ...theme.typography.label,
   },
   itemSelected: {
-    background: `${fade(theme.palette.violet.main, 0.05)}!important`,
+    background: `${theme.palette.violet.light}!important`,
     '&:hover': {
-      background: `${fade(theme.palette.violet.main, 0.05)}`,
+      backgroundColor: theme.palette.violet.light,
     },
   },
   img: {
     width: '15px',
     height: '20px',
-  },
-  focused: {
-    backgroundColor: theme.palette.white,
   },
 }));
 

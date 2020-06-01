@@ -15,10 +15,10 @@ const CustomSelect = (props) => {
   } = props;
 
   const classes = CustomSelectStyles();
-  // const className = value ? ' filled' : '';
+  const className = value ? ' filled' : '';
 
   const selectIcon = () => (
-    <Icon className={classes.icon}>
+    <Icon className={`select-icon ${classes.icon}`}>
       <img className={classes.img} alt="open select" src={arrowIcon} />
     </Icon>
   );
@@ -36,9 +36,14 @@ const CustomSelect = (props) => {
         disableUnderline
         data-role="select"
         MenuProps={{
+          getContentAnchorEl: null,
+          anchorOrigin: {
+            vertical: 'bottom',
+          },
           MenuListProps: { disablePadding: true },
-          classes: { paper: classes.dropdownStyle },
+          classes: { paper: classes.dropdownStyle, focused: classes.focused },
         }}
+        className={className}
         displayEmpty
         name={name}
         value={value}

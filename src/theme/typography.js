@@ -20,9 +20,35 @@ export default {
     opacity: '0.7',
   },
   main: {
-    fontSize: '12px'
+    fontSize: '16px',
+    lineHeight: '16px',
+    color: palette.blue.deep,
+    backgroundColor: palette.white,
+    textAlign: 'left',
   },
-  tooltip: {
-
+  mainInput: {
+    overflow: 'hidden',
+    width: '100%',
+    fontSize: '16px',
+    lineHeight: '16px',
+    color: palette.blue.deep,
+    backgroundColor: palette.white,
+    textAlign: 'left',
+  },
+  label: {
+    wordWrap: 'break-word',
+    wordBreak: 'break-all',
+    color: palette.blue.deep,
+    '&.MuiInputLabel-outlined.MuiInputLabel-shrink': {
+      backgroundColor: 'white',
+      color: palette.violet.main,
+    },
+    '&$labelFocused': {
+      backgroundColor: 'white',
+      color: palette.violet.main,
+    },
+    '&.selected': {
+      color: palette.violet.main,
+    },
   },
 };

@@ -8,7 +8,7 @@ export default {
   },
   flow: [
     // { component: ['CountryAndDocument'] },
-    // { component: ['Form'] } ,
+    { component: ['Form'] } ,
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
@@ -65,7 +65,7 @@ export default {
     {
       label: 'Date Of Birth',
       type: 'date',
-      value: '1991-08-15',
+      // value: '1991-08-15',
       name: 'Date Of Birth',
     },
     {

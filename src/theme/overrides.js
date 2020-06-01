@@ -1,11 +1,8 @@
+import { MuiInputBase, MuiSelect } from './overrides/index';
+
 export default {
-  MuiInputBase: {
-    root: {
-      '&$error': {
-        borderColor: '#F0809B !important',
-      },
-    },
-  },
+  MuiInputBase,
+  MuiSelect,
   MuiPickersToolbarText: {
     toolbarBtnSelected: {
       color: '#0e1c2c',

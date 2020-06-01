@@ -15,7 +15,7 @@ const CustomSelect = (props) => {
   } = props;
 
   const classes = CustomSelectStyles();
-  const className = value ? ' filled' : '';
+  // const className = value ? ' filled' : '';
 
   const selectIcon = () => (
     <Icon className={classes.icon}>
@@ -24,10 +24,10 @@ const CustomSelect = (props) => {
   );
 
   return (
-    <FormControl required={required} fullWidth variant="filled">
+    <FormControl required={required} fullWidth variant="outlined">
       <InputLabel
         classes={{
-          root: classes.labelFocused,
+          root: classes.labelRoot,
         }}
       >
         {placeholder}
@@ -39,7 +39,6 @@ const CustomSelect = (props) => {
           MenuListProps: { disablePadding: true },
           classes: { paper: classes.dropdownStyle },
         }}
-        className={classes.customSelect + className}
         displayEmpty
         name={name}
         value={value}

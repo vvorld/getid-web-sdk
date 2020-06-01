@@ -4,14 +4,18 @@ export default {
     dark: '#0e2846',
     shadow: '#1b3361',
     loader: '#194373',
+    deep: '#0e1c2c',
+  },
+  gray: {
+    main: '#CED3DD',
   },
   violet: {
     dark: '#7861a2',
-    main: '#9C77E0'
+    main: '#9C77E0',
+    light: '#F8F7FA',
   },
   black: '#000',
   white: '#fff',
-  // blue: '#173d69',
   blueDark: '#0e2846',
   blueShadow: '#1b3361',
   stepperLight: '#ece8f3',

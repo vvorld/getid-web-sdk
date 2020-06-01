@@ -13,7 +13,7 @@ const headerStyles = makeStyles((theme) => ({
   },
   header: {
     marginTop: 1,
-    ...theme.typography.header
+    ...theme.typography.header,
   },
   subHeader: {
     margin: '0 8px 30px 8px',

@@ -9,7 +9,8 @@ const CustomSelectStyles = makeStyles((theme) => ({
     backgroundColor: 'transparent',
     textAlign: 'left',
     height: 58,
-    borderRadius: 8,
+    // ...theme.
+    // borderRadius: 8,
     border: `1px solid ${fade(theme.palette.violet.main, 0.5)}`,
     '&& div': {
       backgroundColor: 'transparent',
@@ -64,11 +65,8 @@ const CustomSelectStyles = makeStyles((theme) => ({
       background: `${fade(theme.palette.violet.main, 0.05)}`,
     },
   },
-  labelFocused: {
-    color: theme.palette.deepBlue,
-    '&$labelFocused': {
-      color: `${fade(theme.palette.deepBlue, 0.5)}`,
-    },
+  labelRoot: {
+    ...theme.typography.label,
   },
   itemSelected: {
     background: `${fade(theme.palette.violet.main, 0.05)}!important`,

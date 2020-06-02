@@ -182,7 +182,7 @@ class WebcamView extends React.Component {
       -videoHeight * cropY,
     );
 
-    this.stopRecording();
+    if (this.state.mediaRecorder) this.stopRecording();
 
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
@@ -195,6 +195,8 @@ class WebcamView extends React.Component {
     const { addScan, currentStep } = this.props;
     const { mediaRecorder } = this.state;
     this.setState({ recording: false });
+    addScan('selfie-video', null, currentStep, true);
+  
     mediaRecorder.stopRecording(() => {
       const blob = mediaRecorder.getBlob();
       addScan('selfie-video', blob, currentStep, true);
@@ -204,7 +206,6 @@ class WebcamView extends React.Component {
 
   initVideoRecorder = (stream) => {
     const { addScan, currentStep } = this.props;
-    addScan('selfie-video', null, currentStep, true);
     if (!this.state.recording) return;
     const { videoHeight, videoWidth } = this.state;
     try {

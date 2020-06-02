@@ -4,7 +4,7 @@ const stepperStyles = (theme) => ({
     left: 'calc(-50% + 8px)',
     right: 'calc(50% + 8px)',
     position: 'absolute',
-    backgroundColor: theme.palette.stepperLight,
+    backgroundColor: theme.palette.gray.light,
   },
   active: {
     '& $line': {
@@ -17,7 +17,7 @@ const stepperStyles = (theme) => ({
     },
   },
   line: {
-    border: `3px solid ${theme.palette.stepperLight}`,
+    border: `3px solid ${theme.palette.gray.light}`,
     justifyContent: 'center',
     alignItems: 'center',
   },

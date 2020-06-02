@@ -3,21 +3,24 @@ import palette from './palette';
 export default {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   mainHeaderSize: '26px',
-  header: {
+  h1: {
     color: palette.blue.main,
     fontSize: '26px',
     letterSpacing: '0.192941px',
     lineHeight: '41px',
+    marginTop: 1,
+    marginBlockEnd: '10px',
     fontWeight: 'bold',
   },
-  subHeader: {
-    margin: '0 8px 30px 8px',
+  h2: {
     fontSize: '15px',
     fontStyle: 'normal',
     fontWeight: 'normal',
     lineHeight: '22px',
     color: palette.blue.dark,
     opacity: '0.7',
+    marginTop: 0,
+    marginBlockEnd: 0,
   },
   main: {
     fontSize: '16px',

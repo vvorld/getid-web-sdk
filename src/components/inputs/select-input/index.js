@@ -33,12 +33,12 @@ const CustomSelect = (props) => {
         {placeholder}
       </InputLabel>
       <Select
-        disableUnderline
         data-role="select"
         MenuProps={{
           getContentAnchorEl: null,
           anchorOrigin: {
             vertical: 'bottom',
+            horizontal: 'left',
           },
           MenuListProps: { disablePadding: true },
           classes: { paper: classes.dropdownStyle, focused: classes.focused },

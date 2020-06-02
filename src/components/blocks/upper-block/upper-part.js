@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import ProgressBar from '../flow-progression/progress-bar/progress-bar';
 import CustomLogo from '../../logo/custom-logo';
 import Header from '../header/header';
 
-function UpperPart(props) {
-  const { currentStep, flow, currentComponent } = props;
+function UpperPart() {
+  const flow = useSelector((state) => state.sdkFlow);
+  const currentStep = useSelector((state) => state.step);
+  const currentComponent = flow[currentStep];
   const { next } = currentComponent;
-
   const isLast = () => !next;
 
   return (
@@ -29,11 +30,5 @@ function UpperPart(props) {
     </Grid>
   );
 }
-
-UpperPart.propTypes = {
-  currentStep: PropTypes.number.isRequired,
-  flow: PropTypes.array.isRequired,
-  currentComponent: PropTypes.object.isRequired,
-};
 
 export default UpperPart;

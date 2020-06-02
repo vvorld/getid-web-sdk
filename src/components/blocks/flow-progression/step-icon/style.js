@@ -4,7 +4,7 @@ const customisedStepIconStyles = makeStyles((theme) => ({
   root: {
     width: theme.stepperShape.width,
     height: theme.stepperShape.height,
-    backgroundColor: theme.palette.stepperLight,
+    backgroundColor: theme.palette.gray.light,
     zIndex: 1,
     display: 'flex',
     borderRadius: theme.stepperShape.borderRadius,

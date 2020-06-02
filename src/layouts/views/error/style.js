@@ -1,12 +1,6 @@
 import { fade, makeStyles } from '@material-ui/core';
 
 const ErrorViewStyles = makeStyles((theme) => ({
-  header: {
-    color: theme.palette.blue.main,
-    fontSize: '32px',
-    letterSpacing: '0.192941px',
-    lineHeight: '41px',
-  },
   centerBlock: {
     fontFamily: theme.typography.fontFamily,
     display: 'flex',
@@ -19,15 +13,6 @@ const ErrorViewStyles = makeStyles((theme) => ({
   item: {
     textAlign: 'center',
     position: 'relative',
-  },
-  subHeader: {
-    margin: '16px 8px 30px 8px',
-    fontSize: '15px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    lineHeight: '22px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
   },
   hr: {
     background: fade(theme.palette.violet.dark, 0.5),

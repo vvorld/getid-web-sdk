@@ -8,6 +8,7 @@ export default {
   },
   gray: {
     main: '#CED3DD',
+    light: '#F7F6FB',
   },
   violet: {
     dark: '#7861a2',

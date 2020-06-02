@@ -205,8 +205,6 @@ class Widget extends Component {
 
   render() {
     const {
-      currentStep,
-      flow,
       currentComponent,
       onFail,
       onExists,
@@ -241,11 +239,7 @@ class Widget extends Component {
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
-          <UpperPart
-            currentComponent={currentComponent}
-            flow={flow}
-            currentStep={currentStep}
-          />
+          <UpperPart />
         </Grid>
         <Grid
           container

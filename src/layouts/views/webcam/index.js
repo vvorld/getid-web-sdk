@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import RecordRTC from 'recordrtc/RecordRTC';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
@@ -10,8 +11,6 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import MobileCamera from '../../../components/mobile-camera/mobile-camera';
 import { isMobile } from '../../../helpers/generic';
-import { WebAssemblyRecorder } from 'recordrtc';
-import RecordRTC from 'recordrtc/RecordRTC';
 
 const useStyles = (theme) => ({
   subHeader: {
@@ -200,7 +199,7 @@ class WebcamView extends React.Component {
       const blob = mediaRecorder.getBlob();
       addScan('selfie-video', blob, currentStep, true);
       mediaRecorder.reset();
-    })
+    });
   };
 
   initVideoRecorder = (stream) => {
@@ -216,10 +215,10 @@ class WebcamView extends React.Component {
             mimeType: 'video/webm',
             workerPath: 'node_modules/webm-wasm/dist/webm-worker.js',
             webAssemblyPath: './webm-wasm.wasm',
-            recorderType: WebAssemblyRecorder,
+            recorderType: RecordRTC.WebAssemblyRecorder,
             width: videoWidth,
             height: videoHeight,
-          })
+          }),
         });
       }
       if (!this.state.saveImage) this.state.mediaRecorder.startRecording();
@@ -285,34 +284,34 @@ class WebcamView extends React.Component {
           />
 
         ) : (
-            <div>
-              {isMobile() ? (
-                <MobileCamera
-                  isPhotoTaken={saveImage}
-                  footer={footer}
-                  capture={this.handleFile}
-                  retakeAction={this.retake}
-                />
-              ) : (
-                  <Camera
-                    isCameraEnabled={isCameraEnabled}
-                    setWebcamRef={this.setWebcamRef}
-                    overlay={cameraOverlay}
-                    footer={footer}
-                    capture={this.capture}
-                    canvas={this.canvas}
-                  />
-                )}
-              <canvas
-                width={canvasWidth}
-                height={canvasHeight}
-                ref={(ref) => {
-                  this.canvas = ref;
-                }}
-                style={{ display: 'none' }}
+          <div>
+            {isMobile() ? (
+              <MobileCamera
+                isPhotoTaken={saveImage}
+                footer={footer}
+                capture={this.handleFile}
+                retakeAction={this.retake}
               />
-            </div>
-          )}
+            ) : (
+              <Camera
+                isCameraEnabled={isCameraEnabled}
+                setWebcamRef={this.setWebcamRef}
+                overlay={cameraOverlay}
+                footer={footer}
+                capture={this.capture}
+                canvas={this.canvas}
+              />
+            )}
+            <canvas
+              width={canvasWidth}
+              height={canvasHeight}
+              ref={(ref) => {
+                this.canvas = ref;
+              }}
+              style={{ display: 'none' }}
+            />
+          </div>
+        )}
       </div>
     );
   }

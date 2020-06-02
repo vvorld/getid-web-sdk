@@ -1,11 +1,20 @@
 import palette from '../palette';
 
 export default {
+  input: {
+    padding: '17px 14px',
+  },
   root: {
     '& fieldset': {
       borderRadius: '8px',
     },
     '&.MuiOutlinedInput-root': {
+      '& .MuiOutlinedInput-input': {
+        padding: '17px 14px',
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: `1px solid ${palette.gray.main}`,
+      },
       '&.filled fieldset': {
         borderColor: palette.violet.main,
       },

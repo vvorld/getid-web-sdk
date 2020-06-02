@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import parse from 'html-react-parser';
 import { connect } from 'react-redux';
 import {
-  withStyles, FormHelperText, FormControlLabel, Grid,
+  withStyles, FormHelperText, Grid,
 } from '@material-ui/core';
 import {
   Select, Checkbox, DateInput, FileInput, TextInput,
@@ -173,23 +172,16 @@ class Form extends Component {
         return (
           <Grid className={wrapperClass(hidden)} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
-              <Grid item xs={12} sm={10} md={10} lg={8}>
-                <FormControlLabel
-                  data-role="checkbox"
-                  className={classes.labelCheckbox}
-                  key={`control-${label}`}
-                  control={(
-                    <Checkbox
-                      data-role="checkboxInput"
-                      name={name}
-                      key={`checkbox-${label}`}
-                      checked={inputName.value}
-                      onChange={this.handleChange}
-                      value={this.props[name]}
-                      required={isRequired}
-                    />
-                  )}
-                  label={<label className="label-checkbox">{parse(label)}</label>}
+              <Grid style={{ margin: '40px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
+                <Checkbox
+                  label={label}
+                  data-role="checkboxInput"
+                  name={name}
+                  key={`checkbox-${label}`}
+                  checked={inputName.value}
+                  onChange={this.handleChange}
+                  value={this.props[name]}
+                  required={isRequired}
                 />
               </Grid>
             </Grid>

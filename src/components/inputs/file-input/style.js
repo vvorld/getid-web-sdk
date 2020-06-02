@@ -20,7 +20,7 @@ const style = makeStyles((theme) => ({
     flexDirection: 'row-reverse',
     backgroundColor: 'transparent',
     width: '100%',
-    height: 56,
+    height: 51,
   },
   labelContainer: {
     width: '100%',

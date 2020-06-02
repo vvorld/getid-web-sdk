@@ -1,8 +1,17 @@
-import { MuiInputBase, MuiSelect } from './overrides/index';
+import {
+  MuiInputBase, MuiSelect, MuiInputLabel,
+  MuiFormControlLabel,
+  MuiCheckbox,
+  MuiIconButton,
+} from './overrides/index';
 
 export default {
   MuiInputBase,
   MuiSelect,
+  MuiInputLabel,
+  MuiFormControlLabel,
+  MuiCheckbox,
+  MuiIconButton,
   MuiPickersToolbarText: {
     toolbarBtnSelected: {
       color: '#0e1c2c',

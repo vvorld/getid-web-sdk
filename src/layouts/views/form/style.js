@@ -23,20 +23,6 @@ export const styles = (theme) => ({
       bottom: '-6px',
     },
   },
-  labelCheckbox: {
-    margin: '40px 0 0 0',
-    textAlign: 'left',
-    '& label': {
-      color: theme.palette.blueDark,
-      lineHeight: '22px',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '15px',
-    },
-    '& a': {
-      color: theme.palette.violet.main,
-    },
-  },
   helper: {
     margin: '0 8px 10px',
     color: theme.palette.blueDark,

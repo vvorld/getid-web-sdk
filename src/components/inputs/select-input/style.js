@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core';
 const CustomSelectStyles = makeStyles((theme) => ({
   customSelect: {
     ...theme.typography.mainInput,
-    height: 58,
   },
   dropdownStyle: {
     ...theme.inputBorder,

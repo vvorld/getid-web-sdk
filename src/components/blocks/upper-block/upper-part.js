@@ -4,11 +4,14 @@ import { useSelector } from 'react-redux';
 import ProgressBar from '../flow-progression/progress-bar/progress-bar';
 import CustomLogo from '../../logo/custom-logo';
 import Header from '../header/header';
+import {
+  getCurrentComponent, getFlow, getStep,
+} from '../../../store/selectors';
 
 function UpperPart() {
-  const flow = useSelector((state) => state.sdkFlow);
-  const currentStep = useSelector((state) => state.step);
-  const currentComponent = flow[currentStep];
+  const flow = useSelector((state) => getFlow(state));
+  const currentStep = useSelector((state) => getStep(state));
+  const currentComponent = useSelector((state) => getCurrentComponent(state));
   const { next } = currentComponent;
   const isLast = () => !next;
 

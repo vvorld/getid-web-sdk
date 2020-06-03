@@ -40,6 +40,7 @@ const createErrorView = (config) => (props) => {
             <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
               <Button
                 classes={{ root: buttonStyle.root }}
+                variant={button.variant}
                 className={buttonStyle[button.class]}
                 onClick={button.action(callbacks)}
               >
@@ -67,7 +68,7 @@ export const AppExistsView = createErrorView({
     done: {
       name: (dictionary) => dictionary.done_button,
       action: (callbacks) => callbacks.onExists,
-      class: 'isGradient',
+      variant: 'contained',
     },
   },
 });
@@ -79,7 +80,7 @@ export const ErrorView = createErrorView({
     done: {
       name: (dictionary) => dictionary.done_button,
       action: (callbacks) => callbacks.onFail,
-      class: 'isGradient',
+      variant: 'contained',
     },
   },
 });
@@ -96,12 +97,12 @@ export const FailError = createErrorView({
     cancel: {
       name: (dictionary) => dictionary.cancel_button,
       action: (callbacks) => callbacks.onFail,
-      class: 'prevButton',
+      variant: 'outlined',
     },
     retry: {
       name: (dictionary) => dictionary.retry_button,
       action: (callbacks) => callbacks.onSubmit,
-      class: 'isGradient',
+      variant: 'contained',
     },
   },
 });

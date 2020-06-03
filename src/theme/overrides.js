@@ -3,6 +3,7 @@ import {
   MuiFormControlLabel,
   MuiCheckbox,
   MuiIconButton,
+  MuiButton,
 } from './overrides/index';
 
 export default {
@@ -11,6 +12,7 @@ export default {
   MuiInputLabel,
   MuiFormControlLabel,
   MuiCheckbox,
+  MuiButton,
   MuiIconButton,
   MuiPickersToolbarText: {
     toolbarBtnSelected: {

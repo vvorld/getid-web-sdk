@@ -4,6 +4,7 @@ import MuiInputLabel from './MuiInputLabel';
 import MuiFormControlLabel from './MuiFormControlLabel';
 import MuiCheckbox from './MuiCheckbox';
 import MuiIconButton from './MuiIconButton';
+import MuiButton from './MuiButton';
 
 export {
   MuiInputBase,
@@ -12,4 +13,5 @@ export {
   MuiFormControlLabel,
   MuiCheckbox,
   MuiIconButton,
+  MuiButton,
 };

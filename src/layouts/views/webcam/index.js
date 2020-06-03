@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import RecordRTC from 'recordrtc/RecordRTC';
+import RecordRTC from 'recordrtc';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
@@ -205,7 +205,6 @@ class WebcamView extends React.Component {
   };
 
   initVideoRecorder = (stream) => {
-    const { addScan, currentStep } = this.props;
     if (!this.state.recording) return;
     const { videoHeight, videoWidth } = this.state;
     try {
@@ -214,8 +213,6 @@ class WebcamView extends React.Component {
           mediaRecorder: RecordRTC(stream, {
             type: 'video',
             mimeType: 'video/webm',
-            workerPath: 'node_modules/webm-wasm/dist/webm-worker.js',
-            webAssemblyPath: './webm-wasm.wasm',
             recorderType: RecordRTC.WebAssemblyRecorder,
             width: videoWidth,
             height: videoHeight,

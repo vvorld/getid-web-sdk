@@ -42,12 +42,28 @@ export default function (state = initialState, action) {
     }
 
     case SET_DISABLED: {
-      const { isDisabled } = action.payload;
+      const { fields, step } = state;
+      let disabled = false;
+      if (fields[step]) {
+        const fieldsToCheck = Object.values(fields[step])
+          .filter((field) => field.required && !field.hidden);
+        disabled = fieldsToCheck.some((field) => {
+          const { value, type } = field;
+
+          return (value === null
+             || (type === 'date' && Number.isNaN(Date.parse(value)))
+             || value === ''
+             || value === undefined
+             || value === false
+             || (/^\s+$/).test(value.toString()));
+        });
+      }
 
       return {
         ...state,
-        isDisabled,
+        isDisabled: disabled,
       };
+
     }
 
     case SET_STEP: {

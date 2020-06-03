@@ -6,6 +6,7 @@ import CustomLogo from '../../logo/custom-logo';
 import headerStyles from './style';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
+import cameraViews from '../../../constants/camera-views';
 
 function Header(props) {
   const { currentComponent } = props;
@@ -23,11 +24,13 @@ function Header(props) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
+  const intersection = component.filter((element) => cameraViews.includes(element));
+
   const { topPart } = headerStyles();
 
   return (
     <Grid className={topPart} container alignItems="center" justify="center">
-      <Grid item xs={10} sm={8} md={4}>
+      <Grid item xs={10} sm={8} md={6}>
         <CustomLogo condition={isThankYou()} />
         { headerText && (
         <Typography
@@ -42,6 +45,7 @@ function Header(props) {
           { subHeaderText }
         </Typography>
         ) }
+        {intersection.length > 0 && <Typography variant="h2">{translations.camera_access_tooltip}</Typography>}
       </Grid>
     </Grid>
   );

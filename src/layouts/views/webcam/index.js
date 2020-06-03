@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
@@ -293,7 +294,6 @@ class WebcamView extends React.Component {
 
     return (
       <div className="webcam" data-role="webcamContainer">
-        <div className={classes.subHeader}>{translations.camera_access_tooltip}</div>
         {saveImage ? (
           <PreviewForm
             footer={footer}

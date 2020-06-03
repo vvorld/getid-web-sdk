@@ -22,9 +22,8 @@ const addCountriesAndDocs = (countries) => ({
   payload: { countries },
 });
 
-const setDisabled = (isDisabled) => ({
+const setDisabled = () => ({
   type: SET_DISABLED,
-  payload: { isDisabled },
 });
 
 const setStep = (step) => ({

@@ -20,7 +20,7 @@ export default {
     color: palette.blue.dark,
     opacity: '0.7',
     marginTop: 0,
-    marginBlockEnd: 0,
+    marginBottom: 10,
   },
   main: {
     fontSize: '16px',

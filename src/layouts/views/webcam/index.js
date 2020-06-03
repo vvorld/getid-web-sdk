@@ -196,7 +196,7 @@ class WebcamView extends React.Component {
     const { mediaRecorder } = this.state;
     this.setState({ recording: false });
     addScan('selfie-video', null, currentStep, true);
-  
+
     mediaRecorder.stopRecording(() => {
       const blob = mediaRecorder.getBlob();
       addScan('selfie-video', blob, currentStep, true);

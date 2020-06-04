@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import 'webrtc-adapter';
 import './polyfills/toBlob.polyfill';
 import './polyfills/webrtc.polyfill.min';
 import { renderMainComponent } from './main-module';

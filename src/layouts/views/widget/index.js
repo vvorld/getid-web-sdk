@@ -42,7 +42,7 @@ class Widget extends Component {
 
   triggerPreviousComponent = () => { this.props.goToStep(this.props.currentStep - 1); };
 
-  submitData = async () => {
+  prepare = async () => {
     const {
       currentStep, goToStep, currentComponent, idCaptureBackIndex,
     } = this.props;
@@ -50,7 +50,10 @@ class Widget extends Component {
     goToStep(currentStep);
     this.setState({ loading: true });
     await this.api.trySendEvent(stepNames.Submit, 'started');
+  }
 
+  submitData = async () => {
+    await this.prepare();
     const racing = promiseTimeout(60000, this.api.submitData());
 
     racing.then(async (res) => {
@@ -214,7 +217,7 @@ class Widget extends Component {
             );
           })}
         </Grid>
-        <Grid item xs={12} sm={9} md={12} lg={6} className={classes.item}>
+        <Grid item xs={12} sm={9} lg={6} className={classes.item}>
           {!this.isCameraView() && <Footer {...this.footer()} />}
         </Grid>
       </Grid>

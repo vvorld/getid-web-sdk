@@ -1,6 +1,6 @@
 import {
   ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
-  SET_ID_CAPTURE_BACK, SET_SCAN_STEP_BUTTON_AS_DISABLED, GO_TO_STEP,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP,
 } from '../actionTypes';
 
 import {
@@ -59,27 +59,6 @@ export default function (state = initialState, action) {
                 || value === false
                 || (/^\s+$/).test(value.toString()));
           }),
-        };
-      }
-
-      return {
-        ...state,
-        isDisabled: false,
-      };
-    }
-
-    case SET_SCAN_STEP_BUTTON_AS_DISABLED: {
-      const { scans, step } = state;
-
-      if (scans[step]) {
-        return {
-          ...state,
-          isDisabled: Object.values(scans[step]).some((scan) => (
-            scan.required
-              && (scan.value === null
-              || scan.value === ''
-              || scan.value === undefined
-              || scan.value === false))),
         };
       }
 

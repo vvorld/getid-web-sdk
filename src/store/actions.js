@@ -1,6 +1,6 @@
 import {
   ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
-  SET_ID_CAPTURE_BACK, SET_SCAN_STEP_BUTTON_AS_DISABLED, GO_TO_STEP,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP,
 } from './actionTypes';
 
 const addField = (key, value, whichStep, required, type, hidden) => ({
@@ -26,10 +26,6 @@ const setButtonAsDisabled = () => ({
   type: SET_BUTTON_AS_DISABLED,
 });
 
-const setScanStepButtonDisabled = () => ({
-  type: SET_SCAN_STEP_BUTTON_AS_DISABLED,
-});
-
 const goToStep = (where) => ({
   type: GO_TO_STEP,
   payload: { where },
@@ -52,6 +48,5 @@ export default {
   setButtonAsDisabled,
   setFlow,
   setIdCaptureBack,
-  setScanStepButtonDisabled,
   goToStep,
 };

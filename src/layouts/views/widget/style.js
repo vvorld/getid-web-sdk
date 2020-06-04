@@ -3,6 +3,9 @@ const widgetStyles = (theme) => ({
     padding: '20px 0',
     fontFamily: theme.typography.fontFamily,
   },
+  loader: {
+    color: theme.palette.blueLoader,
+  },
   item: {
     textAlign: 'center',
     position: 'relative',

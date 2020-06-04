@@ -218,7 +218,13 @@ class Widget extends Component {
       loading, largeGrid, smallGrid, appExists, responseCode, submitAttempts,
     } = this.state;
 
-    if (loading) { return (<Loader />); }
+    if (loading) {
+      return (
+        <div className={classes.loader}>
+          <Loader text="Sending data..." />
+        </div>
+      );
+    }
 
     if (appExists) {
       return <AppExistsView callbacks={{ onExists }} />;

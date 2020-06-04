@@ -17,11 +17,11 @@ export default {
   documentData: [
     {
       name: 'Country',
-      value: 'ee',
+      // value: 'ee',
     },
     {
       name: 'DocumentType',
-      value: 'passport',
+      // value: 'passport',
     },
   ],
   fields: [
@@ -38,12 +38,12 @@ export default {
       type: 'text',
       name: 'Last name',
     },
-    {
-      label: 'Document front side',
-      type: 'file',
-      name: 'front',
-      required: false,
-    },
+    // {
+    //   label: 'Document front side',
+    //   type: 'file',
+    //   name: 'front',
+    //   required: false,
+    // },
     {
       label: 'Document back side',
       type: 'file',
@@ -72,7 +72,7 @@ export default {
       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',
       type: 'checkbox',
       name: 'privacy',
-      value: true,
+      // value: true,
     },
   ],
   formType: 'narrow',

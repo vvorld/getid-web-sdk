@@ -1,6 +1,6 @@
 import {
-  ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
-  SET_ID_CAPTURE_BACK,
+  ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
+  SET_ID_CAPTURE_BACK, SET_SCAN_STEP_BUTTON_AS_DISABLED, GO_TO_STEP,
 } from '../actionTypes';
 
 import {
@@ -41,37 +41,51 @@ export default function (state = initialState, action) {
       };
     }
 
-    case SET_DISABLED: {
+    case SET_BUTTON_AS_DISABLED: {
       const { fields, step } = state;
-      let disabled = false;
+
       if (fields[step]) {
         const fieldsToCheck = Object.values(fields[step])
           .filter((field) => field.required && !field.hidden);
-        disabled = fieldsToCheck.some((field) => {
-          const { value, type } = field;
+        return {
+          ...state,
+          isDisabled: fieldsToCheck.some((field) => {
+            const { value, type } = field;
 
-          return (value === null
-             || (type === 'date' && Number.isNaN(Date.parse(value)))
-             || value === ''
-             || value === undefined
-             || value === false
-             || (/^\s+$/).test(value.toString()));
-        });
+            return (value === null
+                || (type === 'date' && Number.isNaN(Date.parse(value)))
+                || value === ''
+                || value === undefined
+                || value === false
+                || (/^\s+$/).test(value.toString()));
+          }),
+        };
       }
 
       return {
         ...state,
-        isDisabled: disabled,
+        isDisabled: false,
       };
-
     }
 
-    case SET_STEP: {
-      const { step } = action.payload;
+    case SET_SCAN_STEP_BUTTON_AS_DISABLED: {
+      const { scans, step } = state;
+
+      if (scans[step]) {
+        return {
+          ...state,
+          isDisabled: Object.values(scans[step]).some((scan) => (
+            scan.required
+              && (scan.value === null
+              || scan.value === ''
+              || scan.value === undefined
+              || scan.value === false))),
+        };
+      }
 
       return {
         ...state,
-        step,
+        isDisabled: false,
       };
     }
 
@@ -125,6 +139,15 @@ export default function (state = initialState, action) {
       }
 
       return state.countriesAndDocs;
+    }
+
+    case GO_TO_STEP: {
+      const { where } = action.payload;
+
+      return {
+        ...state,
+        step: where,
+      };
     }
 
     default:

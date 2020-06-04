@@ -9,7 +9,7 @@ import {
   getIdCaptureBackIndex,
 } from '../../../store/selectors';
 import actions from '../../../store/actions';
-import { mapCountryValues } from '../../../helpers/tree-builder';
+import { mapCountryValues } from '../../../helpers/generic';
 import { docTypeMapping } from '../../../constants/document-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 

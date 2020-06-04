@@ -16,7 +16,7 @@ const CustomButton = ({ args }) => {
     hidden,
     disabled,
     action,
-    variant
+    variant,
   } = args;
 
   const icon = (iconSVG) => (

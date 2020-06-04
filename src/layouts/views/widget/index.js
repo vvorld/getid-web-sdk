@@ -12,9 +12,9 @@ import { stepNames } from '../../../constants/step-names';
 import cameraViews from '../../../constants/camera-views';
 import widgetStyles from './style';
 import allComponents from '../index';
-import NextIcon from '../../../assets/icons/views/arrow-next.svg';
 import BackIcon from '../../../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError } from '../error';
+import { promiseTimeout, getEventStepName } from '../../../helpers/generic';
 
 class Widget extends Component {
   constructor(props) {
@@ -30,46 +30,28 @@ class Widget extends Component {
     };
   }
 
-  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
-
-  isSingleDocument = () => this.isPage('IdCapture') && this.props.idCaptureBackIndex < 0;
-
-  triggerNextComponent = async () => {
-    this.props.setStep(this.props.currentStep + 1);
-    await this.sendStepCompleteEvent();
-  };
-
-  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
-
-  sendStepCompleteEvent = async () => {
-    const stepName = this.isSingleDocument()
-      ? stepNames.Single
-      : stepNames[this.props.currentComponent.component[0]];
-    await this.api.trySendEvent(stepName, 'completed');
-  };
-
-  promiseTimeout = (ms, promise) => {
-    const timeout = new Promise((resolve, reject) => {
-      const id = setTimeout(() => {
-        clearTimeout(id);
-        reject(new Error(`Timed out in ${ms}ms.`));
-      }, ms);
-    });
-
-    return Promise.race([
-      promise,
-      timeout,
-    ]);
+  componentDidUpdate() {
+    this.props.setButtonAsDisabled();
   }
 
+  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
+
+  triggerNextComponent = async () => {
+    this.props.goToStep(this.props.currentStep + 1);
+  };
+
+  triggerPreviousComponent = () => { this.props.goToStep(this.props.currentStep - 1); };
+
   submitData = async () => {
-    await this.sendStepCompleteEvent();
-    const { currentStep, setStep } = this.props;
-    setStep(currentStep);
+    const {
+      currentStep, goToStep, currentComponent, idCaptureBackIndex,
+    } = this.props;
+    await this.api.trySendEvent(getEventStepName(currentComponent, idCaptureBackIndex), 'completed');
+    goToStep(currentStep);
     this.setState({ loading: true });
     await this.api.trySendEvent(stepNames.Submit, 'started');
 
-    const racing = this.promiseTimeout(60000, this.api.submitData());
+    const racing = promiseTimeout(60000, this.api.submitData());
 
     racing.then(async (res) => {
       const { responseCode, exists } = res;
@@ -148,7 +130,6 @@ class Widget extends Component {
         variant: 'contained',
         disabled: isDisabled,
         type: this.getType(),
-        iconItem: NextIcon,
       },
       back: {
         direction: 'left',
@@ -167,43 +148,6 @@ class Widget extends Component {
         text: translations.button_retake,
       },
     };
-  };
-
-  setButtonAsDisabled = () => {
-    const {
-      currentStep,
-      setDisabled,
-      fieldValues,
-      scans,
-    } = this.props;
-    console.log(fieldValues)
-
-    setDisabled(false);
-
-    // if (fieldValues[currentStep]) {
-    //   const fieldsToCheck = Object.values(fieldValues[currentStep])
-    //     .filter((field) => field.required && !field.hidden);
-    //
-    //   setDisabled(fieldsToCheck.some((field) => {
-    //     const { value, type } = field;
-    //
-    //     return (value === null
-    //         || (type === 'date' && Number.isNaN(Date.parse(value)))
-    //         || value === ''
-    //         || value === undefined
-    //         || value === false
-    //         || (/^\s+$/).test(value.toString()));
-    //   }));
-    // }
-
-    if (this.isCameraView() && scans[currentStep]) {
-      setDisabled(Object.values(scans[currentStep]).some((scan) => (
-        scan.required
-            && (scan.value === null
-            || scan.value === ''
-            || scan.value === undefined
-            || scan.value === false))));
-    }
   };
 
   render() {
@@ -238,7 +182,6 @@ class Widget extends Component {
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
 
-    this.setButtonAsDisabled();
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
@@ -303,8 +246,9 @@ Widget.propTypes = {
   fieldValues: PropTypes.object,
   scans: PropTypes.object,
   formType: PropTypes.string.isRequired,
-  setDisabled: PropTypes.func.isRequired,
-  setStep: PropTypes.func.isRequired,
+  setButtonAsDisabled: PropTypes.func.isRequired,
+  setScanStepButtonDisabled: PropTypes.func.isRequired,
+  goToStep: PropTypes.func.isRequired,
   addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,
   apiUrl: PropTypes.string.isRequired,

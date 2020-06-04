@@ -2,7 +2,7 @@ import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
   EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK,
 } from '../constants/api';
-import { createEAForSubmission } from '../helpers/tree-builder';
+import { createEAForSubmission } from '../helpers/request-formatter';
 
 const defaultHeaders = {
   'Content-Type': 'application/json',

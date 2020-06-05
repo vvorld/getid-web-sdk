@@ -279,10 +279,10 @@ class WebcamView extends React.Component {
       return {
         ...footer,
         retake: {
-          direction: 'right',
+          ...footer.retake,
           type: 'retake',
+          hidden: false,
           variant: 'outlined',
-          text: translations.button_retake,
           action: this.retake,
         },
       };

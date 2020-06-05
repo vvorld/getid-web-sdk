@@ -144,7 +144,9 @@ class Widget extends Component {
         text: translations.button_back,
       },
       retake: {
+        hidden: true,
         direction: 'right',
+        text: translations.button_retake,
       },
     };
   };

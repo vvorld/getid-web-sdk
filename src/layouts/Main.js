@@ -10,7 +10,6 @@ import {
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.api = props.api;
     this.state = {
       initialStep: null,
       initialBSIndex: -1,
@@ -20,10 +19,6 @@ class Main extends React.Component {
   componentDidMount() {
     this.setSdkFlow();
     this.getBackStepIndexAndStep();
-  }
-
-  componentDidCatch(error, errorInfo) {
-    this.api.sendErrorToServer(error.toString(), errorInfo.componentStack);
   }
 
   getBackStepIndexAndStep = () => {
@@ -72,6 +67,7 @@ class Main extends React.Component {
     const { flow } = this.props;
     if (!flow) return null;
     const properties = { ...this.props, ...this.state };
+
     return (
       <Widget {...properties} />
     );
@@ -89,7 +85,6 @@ Main.propTypes = {
   addField: PropTypes.func.isRequired,
   fields: PropTypes.array,
   setIdCaptureBack: PropTypes.func.isRequired,
-  api: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

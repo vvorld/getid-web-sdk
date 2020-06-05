@@ -26,6 +26,10 @@ class Form extends Component {
     const narrow = 5 * currentComponent.component.length;
     const wide = 10;
     this.gridWidth = formType === 'narrow' ? narrow : wide;
+    this.state = {
+      errorText: {},
+      isError: {},
+    };
   }
 
   componentDidMount() {
@@ -58,11 +62,32 @@ class Form extends Component {
     }
   };
 
+  setErrorState = (isError, name, errorText) => {
+    this.setState({
+      isError: {
+        [name]: isError,
+      },
+      errorText: {
+        [name]: errorText,
+      },
+    });
+  }
+
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
+    if (file && file.size / 1024 / 1024 > 6) {
+      this.changeFileData(eventTarget, null);
+      this.setErrorState(true, eventTarget.name, 'File size exceeded (max 6mb)');
+      return;
+    }
+    this.changeFileData(eventTarget, file);
+    this.setErrorState(false, eventTarget.name, '');
+  };
+
+  changeFileData = (eventTarget, file) => {
     this.props.addField(eventTarget.name,
-      file.name,
+      (file && file.name) || '',
       this.currentStep,
       eventTarget.required,
       eventTarget.type);
@@ -71,7 +96,7 @@ class Form extends Component {
       file,
       this.currentStep,
       eventTarget.required);
-  };
+  }
 
   handleChange = (event) => {
     const eventTarget = event.target;
@@ -98,7 +123,9 @@ class Form extends Component {
     const {
       fieldValues, classes, translations,
     } = this.props;
+    const { isError, errorText } = this.state;
     const fileTooltip = translations.file_input_tooltip;
+
     return this.fields.map((field) => {
       const {
         options, type, name, label, placeholder, hidden, required,
@@ -128,6 +155,7 @@ class Form extends Component {
           <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
             <FileInput
+              isError={isError[name]}
               onChange={this.handleFiles}
               name={name}
               label={label}
@@ -135,6 +163,8 @@ class Form extends Component {
               type={type}
               valueName={inputName.value}
             />
+            {isError[name] && errorText[name]
+            && <FormHelperText className={classes.error}>{errorText[name]}</FormHelperText>}
           </Grid>
         );
       }

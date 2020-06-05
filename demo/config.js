@@ -8,7 +8,7 @@ export default {
   },
   flow: [
     { component: ['CountryAndDocument'] },
-    { component: ['Form'] },
+    { component: ['Form'] } ,
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
@@ -77,13 +77,13 @@ export default {
   ],
   formType: 'narrow',
   cameraDistance: 'default',
-  onComplete: function() {
+  onComplete() {
     window.location.reload();
   },
-  onFail: function() {
-    window.location.reload();
-  },
-  onExists: function() {
+  // onFail(error) {
+  //   console.log(error.message);
+  // },
+  onExists() {
     console.log('exists');
   },
 };

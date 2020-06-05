@@ -238,7 +238,7 @@ class WebcamView extends React.Component {
             (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration)
               ? chunk : acceptedChunk
           ));
-          addScan('selfieVideo', acceptedVideo.data, currentStep, true);
+          addScan('selfie-video', acceptedVideo.data, currentStep, true);
         }
       };
 
@@ -297,7 +297,7 @@ class WebcamView extends React.Component {
     const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
-      <div className="webcam">
+      <div className="webcam" data-role="webcamContainer">
         <div className={classes.subHeader}>{translations.camera_access_tooltip}</div>
         {saveImage ? (
           <PreviewForm

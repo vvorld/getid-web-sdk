@@ -250,7 +250,6 @@ Widget.propTypes = {
   scans: PropTypes.object,
   formType: PropTypes.string.isRequired,
   setButtonAsDisabled: PropTypes.func.isRequired,
-  setScanStepButtonDisabled: PropTypes.func.isRequired,
   goToStep: PropTypes.func.isRequired,
   addField: PropTypes.func.isRequired,
   addScan: PropTypes.func.isRequired,

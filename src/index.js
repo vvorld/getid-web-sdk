@@ -45,23 +45,35 @@ const init = (options, tokenProvider) => {
     }
   }
 
+  console.log('Before getToken');
   const getToken = (typeof tokenProvider === 'object')
     ? () => new Promise(((resolve) => resolve(tokenProvider)))
     : tokenProvider;
 
+  console.log(`getToken: ${getToken}`);
+  console.dir(getToken);
+
   const tokenProviderError = 'token provider must be a function that returns promise or jwt response object';
 
   if (typeof getToken !== 'function') {
+    console.log('Error: getToken is not a function');
     throw new Error(tokenProviderError);
   }
 
   const tokenPromise = getToken();
 
+  console.log(`tokenPromise: ${tokenPromise}`);
+  console.dir(tokenPromise);
+
   if (typeof tokenPromise.then !== 'function') {
+    console.log('Error: tokenPromise.then is not a function');
     throw new Error(tokenProviderError);
   }
 
   tokenPromise.then((result) => {
+    console.log('Inside tokenPromise.then...');
+    console.log('Result:');
+    console.dir(result);
     const {
       responseCode, errorMessage, token, exists,
     } = result;

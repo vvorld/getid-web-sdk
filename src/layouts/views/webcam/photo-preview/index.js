@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import poweredBy from '../../../../assets/icons/views/powered-by.svg';
-import Footer from '../../../../components/blocks/footer/footer';
 import Loader from '../../../../components/loader/loader';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PreviewForm = ({
-  footer, component, scans, currentStep, retakeAction,
+  component, scans, currentStep,
 }) => {
   const urlCreator = window.URL || window.webkitURL;
   const classes = useStyles();
@@ -39,15 +38,6 @@ const PreviewForm = ({
     && !scans[currentStep]['selfie-video'].value) === true;
 
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
-
-  const { retake } = footer;
-  const footerConfig = {
-    ...footer,
-    retake: {
-      ...retake,
-      action: retakeAction,
-    },
-  };
 
   return (
     <div>
@@ -73,17 +63,12 @@ const PreviewForm = ({
           />
         </Grid>
       </Grid>
-      <Footer {...footerConfig} />
     </div>
   );
 };
 
 PreviewForm.propTypes = {
-  footer: PropTypes.shape({
-    retake: PropTypes.shape({}).isRequired,
-  }).isRequired,
   component: PropTypes.string.isRequired,
-  retakeAction: PropTypes.func.isRequired,
   scans: PropTypes.object.isRequired,
   currentStep: PropTypes.number.isRequired,
 };

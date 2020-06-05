@@ -145,10 +145,6 @@ class Widget extends Component {
       },
       retake: {
         direction: 'right',
-        type: 'retake',
-        hidden: !this.isCameraView(),
-        variant: 'outlined',
-        text: translations.button_retake,
       },
     };
   };

@@ -9,7 +9,6 @@ import { getFormValues } from '../../../../store/selectors';
 
 const IdCapture = (props) => {
   const { fieldValues, cameraDistance } = props;
-
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
 

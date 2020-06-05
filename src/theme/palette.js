@@ -30,6 +30,7 @@ export default {
   background: {
     paper: 'white',
     default: 'white',
+    dark: '#2C296A',
   },
   error: {
     main: '#F0809B',

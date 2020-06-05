@@ -40,9 +40,13 @@ const PreviewForm = ({
 
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
 
-  const { retake } = footer;
+  const { retake, next } = footer;
   const footerConfig = {
     ...footer,
+    next: {
+      ...next,
+      disabled: showSpinner,
+    },
     retake: {
       ...retake,
       action: retakeAction,
@@ -73,7 +77,7 @@ const PreviewForm = ({
           />
         </Grid>
       </Grid>
-      <Footer {...footerConfig} />
+      <Footer {...footerConfig } />
     </div>
   );
 };

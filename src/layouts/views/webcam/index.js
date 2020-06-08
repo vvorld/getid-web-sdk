@@ -252,7 +252,6 @@ class WebcamView extends React.Component {
       ...footer,
       next: {
         ...footer.next,
-        action: this.handleFile,
         disabled: !saveImage,
       },
     };
@@ -336,7 +335,7 @@ class WebcamView extends React.Component {
     const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
-      <div id="webcam" className="webcam" data-role="webcamContainer">
+      <div className="webcam" data-role="webcamContainer">
         {!show && (
         <Guide
           component={component}

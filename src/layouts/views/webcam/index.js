@@ -240,7 +240,9 @@ class WebcamView extends React.Component {
   };
 
   buildFooter = () => {
-    const { footer } = this.props;
+    const {
+      footer, component, scans, currentStep,
+    } = this.props;
     const { isCameraEnabled, saveImage, show } = this.state;
     const { translations } = this.context;
 
@@ -276,8 +278,15 @@ class WebcamView extends React.Component {
     }
 
     if (saveImage) {
+      const showSpinner = (component === 'selfie'
+          && scans[currentStep]['selfie-video']
+          && !scans[currentStep]['selfie-video'].value) === true;
       return {
         ...footer,
+        next: {
+          ...footer.next,
+          disabled: showSpinner,
+        },
         retake: {
           ...footer.retake,
           type: 'retake',

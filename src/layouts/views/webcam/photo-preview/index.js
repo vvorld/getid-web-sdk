@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   spinner: {
     position: 'absolute',
     width: '100%',
-    height: '99%',
+    height: '100%',
     background: theme.palette.background.dark,
     opacity: 0.5,
   },

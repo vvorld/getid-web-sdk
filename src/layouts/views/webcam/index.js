@@ -62,10 +62,6 @@ class WebcamView extends React.Component {
           || false,
       });
     }
-
-    if (component === 'selfie') {
-      this.openComponent();
-    }
   }
 
   componentWillUnmount() {

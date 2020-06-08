@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { isMobile } from '../../../helpers/generic';
-import { DefaultBackDesktop, DefaultFrontDesktop, PassportDesktop } from '../../../assets/animations/desktop/index';
+import {
+  DefaultBackDesktop, DefaultFrontDesktop, PassportDesktop, SelfieDesktop,
+} from '../../../assets/animations/desktop/index';
 import {
   DefaultBackMobile,
   DefaultFrontMobile,
   PassportMobile,
+  SelfieMobile,
 } from '../../../assets/animations/mobile/index';
 import { getFormValues } from '../../../store/selectors';
 
@@ -18,6 +21,8 @@ const AnimatedSvg = {
   frontMobile: DefaultFrontMobile,
   backMobile: DefaultBackMobile,
   passportMobile: PassportMobile,
+  selfieMobile: SelfieMobile,
+  selfie: SelfieDesktop,
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +40,17 @@ const Guide = ({ component }) => {
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
 
-  const source = component !== 'selfie' && AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
+  const source = () => {
+    if (component === 'selfie') {
+      return AnimatedSvg[`${component}${isMobile() ? 'Mobile' : ''}`];
+    }
+    return AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
+  };
 
   return (
     <div>
       <div className="guide">
-        <img className={classes.guide} alt={source} src={source} />
+        <img className={classes.guide} alt={source} src={source()} />
       </div>
     </div>
   );

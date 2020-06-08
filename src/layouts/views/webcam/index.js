@@ -325,7 +325,7 @@ class WebcamView extends React.Component {
 
     return (
       <div className="webcam" data-role="webcamContainer">
-        {!show && <Guide component="back" />}
+        {!show && <Guide component={component} />}
         {show && (
         <div>
           {saveImage ? (

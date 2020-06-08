@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core';
 import { isMobile } from '../../../helpers/generic';
 import { DefaultBackDesktop, DefaultFrontDesktop, PassportDesktop } from '../../../assets/animations/desktop/index';
 import {
@@ -19,8 +20,16 @@ const AnimatedSvg = {
   passportMobile: PassportMobile,
 };
 
+const useStyles = makeStyles((theme) => ({
+  guide: {
+    border: `1px solid ${theme.palette.violet.main}`,
+    borderRadius: 8,
+  },
+}));
+
 const Guide = ({ component }) => {
   const fieldValues = useSelector((state) => getFormValues(state));
+  const classes = useStyles();
 
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
@@ -30,7 +39,7 @@ const Guide = ({ component }) => {
   return (
     <div>
       <div className="guide">
-        <img alt={source} src={source} />
+        <img className={classes.guide} alt={source} src={source} />
       </div>
     </div>
   );

@@ -8,8 +8,8 @@ export default {
   },
   flow: [
     { component: ['CountryAndDocument'] },
-    // { component: ['Form'] } ,
-    // { component: ['IdSelfie'] },
+    { component: ['Form'] } ,
+    { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
     { component: ['Consent'] },

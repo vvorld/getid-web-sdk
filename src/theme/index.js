@@ -14,9 +14,6 @@ const mainTheme = createMuiTheme({
     height: 20,
     borderRadius: '50%',
   },
-  icon: {
-
-  },
   inputBorder: {
     borderRadius: '8px',
     border: `1px solid ${palette.gray.main}`,

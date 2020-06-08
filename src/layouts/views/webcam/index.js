@@ -9,12 +9,10 @@ import { getScanValues } from '../../../store/selectors';
 import TranslationsContext from '../../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
-import MobileCamera from '../../../components/mobile-camera/mobile-camera';
 import { isMobile } from '../../../helpers/generic';
 import Footer from '../../../components/blocks/footer/footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
-
 
 const useStyles = (theme) => ({
   subHeader: {
@@ -63,6 +61,10 @@ class WebcamView extends React.Component {
           (scans[currentStep] && !!scans[currentStep][component].value)
           || false,
       });
+    }
+
+    if (component === 'selfie') {
+      this.openComponent();
     }
   }
 
@@ -250,6 +252,7 @@ class WebcamView extends React.Component {
       ...footer,
       next: {
         ...footer.next,
+        action: this.handleFile,
         disabled: !saveImage,
       },
     };
@@ -333,8 +336,12 @@ class WebcamView extends React.Component {
     const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
-      <div className="webcam" data-role="webcamContainer">
-        {!show && <Guide component={component} />}
+      <div id="webcam" className="webcam" data-role="webcamContainer">
+        {!show && (
+        <Guide
+          component={component}
+        />
+        )}
         {show && (
         <div>
           {saveImage ? (
@@ -345,18 +352,12 @@ class WebcamView extends React.Component {
             />
           ) : (
             <div>
-              {isMobile() ? (
-                <MobileCamera
-                  capture={this.handleFile}
-                  retakeAction={this.retake}
-                />
-              ) : (
-                <Camera
-                  setWebcamRef={this.setWebcamRef}
-                  overlay={cameraOverlay}
-                  canvas={this.canvas}
-                />
-              )}
+              <Camera
+                setWebcamRef={this.setWebcamRef}
+                overlay={cameraOverlay}
+                isMobile={isMobile()}
+                capture={this.handleFile}
+              />
               <canvas
                 width={canvasWidth}
                 height={canvasHeight}

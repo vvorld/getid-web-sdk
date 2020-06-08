@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import cameraStyles from './style';
+import MobileCamera from '../mobile-camera/mobile-camera';
 
 const Camera = (props) => {
   const [isStream, setStream] = useState(false);
@@ -10,10 +11,20 @@ const Camera = (props) => {
   const {
     setWebcamRef,
     overlay,
+    capture,
+    isMobile,
   } = props;
 
+  if (isMobile) {
+    return (
+      <MobileCamera
+        capture={capture}
+      />
+    );
+  }
+
   return (
-    <div>
+    <div id="camera">
       <Grid container justify="center">
         <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
           <div className={classes.mediaWrapper}>
@@ -45,6 +56,8 @@ const Camera = (props) => {
 Camera.propTypes = {
   setWebcamRef: PropTypes.func.isRequired,
   overlay: PropTypes.func.isRequired,
+  capture: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
 export default Camera;

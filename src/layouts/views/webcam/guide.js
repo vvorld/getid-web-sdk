@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   guide: {
     border: `1px solid ${theme.palette.violet.main}`,
     borderRadius: 8,
+    width: '100%',
   },
 }));
 
@@ -34,7 +35,7 @@ const Guide = ({ component }) => {
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
 
-  const source = AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
+  const source = component !== 'selfie' && AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
 
   return (
     <div>

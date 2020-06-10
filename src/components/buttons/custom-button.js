@@ -35,6 +35,7 @@ const CustomButton = ({ args }) => {
           data-role={`btn_${type}`}
           classes={{
             root: buttonStyle.root,
+            startIcon: buttonStyle.startIcon,
           }}
           variant={variant}
           className={hidden ? ' hidden' : ''}

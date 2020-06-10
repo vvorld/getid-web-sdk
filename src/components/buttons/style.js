@@ -19,6 +19,9 @@ const buttonStyles = makeStyles((theme) => ({
     color: '#7861A2',
     boxShadow: 'none',
   },
+  startIcon: {
+    display: 'inline-block',
+  },
 }));
 
 export default buttonStyles;

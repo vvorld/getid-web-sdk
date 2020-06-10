@@ -48,9 +48,6 @@ export default {
       opacity: 0.5,
     },
   },
-  containedPrimary: {
-
-  },
   outlined: {
     border: 0,
     color: palette.violet.dark,
@@ -58,6 +55,7 @@ export default {
     boxShadow: 'none',
     borderColor: 'transparent',
     textAlign: 'left',
+    lineHeight: 'normal',
     '&:hover': {
       background: 'transparent',
     },

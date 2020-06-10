@@ -29,5 +29,10 @@ const MainModule = (widgetOptions) => (
  * @param widgetOptions
  */
 export const renderMainComponent = (widgetOptions) => {
-  ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
+  const container = document.getElementById(widgetOptions.containerId);
+  const component = MainModule(widgetOptions);
+
+  if (container.hasChildNodes()) ReactDOM.unmountComponentAtNode(container);
+
+  ReactDOM.render(component, container);
 };

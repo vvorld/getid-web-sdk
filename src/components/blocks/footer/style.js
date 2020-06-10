@@ -4,7 +4,7 @@ const FooterStyles = makeStyles((theme) => ({
   lineLong: {
     opacity: '0.3',
     width: '100%',
-    margin: '50px auto',
+    margin: '40px auto 40px',
     border: 0,
     height: '1px',
     background: fade(theme.palette.violet.main, 0.5),

@@ -122,8 +122,6 @@ class Widget extends Component {
     const { translations } = this.context;
 
     return {
-      isCameraView: this.isCameraView(),
-      isCameraEnabled: false,
       next: {
         attempts: 3,
         width: 12,
@@ -144,8 +142,9 @@ class Widget extends Component {
         text: translations.button_back,
       },
       retake: {
-        hidden: true,
         direction: 'right',
+        type: 'retake',
+        hidden: true,
         text: translations.button_retake,
       },
     };
@@ -206,7 +205,6 @@ class Widget extends Component {
             return (
               <Grid
                 key={componentName + currentComponent.order.toString()}
-                className={classes.component}
                 item
                 xs={12}
                 sm={smallGrid / length}

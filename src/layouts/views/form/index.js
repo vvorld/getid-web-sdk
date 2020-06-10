@@ -172,7 +172,7 @@ class Form extends Component {
         return (
           <Grid className={wrapperClass(hidden)} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
-              <Grid style={{ margin: '40px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
+              <Grid style={{ margin: '10px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
                 <Checkbox
                   label={label}
                   data-role="checkboxInput"

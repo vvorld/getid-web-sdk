@@ -50,7 +50,7 @@ const Guide = ({ component }) => {
   return (
     <div>
       <div className="guide">
-        <img className={classes.guide} alt={source} src={source()} />
+        <img className={classes.guide} alt={`${component}_guide`} src={source()} />
       </div>
     </div>
   );

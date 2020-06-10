@@ -9,6 +9,7 @@ export default {
   gray: {
     main: '#CED3DD',
     light: '#F7F6FB',
+    semiLight: '#8D99B0',
   },
   violet: {
     dark: '#7861a2',

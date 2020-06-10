@@ -1,6 +1,6 @@
 const widgetStyles = (theme) => ({
   root: {
-    padding: '20px 0',
+    padding: '40px 0 20px',
     fontFamily: theme.typography.fontFamily,
   },
   loader: {
@@ -9,9 +9,6 @@ const widgetStyles = (theme) => ({
   item: {
     textAlign: 'center',
     position: 'relative',
-  },
-  component: {
-    marginBottom: '20px',
   },
   center: {
     fontFamily: theme.typography.fontFamily,

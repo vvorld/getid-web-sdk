@@ -261,7 +261,6 @@ class WebcamView extends React.Component {
         iconItem: PhotoSVG,
         disabled: !isCameraEnabled,
       },
-      isCameraEnabled,
     };
 
     if (!show) {
@@ -287,7 +286,6 @@ class WebcamView extends React.Component {
         },
         retake: {
           ...footer.retake,
-          type: 'retake',
           hidden: false,
           variant: 'outlined',
           action: this.retake,

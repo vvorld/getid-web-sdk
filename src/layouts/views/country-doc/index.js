@@ -195,7 +195,7 @@ class CountryAndDocument extends React.Component {
       const fieldWidth = length > 1 ? 10 : 5;
 
       return (
-        <Grid justify="center" alignItems="center" container spacing={2} data-role="blockDocument">
+        <Grid justify="center" alignItems="center" container data-role="blockDocument">
           <Grid item xs={11} sm={9} md={fieldWidth}>
             <Select
               items={mapCountryValues(countriesAndDocs)}

@@ -329,7 +329,7 @@ class WebcamView extends React.Component {
     const canvasHeight = videoHeight * (1 - cropY * 2);
 
     return (
-      <div className="webcam" data-role="webcamContainer">
+      <div id="webcam" className="webcam" data-role="webcamContainer">
         {!show && (
         <Guide
           component={component}

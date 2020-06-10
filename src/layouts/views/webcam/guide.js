@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   guide: {
     border: `1px solid ${theme.palette.violet.main}`,
     borderRadius: 8,
-    width: '100%',
+    maxHeight: 'calc(50vh)',
+    maxWidth: '95%',
   },
 }));
 
@@ -47,12 +48,9 @@ const Guide = ({ component }) => {
     return AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
   };
 
+
   return (
-    <div>
-      <div className="guide">
-        <img className={classes.guide} alt={`${component}_guide`} src={source()} />
-      </div>
-    </div>
+    <img className={classes.guide} alt={`${component}_guide`} src={source()} />
   );
 };
 

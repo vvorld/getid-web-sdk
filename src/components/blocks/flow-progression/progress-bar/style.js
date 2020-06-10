@@ -1,7 +1,7 @@
 const stepperStyles = (theme) => ({
   alternativeLabel: {
     top: 7,
-    left: 'calc(-50% + -7px)',
+    left: 'calc(-50% + 8px)',
     right: 'calc(50% + 8px)',
     position: 'absolute',
   },

@@ -7,10 +7,8 @@ export default {
     externalId: 121212,
   },
   flow: [
-    // { component: ['Consent'] },
-
-    // { component: ['CountryAndDocument'] },
-    // { component: ['Form'] } ,
+    { component: ['CountryAndDocument'] },
+    { component: ['Form'] } ,
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },

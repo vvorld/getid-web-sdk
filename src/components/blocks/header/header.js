@@ -25,7 +25,7 @@ function Header(props) {
   return (
     <Grid
       style={{
-        marginTop: '20px',
+        marginTop: '70px',
         marginBottom: '40px',
       }}
       container

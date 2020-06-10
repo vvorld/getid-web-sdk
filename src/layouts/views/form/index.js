@@ -130,7 +130,7 @@ class Form extends Component {
         options, type, name, label, placeholder, hidden, required,
       } = field;
 
-      const inputName = fieldValues[this.currentStep][name];
+      const inputName = name && fieldValues[this.currentStep][name];
       const wrapperClass = (isHidden) => `${classes.fieldWrapper} ${isHidden && classes.hidden}`;
 
       const isRequired = required !== false;
@@ -227,7 +227,7 @@ class Form extends Component {
 
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="flex-end" justify="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="flex-end" justify="center" container data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );

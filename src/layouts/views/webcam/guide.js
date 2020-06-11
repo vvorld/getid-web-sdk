@@ -12,7 +12,7 @@ const AnimatedSvg = {
   frontMobile: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/mobile/default_front.svg',
   backMobile: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/mobile/default_back.svg',
   passportMobile: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/mobile/passport.svg',
-  selfieMobile: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/mobile/selfie.svgs',
+  selfieMobile: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/mobile/selfie.svg',
   selfie: 'https://getid-storage.fra1.cdn.digitaloceanspaces.com/assets/desktop/selfie.svg',
 };
 

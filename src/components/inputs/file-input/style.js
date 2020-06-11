@@ -47,6 +47,7 @@ const style = makeStyles((theme) => ({
     ...theme.typography.label,
     paddingLeft: '8px',
     '&.selected': {
+      opacity: '1!important',
       width: 'auto',
       position: 'absolute',
       paddingRight: '5px',

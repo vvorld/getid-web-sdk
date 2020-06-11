@@ -1,7 +1,8 @@
-import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
-import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
+import { Provider } from 'react-redux';
 import { create } from 'jss';
 
 import root from 'react-shadow';
@@ -48,6 +49,10 @@ class WrappedJssComponent extends React.Component {
     );
   }
 }
+
+WrappedJssComponent.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 const MainModule = (widgetOptions, store) => (
   <div>

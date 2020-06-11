@@ -43,5 +43,11 @@ const setIdCaptureBack = (index, step) => ({
 });
 
 export default {
-  addField, addCountriesAndDocs, addScan, setDisabled, setStep, setFlow, setIdCaptureBack,
+  addField,
+  addCountriesAndDocs,
+  addScan,
+  setDisabled,
+  setStep,
+  setFlow,
+  setIdCaptureBack,
 };

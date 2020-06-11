@@ -6,7 +6,7 @@ import { create } from 'jss';
 
 import root from 'react-shadow';
 import MainTheme from './theme';
-import store from './store/store';
+import createStore from './store/store';
 import TranslationsContext from './context/TranslationsContext';
 import Main from './layouts/Main';
 import ErrorBoundary from './layouts/ErrorBoundary';
@@ -49,7 +49,7 @@ class WrappedJssComponent extends React.Component {
   }
 }
 
-const MainModule = (widgetOptions) => (
+const MainModule = (widgetOptions, store) => (
   <div>
     <WrappedJssComponent>
       <Provider store={store}>
@@ -73,7 +73,8 @@ const MainModule = (widgetOptions) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const component = MainModule(widgetOptions);
+  const store = createStore();
+  const component = MainModule(widgetOptions, store);
 
   if (container.hasChildNodes()) ReactDOM.unmountComponentAtNode(container);
 

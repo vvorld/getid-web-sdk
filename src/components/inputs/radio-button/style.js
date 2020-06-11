@@ -29,6 +29,7 @@ const RadioButtonStyles = makeStyles((theme) => ({
     },
   },
   label: {
+    opacity: '1!important',
     justifyContent: 'space-between',
     ...theme.typography.label,
     ...theme.inputBorder,

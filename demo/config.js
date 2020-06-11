@@ -1,6 +1,6 @@
 export default {
-  apiUrl: 'http://localhost:3001',
-  apiKey: '1231223',
+  apiUrl: '',
+  apiKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   metadata: {

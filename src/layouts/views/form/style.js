@@ -9,14 +9,18 @@ export const styles = (theme) => ({
     display: 'none',
   },
   fieldWrapper: {
+    padding: '8px 30px 30px 0!important',
     position: 'relative',
-    marginBottom: '4px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 0px 20px 0!important',
+    },
     '& p': {
       position: 'absolute',
       bottom: '-14px',
     },
     '& $helper': {
-      position: 'initial',
+      position: 'absolute',
+      top: '-20px',
     },
     '& $error': {
       position: 'absolute',
@@ -24,8 +28,8 @@ export const styles = (theme) => ({
     },
   },
   helper: {
-    margin: '0 8px 10px',
-    color: theme.palette.blueDark,
+    paddingBottom: '10px',
+    color: theme.palette.gray.semiLight,
     opacity: '0.7',
   },
 });

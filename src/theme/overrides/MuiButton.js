@@ -31,22 +31,22 @@ export default {
     },
   },
   contained: {
+    boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
     borderRadius: '83px',
     padding: '20px 100px',
     border: 0,
     color: palette.white,
     backgroundColor: palette.violet.main,
     '&:hover': {
+      boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
       backgroundColor: palette.violet.dark,
     },
     '&:disabled': {
+      boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
       color: palette.white,
       backgroundColor: palette.violet.main,
       opacity: 0.5,
     },
-  },
-  containedPrimary: {
-
   },
   outlined: {
     border: 0,
@@ -55,6 +55,7 @@ export default {
     boxShadow: 'none',
     borderColor: 'transparent',
     textAlign: 'left',
+    lineHeight: 'normal',
     '&:hover': {
       background: 'transparent',
     },

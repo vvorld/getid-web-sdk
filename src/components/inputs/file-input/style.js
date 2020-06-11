@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 const style = makeStyles((theme) => ({
   uploadFile: {
-    marginRight: '8px',
+    marginRight: '4px',
     backgroundColor: theme.palette.violet.light,
     borderRadius: '5px',
     '&:hover': {
@@ -47,6 +47,7 @@ const style = makeStyles((theme) => ({
     ...theme.typography.label,
     paddingLeft: '8px',
     '&.selected': {
+      opacity: '1!important',
       width: 'auto',
       position: 'absolute',
       paddingRight: '5px',

@@ -7,28 +7,28 @@ export default {
     externalId: 121212,
   },
   flow: [
-    // { component: ['CountryAndDocument'] },
-    // { component: ['Form'] } ,
-    // { component: ['IdSelfie'] },
-    // { component: ['IdCapture'] },
-    // { component: ['IdCaptureBack'] },
+    { component: ['CountryAndDocument'] },
     { component: ['Consent'] },
+    { component: ['Form'] } ,
+    { component: ['IdSelfie'] },
+    { component: ['IdCapture'] },
+    { component: ['IdCaptureBack'] },
     { component: ['ThankYou'] }],
   documentData: [
     {
       name: 'Country',
-      // value: 'ee',
+      value: 'ee',
     },
     {
       name: 'DocumentType',
-      // value: 'passport',
+      value: 'passport',
     },
   ],
   fields: [
     {
       label: 'First Name',
       type: 'text',
-      // value: 'John',
+      value: 'John',
       name: 'First name',
       required: true,
       hidden: true,
@@ -38,12 +38,12 @@ export default {
       type: 'text',
       name: 'Last name',
     },
-    // {
-    //   label: 'Document front side',
-    //   type: 'file',
-    //   name: 'front',
-    //   required: false,
-    // },
+    {
+      label: 'Document front side',
+      type: 'file',
+      name: 'front',
+      required: false,
+    },
     {
       label: 'Document back side',
       type: 'file',
@@ -69,10 +69,10 @@ export default {
       name: 'Date Of Birth',
     },
     {
-      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',
+      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
       type: 'checkbox',
       name: 'privacy',
-      // value: true,
+      value: true,
     },
   ],
   formType: 'narrow',

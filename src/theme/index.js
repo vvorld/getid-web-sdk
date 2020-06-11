@@ -14,13 +14,11 @@ const mainTheme = createMuiTheme({
     height: 20,
     borderRadius: '50%',
   },
-  icon: {
-
-  },
   inputBorder: {
     borderRadius: '8px',
     border: `1px solid ${palette.gray.main}`,
     '&.selectedVal': {
+      opacity: '1!important',
       borderColor: palette.violet.main,
       color: palette.blue.deep,
     },

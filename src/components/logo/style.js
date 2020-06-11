@@ -6,6 +6,9 @@ const imgStyles = makeStyles((theme) => ({
     marginBottom: '35px',
   },
   img: {
+    '&.ThankYou': {
+      marginBottom: '40px',
+    },
     verticalAlign: 'bottom',
     '&.getIdLogo': {
       width: '108px',

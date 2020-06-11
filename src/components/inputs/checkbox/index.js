@@ -22,7 +22,7 @@ function CustomCheckbox(props) {
           {...props}
         />
           )}
-      label={<label className="checkbox">{parse(props.label)}</label>}
+      label={<div className={classes.label}>{parse(props.label)}</div>}
     />
   );
 }

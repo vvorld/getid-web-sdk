@@ -16,7 +16,7 @@ function UpperPart() {
   const isLast = () => !next;
 
   return (
-    <Grid container alignItems="center" justify="center" data-role="header" spacing={3}>
+    <Grid container alignItems="center" justify="center" data-role="header">
       <Grid container alignItems="flex-start" justify="flex-start" direction="row">
         <Grid item xs={12} md={2}>
           <CustomLogo condition="getIdLogo" />

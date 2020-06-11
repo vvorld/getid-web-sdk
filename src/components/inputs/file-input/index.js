@@ -37,7 +37,6 @@ const CustomFileInput = (props) => {
           accept="image/x-png,image/jpeg"
           name={name}
           onChange={onChange}
-          className={classes.outlinedInput}
           hidden
           type={type}
         />

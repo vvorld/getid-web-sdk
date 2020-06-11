@@ -130,7 +130,7 @@ class Form extends Component {
         options, type, name, label, placeholder, hidden, required,
       } = field;
 
-      const inputName = fieldValues[this.currentStep][name];
+      const inputName = name && fieldValues[this.currentStep][name];
       const wrapperClass = (isHidden) => `${classes.fieldWrapper} ${isHidden && classes.hidden}`;
 
       const isRequired = required !== false;
@@ -172,7 +172,7 @@ class Form extends Component {
         return (
           <Grid className={wrapperClass(hidden)} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
             <Grid container justify="center">
-              <Grid style={{ margin: '40px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
+              <Grid style={{ margin: '10px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
                 <Checkbox
                   label={label}
                   data-role="checkboxInput"
@@ -227,7 +227,7 @@ class Form extends Component {
 
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="flex-end" justify="center" container spacing={2} data-role="blockForm">
+        <Grid alignItems="flex-end" justify="center" container data-role="blockForm">
           {this.generateInputs()}
         </Grid>
       );

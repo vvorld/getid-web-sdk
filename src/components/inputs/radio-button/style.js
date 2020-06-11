@@ -29,11 +29,13 @@ const RadioButtonStyles = makeStyles((theme) => ({
     },
   },
   label: {
+    opacity: '1!important',
     justifyContent: 'space-between',
     ...theme.typography.label,
     ...theme.inputBorder,
-    margin: '10px 0 5px',
-    padding: '4px 0',
+    height: 16,
+    margin: '30px 0 0px',
+    padding: '17px 0',
     '&.MuiFormControlLabel-root > .MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1': {
       paddingLeft: 15,
     },

@@ -6,7 +6,6 @@ import OverlayFarSVG from '../../../../assets/icons/views/large-overlay-far.svg'
 
 const IdCaptureBack = (props) => {
   const { cameraDistance } = props;
-
   const cameraOverlay = () => {
     if (cameraDistance === 'far') {
       return OverlayFarSVG;

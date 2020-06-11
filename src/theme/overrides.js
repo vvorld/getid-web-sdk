@@ -14,6 +14,11 @@ export default {
   MuiCheckbox,
   MuiButton,
   MuiIconButton,
+  MuiStepLabel: {
+    labelContainer: {
+      display: 'none',
+    },
+  },
   MuiPickersToolbarText: {
     toolbarBtnSelected: {
       color: '#0e1c2c',

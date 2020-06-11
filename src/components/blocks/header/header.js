@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CustomLogo from '../../logo/custom-logo';
-import headerStyles from './style';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
-import cameraViews from '../../../constants/camera-views';
 
 function Header(props) {
   const { currentComponent } = props;
@@ -24,12 +22,16 @@ function Header(props) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
-  const intersection = component.filter((element) => cameraViews.includes(element));
-
-  const { topPart } = headerStyles();
-
   return (
-    <Grid className={topPart} container alignItems="center" justify="center">
+    <Grid
+      style={{
+        marginTop: '70px',
+        marginBottom: '40px',
+      }}
+      container
+      alignItems="center"
+      justify="center"
+    >
       <Grid item xs={10} sm={8} md={6}>
         <CustomLogo condition={isThankYou()} />
         { headerText && (
@@ -45,7 +47,6 @@ function Header(props) {
           { subHeaderText }
         </Typography>
         ) }
-        {intersection.length > 0 && <Typography variant="h2">{translations.camera_access_tooltip}</Typography>}
       </Grid>
     </Grid>
   );

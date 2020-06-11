@@ -122,8 +122,6 @@ class Widget extends Component {
     const { translations } = this.context;
 
     return {
-      isCameraView: this.isCameraView(),
-      isCameraEnabled: false,
       next: {
         attempts: 3,
         width: 12,
@@ -146,8 +144,7 @@ class Widget extends Component {
       retake: {
         direction: 'right',
         type: 'retake',
-        hidden: !this.isCameraView(),
-        variant: 'outlined',
+        hidden: true,
         text: translations.button_retake,
       },
     };
@@ -191,6 +188,7 @@ class Widget extends Component {
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
 
+
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
@@ -207,7 +205,6 @@ class Widget extends Component {
             return (
               <Grid
                 key={componentName + currentComponent.order.toString()}
-                className={classes.component}
                 item
                 xs={12}
                 sm={smallGrid / length}
@@ -235,42 +232,28 @@ Widget.defaultProps = {
   classes: {},
   scans: {},
   flow: [],
-  fields: [],
-  documentData: [],
   onComplete: null,
   onFail: null,
   onCancel: null,
   onExists: null,
-  fieldValues: null,
-  isQA: false,
   currentComponent: null,
-  cameraDistance: 'default',
   idCaptureBackIndex: -1,
 };
 
 Widget.propTypes = {
   flow: PropTypes.array,
-  fields: PropTypes.array,
-  documentData: PropTypes.array,
-  fieldValues: PropTypes.object,
   scans: PropTypes.object,
-  formType: PropTypes.string.isRequired,
   setButtonAsDisabled: PropTypes.func.isRequired,
   goToStep: PropTypes.func.isRequired,
-  addField: PropTypes.func.isRequired,
-  addScan: PropTypes.func.isRequired,
-  apiUrl: PropTypes.string.isRequired,
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
   onExists: PropTypes.func,
   onCancel: PropTypes.func,
   isDisabled: PropTypes.bool.isRequired,
-  isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
   idCaptureBackIndex: PropTypes.number,
-  cameraDistance: PropTypes.string,
   api: PropTypes.object.isRequired,
 };
 

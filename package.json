@@ -53,6 +53,8 @@
     "core-js": "^3.4.8",
     "date-fns": "^2.8.1",
     "html-react-parser": "^0.10.0",
+    "jss": "^10.3.0",
+    "jss-plugin-camel-case": "^10.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.6",

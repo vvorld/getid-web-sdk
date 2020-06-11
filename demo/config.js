@@ -7,7 +7,7 @@ export default {
     externalId: 121212,
   },
   flow: [
-    { component: ['CountryAndDocument'] },
+    // { component: ['CountryAndDocument'] },
     { component: ['Form'] } ,
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
@@ -69,7 +69,7 @@ export default {
       name: 'Date Of Birth',
     },
     {
-      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',
+      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
       type: 'checkbox',
       name: 'privacy',
       value: true,

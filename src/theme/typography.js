@@ -41,17 +41,21 @@ export default {
   label: {
     wordWrap: 'break-word',
     wordBreak: 'break-all',
+    opacity: 0.5,
     color: palette.blue.deep,
     '&.MuiInputLabel-outlined.MuiInputLabel-shrink': {
       backgroundColor: 'white',
       color: palette.violet.main,
+      opacity: 1,
     },
     '&$labelFocused': {
       backgroundColor: 'white',
       color: palette.violet.main,
+      opacity: 1,
     },
     '&.selected': {
       color: palette.violet.main,
+      opacity: 1,
     },
   },
 };

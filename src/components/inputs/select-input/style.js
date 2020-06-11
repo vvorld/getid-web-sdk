@@ -26,6 +26,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
     paddingLeft: '5px',
     paddingRight: '5px',
     ...theme.typography.label,
+    opacity: '1!important',
   },
   itemSelected: {
     background: `${theme.palette.violet.light}!important`,

@@ -1,36 +1,57 @@
-import { create } from 'jss';
-import camelCase from 'jss-plugin-camel-case';
-import { ThemeProvider } from '@material-ui/styles';
-import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { create } from 'jss';
+
+import root from 'react-shadow';
 import MainTheme from './theme';
 import store from './store/store';
 import TranslationsContext from './context/TranslationsContext';
 import Main from './layouts/Main';
 import ErrorBoundary from './layouts/ErrorBoundary';
 
-// const generateClassName = createGenerateClassName({
-//   productionPrefix: 'get-id',
-// });
+class WrappedJssComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.containerRef = null;
+    this.state = {
+      jss: null,
+    };
+  }
 
-const styleNode = document.createComment('jss-insertion-point');
-document.head.insertBefore(styleNode, document.head.firstChild);
+  setRefAndCreateJss = (ref) => {
+    if (ref && !this.state.jss) {
+      const createdJssWithRef = create({ ...jssPreset(), insertionPoint: ref });
+      this.containerRef = ref;
+      this.setState({ jss: createdJssWithRef });
+    }
+  }
 
-const jss = create({
-  ...jssPreset(),
-  insertionPoint: 'jss-insertion-point',
-});
-
-console.log('JSS:');
-console.dir(jss);
-
-jss.use(camelCase());
+  render() {
+    const { jss } = this.state;
+    const { children } = this.props;
+    return (
+      <root.div>
+        <div>
+          <div id="123" ref={(ref) => this.setRefAndCreateJss(ref)}>
+            {jss && (
+            <StylesProvider jss={jss}>
+              <ThemeProvider theme={MainTheme(() => this.containerRef)}>
+                {children}
+              </ThemeProvider>
+            </StylesProvider>
+            )}
+          </div>
+        </div>
+      </root.div>
+    );
+  }
+}
 
 const MainModule = (widgetOptions) => (
-  <StylesProvider jss={jss}>
-    <ThemeProvider theme={MainTheme}>
+  <div>
+    <WrappedJssComponent>
       <Provider store={store}>
         <TranslationsContext.Provider
           value={{ translations: widgetOptions.translations }}
@@ -42,8 +63,8 @@ const MainModule = (widgetOptions) => (
           </ErrorBoundary>
         </TranslationsContext.Provider>
       </Provider>
-    </ThemeProvider>
-  </StylesProvider>
+    </WrappedJssComponent>
+  </div>
 );
 
 /**

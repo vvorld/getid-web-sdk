@@ -1,6 +1,6 @@
 export default {
-  apiUrl: '',
-  apiKey: '',
+  apiUrl: 'http://localhost:3001',
+  apiKey: '1231223',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   metadata: {
@@ -8,7 +8,7 @@ export default {
   },
   flow: [
     { component: ['CountryAndDocument'] },
-    { component: ['Form'] } ,
+    { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },

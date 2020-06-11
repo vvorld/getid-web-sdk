@@ -1,6 +1,11 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const mainTheme = createMuiTheme({
+const mainTheme = (container) => createMuiTheme({
+  props: {
+    MuiPopover: {
+      container,
+    },
+  },
   palette: {
     black: '#000',
     white: '#fff',

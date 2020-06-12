@@ -5,11 +5,16 @@ import overrides from './overrides';
 import breakpoints from './breakpoints';
 
 const mainTheme = (container) => createMuiTheme({
+  props: {
+    MuiPopover: {
+      container,
+    },
+  },
+
   palette,
   typography,
   overrides,
   breakpoints,
-  container,
   stepperShape: {
     width: 20,
     height: 20,

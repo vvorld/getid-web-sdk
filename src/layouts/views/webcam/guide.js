@@ -41,7 +41,7 @@ const Guide = ({ component }) => {
 
 
   return (
-    <img className={classes.guide} alt={`${component}_guide`} src={source()} />
+    <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
   );
 };
 

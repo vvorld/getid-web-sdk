@@ -28,7 +28,7 @@ const useStyles = (theme) => ({
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
-
+    this.mobileView = props.component === 'selfie' ? !props.sdkPermissions.videoRecording : isMobile();
     this.state = {
       mediaRecorder: null,
       isCameraEnabled: true,
@@ -293,13 +293,13 @@ class WebcamView extends React.Component {
       };
     }
 
-    return isMobile() ? cameraFooterMobile : cameraFooterDesktop;
+    return this.mobileView ? cameraFooterMobile : cameraFooterDesktop;
   }
 
   openComponent = () => {
     this.setState({ show: true });
     this.cropCoefficient();
-    if (!isMobile()) {
+    if (!this.mobileView) {
       this.setWebStream();
     }
 
@@ -348,7 +348,7 @@ class WebcamView extends React.Component {
               <Camera
                 setWebcamRef={this.setWebcamRef}
                 overlay={cameraOverlay}
-                isMobile={isMobile()}
+                isMobile={this.mobileView}
                 capture={this.handleFile}
               />
               <canvas

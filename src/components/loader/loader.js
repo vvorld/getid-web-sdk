@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import loader from './style';
 
 const Loader = (props) => {
   const classes = loader();
-  const loaderText = 'Sending data...';
+  const { text } = props;
   return (
     <div>
       <div className={classes.root}>
@@ -25,9 +26,17 @@ const Loader = (props) => {
           {...props}
         />
       </div>
-      <div className={classes.text}>{loaderText}</div>
+      <div className={classes.text}>{text}</div>
     </div>
   );
+};
+
+Loader.propTypes = {
+  text: PropTypes.string,
+};
+
+Loader.defaultProps = {
+  text: '',
 };
 
 export default Loader;

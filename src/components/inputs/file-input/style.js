@@ -1,76 +1,61 @@
-import { fade, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 const style = makeStyles((theme) => ({
-  outlinedInput: {
-    border: 'none',
-    color: theme.palette.blueDark,
-    marginRight: '8px',
-    backgroundColor: theme.palette.lightViolet,
+  uploadFile: {
+    marginRight: '4px',
+    backgroundColor: theme.palette.violet.light,
     borderRadius: '5px',
     '&:hover': {
-      '& .icon': {
+      backgroundColor: theme.palette.violet.dark,
+      '& .icon > path, line': {
         stroke: theme.palette.white,
       },
-      backgroundColor: theme.palette.violet,
-    },
-    '& .icon': {
-      stroke: theme.palette.violet,
     },
   },
-  border: {
+  inputWrapper: {
+    ...theme.inputBorder,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 8,
     flexDirection: 'row-reverse',
     backgroundColor: 'transparent',
-    color: theme.palette.deepBlue,
     width: '100%',
-    height: 56,
-    border: `1px solid ${fade(theme.palette.violet, 0.5)}`,
-    '&.selected': {
-      border: `1px solid ${fade(theme.palette.violet, 1)}`,
-    },
-    '&.error': {
-      border: `1px solid ${fade(theme.palette.error.main, 1)}`,
-    },
+    height: 51,
   },
   labelContainer: {
+    width: '100%',
     paddingLeft: '5px',
     display: 'flex',
     flexDirection: 'column-reverse',
   },
   inputValue: {
-    width: '100%',
-    color: `${fade(theme.palette.deepBlue, 0.5)}`,
-    fontSize: '16px',
-    textAlign: 'left',
-    lineHeight: '16px',
+    ...theme.typography.mainInput,
+    width: '95%!important',
     display: 'none',
     zIndex: -1,
     '&.selected': {
       border: 'none',
       outline: 'none',
       display: 'block',
-      color: theme.palette.deepBlue,
+      ...theme.typography.mainInput,
       transformOrigin: 'center left',
-      transform: 'translate(3px, -1px)',
+      transform: 'translate(3px, 0px)',
     },
   },
   label: {
-    wordWrap: 'break-word',
-    wordBreak: 'break-all',
-    textAlign: 'left',
-    color: `${fade(theme.palette.deepBlue, 0.5)}`,
-    fontSize: '16px',
-    lineHeight: '16px',
-    paddingLeft: '5px',
+    ...theme.typography.main,
+    ...theme.typography.label,
+    paddingLeft: '8px',
     '&.selected': {
-      paddingLeft: '5px',
+      opacity: '1!important',
+      width: 'auto',
+      position: 'absolute',
+      paddingRight: '5px',
+      color: theme.palette.violet.main,
       transformOrigin: 'top left',
       textAlign: 'start',
-      transform: ' scale(0.75)',
-      transition: 'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms',
+      transform: 'translate(2px, -29px) scale(0.75)',
+      transition: 'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
     },
   },
 }));

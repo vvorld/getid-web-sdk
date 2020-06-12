@@ -2,27 +2,15 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Button } from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
-import Footer from '../blocks/footer/footer';
 import TranslationsContext from '../../context/TranslationsContext';
 import PhotoSVG from '../../assets/icons/views/photo-camera-purple.svg';
 import buttonStyles from '../buttons/style';
 
 const MobileCamera = ({
-  footer,
   capture,
-  isPhotoTaken,
 }) => {
   const { translations } = useContext(TranslationsContext);
   const classes = buttonStyles();
-  const { next } = footer;
-
-  const cameraFooter = {
-    ...footer,
-    next: {
-      ...next,
-      disabled: !isPhotoTaken,
-    },
-  };
 
   return (
     <div>
@@ -45,17 +33,12 @@ const MobileCamera = ({
           </Button>
         </Grid>
       </Grid>
-      <Footer {...cameraFooter} />
     </div>
   );
 };
 
 MobileCamera.propTypes = {
-  footer: PropTypes.shape({
-    next: PropTypes.shape({}).isRequired,
-  }).isRequired,
   capture: PropTypes.func.isRequired,
-  isPhotoTaken: PropTypes.bool.isRequired,
 };
 
 export default MobileCamera;

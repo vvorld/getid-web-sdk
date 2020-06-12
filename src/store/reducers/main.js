@@ -1,6 +1,6 @@
 import {
-  ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
-  SET_ID_CAPTURE_BACK,
+  ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP,
 } from '../actionTypes';
 
 import {
@@ -41,21 +41,30 @@ export default function (state = initialState, action) {
       };
     }
 
-    case SET_DISABLED: {
-      const { isDisabled } = action.payload;
+    case SET_BUTTON_AS_DISABLED: {
+      const { fields, step } = state;
+
+      if (fields[step]) {
+        const fieldsToCheck = Object.values(fields[step])
+          .filter((field) => field.required && !field.hidden);
+        return {
+          ...state,
+          isDisabled: fieldsToCheck.some((field) => {
+            const { value, type } = field;
+
+            return (value === null
+                || (type === 'date' && Number.isNaN(Date.parse(value)))
+                || value === ''
+                || value === undefined
+                || value === false
+                || (/^\s+$/).test(value.toString()));
+          }),
+        };
+      }
 
       return {
         ...state,
-        isDisabled,
-      };
-    }
-
-    case SET_STEP: {
-      const { step } = action.payload;
-
-      return {
-        ...state,
-        step,
+        isDisabled: false,
       };
     }
 
@@ -109,6 +118,15 @@ export default function (state = initialState, action) {
       }
 
       return state.countriesAndDocs;
+    }
+
+    case GO_TO_STEP: {
+      const { where } = action.payload;
+
+      return {
+        ...state,
+        step: where,
+      };
     }
 
     default:

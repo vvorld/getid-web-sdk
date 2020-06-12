@@ -1,80 +1,39 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import palette from './palette';
+import typography from './typography';
+import overrides from './overrides';
+import breakpoints from './breakpoints';
 
 const mainTheme = (container) => createMuiTheme({
-  props: {
-    MuiPopover: {
-      container,
-    },
-  },
-  palette: {
-    black: '#000',
-    white: '#fff',
-    blue: '#173d69',
-    blueDark: '#0e2846',
-    blueShadow: '#1b3361',
-    stepperLight: '#ece8f3',
-    blueLight: '#eef3fd',
-    aqua: '#00b1c9',
-    crimson: '#ea167c',
-    violet: '#7861a2',
-    orange: '#ff5630',
-    deepBlue: '#0e1c2c',
-    lightViolet: '#F5F3FA',
-    blueLoader: '#194373',
-    background: {
-      paper: 'white',
-      default: 'white',
-    },
-    error: {
-      main: '#F0809B',
-    },
-  },
+  palette,
+  typography,
+  overrides,
+  breakpoints,
+  container,
   stepperShape: {
     width: 20,
     height: 20,
     borderRadius: '50%',
   },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    mainHeaderSize: '26px',
-  },
-  overrides: {
-    MuiInputBase: {
-      root: {
-        '&$error': {
-          borderColor: '#F0809B !important',
-        },
-      },
+  inputBorder: {
+    borderRadius: '8px',
+    border: `1px solid ${palette.gray.main}`,
+    '&.selectedVal': {
+      opacity: '1!important',
+      borderColor: palette.violet.main,
+      color: palette.blue.deep,
     },
-    MuiPickersToolbarText: {
-      toolbarBtnSelected: {
-        color: '#0e1c2c',
-      },
-      toolbarTxt: {
-        color: '#0e1c2c',
-      },
+    '&.filled': {
+      borderColor: palette.violet.main,
     },
-    MuiPickersDatePickerRoot: {
-      toolbar: {
-        color: '#0e1c2c',
-        backgroundColor: 'transparent',
-      },
+    '&:hover': {
+      borderColor: palette.violet.main,
     },
-    MuiPickersDay: {
-      day: {
-        '&:hover': {
-          backgroundColor: '#F8F7FA',
-          border: '1px solid #7861a2',
-        },
-      },
-      daySelected: {
-        backgroundColor: 'transparent',
-        color: '#0e1c2c',
-        '&:hover': {
-          backgroundColor: '#F8F7FA',
-          border: '1px solid #7861a2',
-        },
-      },
+    '&$focused': {
+      borderColor: palette.violet.main,
+    },
+    '&.selected': {
+      borderColor: palette.violet.main,
     },
   },
 });

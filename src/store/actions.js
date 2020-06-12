@@ -1,6 +1,6 @@
 import {
-  ADD_FIELD, SET_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_STEP, SET_FLOW,
-  SET_ID_CAPTURE_BACK,
+  ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP,
 } from './actionTypes';
 
 const addField = (key, value, whichStep, required, type, hidden) => ({
@@ -22,14 +22,13 @@ const addCountriesAndDocs = (countries) => ({
   payload: { countries },
 });
 
-const setDisabled = (isDisabled) => ({
-  type: SET_DISABLED,
-  payload: { isDisabled },
+const setButtonAsDisabled = () => ({
+  type: SET_BUTTON_AS_DISABLED,
 });
 
-const setStep = (step) => ({
-  type: SET_STEP,
-  payload: { step },
+const goToStep = (where) => ({
+  type: GO_TO_STEP,
+  payload: { where },
 });
 
 const setFlow = (flow) => ({
@@ -46,8 +45,8 @@ export default {
   addField,
   addCountriesAndDocs,
   addScan,
-  setDisabled,
-  setStep,
+  setButtonAsDisabled,
   setFlow,
   setIdCaptureBack,
+  goToStep,
 };

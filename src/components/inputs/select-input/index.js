@@ -18,28 +18,32 @@ const CustomSelect = (props) => {
   const className = value ? ' filled' : '';
 
   const selectIcon = () => (
-    <Icon className={classes.icon}>
+    <Icon className={`select-icon ${classes.icon}`}>
       <img className={classes.img} alt="open select" src={arrowIcon} />
     </Icon>
   );
 
   return (
-    <FormControl required={required} fullWidth variant="filled">
+    <FormControl required={required} fullWidth variant="outlined">
       <InputLabel
         classes={{
-          root: classes.labelFocused,
+          root: classes.labelRoot,
         }}
       >
         {placeholder}
       </InputLabel>
       <Select
-        disableUnderline
         data-role="select"
         MenuProps={{
+          getContentAnchorEl: null,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+          },
           MenuListProps: { disablePadding: true },
-          classes: { paper: classes.dropdownStyle },
+          classes: { paper: classes.dropdownStyle, focused: classes.focused },
         }}
-        className={classes.customSelect + className}
+        className={className}
         displayEmpty
         name={name}
         value={value}

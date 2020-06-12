@@ -4,22 +4,21 @@ const stepperStyles = (theme) => ({
     left: 'calc(-50% + 8px)',
     right: 'calc(50% + 8px)',
     position: 'absolute',
-    backgroundColor: theme.palette.stepperLight,
   },
   active: {
     '& $line': {
-      border: `3px solid ${theme.palette.violet}`,
+      backgroundColor: theme.palette.violet.main,
     },
   },
   completed: {
     '& $line': {
-      border: `3px solid  ${theme.palette.violet}`,
+      backgroundColor: theme.palette.violet.main,
     },
   },
   line: {
-    border: `3px solid ${theme.palette.stepperLight}`,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 6,
+    border: 0,
+    backgroundColor: theme.palette.gray.light,
   },
 });
 

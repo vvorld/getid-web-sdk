@@ -10,7 +10,7 @@ const ActionBar = (props) => {
     <div className={styles.footerBlock} data-role="footerBlock">
       {Object.values(props).map((item) => (item
             && (
-            <CustomButton key={item.type} args={item} />
+            <CustomButton key={item.direction} args={item} />
             )
       ))}
     </div>

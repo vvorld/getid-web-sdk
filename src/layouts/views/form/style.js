@@ -3,7 +3,6 @@ export const styles = (theme) => ({
     color: theme.palette.error.main,
     fontSize: '12px',
     textAlign: 'left',
-    margin: '8px 14px 0',
   },
   hidden: {
     display: 'none',
@@ -24,7 +23,7 @@ export const styles = (theme) => ({
     },
     '& $error': {
       position: 'absolute',
-      bottom: '-6px',
+      bottom: '15px',
     },
   },
   helper: {

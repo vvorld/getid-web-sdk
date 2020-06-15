@@ -35,7 +35,7 @@ class WrappedJssComponent extends React.Component {
     return (
       <root.div>
         <div>
-          <div id="123" ref={(ref) => this.setRefAndCreateJss(ref)}>
+          <div ref={(ref) => this.setRefAndCreateJss(ref)}>
             {jss && (
             <StylesProvider jss={jss}>
               <ThemeProvider theme={MainTheme(() => this.containerRef)}>

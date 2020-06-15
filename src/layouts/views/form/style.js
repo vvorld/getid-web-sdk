@@ -8,10 +8,10 @@ export const styles = (theme) => ({
     display: 'none',
   },
   fieldWrapper: {
-    padding: '8px 30px 30px 0!important',
+    padding: '0 30px 38px 0!important',
     position: 'relative',
     [theme.breakpoints.down('sm')]: {
-      padding: '8px 0px 20px 0!important',
+      padding: '0 30px 28px 0!important',
     },
     '& p': {
       position: 'absolute',
@@ -19,11 +19,11 @@ export const styles = (theme) => ({
     },
     '& $helper': {
       position: 'absolute',
-      top: '-20px',
+      top: '-25px',
     },
     '& $error': {
       position: 'absolute',
-      bottom: '15px',
+      bottom: '20px',
     },
   },
   helper: {

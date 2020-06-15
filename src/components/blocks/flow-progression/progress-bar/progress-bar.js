@@ -16,7 +16,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ProgressBar(props) {
-  const { flowLength, activeStepParent } = props;
+  const { flow, activeStepParent } = props;
 
   const classes = useStyles();
   const CustomisedConnector = withStyles(stepperStyles)(StepConnector);
@@ -36,10 +36,10 @@ function ProgressBar(props) {
             connector={<CustomisedConnector />}
             className={classes.stepper}
           >
-            {[...Array(flowLength)].map((i) => (
-              <Step key={`step-${i}`}>
+            {flow.map((i) => (
+              <Step key={`step-${i.order}`}>
                 <StepLabel
-                  StepIconProps={{ last: flowLength }}
+                  StepIconProps={{ last: flow.order }}
                   StepIconComponent={customisedStepIcon}
                 />
               </Step>
@@ -52,7 +52,7 @@ function ProgressBar(props) {
 }
 
 ProgressBar.propTypes = {
-  flowLength: PropTypes.number.isRequired,
+  flow: PropTypes.shape([]).isRequired,
   activeStepParent: PropTypes.number.isRequired,
 };
 

@@ -24,7 +24,7 @@ function UpperPart() {
         {flow.length > 1 && (
         <ProgressBar
           isLast={isLast}
-          flowLength={flow.length}
+          flow={flow}
           activeStepParent={currentStep}
         />
         )}

@@ -13,6 +13,9 @@ export const styles = (theme) => ({
     [theme.breakpoints.down('sm')]: {
       padding: '0 30px 28px 0!important',
     },
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 0 28px 0!important',
+    },
     '& p': {
       position: 'absolute',
       bottom: '-14px',
@@ -24,6 +27,9 @@ export const styles = (theme) => ({
     '& $error': {
       position: 'absolute',
       bottom: '20px',
+      [theme.breakpoints.down('sm')]: {
+        bottom: '10px',
+      },
     },
   },
   helper: {

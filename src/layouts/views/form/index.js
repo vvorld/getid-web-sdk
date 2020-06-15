@@ -62,14 +62,16 @@ class Form extends Component {
   };
 
   setErrorState = (isError, name, errorText) => {
-    this.setState({
+    this.setState((prevState) => ({
       isError: {
+        ...prevState.isError,
         [name]: isError,
       },
       errorText: {
+        ...prevState.errorText,
         [name]: errorText,
       },
-    });
+    }));
   }
 
   handleFiles = async (event) => {
@@ -150,6 +152,8 @@ class Form extends Component {
       }
 
       if (type === 'file') {
+        console.log(isError);
+        console.log(errorText);
         return (
           <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
             {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}

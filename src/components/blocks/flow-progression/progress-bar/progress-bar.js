@@ -52,7 +52,7 @@ function ProgressBar(props) {
 }
 
 ProgressBar.propTypes = {
-  flow: PropTypes.shape([]).isRequired,
+  flow: PropTypes.array.isRequired,
   activeStepParent: PropTypes.number.isRequired,
 };
 

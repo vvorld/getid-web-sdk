@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import { create } from 'jss';
-
 import root from 'react-shadow';
+import store from './store/store';
+import actions from './store/actions';
+
 import MainTheme from './theme';
-import createStore from './store/store';
 import TranslationsContext from './context/TranslationsContext';
 import Main from './layouts/Main';
 import ErrorBoundary from './layouts/ErrorBoundary';
@@ -35,7 +36,7 @@ class WrappedJssComponent extends React.Component {
     return (
       <root.div>
         <div>
-          <div id="123" ref={(ref) => this.setRefAndCreateJss(ref)}>
+          <div ref={(ref) => this.setRefAndCreateJss(ref)}>
             {jss && (
             <StylesProvider jss={jss}>
               <ThemeProvider theme={MainTheme(() => this.containerRef)}>
@@ -54,7 +55,7 @@ WrappedJssComponent.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const MainModule = (widgetOptions, store) => (
+const MainModule = (widgetOptions) => (
   <div>
     <WrappedJssComponent>
       <Provider store={store}>
@@ -78,10 +79,12 @@ const MainModule = (widgetOptions, store) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const store = createStore();
   const component = MainModule(widgetOptions, store);
 
-  if (container.hasChildNodes()) ReactDOM.unmountComponentAtNode(container);
+  if (container.hasChildNodes()) {
+    store.dispatch(actions.resetStore());
+    ReactDOM.unmountComponentAtNode(container);
+  }
 
   ReactDOM.render(component, container);
 };

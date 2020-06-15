@@ -1,6 +1,6 @@
 import {
   ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
-  SET_ID_CAPTURE_BACK, GO_TO_STEP,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP, RESET_STORE,
 } from './actionTypes';
 
 const addField = (key, value, whichStep, required, type, hidden) => ({
@@ -41,6 +41,8 @@ const setIdCaptureBack = (index, step) => ({
   payload: { index, step },
 });
 
+const resetStore = () => ({ type: RESET_STORE });
+
 export default {
   addField,
   addCountriesAndDocs,
@@ -49,4 +51,5 @@ export default {
   setFlow,
   setIdCaptureBack,
   goToStep,
+  resetStore,
 };

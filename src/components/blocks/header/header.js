@@ -23,30 +23,31 @@ function Header(props) {
   }
 
   return (
-    <Grid
-      style={{
-        marginTop: '70px',
-        marginBottom: '40px',
-      }}
-      container
-      alignItems="center"
-      justify="center"
-    >
-      <Grid item xs={10} sm={8} md={6}>
-        <CustomLogo condition={isThankYou()} />
-        { headerText && (
-        <Typography
-          variant="h1"
-          data-role="componentTitle"
-        >
-            { headerText }
-        </Typography>
-        )}
-        { subHeaderText && (
-        <Typography variant="h2">
-          { subHeaderText }
-        </Typography>
-        ) }
+    <Grid container alignItems="center" justify="center" data-role="header">
+      <Grid
+        style={{
+          marginBottom: '40px',
+        }}
+        container
+        alignItems="center"
+        justify="center"
+      >
+        <Grid item xs={10} sm={8} md={6}>
+          <CustomLogo condition={isThankYou()} />
+          { headerText && (
+            <Typography
+              variant="h1"
+              data-role="componentTitle"
+            >
+              { headerText }
+            </Typography>
+          )}
+          { subHeaderText && (
+            <Typography variant="h2">
+              { subHeaderText }
+            </Typography>
+          ) }
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -9,7 +9,7 @@ export default {
   flow: [
     { component: ['CountryAndDocument'] },
     { component: ['Consent'] },
-    { component: ['Form'] } ,
+    { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },

@@ -2,7 +2,6 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
-import './polyfills/webrtc.polyfill.min';
 import { renderMainComponent } from './main-module';
 import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';

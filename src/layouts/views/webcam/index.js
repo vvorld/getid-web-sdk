@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import RecordRTC from 'recordrtc';
+import RecordRTC from 'recordrtc-ponyfill';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';

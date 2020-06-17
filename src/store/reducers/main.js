@@ -1,6 +1,6 @@
 import {
   ADD_FIELD, SET_BUTTON_AS_DISABLED, STORE_COUNTRIES_AND_DOCS, ADD_SCAN, SET_FLOW,
-  SET_ID_CAPTURE_BACK, GO_TO_STEP,
+  SET_ID_CAPTURE_BACK, GO_TO_STEP, RESET_STORE,
 } from '../actionTypes';
 
 import {
@@ -127,6 +127,10 @@ export default function (state = initialState, action) {
         ...state,
         step: where,
       };
+    }
+
+    case RESET_STORE: {
+      return { ...initialState };
     }
 
     default:

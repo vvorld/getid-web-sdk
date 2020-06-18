@@ -6,7 +6,6 @@ import { FormControlLabel } from '@material-ui/core';
 import parse from 'html-react-parser';
 import customCheckbox from './style';
 
-
 function CustomCheckbox(props) {
   const classes = customCheckbox();
 

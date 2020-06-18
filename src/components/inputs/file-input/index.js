@@ -24,7 +24,6 @@ const CustomFileInput = (props) => {
   const labelClass = isValue ? `${classes.label} selected` : classes.label;
   const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
 
-
   return (
     <div className={borderClass + (isError ? ' error' : '')}>
       <IconButton

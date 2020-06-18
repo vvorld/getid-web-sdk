@@ -185,7 +185,6 @@ class Widget extends Component {
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
 
-
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>

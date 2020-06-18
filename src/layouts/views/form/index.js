@@ -11,7 +11,6 @@ import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
 import { styles } from './style';
 
-
 class Form extends Component {
   constructor(props) {
     super(props);

@@ -18,11 +18,17 @@ const AnimatedSvg = {
 
 const useStyles = makeStyles((theme) => ({
   guide: {
+    maxHeight: 'calc(50vh)',
+    padding: '10px',
+    position: 'absolute',
+    margin: '0 auto',
+  },
+  container: {
+    position: 'relative',
     border: `1px solid ${theme.palette.violet.main}`,
     borderRadius: 8,
-    maxHeight: 'calc(50vh)',
     maxWidth: '75%',
-    padding: '10px',
+    margin: '0 auto',
   },
 }));
 
@@ -40,9 +46,11 @@ const Guide = ({ component }) => {
     return AnimatedSvg[`${isPassport ? 'passport' : component}${isMobile() ? 'Mobile' : ''}`];
   };
 
-
   return (
-    <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
+    <div className={classes.container}>
+      <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
+      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="elo6xpdttruc1" viewBox="0 0 342 196" shapeRendering="geometricPrecision" textRendering="geometricPrecision" />
+    </div>
   );
 };
 

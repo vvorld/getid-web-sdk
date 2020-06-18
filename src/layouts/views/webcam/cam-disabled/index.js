@@ -22,7 +22,7 @@ const index = ({ requestCamera, errorMessage }) => {
           className={buttonClass.customButton}
           onClick={requestCamera}
         >
-                    try again
+          try again
         </Button>
       </Grid>
     </Grid>

@@ -24,7 +24,6 @@ const useStyles = (theme) => ({
   },
 });
 
-
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);

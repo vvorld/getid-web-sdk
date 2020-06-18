@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
-import RecordRTC from 'recordrtc';
+import RecordRTC from 'recordrtc-ponyfill';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
@@ -77,16 +77,16 @@ class WebcamView extends React.Component {
       this.stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, width: 4096 },
+          video: { deviceId: true, width: isMobile() ? 1280 : 4096 },
         });
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
-        videoHeight,
-        videoWidth: videoHeight * (25 / 16),
-        originVideoWidth,
-      });
+          videoHeight,
+          videoWidth: videoHeight * (25 / 16),
+          originVideoWidth,
+        });
 
       if (component === 'selfie') {
         this.recordLiveness(this.stream);
@@ -205,6 +205,8 @@ class WebcamView extends React.Component {
             recorderType: RecordRTC.WebAssemblyRecorder,
             width: videoWidth,
             height: videoHeight,
+            videoElement: this.webcam,
+            frameRate: 20,
           }),
         });
       }

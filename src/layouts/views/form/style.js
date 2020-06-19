@@ -28,10 +28,8 @@ export const styles = (theme) => ({
     },
     '& $error': {
       position: 'absolute',
-      bottom: '20px',
-      [theme.breakpoints.down('sm')]: {
-        bottom: '10px',
-      },
+      bottom: '-14px',
+      left: '12px'
     },
   },
   helper: {

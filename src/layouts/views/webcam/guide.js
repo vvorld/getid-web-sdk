@@ -19,6 +19,7 @@ const AnimatedSvg = {
 const useStyles = makeStyles((theme) => ({
   guide: {
     position: 'absolute',
+    margin: '0 auto',
     top: 0,
     left: 0,
     right: 0,

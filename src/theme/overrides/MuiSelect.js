@@ -17,7 +17,7 @@ export default {
     '&.MuiSelect-outlined.MuiSelect-outlined': {
       backgroundColor: 'transparent',
       textAlign: 'left',
-      lineHeight: '0'
+      lineHeight: '0',
     },
   },
 };

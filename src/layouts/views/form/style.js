@@ -8,13 +8,13 @@ export const styles = (theme) => ({
     display: 'none',
   },
   fieldWrapper: {
-    padding: '0 30px 38px 0!important',
+    margin: '0 30px 28px 0!important',
     position: 'relative',
     [theme.breakpoints.down('sm')]: {
-      padding: '0 30px 28px 0!important',
+      margin: '0 30px 22px 0!important',
     },
     [theme.breakpoints.down('xs')]: {
-      padding: '0 0 28px 0!important',
+      margin: '0 0 22px 0!important',
     },
     '& p': {
       position: 'absolute',

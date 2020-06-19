@@ -19,9 +19,11 @@ export const styles = (theme) => ({
     '& p': {
       position: 'absolute',
       bottom: '-14px',
+      height: '10px',
     },
     '& $helper': {
       position: 'absolute',
+      height: '10px',
       top: '-25px',
     },
     '& $error': {

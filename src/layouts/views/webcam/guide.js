@@ -18,12 +18,15 @@ const AnimatedSvg = {
 
 const useStyles = makeStyles((theme) => ({
   guide: {
-    maxHeight: 'calc(50vh)',
-    padding: '10px',
     position: 'absolute',
-    margin: '0 auto',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   container: {
+    maxHeight: 'calc(50vh)',
+    padding: '10px',
     position: 'relative',
     border: `1px solid ${theme.palette.violet.main}`,
     borderRadius: 8,

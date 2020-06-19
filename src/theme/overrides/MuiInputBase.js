@@ -1,9 +1,15 @@
+import createBreakpoints from '@material-ui/core/styles/createBreakpoints';
 import palette from '../palette';
+import breakpoints from '../breakpoints';
 
+const br = createBreakpoints(breakpoints);
 export default {
   input: {
     padding: '17px 14px',
-    height: '19px',
+    height: '20px',
+    [br.down('md')]: {
+      height: '22px',
+    },
   },
   root: {
     '& fieldset': {

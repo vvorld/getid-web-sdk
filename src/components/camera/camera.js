@@ -40,7 +40,7 @@ const Camera = (props) => {
             >
               <track kind="captions" />
             </video>
-            {isStream ? (
+            {(isStream && overlay) ? (
               <div>
                 <img className={classes.cameraOverlay} src={overlay()} alt="powered by getId" />
               </div>

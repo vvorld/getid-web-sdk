@@ -7,7 +7,7 @@ export default {
   input: {
     padding: '17px 14px',
     height: '20px',
-    [br.down('md')]: {
+    [br.down('lg')]: {
       height: '22px',
     },
   },

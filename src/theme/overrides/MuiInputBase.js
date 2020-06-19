@@ -3,6 +3,7 @@ import palette from '../palette';
 export default {
   input: {
     padding: '17px 14px',
+    height: '19px',
   },
   root: {
     '& fieldset': {

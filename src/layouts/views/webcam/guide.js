@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     right: 0,
     bottom: 0,
+    maxHeight: 'calc(50vh)',
+    maxWidth: '95%',
   },
   container: {
     maxHeight: 'calc(50vh)',

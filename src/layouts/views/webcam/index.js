@@ -29,7 +29,8 @@ class WebcamView extends React.Component {
   constructor(props) {
     super(props);
     this.isMobile = isMobile();
-    this.mobileView = props.component === 'selfie' ? !props.sdkPermissions.videoRecording : this.isMobile;
+    this.selfieView = props.component === 'selfie';
+    this.mobileView = this.selfieView ? !props.sdkPermissions.videoRecording : this.isMobile;
     this.state = {
       mediaRecorder: null,
       isCameraEnabled: true,
@@ -73,24 +74,29 @@ class WebcamView extends React.Component {
 
   async setWebStream() {
     const { translations } = this.context;
-    const { component } = this.props;
     try {
       this.stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, width: this.isMobile ? 1024 : 4096 },
+          video: { deviceId: true, width: this.isMobile ? 1280 : 4096 },
         });
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
+      const maxValue = Math.max(originVideoWidth, videoHeight);
+      const minValue = Math.min(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
-        videoHeight: this.isMobile ? originVideoWidth : videoHeight,
-        videoWidth: this.isMobile ? videoHeight : videoHeight * (25 / 16),
+        videoHeight: this.isMobile ? maxValue : minValue,
+        videoWidth: this.isMobile ? minValue : minValue * (25 / 16),
         originVideoWidth,
       });
 
-      if (component === 'selfie') {
-        this.recordLiveness(this.stream);
+      if (this.webcam) {
+        if (this.selfieView) {
+          this.recordLiveness(this.stream);
+        } else {
+          this.webcam.srcObject = this.stream;
+        }
       }
       this.cameraResize();
     } catch (error) {
@@ -210,7 +216,10 @@ class WebcamView extends React.Component {
             frameRate: 20,
           }),
         });
+      } else {
+        this.webcam.srcObject = stream;
       }
+
       if (!this.state.saveImage) this.state.mediaRecorder.startRecording();
     } catch (e) {
       console.error(e);
@@ -220,6 +229,7 @@ class WebcamView extends React.Component {
   retake = async () => {
     const { addScan, component, currentStep } = this.props;
     addScan(component, null, currentStep, true);
+    if (this.selfieView) addScan('selfie-video', null, currentStep, true);
     this.setState({ saveImage: false, recording: true });
     this.setWebStream();
   };
@@ -242,7 +252,7 @@ class WebcamView extends React.Component {
 
   buildFooter = () => {
     const {
-      footer, component, scans, currentStep,
+      footer, scans, currentStep,
     } = this.props;
     const { isCameraEnabled, saveImage, show } = this.state;
     const { translations } = this.context;
@@ -278,7 +288,7 @@ class WebcamView extends React.Component {
     }
 
     if (saveImage) {
-      const showSpinner = (component === 'selfie'
+      const showSpinner = (this.selfieView
         && scans[currentStep]['selfie-video']
         && !scans[currentStep]['selfie-video'].value) === true;
       return {

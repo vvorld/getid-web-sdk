@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import RecordRTC from 'recordrtc-ponyfill';
 import Camera from '../../../components/camera/camera';
@@ -13,16 +12,6 @@ import { isMobile } from '../../../helpers/generic';
 import Footer from '../../../components/blocks/footer/footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
-
-const useStyles = (theme) => ({
-  subHeader: {
-    ...theme.typography.subHeader,
-    margin: '0 8px 30px 8px',
-    [theme.breakpoints.down('sm')]: {
-      marginTop: '13px',
-    },
-  },
-});
 
 class WebcamView extends React.Component {
   constructor(props) {
@@ -395,4 +384,4 @@ WebcamView.contextType = TranslationsContext;
 export default connect(
   mapStateToProps,
   actions,
-)(withStyles(useStyles)(WebcamView));
+)(WebcamView);

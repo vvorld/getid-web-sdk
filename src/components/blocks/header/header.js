@@ -1,8 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Grid } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import CustomLogo from '../../logo/custom-logo';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
 
@@ -13,7 +10,6 @@ function Header(props) {
   const { component } = currentComponent;
   let subHeaderText;
 
-  const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
   const headerText = translations[`${componentName}_header`];
   subHeaderText = translations[`${componentName}_subHeader`];
@@ -23,33 +19,20 @@ function Header(props) {
   }
 
   return (
-    <Grid container alignItems="center" justify="center" data-role="header">
-      <Grid
-        style={{
-          marginBottom: '40px',
-        }}
-        container
-        alignItems="center"
-        justify="center"
-      >
-        <Grid item xs={10} sm={8} md={6}>
-          <CustomLogo condition={isThankYou()} />
-          { headerText && (
-            <Typography
-              variant="h1"
-              data-role="componentTitle"
-            >
-              { headerText }
-            </Typography>
-          )}
-          { subHeaderText && (
-            <Typography variant="h2">
-              { subHeaderText }
-            </Typography>
-          ) }
-        </Grid>
-      </Grid>
-    </Grid>
+    <div data-role="header">
+      <div>
+        { headerText && (
+          <h1 data-role="componentTitle">
+            { headerText }
+          </h1>
+        )}
+        { subHeaderText && (
+          <h2>
+            { subHeaderText }
+          </h2>
+        ) }
+      </div>
+    </div>
   );
 }
 

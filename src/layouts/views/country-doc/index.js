@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Grid, RadioGroup } from '@material-ui/core';
-import { Select, RadioButton } from '../../../components/inputs';
 import {
   getFormValues,
   getCountryAndDocsValues,
@@ -163,19 +161,22 @@ class CountryAndDocument extends React.Component {
       } = this.props;
 
       return (
-        <RadioButton
-          selectedvalue={fieldValues[currentStep].DocumentType.value}
-          key={`control-${document}`}
-          value={document}
-          label={docTypeMapping[document]}
-        />
+        <label>
+          <input
+            selected={fieldValues[currentStep].DocumentType.value}
+            type="radio"
+            value={document}
+          />
+          {docTypeMapping[document]}
+
+        </label>
       );
     };
 
     render() {
       const { loading } = this.state;
       const {
-        countriesAndDocs, fieldValues, currentStep, currentComponent,
+        countriesAndDocs, fieldValues, currentStep,
       } = this.props;
 
       const { translations } = this.context;
@@ -190,25 +191,23 @@ class CountryAndDocument extends React.Component {
       const currentCountryValue = values.Country.value;
 
       const { documents } = countriesAndDocs[currentCountryValue] || [];
-      const { length } = currentComponent.component;
-
-      const fieldWidth = length > 1 ? 10 : 5;
 
       return (
-        <Grid justify="center" alignItems="center" container data-role="blockDocument">
-          <Grid item xs={11} sm={9} md={fieldWidth}>
-            <Select
-              items={mapCountryValues(countriesAndDocs)}
-              value={currentCountryValue}
-              onChange={this.setNewVal('Country')}
-              placeholder={placeholder}
-            />
+        <div data-role="blockDocument">
+          <select
+            value={currentCountryValue}
+            onChange={this.setNewVal('Country')}
+            placeholder={placeholder}
+          >
+            {mapCountryValues(countriesAndDocs).map((x) => (
+              <option>{x}</option>
+            ))}
+          </select>
 
-            <RadioGroup value={currentDocumentType} onChange={this.setNewVal('DocumentType')}>
-              {documents && documents.map((docType) => this.generateRadioButtons(docType.name))}
-            </RadioGroup>
-          </Grid>
-        </Grid>
+          <div value={currentDocumentType} onChange={this.setNewVal('DocumentType')}>
+            {documents && documents.map((docType) => this.generateRadioButtons(docType.name))}
+          </div>
+        </div>
       );
     }
 }

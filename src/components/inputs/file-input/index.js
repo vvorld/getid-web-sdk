@@ -1,7 +1,5 @@
 import React from 'react';
-import { IconButton, InputLabel } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import styles from './style';
 
 const Upload = () => (
   <svg className="icon" width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,36 +13,31 @@ const CustomFileInput = (props) => {
   const {
     type, onChange, label, valueName, name, required, isError,
   } = props;
-  const classes = styles();
   const isValue = valueName;
 
   const customLabel = required ? `${label}\u2009*` : label;
 
-  const borderClass = isValue ? `${classes.inputWrapper} selected` : classes.inputWrapper;
-  const labelClass = isValue ? `${classes.label} selected` : classes.label;
-  const inputClass = isValue ? `${classes.inputValue} selected` : classes.inputValue;
+  const borderClass = isValue ? 'selected' : '';
+  const labelClass = isValue ? 'selected' : '';
+  const inputClass = isValue ? ' selected' : '';
 
   return (
     <div className={borderClass + (isError ? ' error' : '')}>
-      <IconButton
-        className={classes.uploadFile}
-        variant="outlined"
-        component="label"
-      >
-        <Upload />
-        <input
-          accept="image/x-png,image/jpeg"
-          name={name}
-          onChange={onChange}
-          hidden
-          type={type}
-        />
-      </IconButton>
-      <div className={classes.labelContainer}>
+
+      <Upload />
+      <input
+        accept="image/x-png,image/jpeg"
+        name={name}
+        onChange={onChange}
+        hidden
+        type={type}
+      />
+
+      <div>
         <input disabled value={valueName || ''} className={inputClass} />
-        <InputLabel className={labelClass}>
+        <label className={labelClass}>
           { customLabel }
-        </InputLabel>
+        </label>
       </div>
     </div>
   );

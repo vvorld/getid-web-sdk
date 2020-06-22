@@ -1,57 +1,38 @@
 import React, { useContext } from 'react';
-import { Grid, Button, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ErrorViewStyles from './style';
-import ButtonStyles from '../../../components/buttons/style';
 import TranslationsContext from '../../../context/TranslationsContext';
-
-import CustomLogo from '../../../components/logo/custom-logo';
 
 const createErrorView = (config) => (props) => {
   const {
     callbacks, responseCode, submitAttempts,
   } = props;
 
-  const buttonStyle = ButtonStyles();
   const { translations: dictionary } = useContext(TranslationsContext);
-
-  const {
-    hrLong, hr, center, marginAuto, centerBlock, item,
-  } = ErrorViewStyles();
 
   const { buttons } = config;
   if (submitAttempts < 0) { delete buttons.retry; }
 
   return (
-    <Grid container className={centerBlock} justify="center" alignItems="center">
-      <Grid item xs={12} sm={9} md={7} lg={6} className={item}>
-        <CustomLogo condition="Reset" />
-        <Typography variant="h1">
-          {config.header(dictionary, responseCode)}
-        </Typography>
-        <hr className={hr} />
-        <Typography variant="h2">
-          {config.subHeader(dictionary, responseCode)}
-        </Typography>
-        <hr className={hrLong} />
-        {buttons && (
-        <div className={center}>
+    <div>
+      <h1>
+        {config.header(dictionary, responseCode)}
+      </h1>
+      <h2>
+        {config.subHeader(dictionary, responseCode)}
+      </h2>
+      <hr />
+      {buttons && (
+        <div>
           {Object.entries(buttons).map(([key, button]) => (
-            <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
-              <Button
-                classes={{ root: buttonStyle.root }}
-                variant={button.variant}
-                className={buttonStyle[button.class]}
-                onClick={button.action(callbacks)}
-              >
+            <div>
+              <button onClick={button.action(callbacks)}>
                 {button.name(dictionary)}
-              </Button>
-            </Grid>
+              </button>
+            </div>
           ))}
         </div>
-        )}
-      </Grid>
-    </Grid>
+      )}
+    </div>
   );
 };
 

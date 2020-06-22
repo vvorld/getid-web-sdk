@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-  withStyles, FormHelperText, Grid,
-} from '@material-ui/core';
-import {
-  Select, Checkbox, DateInput, FileInput, TextInput,
+  FileInput, TextInput,
 } from '../../../components/inputs';
 import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
-import { styles } from './style';
 
 class Form extends Component {
   constructor(props) {
@@ -137,8 +133,8 @@ class Form extends Component {
       const isRequired = required !== false;
       if (type === 'select') {
         return (
-          <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
-            <Select
+          <div>
+            <select
               name={name}
               items={options}
               required={isRequired}
@@ -146,14 +142,14 @@ class Form extends Component {
               placeholder={placeholder}
               onChange={this.handleSelectChange(isRequired, type)}
             />
-          </Grid>
+          </div>
         );
       }
 
       if (type === 'file') {
         return (
-          <Grid className={wrapperClass(hidden)} item key={`select-${label}`} xs={11} sm={9} md={this.gridWidth}>
-            {fileTooltip && <FormHelperText className={classes.helper} id="component-helper-text">{fileTooltip}</FormHelperText>}
+          <div>
+            {fileTooltip}
             <FileInput
               isError={isError[name]}
               onChange={this.handleFiles}
@@ -163,52 +159,33 @@ class Form extends Component {
               type={type}
               valueName={inputName.value}
             />
-            {isError[name] && errorText[name]
-            && <FormHelperText className={classes.error}>{errorText[name]}</FormHelperText>}
-          </Grid>
+            {isError[name] && errorText[name]}
+          </div>
         );
       }
 
       if (type === 'checkbox') {
         return (
-          <Grid className={wrapperClass(hidden)} item key={`checkbox-grid-${label}`} xs={11} sm={9} xl={12}>
-            <Grid container justify="center">
-              <Grid style={{ margin: '10px 0 0 0' }} item xs={12} sm={12} md={12} lg={8}>
-                <Checkbox
-                  label={label}
-                  data-role="checkboxInput"
-                  name={name}
-                  key={`checkbox-${label}`}
-                  checked={inputName.value}
-                  onChange={this.handleChange}
-                  value={this.props[name]}
-                  required={isRequired}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        );
-      }
-
-      if (type === 'date') {
-        return (
-          <Grid className={wrapperClass(hidden)} item key={`dategrid-${label}`} xs={11} sm={9} md={this.gridWidth}>
-            <DateInput
-              key={`dateinput-${label}`}
-              name={name}
-              minDate={this.minDate}
-              required={isRequired}
-              label={label}
-              format="yyyy-MM-dd"
-              value={inputName.value || null}
-              onChange={this.handleDateChange(name, isRequired)}
-            />
-          </Grid>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                data-role="checkboxInput"
+                name={name}
+                key={`checkbox-${label}`}
+                checked={inputName.value}
+                onChange={this.handleChange}
+                value={this.props[name]}
+                required={isRequired}
+              />
+              {label}
+            </label>
+          </div>
         );
       }
 
       return (
-        <Grid className={wrapperClass(hidden)} item key={`text-${label}`} xs={11} sm={9} md={this.gridWidth}>
+        <div className={wrapperClass(hidden)} item key={`text-${label}`} xs={11} sm={9} md={this.gridWidth}>
           <TextInput
             type={type}
             name={name}
@@ -218,7 +195,7 @@ class Form extends Component {
             label={label}
             key={`input-${label}`}
           />
-        </Grid>
+        </div>
       );
     });
   }
@@ -228,9 +205,9 @@ class Form extends Component {
 
     if (fieldValues[currentStep]) {
       return (
-        <Grid alignItems="flex-end" justify="center" container data-role="blockForm">
+        <div data-role="blockForm">
           {this.generateInputs()}
-        </Grid>
+        </div>
       );
     }
 
@@ -261,4 +238,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   actions,
-)(withStyles(styles)(Form));
+)(Form);

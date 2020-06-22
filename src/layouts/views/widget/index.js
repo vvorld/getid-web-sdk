@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import Loader from '../../../components/loader/loader';
 import Header from '../../../components/blocks/header/header';
 import actions from '../../../store/actions';
 import Footer from '../../../components/blocks/footer/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { stepNames } from '../../../constants/step-names';
-import widgetStyles from './style';
 import allComponents from '../index';
 import BackIcon from '../../../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError } from '../error';
@@ -22,9 +19,7 @@ class Widget extends Component {
     this.state = {
       submitAttempts: 3,
       loading: false,
-      largeGrid: 8,
       responseCode: 200,
-      smallGrid: 10,
       appExists: false,
     };
   }
@@ -157,7 +152,7 @@ class Widget extends Component {
     const { classes, ...other } = this.props;
 
     const {
-      loading, largeGrid, smallGrid, appExists, responseCode, submitAttempts,
+      loading, appExists, responseCode, submitAttempts,
     } = this.state;
 
     if (loading) {
@@ -186,40 +181,30 @@ class Widget extends Component {
     const { length } = currentComponent.component;
 
     return (
-      <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
-        <Grid item xs={12} className={classes.item}>
+      <div className={classes.root} data-role="container">
+        <div>
           <Header currentComponent={currentComponent} />
-        </Grid>
-        <Grid
-          container
-          justify="center"
-          className={classes.item}
-        >
+        </div>
+        <div>
           {currentComponent.component.map((componentName) => {
             const CurrentComponent = allComponents[componentName];
             const index = currentComponent.component.indexOf(componentName);
             return (
-              <Grid
-                key={componentName + currentComponent.order.toString()}
-                item
-                xs={12}
-                sm={smallGrid / length}
-                md={largeGrid / length}
-              >
+              <div>
                 <div className={(length > 1 && index !== 0) ? classes.verticalLine : ''}>
                   <CurrentComponent
                     footer={this.footer()}
                     {...other}
                   />
                 </div>
-              </Grid>
+              </div>
             );
           })}
-        </Grid>
-        <Grid item xs={12} sm={9} lg={6} className={classes.item}>
+        </div>
+        <div>
           {!isCameraView(currentComponent) && <Footer {...this.footer()} />}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }
@@ -258,4 +243,4 @@ Widget.contextType = TranslationsContext;
 export default connect(
   null,
   actions,
-)(withStyles(widgetStyles)(Widget));
+)(Widget);

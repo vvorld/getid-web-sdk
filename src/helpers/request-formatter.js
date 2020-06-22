@@ -38,7 +38,6 @@ const documentImages = (scans) => Object.keys(scans)
     [key]: scans[step][key].value,
   }), {}));
 
-
 const getDocumentData = (fields, fieldName) => {
   let docData = '';
 
@@ -60,6 +59,7 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
           externalId: metadata && metadata.externalId,
+          author: (metadata && metadata.author) || '',
           platform: 'web',
           userAgent: window.navigator.userAgent,
           clientVersion: version,

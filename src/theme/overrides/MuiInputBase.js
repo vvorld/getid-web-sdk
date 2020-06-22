@@ -2,7 +2,8 @@ import palette from '../palette';
 
 export default {
   input: {
-    padding: '17px 14px',
+    padding: '27px 14px',
+    height: '0!important',
   },
   root: {
     '& fieldset': {
@@ -10,7 +11,7 @@ export default {
     },
     '&.MuiOutlinedInput-root': {
       '& .MuiOutlinedInput-input': {
-        padding: '17px 14px',
+        padding: '27px 14px',
       },
       '& .MuiOutlinedInput-notchedOutline': {
         border: `1px solid ${palette.gray.main}`,

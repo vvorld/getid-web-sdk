@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Loader from '../../../components/loader/loader';
-import UpperPart from '../../../components/blocks/upper-block/upper-part';
+import Header from '../../../components/blocks/header/header';
 import actions from '../../../store/actions';
 import Footer from '../../../components/blocks/footer/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { stepNames } from '../../../constants/step-names';
-import cameraViews from '../../../constants/camera-views';
 import widgetStyles from './style';
 import allComponents from '../index';
 import BackIcon from '../../../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError } from '../error';
-import { promiseTimeout, getEventStepName } from '../../../helpers/generic';
+import { promiseTimeout, getEventStepName, isCameraView } from '../../../helpers/generic';
 
 class Widget extends Component {
   constructor(props) {
@@ -87,8 +86,6 @@ class Widget extends Component {
       }));
     }, 2000);
   }
-
-  isCameraView = () => cameraViews.some((name) => this.isPage(name));
 
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
@@ -188,11 +185,10 @@ class Widget extends Component {
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
 
-
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
-          <UpperPart />
+          <Header currentComponent={currentComponent} />
         </Grid>
         <Grid
           container
@@ -221,7 +217,7 @@ class Widget extends Component {
           })}
         </Grid>
         <Grid item xs={12} sm={9} lg={6} className={classes.item}>
-          {!this.isCameraView() && <Footer {...this.footer()} />}
+          {!isCameraView(currentComponent) && <Footer {...this.footer()} />}
         </Grid>
       </Grid>
     );

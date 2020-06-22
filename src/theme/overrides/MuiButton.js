@@ -8,7 +8,6 @@ export default {
   root: {
     cursor: 'pointer',
     lineHeight: '17px',
-    // boxSizing: 'border-box',
     fontSize: '14px',
     letterSpacing: '2px',
     textTransform: 'uppercase',

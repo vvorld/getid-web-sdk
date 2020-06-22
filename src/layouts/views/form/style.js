@@ -3,28 +3,33 @@ export const styles = (theme) => ({
     color: theme.palette.error.main,
     fontSize: '12px',
     textAlign: 'left',
-    margin: '8px 14px 0',
   },
   hidden: {
     display: 'none',
   },
   fieldWrapper: {
-    padding: '8px 30px 30px 0!important',
+    margin: '0 30px 28px 0!important',
     position: 'relative',
     [theme.breakpoints.down('sm')]: {
-      padding: '8px 0px 20px 0!important',
+      margin: '0 30px 22px 0!important',
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0 0 22px 0!important',
     },
     '& p': {
       position: 'absolute',
       bottom: '-14px',
+      height: '10px',
     },
     '& $helper': {
       position: 'absolute',
-      top: '-20px',
+      height: '10px',
+      top: '-25px',
     },
     '& $error': {
       position: 'absolute',
-      bottom: '-6px',
+      bottom: '-14px',
+      left: '12px'
     },
   },
   helper: {

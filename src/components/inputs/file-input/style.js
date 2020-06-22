@@ -20,7 +20,12 @@ const style = makeStyles((theme) => ({
     flexDirection: 'row-reverse',
     backgroundColor: 'transparent',
     width: '100%',
+    marginTop: '5px',
     height: 51,
+    '&.selected': {
+      borderColor: theme.palette.violet.main,
+      marginTop: '5px',
+    },
   },
   labelContainer: {
     width: '100%',

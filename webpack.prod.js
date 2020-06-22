@@ -34,7 +34,7 @@ module.exports = merge(common, {
       defaultSizes: 'parsed',
     }),
     new S3Plugin({
-      exclude: /.*\.html|svg|LICENSE$/,
+      exclude: /.*\.html|svg|LICENSE/,
       basePath: 'sdk',
       include: /.*\.(js)/,
       s3Options: {

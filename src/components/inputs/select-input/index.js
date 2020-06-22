@@ -37,10 +37,9 @@ const CustomSelect = (props) => {
         MenuProps={{
           getContentAnchorEl: null,
           anchorOrigin: {
-            vertical: 'bottom',
+            vertical: 'center',
             horizontal: 'left',
           },
-          MenuListProps: { disablePadding: true },
           classes: { paper: classes.dropdownStyle, focused: classes.focused },
         }}
         className={className}

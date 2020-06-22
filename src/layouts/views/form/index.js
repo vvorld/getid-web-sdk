@@ -11,7 +11,6 @@ import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
 import { styles } from './style';
 
-
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -62,14 +61,16 @@ class Form extends Component {
   };
 
   setErrorState = (isError, name, errorText) => {
-    this.setState({
+    this.setState((prevState) => ({
       isError: {
+        ...prevState.isError,
         [name]: isError,
       },
       errorText: {
+        ...prevState.errorText,
         [name]: errorText,
       },
-    });
+    }));
   }
 
   handleFiles = async (event) => {

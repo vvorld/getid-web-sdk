@@ -1,27 +1,76 @@
-import { ThemeProvider } from '@material-ui/styles';
-import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainTheme from './theme';
+import PropTypes from 'prop-types';
+import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
+import { Provider } from 'react-redux';
+import { create } from 'jss';
+import root from 'react-shadow';
 import store from './store/store';
+import actions from './store/actions';
+
+import MainTheme from './theme';
 import TranslationsContext from './context/TranslationsContext';
 import Main from './layouts/Main';
 import ErrorBoundary from './layouts/ErrorBoundary';
 
+class WrappedJssComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.containerRef = null;
+    this.state = {
+      jss: null,
+    };
+  }
+
+  setRefAndCreateJss = (ref) => {
+    if (ref && !this.state.jss) {
+      const createdJssWithRef = create({ ...jssPreset(), insertionPoint: ref });
+      this.containerRef = ref;
+      this.setState({ jss: createdJssWithRef });
+    }
+  }
+
+  render() {
+    const { jss } = this.state;
+    const { children } = this.props;
+    return (
+      <root.div>
+        <div>
+          <div ref={(ref) => this.setRefAndCreateJss(ref)}>
+            {jss && (
+            <StylesProvider jss={jss}>
+              <ThemeProvider theme={MainTheme(() => this.containerRef)}>
+                {children}
+              </ThemeProvider>
+            </StylesProvider>
+            )}
+          </div>
+        </div>
+      </root.div>
+    );
+  }
+}
+
+WrappedJssComponent.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 const MainModule = (widgetOptions) => (
-  <ThemeProvider theme={MainTheme}>
-    <Provider store={store}>
-      <TranslationsContext.Provider
-        value={{ translations: widgetOptions.translations }}
-      >
-        <ErrorBoundary>
-          <Main
-            {...widgetOptions}
-          />
-        </ErrorBoundary>
-      </TranslationsContext.Provider>
-    </Provider>
-  </ThemeProvider>
+  <div>
+    <WrappedJssComponent>
+      <Provider store={store}>
+        <TranslationsContext.Provider
+          value={{ translations: widgetOptions.translations }}
+        >
+          <ErrorBoundary>
+            <Main
+              {...widgetOptions}
+            />
+          </ErrorBoundary>
+        </TranslationsContext.Provider>
+      </Provider>
+    </WrappedJssComponent>
+  </div>
 );
 
 /**
@@ -29,5 +78,13 @@ const MainModule = (widgetOptions) => (
  * @param widgetOptions
  */
 export const renderMainComponent = (widgetOptions) => {
-  ReactDOM.render(MainModule(widgetOptions), document.getElementById(widgetOptions.containerId));
+  const container = document.getElementById(widgetOptions.containerId);
+  const component = MainModule(widgetOptions, store);
+
+  if (container.hasChildNodes()) {
+    store.dispatch(actions.resetStore());
+    ReactDOM.unmountComponentAtNode(container);
+  }
+
+  ReactDOM.render(component, container);
 };

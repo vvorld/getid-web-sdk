@@ -27,7 +27,6 @@ class Main extends React.Component {
       currentStep, currentComponent,
     } = this.props;
 
-
     if ((prevProps.currentStep < currentStep) && currentComponent.next) {
       this.sendEvent(prevProps);
     }
@@ -47,7 +46,6 @@ class Main extends React.Component {
       .find((item) => item.component.includes('IdCaptureBack')) || {};
     setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
   };
-
 
   sendEvent = async (prevProps) => {
     const {

@@ -24,7 +24,6 @@ const useStyles = (theme) => ({
   },
 });
 
-
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
@@ -272,7 +271,7 @@ class WebcamView extends React.Component {
         action: this.capture,
         text: translations.button_make_photo,
         iconItem: PhotoSVG,
-        disabled: !isCameraEnabled,
+        disabled: !isCameraEnabled || !this.stream,
       },
     };
 
@@ -334,6 +333,7 @@ class WebcamView extends React.Component {
       return (
         <div className={classes.mediaWrapper}>
           <CameraDisabled requestCamera={this.requestCamera} errorMessage={message} />
+          <Footer {...this.buildFooter()} />
         </div>
       );
     }

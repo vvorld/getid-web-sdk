@@ -4,7 +4,13 @@ import typography from './typography';
 import overrides from './overrides';
 import breakpoints from './breakpoints';
 
-const mainTheme = createMuiTheme({
+const mainTheme = (container) => createMuiTheme({
+  props: {
+    MuiPopover: {
+      container,
+    },
+  },
+
   palette,
   typography,
   overrides,

@@ -173,8 +173,8 @@ class WebcamView extends React.Component {
     const context = this.canvas.getContext('2d');
     context.drawImage(
       this.webcam,
-      isMobile ? 0 : (-((originVideoWidth - videoWidth) / 2 + videoWidth * cropX)),
-      isMobile ? 0 : (-videoHeight * cropY),
+      this.isMobile ? 0 : -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
+      this.isMobile ? 0 : (-videoHeight * cropY),
     );
 
     if (this.state.mediaRecorder) this.stopRecording();
@@ -298,7 +298,7 @@ class WebcamView extends React.Component {
         },
         retake: {
           ...footer.retake,
-          hidden: false,
+          hidden: showSpinner,
           variant: 'outlined',
           action: this.retake,
         },
@@ -337,7 +337,6 @@ class WebcamView extends React.Component {
         </div>
       );
     }
-
     const canvasWidth = this.isMobile ? videoWidth : (videoWidth * (1 - cropX * 2));
     const canvasHeight = this.isMobile ? videoHeight : (videoHeight * (1 - cropY * 2));
 

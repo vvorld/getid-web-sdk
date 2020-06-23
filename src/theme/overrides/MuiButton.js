@@ -43,7 +43,7 @@ export default {
     '&:disabled': {
       boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
       color: palette.white,
-      backgroundColor: palette.violet.main,
+      backgroundColor: `${palette.violet.main} !important`,
       opacity: 0.5,
     },
   },

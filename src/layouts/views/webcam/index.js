@@ -55,7 +55,6 @@ class WebcamView extends React.Component {
     const {
       component, scans, currentStep,
     } = this.props;
-
     if (scans && scans[currentStep] && scans[currentStep][component]) {
       this.setState({
         saveImage:
@@ -66,6 +65,7 @@ class WebcamView extends React.Component {
   }
 
   componentWillUnmount() {
+    if (this.state.mediaRecorder) this.state.mediaRecorder.destroy();
     if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
     document.removeEventListener('keydown', this.spaceActivate, false);
     window.removeEventListener('resize', this.cameraResize, false);
@@ -178,6 +178,7 @@ class WebcamView extends React.Component {
     );
 
     if (this.state.mediaRecorder) this.stopRecording();
+    if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
 
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
@@ -189,13 +190,13 @@ class WebcamView extends React.Component {
   stopRecording = () => {
     const { addScan, currentStep } = this.props;
     const { mediaRecorder } = this.state;
-    this.setState({ recording: false });
+    this.setState({ recording: false, mediaRecorder: null });
     addScan('selfie-video', null, currentStep, true);
 
     mediaRecorder.stopRecording(() => {
       const blob = mediaRecorder.getBlob();
       addScan('selfie-video', blob, currentStep, true);
-      mediaRecorder.reset();
+      mediaRecorder.destroy();
     });
   };
 
@@ -356,23 +357,23 @@ class WebcamView extends React.Component {
                 currentStep={currentStep}
               />
             ) : (
-              <div>
-                <Camera
-                  setWebcamRef={this.setWebcamRef}
-                  overlay={this.isMobile ? null : cameraOverlay}
-                  isMobile={this.mobileView}
-                  capture={this.handleFile}
-                />
-                <canvas
-                  width={canvasWidth}
-                  height={canvasHeight}
-                  ref={(ref) => {
-                    this.canvas = ref;
-                  }}
-                  style={{ display: 'none' }}
-                />
-              </div>
-            )}
+                <div>
+                  <Camera
+                    setWebcamRef={this.setWebcamRef}
+                    overlay={this.isMobile ? null : cameraOverlay}
+                    isMobile={this.mobileView}
+                    capture={this.handleFile}
+                  />
+                  <canvas
+                    width={canvasWidth}
+                    height={canvasHeight}
+                    ref={(ref) => {
+                      this.canvas = ref;
+                    }}
+                    style={{ display: 'none' }}
+                  />
+                </div>
+              )}
           </div>
         )}
         <Footer {...this.buildFooter()} />

@@ -1,0 +1,30 @@
+.label{
+    flex-grow: 1;
+    padding-right: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: justify;         
+}
+.fileIcon {
+    width: 18px;
+    min-width: 18px;
+}
+.fakeFileInput {
+   
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+}
+
+.fileInput{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}

@@ -1,0 +1,20 @@
+.footer {
+    display: flex;
+    min-width: 320px;
+    max-width: 500px;
+    margin: 0 auto;  
+    opacity: 0.3; 
+    margin-top: 40px;
+}
+
+.goBack {
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    color: #999;
+}
+
+
+.footer img {
+    margin:0 auto;
+}

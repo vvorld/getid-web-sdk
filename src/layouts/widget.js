@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Loader from '../../components/loader/loader';
-import Header from '../../components/blocks/header/header';
-import actions from '../../store/actions';
-import TranslationsContext from '../../context/TranslationsContext';
-import { stepNames } from '../../constants/step-names';
-import allComponents from '../index';
-import { AppExistsView, FailError } from '../error';
-import { promiseTimeout, getEventStepName } from '../../helpers/generic';
+
+import Form from './form';
+import ThankYou from './thank-you';
+import CountryAndDocument from './country-doc';
+import IdSelfie from './webcam/selfie';
+import IdCapture from './webcam/front';
+import IdCaptureBack from './webcam/back';
+
+import Loader from '../components/loader/loader';
+import Header from '../components/blocks/header/header';
+import actions from '../store/actions';
+import TranslationsContext from '../context/TranslationsContext';
+import { stepNames } from '../constants/step-names';
+import { AppExistsView, FailError } from './error';
+import { promiseTimeout, getEventStepName } from '../helpers/generic';
 import css from './style.css';
 
+const allComponents = {
+  Form, ThankYou, CountryAndDocument, IdCapture, IdSelfie, IdCaptureBack,
+};
 class Widget extends Component {
   constructor(props) {
     super(props);

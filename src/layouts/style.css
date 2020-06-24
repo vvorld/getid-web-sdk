@@ -7,23 +7,17 @@ main, #getid {
     margin: 0;
 }
 
-main, footer {
+main {
     display: flex;
     min-width: 320px;
     max-width: 500px;
     margin: 0 auto;   
 }
-a {
+
+main a {
     color:#9C77E0;
 }
 
-
-footer {
-    text-align: center;
-}
-footer img {
-    margin:0 auto;
-}
 .grid {
     display: grid;
     grid-row-gap: 16px;
@@ -38,24 +32,20 @@ footer img {
 
 
 /*-----------FORM---------*/
-form{
-    width: 300px;
-    margin:0 auto;
-}
 
-input, select, textarea, button:active {
+
+input, select, textarea, button:active, inputbox {
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
 }
-input[type='text'], select, .doc-pick {
+input[type='text'], select, inputbox, .doc-pick {
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
     border-radius: 4px;
     border: 1px solid #eee;
     background: #fafafc;
-    margin-bottom: 20px;
     width: 100%;
     transition: all .3s;
     z-index: 1;
@@ -65,22 +55,35 @@ select {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-    /*background-image: url(./images/arrow-down.svg);*/
+    background-image: url(../assets/icons/arrow-down.svg);
     background-repeat: no-repeat;
     background-position: calc(100% - 6px) 7px;
     background-size: 25px;
 }
-input:hover, select:hover {
+input:hover, select:hover, inputbox:hover {
     border: 1px solid #9C77E0;
 }
 input:focus, select:focus, button:focus, input:active, select:focus, button:active {
     border: 1px solid #9C77E0;
     box-shadow: none;
-
 }
-input[type="text"] {
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #999;
+  opacity: 1; /* Firefox */
 }
+placeholder {
+  color: #999;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #999;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #999;
+}
+
 button {
     margin: 40px auto 20px auto;
     display: block;
@@ -103,9 +106,7 @@ button {
     box-shadow: 0px 10px 16px #150f3830;
     align-self: end;
 }
-form#button{
-    align-self: end;
-}
+
 button:hover {
     background: #9C77E0;
     box-shadow: 0px 2px 5px #150f3830;
@@ -121,12 +122,7 @@ button:active, button:focus {
     -webkit-appearance: button;
 }
 
-a.go-back {
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-    color: #999;
-}
+
 
 .doc-type label {
     margin: 0 auto;
@@ -134,7 +130,6 @@ a.go-back {
     border-radius: 4px;
     border: 1px solid #eee;
     background: #fafafc;
-    margin-bottom: 20px;
     width: 100%;
     transition: all .3s;
     z-index: 1;
@@ -147,21 +142,13 @@ a.go-back {
     width: auto;
     margin: 0 10px;
 }
-.doc-type p {
-    text-align: left;
-}
-.doc-type input[type=checkbox] + p {
-    
-  }
+
 .doc-type label + input[type=checkbox]:checked {
     border: 1px solid #8762ca;
   } 
 /*-----------FORM END---------*/
 
-footer img.getid-logo {
-    opacity: 0.3;
-    margin-top: 40px;
-}
+
 div#animation {
     border: 1px solid #9c77e0;
     border-radius: 8px;

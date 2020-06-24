@@ -66,17 +66,7 @@ export const promiseTimeout = (ms, promise) => {
     ]);
 }
 
-export const mapCountryValues = (countriesAndDocs) => {
-    const countries = [];
-    Object.keys(countriesAndDocs).forEach((key) => {
-        countries.push({
-            name: countriesAndDocs[key].name,
-            value: key,
-            documents: countriesAndDocs[key].documents,
-        });
-    });
-    return countries;
-};
+
 
 export const getEventStepName = (component, idCaptureBackIndex) => {
     const isSingle = component.component.includes('IdCapture') && idCaptureBackIndex < 0;

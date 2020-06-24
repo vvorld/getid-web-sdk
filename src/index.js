@@ -89,12 +89,14 @@ const init = (options, tokenProvider) => {
       removeFieldDupes(options.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([filteredFields, info, responseTranslations]) => {
+      api.getCountryAndDocList().then(convertAnswer({ field: 'countries' })),
+    ]).then(([filteredFields, info, responseTranslations, countryDocuments]) => {
       renderMainComponent({
         ...info,
         ...options,
         fields: filteredFields,
         translations: { ...defaultTranslations, ...responseTranslations },
+        countryDocuments,
         api,
       });
     });

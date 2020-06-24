@@ -15,6 +15,7 @@ const InputRenderer = (props) => {
   if (type === 'select') {
     return (
       <Select
+        onChange={(value) => changeHandler(name, 'select', value)}
         {...other}
       />
     );

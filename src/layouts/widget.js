@@ -149,7 +149,6 @@ class Widget extends Component {
     } = this.props;
 
     const { ...other } = this.props;
-
     const {
       loading, appExists, responseCode, submitAttempts,
     } = this.state;

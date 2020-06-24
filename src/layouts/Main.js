@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Widget from './widget';
 import actions from '../store/actions';
 import {
-  getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex,
+  getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex, getCountryDocuments,
 } from '../store/selectors';
 import { getEventStepName } from '../helpers/generic';
 
@@ -115,6 +115,7 @@ const mapStateToProps = (state) => ({
   scans: getScanValues(state),
   currentComponent: getCurrentComponent(state),
   idCaptureBackIndex: getIdCaptureBackIndex(state),
+  // countryDocuments: getCountryDocuments(state),
 });
 
 export default connect(

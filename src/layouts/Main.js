@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Widget from './widget';
 import actions from '../store/actions';
 import {
-  getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex, getCountryDocuments,
+  getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex,
 } from '../store/selectors';
 import { getEventStepName } from '../helpers/generic';
 
@@ -18,7 +18,8 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.setSdkFlow();
+    const { flow, setFlow } = this.props;
+    setFlow(flow);
     this.getBackStepIndexAndStep();
   }
 
@@ -55,33 +56,6 @@ class Main extends React.Component {
     const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
     await api.trySendEvent(stepName, 'completed');
   }
-
-  setSdkFlow = () => {
-    const {
-      flow, setFlow, fields, addField,
-    } = this.props;
-
-    const duplicatedFlow = flow;
-    const allFormFieldsHidden = fields.every((field) => Object.prototype.hasOwnProperty.call(field, 'hidden') && field.hidden === true);
-
-    if (allFormFieldsHidden) {
-      const index = flow.indexOf(flow.find((item) => item.component.includes('Form')));
-
-      if (index !== -1) {
-        if (fields.length > 0) {
-          fields.forEach((field) => {
-            const {
-              name, value, required, type, hidden,
-            } = field;
-            addField(name, value, index, required !== false, type, hidden);
-          });
-        }
-        duplicatedFlow.splice(index, 1);
-      }
-    }
-
-    setFlow(duplicatedFlow);
-  };
 
   render() {
     return (

@@ -22,9 +22,8 @@ const Camera = (props) => {
 
   return (
     <div id="camera">
-      <div>
+      <div style={{ position: 'relative' }}>
         <video
-          id="video-capture"
           width="100%"
           playsInline
           ref={setWebcamRef}
@@ -34,12 +33,19 @@ const Camera = (props) => {
         >
           <track kind="captions" />
         </video>
-        {isStream ? (
-          <div>
-            <img src={overlay()} alt="powered by getId" />
-          </div>
-        )
-          : null}
+
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          right: 0,
+          left: 0,
+          background: `url(${overlay()}) `,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+        />
       </div>
     </div>
   );

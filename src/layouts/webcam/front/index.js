@@ -1,11 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WebcamView from '../index';
 import OverlaySVG from '../../../assets/icons/views/large-overlay.svg';
 import OverlayFarSVG from '../../../assets/icons/views/large-overlay-far.svg';
 import PassportSVG from '../../../assets/icons/views/passport-overlay.svg';
-import { getFormValues } from '../../../store/selectors';
 
 const IdCapture = (props) => {
   const { fieldValues, cameraDistance } = props;
@@ -27,13 +25,9 @@ const IdCapture = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  fieldValues: getFormValues(state),
-});
-
 IdCapture.propTypes = {
   fieldValues: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
 };
 
-export default connect(mapStateToProps)(IdCapture);
+export default IdCapture;

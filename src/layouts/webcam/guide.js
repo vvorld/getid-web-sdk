@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isMobile } from '../../helpers/generic';
-import { getFormValues } from '../../store/selectors';
+import css from './webcam.css';
 
 const AnimatedSvg = {
   front: 'https://cdn.getid.cloud/assets/desktop/default_front.svg',
@@ -15,11 +14,7 @@ const AnimatedSvg = {
   selfie: 'https://cdn.getid.cloud/assets/desktop/selfie.svg',
 };
 
-const Guide = ({ component }) => {
-  const fieldValues = useSelector((state) => getFormValues(state));
-  const isPassport = !!Object.values(fieldValues)
-    .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
-
+const Guide = ({ component, isPassport }) => {
   const source = () => {
     if (component === 'selfie') {
       return AnimatedSvg[`${component}${isMobile() ? 'Mobile' : ''}`];
@@ -28,9 +23,9 @@ const Guide = ({ component }) => {
   };
 
   return (
-    <div>
-      <object type="image/svg+xml" data={source()} aria-label={`${component}_guide`} />
-      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="elo6xpdttruc1" viewBox="0 0 342 196" shapeRendering="geometricPrecision" textRendering="geometricPrecision" />
+    <div className={css.guideContainer}>
+      <img className={css.guide} src={source()} />
+      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 342 196" />
     </div>
   );
 };

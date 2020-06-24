@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import Form from './form';
 import ThankYou from './thank-you';
@@ -11,7 +10,6 @@ import IdCaptureBack from './webcam/back';
 
 import Loader from '../components/loader/loader';
 import Header from '../components/blocks/header/header';
-import actions from '../store/actions';
 import TranslationsContext from '../context/TranslationsContext';
 import { stepNames } from '../constants/step-names';
 import { AppExistsView, FailError } from './error';
@@ -222,7 +220,4 @@ Widget.propTypes = {
 
 Widget.contextType = TranslationsContext;
 
-export default connect(
-  null,
-  actions,
-)(Widget);
+export default Widget;

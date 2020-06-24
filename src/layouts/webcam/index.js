@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import RecordRTC from 'recordrtc-ponyfill';
 import Camera from '../../components/camera/camera';
-import actions from '../../store/actions';
-import { getScanValues } from '../../store/selectors';
 import TranslationsContext from '../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
@@ -12,315 +8,158 @@ import { isMobile } from '../../helpers/generic';
 import Footer from '../../components/blocks/footer/footer';
 import Guide from './guide';
 
+const cropCoefficient = (isPassport, cameraDistance) => {
+  // cropx, cropY are calculated for each available overlays
+  if (isPassport) {
+    return { cropX: 0.193, cropY: 0.036 };
+  } if (cameraDistance === 'far') {
+    return { cropX: 0.161, cropY: 0.164 };
+  }
+  return { cropX: 0.033, cropY: 0.036 };
+};
+
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      mediaRecorder: null,
-      isCameraEnabled: true,
-      saveImage: false,
       errorMessage: '',
-      recording: true,
-      videoHeight: 720,
-      videoWidth: 1125,
-      originVideoWidth: 1280,
-      cropX: 0,
-      show: false,
-      cropY: 0,
+      step: 'guide',
     };
-    this.setWebcamRef = this.setWebcamRef.bind(this);
-    this.setWebStream = this.setWebStream.bind(this);
-    this.retake = this.retake.bind(this);
-    this.capture = this.capture.bind(this);
-    this.requestCamera = this.requestCamera.bind(this);
-    this.cameraResize = this.cameraResize.bind(this);
-  }
-
-  componentDidMount() {
-    const {
-      component, scans, currentStep,
-    } = this.props;
-
-    if (scans && scans[currentStep] && scans[currentStep][component]) {
-      this.setState({
-        saveImage:
-          (scans[currentStep] && !!scans[currentStep][component].value)
-          || false,
-      });
-    }
   }
 
   componentWillUnmount() {
-    if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
-    document.removeEventListener('keydown', this.spaceActivate, false);
-    window.removeEventListener('resize', this.cameraResize, false);
-  }
-
-  async setWebStream() {
-    const { translations } = this.context;
-    const { component } = this.props;
-    try {
-      this.stream = await navigator.mediaDevices
-        .getUserMedia({
-          audio: false,
-          video: { deviceId: true, width: 4096 },
-        });
-      const streamSettings = this.stream.getVideoTracks()[0].getSettings();
-      const { width: originVideoWidth, height: videoHeight } = streamSettings;
-      // set width and height of original stream and stream in 25/16 ratio to state
-      this.setState({
-        videoHeight,
-        videoWidth: videoHeight * (25 / 16),
-        originVideoWidth,
-      });
-
-      if (component === 'selfie') {
-        this.recordLiveness(this.stream);
-      }
-
-      this.cameraResize();
-      if (this.webcam) {
-        this.webcam.srcObject = this.stream;
-      }
-    } catch (error) {
-      if (error.name === 'NotAllowedError') {
-        this.setState(() => ({ errorMessage: 'Please enable web camera access in your browser settings.' }));
-      }
-      if (error.name === 'NotFoundError') {
-        this.setState(() => ({ errorMessage: translations.camera_error_not_found }));
-      }
-      if (!this.state.saveImage) {
-        this.setState(() => ({ isCameraEnabled: false }));
-      }
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
     }
   }
 
-  setWebcamRef(webcam) {
+  setWebStream = async (webcam) => {
     this.webcam = webcam;
+    try {
+      if (!this.stream) {
+        this.stream = await navigator.mediaDevices
+          .getUserMedia({
+            audio: false,
+            video: { deviceId: true, width: 4096 },
+          });
+      }
+
+      this.webcam.srcObject = this.stream;
+    } catch (error) {
+      console.error(error);
+      if (error.name === 'NotAllowedError') {
+        this.setState(() => ({ step: 'disabled', errorMessage: 'Please enable web camera access in your browser settings.' }));
+        return;
+      }
+      const { translations } = this.context;
+      if (error.name === 'NotFoundError') {
+        this.setState(() => ({ step: 'disabled', errorMessage: translations.camera_error_not_found }));
+        return;
+      }
+      this.setState(() => ({ step: 'disabled', errorMessage: translations.camera_error_generic }));
+    }
   }
 
-  recordLiveness = (stream) => {
-    const { sdkPermissions } = this.props;
-
-    if (sdkPermissions.videoRecording) {
-      try {
-        this.initVideoRecorder(stream);
-      } catch (e) {
-        console.error('videoRecorder', e);
-      }
+  setWebcamRef = (webcam) => {
+    if (webcam) {
+      this.setWebStream(webcam);
     }
-  };
+  }
 
-  spaceActivate = (e) => {
-    if (e.keyCode === 32) {
-      e.preventDefault();
-      if (!this.state.saveImage) {
-        this.capture();
-      }
-    }
-  };
-
-  cropCoefficient = () => {
-    const { isPassport, cameraDistance } = this.props;
-    // cropx, cropY are calculated for each available overlays
-    if (isPassport) {
-      this.setState({ cropX: 0.193, cropY: 0.036 });
-    } else if (cameraDistance === 'far') {
-      this.setState({ cropX: 0.161, cropY: 0.164 });
-    } else {
-      this.setState({ cropX: 0.033, cropY: 0.036 });
-    }
-  };
-
-  cameraResize = () => {
-    if (this.webcam) {
-      this.webcam.height = this.webcam.clientWidth * 0.64;
-    }
-  };
-
-  capture = () => {
-    const videoElement = document.getElementById('video-capture');
-    if (videoElement && videoElement.readyState !== 4) {
+  makePhoto = () => {
+    if (this.webcam && this.webcam.readyState !== 4) {
       return;
     }
 
-    const { addScan, component, currentStep } = this.props;
-    const {
-      videoWidth, videoHeight, originVideoWidth, cropX, cropY,
-    } = this.state;
+    const streamSettings = this.stream.getVideoTracks()[0].getSettings();
+    const { width, height } = streamSettings;
 
     // draw image in canvas
-    const context = this.canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    // const { isPassport, cameraDistance } = this.props;
+    // const { cropX, cropY } = cropCoefficient(isPassport, cameraDistance);
     context.drawImage(
       this.webcam,
-      -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
-      -videoHeight * cropY,
+      0, // -((width - videoWidth) / 2 + videoWidth * cropX),
+      0, // -height * cropY,
     );
 
-    if (this.state.mediaRecorder) this.stopRecording();
-
-    const blobCallback = (blob) => {
-      addScan(component, blob, currentStep, true);
-      this.setState({ saveImage: true });
-    };
-    this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
-  };
-
-  stopRecording = () => {
-    const { addScan, currentStep } = this.props;
-    const { mediaRecorder } = this.state;
-    this.setState({ recording: false });
-    addScan('selfie-video', null, currentStep, true);
-
-    mediaRecorder.stopRecording(() => {
-      const blob = mediaRecorder.getBlob();
-      addScan('selfie-video', blob, currentStep, true);
-      mediaRecorder.reset();
-    });
-  };
-
-  initVideoRecorder = (stream) => {
-    if (!this.state.recording) return;
-    const { videoHeight, videoWidth } = this.state;
-    try {
-      if (!this.state.mediaRecorder) {
-        this.setState({
-          mediaRecorder: RecordRTC(stream, {
-            type: 'video',
-            mimeType: 'video/webm',
-            recorderType: RecordRTC.WebAssemblyRecorder,
-            width: videoWidth,
-            height: videoHeight,
-          }),
-        });
-      }
-      if (!this.state.saveImage) this.state.mediaRecorder.startRecording();
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  retake = async () => {
-    const { addScan, component, currentStep } = this.props;
-    addScan(component, null, currentStep, true);
-    this.setState({ saveImage: false, recording: true });
-    this.setWebStream();
+    canvas.toBlob(this.showPreviewStep, 'image/jpeg', 1.0);
   };
 
   handleFile = async (event) => {
-    const { addScan, component, currentStep } = this.props;
-    const eventTarget = event.target;
-    const file = [...event.target.files][0];
-    addScan(component,
-      file,
-      currentStep,
-      eventTarget.required);
-    this.setState({ saveImage: true });
+    this.showPreview();
   };
 
-  requestCamera = async () => {
-    this.setState(() => ({ isCameraEnabled: true }));
-    this.setWebStream();
-  };
+  startRecordStep = () => {
+    this.setState({ step: 'record' });
+  }
 
-  openComponent = () => {
-    this.setState({ show: true });
-    this.cropCoefficient();
-    if (!isMobile()) {
-      this.setWebStream();
-    }
-
-    document.addEventListener('keydown', this.spaceActivate, false);
-    window.addEventListener('resize', this.cameraResize, false);
+  showPreviewStep = (blob) => {
+    this.setState({ step: 'preview', blob });
   }
 
   render() {
-    const {
-      cameraOverlay, classes, component, scans, currentStep,
-    } = this.props;
-    const {
-      errorMessage, isCameraEnabled, saveImage, videoWidth, videoHeight, cropX, cropY, show,
-    } = this.state;
+    const { cameraOverlay, component } = this.props;
+    const { errorMessage, step, blob } = this.state;
 
-    const { translations } = this.context;
-    if (!isCameraEnabled) {
-      const message = errorMessage || translations.camera_error_generic;
-      return (
-        <div className={classes.mediaWrapper}>
-          <CameraDisabled requestCamera={this.requestCamera} errorMessage={message} />
-          <Footer />
-        </div>
+    switch (step) {
+      case 'disabled':
+        return (
+          <>
+            <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
+            <Footer />
+          </>
+        );
+      case 'guide': return (
+        <>
+          <Guide component={component} />
+          <Footer next={this.startRecordStep} />
+        </>
       );
-    }
-
-    const canvasWidth = videoWidth * (1 - cropX * 2);
-    const canvasHeight = videoHeight * (1 - cropY * 2);
-
-    return (
-      <div id="webcam" className="webcam" data-role="webcamContainer">
-        {!show && (
-        <Guide
-          component={component}
-        />
-        )}
-        {show && (
-        <div>
-          {saveImage ? (
-            <PreviewForm
-              component={component}
-              scans={scans}
-              currentStep={currentStep}
+      case 'preview': return (
+        <>
+          <PreviewForm blob={blob} />
+          <Footer next={this.showPreviewStep} />
+        </>
+      );
+      case 'record': return (
+        <>
+          <div>
+            <Camera
+              setWebcamRef={this.setWebcamRef}
+              overlay={cameraOverlay}
+              isMobile={isMobile()}
+              capture={this.handleFile}
             />
-          ) : (
-            <div>
-              <Camera
-                setWebcamRef={this.setWebcamRef}
-                overlay={cameraOverlay}
-                isMobile={isMobile()}
-                capture={this.handleFile}
-              />
-              <canvas
-                width={canvasWidth}
-                height={canvasHeight}
-                ref={(ref) => {
-                  this.canvas = ref;
-                }}
-                style={{ display: 'none' }}
-              />
-            </div>
-          )}
-        </div>
-        )}
-        <Footer />
-      </div>
-    );
+          </div>
+          <Footer next={this.makePhoto} />
+        </>
+      );
+      default:
+        throw new Error(`Bad step value: ${step}`);
+    }
   }
 }
 
 WebcamView.propTypes = {
-  addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,
   isPassport: PropTypes.bool,
-  scans: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
-  currentStep: PropTypes.number.isRequired,
-  sdkPermissions: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {
   isPassport: false,
 };
 
-const mapStateToProps = (state) => ({
-  scans: getScanValues(state),
-});
-
 WebcamView.contextType = TranslationsContext;
 
-export default connect(
-  mapStateToProps,
-  actions,
-)(WebcamView);
+export default (props) => (
+  <div id="webcam" className="webcam" data-role="webcamContainer">
+    <WebcamView {...props} />
+  </div>
+);

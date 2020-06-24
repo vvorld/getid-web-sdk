@@ -1,0 +1,7 @@
+.guideContainer {
+    position: relative;
+}
+.guide {
+    position: absolute;
+    width: 100%;
+}

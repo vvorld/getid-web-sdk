@@ -2,13 +2,14 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
+
 import { renderMainComponent } from './main-module';
 import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+
 import {
   removeFieldDupes,
-  checkContainerId,
   convertAnswer,
   addDefaultValues,
 } from './helpers/generic';
@@ -20,30 +21,32 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
   console.log('Your browser is not supported.');
 }
 
+const сameraDontAchievable = (options) => {
+  const enableCamera = options.flow.some((view) => cameraViews.includes(view.component));
+  const isIOSChrome = navigator.userAgent.match('CriOS');
+  if (!enableCamera) {
+    return true;
+  }
+  return ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
+};
+
 /**
  * @param options - sdk config object
  * @param tokenProvider - object with token or function, depends on usage
  */
 const init = (options, tokenProvider) => {
-  checkContainerId(options);
-  const found = options.flow
-    .some((view) => view.component
-      .some((step) => cameraViews.includes(step)));
-  const isIOSChrome = navigator.userAgent.match('CriOS');
+  if (!options.containerId) {
+    throw new Error('Please provide container id.');
+  }
 
-  if (found) {
-    if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
-      if (options.onFail && typeof options.onFail === 'function') {
-        const error = new Error('mediaDevices_no_supported');
-        options.onFail(error);
-        return;
-      }
-      const config = {
-        ...options, cameraNoSupported: true, translations: defaultTranslations,
-      };
-      renderMainComponent(config);
+  if (сameraDontAchievable(options)) {
+    if (options.onFail && typeof options.onFail === 'function') {
+      const error = new Error('mediaDevices_no_supported');
+      options.onFail(error);
       return;
     }
+    // TODO
+    renderComponent(<CameraErrorView />);
   }
 
   const getToken = (typeof tokenProvider === 'object')
@@ -66,32 +69,33 @@ const init = (options, tokenProvider) => {
     const {
       responseCode, errorMessage, token, exists,
     } = result;
-    const { metadata, verificationTypes, apiUrl } = options;
-    const api = createApi(apiUrl, token, verificationTypes, metadata);
-
-    const config = {
-      ...options, exists, api, translations: defaultTranslations, errorMessage,
-    };
-
-    if (config.documentData) {
-      config.documentData = config.documentData
-        .map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
+    if (responseCode !== 200 && errorMessage) {
+      // TODO  переводы!
+      // TODO catch ошибок
+      renderComponent(<ErrorView callbacks={{ onFail }} />);
     }
 
     if (responseCode !== 200 || exists) {
-      renderMainComponent(config);
+      // TODO
+      renderComponent(<AppExistsView callbacks={{ onExists }} />);
       return;
     }
+    const { metadata, verificationTypes, apiUrl } = options;
+    if (options.documentData) {
+      options.documentData = options.documentData.map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
+    }
+    const api = createApi(apiUrl, token, verificationTypes, metadata);
     Promise.all([
-      removeFieldDupes(config.fields),
+      removeFieldDupes(options.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
-      api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
+      api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
     ]).then(([filteredFields, info, responseTranslations]) => {
-      const { showOnfidoLogo, sdkPermissions } = info;
-      const translations = { ...defaultTranslations, ...responseTranslations };
-      config.fields = filteredFields;
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions,
+        ...info,
+        ...options,
+        fields: filteredFields,
+        translations: { ...defaultTranslations, ...responseTranslations },
+        api,
       });
     });
   });

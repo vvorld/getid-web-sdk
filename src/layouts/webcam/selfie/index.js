@@ -1,6 +1,6 @@
 import React from 'react';
 import WebcamView from '../index';
-import OverlaySVG from '../../../../assets/icons/views/circle-overlay.svg';
+import OverlaySVG from '../../../assets/icons/views/circle-overlay.svg';
 
 const IdSelfie = (props) => {
   const cameraOverlay = () => OverlaySVG;

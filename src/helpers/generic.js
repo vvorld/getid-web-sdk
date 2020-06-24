@@ -16,13 +16,6 @@ export const removeFieldDupes = (fields = {}) => {
     );
 };
 
-export const checkContainerId = (options) => {
-    const { containerId } = options;
-    if (!containerId) {
-        throw new Error('Please provide container id.');
-    }
-};
-
 export const convertAnswer = (params = {}) => (resp) => {
     if (resp.responseCode === 200) {
         if (params.field) {
@@ -92,6 +85,6 @@ export const getEventStepName = (component, idCaptureBackIndex) => {
         : stepNames[component.component[0]];
 }
 
-const isPage = (pageName, currentComponent) => currentComponent.component.includes(pageName);
+const isPage = (pageName, componentName) => componentName.includes(pageName);
 
-export const isCameraView = (currentComponent) => cameraViews.some((name) => isPage(name, currentComponent));
+export const isCameraView = (componentName) => cameraViews.some((name) => isPage(name, componentName));

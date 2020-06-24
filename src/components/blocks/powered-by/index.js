@@ -1,10 +1,9 @@
 import React from 'react';
-import getidLogo from '../../../assets/icons/getid-small.svg';
+import getidLogo from '../../../assets/icons/poweredby.svg';
 
 const PoweredBy = () => (
   <div>
-    <span>Powered by</span>
-    <img src={getidLogo} alt="getid" data-role="getidLogo" />
+    <img src={getidLogo} alt="getid" />
   </div>
 );
 

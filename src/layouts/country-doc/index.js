@@ -5,11 +5,11 @@ import {
   getFormValues,
   getCountryAndDocsValues,
   getIdCaptureBackIndex,
-} from '../../../store/selectors';
-import actions from '../../../store/actions';
-import { mapCountryValues } from '../../../helpers/generic';
-import { docTypeMapping } from '../../../constants/document-types';
-import TranslationsContext from '../../../context/TranslationsContext';
+} from '../../store/selectors';
+import actions from '../../store/actions';
+import { mapCountryValues } from '../../helpers/generic';
+import { docTypeMapping } from '../../constants/document-types';
+import TranslationsContext from '../../context/TranslationsContext';
 
 class CountryAndDocument extends React.Component {
   constructor(props) {

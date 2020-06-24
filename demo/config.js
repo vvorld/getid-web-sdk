@@ -9,11 +9,11 @@ export default {
   flow: [
     // { component: ['CountryAndDocument'] },
     // { component: ['Consent'] },
-    { component: ['Form'] },
-    { component: ['IdSelfie'] },
-    { component: ['IdCapture'] },
-    { component: ['IdCaptureBack'] },
-    { component: ['ThankYou'] }],
+    { component: 'Form' },
+    { component: 'IdSelfie' },
+    { component: 'IdCapture' },
+    { component: 'IdCaptureBack' },
+    { component: 'ThankYou' }],
   documentData: [
     {
       name: 'Country',

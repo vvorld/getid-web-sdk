@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RecordRTC from 'recordrtc-ponyfill';
-import Camera from '../../../components/camera/camera';
-import actions from '../../../store/actions';
-import { getScanValues } from '../../../store/selectors';
-import TranslationsContext from '../../../context/TranslationsContext';
+import Camera from '../../components/camera/camera';
+import actions from '../../store/actions';
+import { getScanValues } from '../../store/selectors';
+import TranslationsContext from '../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
-import { isMobile } from '../../../helpers/generic';
-import Footer from '../../../components/blocks/footer/footer';
-import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
+import { isMobile } from '../../helpers/generic';
+import Footer from '../../components/blocks/footer/footer';
 import Guide from './guide';
 
 class WebcamView extends React.Component {
@@ -225,65 +224,6 @@ class WebcamView extends React.Component {
     this.setWebStream();
   };
 
-  buildFooter = () => {
-    const {
-      footer, component, scans, currentStep,
-    } = this.props;
-    const { isCameraEnabled, saveImage, show } = this.state;
-    const { translations } = this.context;
-
-    const cameraFooterMobile = {
-      ...footer,
-      next: {
-        ...footer.next,
-        disabled: !saveImage,
-      },
-    };
-
-    const cameraFooterDesktop = {
-      ...footer,
-      next: {
-        ...footer.next,
-        action: this.capture,
-        text: translations.button_make_photo,
-        iconItem: PhotoSVG,
-        disabled: !isCameraEnabled || !this.stream,
-      },
-    };
-
-    if (!show) {
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          text: translations.guide_accept,
-          action: this.openComponent,
-        },
-      };
-    }
-
-    if (saveImage) {
-      const showSpinner = (component === 'selfie'
-          && scans[currentStep]['selfie-video']
-          && !scans[currentStep]['selfie-video'].value) === true;
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          disabled: showSpinner,
-        },
-        retake: {
-          ...footer.retake,
-          hidden: false,
-          variant: 'outlined',
-          action: this.retake,
-        },
-      };
-    }
-
-    return isMobile() ? cameraFooterMobile : cameraFooterDesktop;
-  }
-
   openComponent = () => {
     this.setState({ show: true });
     this.cropCoefficient();
@@ -309,7 +249,7 @@ class WebcamView extends React.Component {
       return (
         <div className={classes.mediaWrapper}>
           <CameraDisabled requestCamera={this.requestCamera} errorMessage={message} />
-          <Footer {...this.buildFooter()} />
+          <Footer />
         </div>
       );
     }
@@ -352,14 +292,13 @@ class WebcamView extends React.Component {
           )}
         </div>
         )}
-        <Footer {...this.buildFooter()} />
+        <Footer />
       </div>
     );
   }
 }
 
 WebcamView.propTypes = {
-  footer: PropTypes.object.isRequired,
   addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,

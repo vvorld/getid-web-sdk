@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import poweredBy from '../../../../assets/icons/views/powered-by.svg';
-import Loader from '../../../../components/loader/loader';
+import poweredBy from '../../../assets/icons/views/powered-by.svg';
+import Loader from '../../../components/loader/loader';
 
 const PreviewForm = ({
   component, scans, currentStep,

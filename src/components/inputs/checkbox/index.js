@@ -1,28 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import parse from 'html-react-parser';
 
-function CustomCheckbox(props) {
+import css from './style.css';
+
+function Checkbox(props) {
+  const { label, onChange, value } = props;
+  const [currValue, setValue] = useState(value);
   return (
     <label
+      className={css.consent}
       data-role="checkbox"
-      key={`control-${props.label}`}
+      key={`control-${label}`}
     >
       <input
+        checked={currValue}
+        className={css.checkbox}
         type="checkbox"
-        {...props}
+        onChange={
+          (e) => {
+            const newValue = e.target.checked;
+            onChange(newValue);
+            setValue(newValue);
+          }
+        }
+
       />
-      {parse(props.label)}
+      <span className={css.text}>
+        {parse(label)}
+      </span>
     </label>
   );
 }
 
-CustomCheckbox.propTypes = {
+Checkbox.propTypes = {
   label: PropTypes.string,
 };
 
-CustomCheckbox.defaultProps = {
+Checkbox.defaultProps = {
   label: '',
 };
 
-export default CustomCheckbox;
+export default Checkbox;

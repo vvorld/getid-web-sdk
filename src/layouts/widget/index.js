@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Loader from '../../../components/loader/loader';
-import Header from '../../../components/blocks/header/header';
-import actions from '../../../store/actions';
-import Footer from '../../../components/blocks/footer/footer';
-import TranslationsContext from '../../../context/TranslationsContext';
-import { stepNames } from '../../../constants/step-names';
+import Loader from '../../components/loader/loader';
+import Header from '../../components/blocks/header/header';
+import actions from '../../store/actions';
+import TranslationsContext from '../../context/TranslationsContext';
+import { stepNames } from '../../constants/step-names';
 import allComponents from '../index';
-import BackIcon from '../../../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError } from '../error';
-import { promiseTimeout, getEventStepName, isCameraView } from '../../../helpers/generic';
+import { promiseTimeout, getEventStepName } from '../../helpers/generic';
+import css from './style.css';
 
 class Widget extends Component {
   constructor(props) {
@@ -115,27 +114,17 @@ class Widget extends Component {
 
     return {
       next: {
-        attempts: 3,
-        width: 12,
-        direction: 'center',
         action: this.buttonAction(),
         text: this.nextButtonText(),
-        variant: 'contained',
         disabled: isDisabled,
         type: this.getType(),
       },
       back: {
-        direction: 'left',
         hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
         action: this.triggerPreviousComponent,
-        type: 'back',
-        variant: 'outlined',
-        iconItem: BackIcon,
         text: translations.button_back,
       },
       retake: {
-        direction: 'right',
-        type: 'retake',
         hidden: true,
         text: translations.button_retake,
       },
@@ -149,7 +138,7 @@ class Widget extends Component {
       onExists,
     } = this.props;
 
-    const { classes, ...other } = this.props;
+    const { ...other } = this.props;
 
     const {
       loading, appExists, responseCode, submitAttempts,
@@ -157,7 +146,7 @@ class Widget extends Component {
 
     if (loading) {
       return (
-        <div className={classes.loader}>
+        <div>
           <Loader text="Sending data..." />
         </div>
       );
@@ -177,34 +166,18 @@ class Widget extends Component {
       );
     }
 
-    if (!currentComponent) return null;
-    const { length } = currentComponent.component;
-
+    if (!currentComponent) {
+      return null;
+    }
+    const componentName = currentComponent.component;
+    const CurrentComponent = allComponents[componentName];
     return (
-      <div className={classes.root} data-role="container">
-        <div>
-          <Header currentComponent={currentComponent} />
+      <main id="getid" data-role="container">
+        <div className={css.grid}>
+          <Header componentName={componentName} />
+          <CurrentComponent footer={this.footer()} {...other} />
         </div>
-        <div>
-          {currentComponent.component.map((componentName) => {
-            const CurrentComponent = allComponents[componentName];
-            const index = currentComponent.component.indexOf(componentName);
-            return (
-              <div>
-                <div className={(length > 1 && index !== 0) ? classes.verticalLine : ''}>
-                  <CurrentComponent
-                    footer={this.footer()}
-                    {...other}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div>
-          {!isCameraView(currentComponent) && <Footer {...this.footer()} />}
-        </div>
-      </div>
+      </main>
     );
   }
 }

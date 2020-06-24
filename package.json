@@ -113,7 +113,7 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "sass-loader": "^8.0.0",
-    "style-loader": "^1.0.1",
+    "style-loader": "^1.2.1",
     "terser-brunch": "^3.0.0",
     "terser-webpack-plugin": "^2.2.3",
     "url-loader": "^2.3.0",

@@ -1,4 +1,3 @@
-import Consent from './consent';
 import Form from './form';
 import ThankYou from './thank-you';
 import CountryAndDocument from './country-doc';
@@ -7,7 +6,6 @@ import IdCapture from './webcam/front';
 import IdCaptureBack from './webcam/back';
 
 const components = {
-  Consent,
   Form,
   ThankYou,
   CountryAndDocument,

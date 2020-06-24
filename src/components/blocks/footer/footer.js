@@ -1,11 +1,10 @@
 import React from 'react';
-import ActionBar from '../action-bar/action-bar';
 import PoweredBy from '../powered-by/index';
 
-const Footer = (props) => (
+const Footer = () => (
   <div>
-    <div data-role="preFooter" />
-    <ActionBar {...(props)} />
+    <button>Go next</button>
+    <a href="./doc-types.html" className="go-back">Go back</a>
     <PoweredBy />
   </div>
 );

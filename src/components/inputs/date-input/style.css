@@ -1,0 +1,8 @@
+.date select {
+    width: 30%;
+    display: inline-block;
+    margin-right: 11px;
+}
+.date>select:last-child {
+    margin-right: 0px;
+}

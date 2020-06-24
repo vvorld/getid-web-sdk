@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Widget from './views/widget';
+import Widget from './widget';
 import actions from '../store/actions';
 import {
   getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex,
@@ -84,12 +84,8 @@ class Main extends React.Component {
   };
 
   render() {
-    const { flow } = this.props;
-    if (!flow) return null;
-    const properties = { ...this.props, ...this.state };
-
     return (
-      <Widget {...properties} />
+      <Widget {...this.props} {...this.state} />
     );
   }
 }

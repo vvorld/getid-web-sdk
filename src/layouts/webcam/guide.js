@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isMobile } from '../../../helpers/generic';
-import { getFormValues } from '../../../store/selectors';
+import { isMobile } from '../../helpers/generic';
+import { getFormValues } from '../../store/selectors';
 
 const AnimatedSvg = {
   front: 'https://cdn.getid.cloud/assets/desktop/default_front.svg',

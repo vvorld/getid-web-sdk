@@ -33,11 +33,12 @@ setErrorState = (isError, name, errorText) => {
 */
 const FileInput = (props) => {
   const {
-    onChange, label, value, name,
+    onChange, label, value, name, required,
   } = props;
   const [currValue, setValue] = useState(value);
   const { translations } = useContext(TranslationsContext);
   { /* translations.file_input_tooltip */ }
+  const placeholder = label + (required ? '*' : '');
   return (
 
     <label>
@@ -53,7 +54,7 @@ const FileInput = (props) => {
       />
       <inputbox className={css.fakeFileInput}>
         <div className={css.label}>
-          {currValue || <placeholder>{label}</placeholder> }
+          {currValue || <placeholder>{placeholder}</placeholder> }
         </div>
         <div className={css.fileIcon}>
           <img src={fileIcon} />

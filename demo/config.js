@@ -42,13 +42,13 @@ export default {
       label: 'Document front side',
       type: 'file',
       name: 'front',
-      required: false,
+      required: true,
     },
     {
       label: 'Document back side',
       type: 'file',
       name: 'back',
-      required: true,
+      required: false,
     },
     {
       label: 'Country',
@@ -65,8 +65,28 @@ export default {
     {
       label: 'Date Of Birth',
       type: 'date',
-      // value: '1991-08-15',
-      name: 'Date Of Birth',
+      name: 'Date of Birth',
+    },
+    {
+      label: 'Date of expiry',
+      type: 'date',
+      value: '1991-08-15',
+      name: 'Date of expiry',
+      required: true,
+    },
+    {
+      label: 'Invalide date 1',
+      type: 'date',
+      value: '2991-28-25',
+      name: 'Invalide date',
+      required: true,
+    },
+    {
+      label: 'Invalide date 2',
+      type: 'date',
+      value: 'asdsad',
+      name: 'Invalide date 2',
+      required: true,
     },
     {
       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',

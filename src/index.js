@@ -3,7 +3,7 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
 import { renderMainComponent } from './main-module';
-import { createApi } from './services/api';
+import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
 import {
@@ -11,6 +11,7 @@ import {
   checkContainerId,
   convertAnswer,
   addDefaultValues,
+  checkApiVersionSupport,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -86,12 +87,16 @@ const init = (options, tokenProvider) => {
       removeFieldDupes(config.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([filteredFields, info, responseTranslations]) => {
+      getApiVersions(apiUrl).then(checkApiVersionSupport).catch((error) => {
+        console.log(`Can't get supported api versions ${error}`);
+        return true;
+      }),
+    ]).then(([filteredFields, info, responseTranslations, isSupportedApiVersion]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
       const translations = { ...defaultTranslations, ...responseTranslations };
       config.fields = filteredFields;
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions,
+        ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
       });
     });
   });

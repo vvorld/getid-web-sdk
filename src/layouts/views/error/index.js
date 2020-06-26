@@ -35,20 +35,20 @@ const createErrorView = (config) => (props) => {
         </Typography>
         <hr className={hrLong} />
         {buttons && (
-        <div className={center}>
-          {Object.entries(buttons).map(([key, button]) => (
-            <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
-              <Button
-                classes={{ root: buttonStyle.root }}
-                variant={button.variant}
-                className={buttonStyle[button.class]}
-                onClick={button.action(callbacks)}
-              >
-                {button.name(dictionary)}
-              </Button>
-            </Grid>
-          ))}
-        </div>
+          <div className={center}>
+            {Object.entries(buttons).map(([key, button]) => (
+              <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
+                <Button
+                  classes={{ root: buttonStyle.root }}
+                  variant={button.variant}
+                  className={buttonStyle[button.class]}
+                  onClick={button.action(callbacks)}
+                >
+                  {button.name(dictionary)}
+                </Button>
+              </Grid>
+            ))}
+          </div>
         )}
       </Grid>
     </Grid>
@@ -88,6 +88,11 @@ export const ErrorView = createErrorView({
 export const CameraErrorView = createErrorView({
   header: (dictionary) => dictionary.camera_error_header,
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
+});
+
+export const ApiVersionErrorView = createErrorView({
+  header: (dictionary) => dictionary.api_version_error_header,
+  subHeader: (dictionary) => dictionary.api_version_error_subHeader,
 });
 
 export const FailError = createErrorView({

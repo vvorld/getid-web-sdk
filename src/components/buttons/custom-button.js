@@ -16,7 +16,7 @@ const CustomButton = ({ args }) => {
     hidden,
     disabled,
     action,
-    className,
+    variant,
   } = args;
 
   const icon = (iconSVG) => (
@@ -35,10 +35,11 @@ const CustomButton = ({ args }) => {
           data-role={`btn_${type}`}
           classes={{
             root: buttonStyle.root,
+            startIcon: buttonStyle.startIcon,
           }}
-          className={buttonStyle[className] + (hidden ? ' hidden' : '')}
+          variant={variant}
+          className={hidden ? ' hidden' : ''}
           startIcon={(type === 'back' && icon(iconItem))}
-          endIcon={(type === 'next' && icon(iconItem))}
           onClick={action}
           disabled={disabled}
         >
@@ -57,7 +58,7 @@ CustomButton.propTypes = {
     hidden: PropTypes.bool,
     disabled: PropTypes.bool,
     action: PropTypes.func,
-    className: PropTypes.string,
+    variant: PropTypes.string,
     direction: PropTypes.string,
     width: PropTypes.number,
   }),
@@ -71,7 +72,7 @@ CustomButton.defaultProps = {
     hidden: false,
     disabled: false,
     action: () => {},
-    className: '',
+    variant: '',
     direction: '',
     width: 12,
   },

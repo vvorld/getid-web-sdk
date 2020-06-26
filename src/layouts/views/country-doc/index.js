@@ -9,7 +9,7 @@ import {
   getIdCaptureBackIndex,
 } from '../../../store/selectors';
 import actions from '../../../store/actions';
-import { mapCountryValues } from '../../../helpers/tree-builder';
+import { mapCountryValues } from '../../../helpers/generic';
 import { docTypeMapping } from '../../../constants/document-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 
@@ -18,7 +18,6 @@ class CountryAndDocument extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      fieldWidth: 5,
     };
     this.initialStep = this.props.initialStep;
     this.initialBSIndex = this.props.initialBSIndex;
@@ -174,7 +173,7 @@ class CountryAndDocument extends React.Component {
     };
 
     render() {
-      const { loading, fieldWidth } = this.state;
+      const { loading } = this.state;
       const {
         countriesAndDocs, fieldValues, currentStep, currentComponent,
       } = this.props;
@@ -193,9 +192,11 @@ class CountryAndDocument extends React.Component {
       const { documents } = countriesAndDocs[currentCountryValue] || [];
       const { length } = currentComponent.component;
 
+      const fieldWidth = length > 1 ? 10 : 5;
+
       return (
-        <Grid justify="center" alignItems="center" container spacing={2} data-role="blockDocument">
-          <Grid item xs={11} sm={fieldWidth * length}>
+        <Grid justify="center" alignItems="center" container data-role="blockDocument">
+          <Grid item xs={11} sm={9} md={fieldWidth}>
             <Select
               items={mapCountryValues(countriesAndDocs)}
               value={currentCountryValue}

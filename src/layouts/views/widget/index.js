@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Loader from '../../../components/loader/loader';
-import UpperPart from '../../../components/blocks/upper-block/upper-part';
+import Header from '../../../components/blocks/header/header';
 import actions from '../../../store/actions';
 import Footer from '../../../components/blocks/footer/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { stepNames } from '../../../constants/step-names';
-import cameraViews from '../../../constants/camera-views';
 import widgetStyles from './style';
 import allComponents from '../index';
-import NextIcon from '../../../assets/icons/views/arrow-next.svg';
 import BackIcon from '../../../assets/icons/views/arrow-back.svg';
 import { AppExistsView, FailError } from '../error';
+import { promiseTimeout, getEventStepName, isCameraView } from '../../../helpers/generic';
 
 class Widget extends Component {
   constructor(props) {
@@ -30,46 +29,31 @@ class Widget extends Component {
     };
   }
 
+  componentDidUpdate() {
+    this.props.setButtonAsDisabled();
+  }
+
   isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
 
-  isSingleDocument = () => this.isPage('IdCapture') && this.props.idCaptureBackIndex < 0;
-
   triggerNextComponent = async () => {
-    this.props.setStep(this.props.currentStep + 1);
-    await this.sendStepCompleteEvent();
+    this.props.goToStep(this.props.currentStep + 1);
   };
 
-  triggerPreviousComponent = () => { this.props.setStep(this.props.currentStep - 1); };
+  triggerPreviousComponent = () => { this.props.goToStep(this.props.currentStep - 1); };
 
-  sendStepCompleteEvent = async () => {
-    const stepName = this.isSingleDocument()
-      ? stepNames.Single
-      : stepNames[this.props.currentComponent.component[0]];
-    await this.api.trySendEvent(stepName, 'completed');
-  };
-
-  promiseTimeout = (ms, promise) => {
-    const timeout = new Promise((resolve, reject) => {
-      const id = setTimeout(() => {
-        clearTimeout(id);
-        reject(new Error(`Timed out in ${ms}ms.`));
-      }, ms);
-    });
-
-    return Promise.race([
-      promise,
-      timeout,
-    ]);
+  prepare = async () => {
+    const {
+      currentStep, goToStep, currentComponent, idCaptureBackIndex,
+    } = this.props;
+    await this.api.trySendEvent(getEventStepName(currentComponent, idCaptureBackIndex), 'completed');
+    goToStep(currentStep);
+    this.setState({ loading: true });
+    await this.api.trySendEvent(stepNames.Submit, 'started');
   }
 
   submitData = async () => {
-    await this.sendStepCompleteEvent();
-    const { currentStep, setStep } = this.props;
-    setStep(currentStep);
-    this.setState({ loading: true });
-    await this.api.trySendEvent(stepNames.Submit, 'started');
-
-    const racing = this.promiseTimeout(60000, this.api.submitData());
+    await this.prepare();
+    const racing = promiseTimeout(60000, this.api.submitData());
 
     racing.then(async (res) => {
       const { responseCode, exists } = res;
@@ -103,8 +87,6 @@ class Widget extends Component {
     }, 2000);
   }
 
-  isCameraView = () => cameraViews.some((name) => this.isPage(name));
-
   getType = () => {
     if (this.isButtonToSubmitData()) return 'submit';
     if (this.isPage('ThankYou') || this.isPage('Consent')) return 'noIcon';
@@ -137,76 +119,36 @@ class Widget extends Component {
     const { translations } = this.context;
 
     return {
-      isCameraView: this.isCameraView(),
-      isCameraEnabled: false,
       next: {
         attempts: 3,
         width: 12,
         direction: 'center',
         action: this.buttonAction(),
         text: this.nextButtonText(),
-        className: 'isGradient',
+        variant: 'contained',
         disabled: isDisabled,
         type: this.getType(),
-        iconItem: NextIcon,
       },
       back: {
         direction: 'left',
         hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
         action: this.triggerPreviousComponent,
         type: 'back',
-        className: 'prevButton',
+        variant: 'outlined',
         iconItem: BackIcon,
         text: translations.button_back,
       },
       retake: {
         direction: 'right',
         type: 'retake',
-        hidden: !this.isCameraView(),
-        className: 'prevButton',
+        hidden: true,
         text: translations.button_retake,
       },
     };
   };
 
-  setButtonAsDisabled = () => {
-    const {
-      currentStep,
-      setDisabled,
-      fieldValues,
-      scans,
-    } = this.props;
-
-    if (fieldValues[currentStep]) {
-      const fieldsToCheck = Object.values(fieldValues[currentStep])
-        .filter((field) => field.required && !field.hidden);
-
-      setDisabled(fieldsToCheck.some((field) => {
-        const { value, type } = field;
-
-        return (value === null
-            || (type === 'date' && Number.isNaN(Date.parse(value)))
-            || value === ''
-            || value === undefined
-            || value === false
-            || (/^\s+$/).test(value.toString()));
-      }));
-    }
-
-    if (this.isCameraView() && scans[currentStep]) {
-      setDisabled(Object.values(scans[currentStep]).some((scan) => (
-        scan.required
-            && (scan.value === null
-            || scan.value === ''
-            || scan.value === undefined
-            || scan.value === false))));
-    }
-  };
-
   render() {
     const {
-      currentStep,
-      flow,
       currentComponent,
       onFail,
       onExists,
@@ -218,7 +160,13 @@ class Widget extends Component {
       loading, largeGrid, smallGrid, appExists, responseCode, submitAttempts,
     } = this.state;
 
-    if (loading) { return (<Loader />); }
+    if (loading) {
+      return (
+        <div className={classes.loader}>
+          <Loader text="Sending data..." />
+        </div>
+      );
+    }
 
     if (appExists) {
       return <AppExistsView callbacks={{ onExists }} />;
@@ -237,15 +185,10 @@ class Widget extends Component {
     if (!currentComponent) return null;
     const { length } = currentComponent.component;
 
-    this.setButtonAsDisabled();
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
-          <UpperPart
-            currentComponent={currentComponent}
-            flow={flow}
-            currentStep={currentStep}
-          />
+          <Header currentComponent={currentComponent} />
         </Grid>
         <Grid
           container
@@ -258,7 +201,6 @@ class Widget extends Component {
             return (
               <Grid
                 key={componentName + currentComponent.order.toString()}
-                className={classes.component}
                 item
                 xs={12}
                 sm={smallGrid / length}
@@ -274,8 +216,8 @@ class Widget extends Component {
             );
           })}
         </Grid>
-        <Grid item xs={12} sm={9} md={12} lg={6} className={classes.item}>
-          {!this.isCameraView() && <Footer {...this.footer()} />}
+        <Grid item xs={12} sm={9} lg={6} className={classes.item}>
+          {!isCameraView(currentComponent) && <Footer {...this.footer()} />}
         </Grid>
       </Grid>
     );
@@ -286,42 +228,28 @@ Widget.defaultProps = {
   classes: {},
   scans: {},
   flow: [],
-  fields: [],
-  documentData: [],
   onComplete: null,
   onFail: null,
   onCancel: null,
   onExists: null,
-  fieldValues: null,
-  isQA: false,
   currentComponent: null,
-  cameraDistance: 'default',
   idCaptureBackIndex: -1,
 };
 
 Widget.propTypes = {
   flow: PropTypes.array,
-  fields: PropTypes.array,
-  documentData: PropTypes.array,
-  fieldValues: PropTypes.object,
   scans: PropTypes.object,
-  formType: PropTypes.string.isRequired,
-  setDisabled: PropTypes.func.isRequired,
-  setStep: PropTypes.func.isRequired,
-  addField: PropTypes.func.isRequired,
-  addScan: PropTypes.func.isRequired,
-  apiUrl: PropTypes.string.isRequired,
+  setButtonAsDisabled: PropTypes.func.isRequired,
+  goToStep: PropTypes.func.isRequired,
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
   onExists: PropTypes.func,
   onCancel: PropTypes.func,
   isDisabled: PropTypes.bool.isRequired,
-  isQA: PropTypes.bool,
   currentStep: PropTypes.number.isRequired,
   currentComponent: PropTypes.any,
   idCaptureBackIndex: PropTypes.number,
-  cameraDistance: PropTypes.string,
   api: PropTypes.object.isRequired,
 };
 

@@ -88,7 +88,12 @@ const init = (options, tokenProvider) => {
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
     ]).then(([filteredFields, info, responseTranslations]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
-      const translations = { ...defaultTranslations, ...responseTranslations };
+      const customTranslations = options.translations || {};
+      const translations = {
+        ...defaultTranslations,
+        ...responseTranslations,
+        ...customTranslations,
+      };
       config.fields = filteredFields;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions,

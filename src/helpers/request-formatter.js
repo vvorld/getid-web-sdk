@@ -32,25 +32,11 @@ export const mapFieldData = (fields, filter) => {
   return Array.prototype.concat(...allFields);
 };
 
-
-export const mapCountryValues = (countriesAndDocs) => {
-  const countries = [];
-  Object.keys(countriesAndDocs).forEach((key) => {
-    countries.push({
-      name: countriesAndDocs[key].name,
-      value: key,
-      documents: countriesAndDocs[key].documents,
-    });
-  });
-  return countries;
-};
-
 const documentImages = (scans) => Object.keys(scans)
   .map((step) => Object.keys(scans[step]).reduce((obj, key) => ({
     ...obj,
     [key]: scans[step][key].value,
   }), {}));
-
 
 const getDocumentData = (fields, fieldName) => {
   let docData = '';
@@ -73,6 +59,7 @@ export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
         fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
         metadata: {
           externalId: metadata && metadata.externalId,
+          author: (metadata && metadata.author) || '',
           platform: 'web',
           userAgent: window.navigator.userAgent,
           clientVersion: version,

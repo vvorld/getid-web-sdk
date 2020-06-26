@@ -7,12 +7,12 @@ export default {
     externalId: 121212,
   },
   flow: [
-    { component: ['CountryAndDocument'] },
-    { component: ['Form'] } ,
+    // { component: ['CountryAndDocument'] },
+    // { component: ['Consent'] },
+    { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
-    { component: ['Consent'] },
     { component: ['ThankYou'] }],
   documentData: [
     {
@@ -28,7 +28,7 @@ export default {
     {
       label: 'First Name',
       type: 'text',
-      // value: 'John',
+      value: 'John',
       name: 'First name',
       required: true,
       hidden: true,
@@ -65,11 +65,11 @@ export default {
     {
       label: 'Date Of Birth',
       type: 'date',
-      value: '1991-08-15',
+      // value: '1991-08-15',
       name: 'Date Of Birth',
     },
     {
-      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> and Private policy of GetID OÜ.',
+      label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
       type: 'checkbox',
       name: 'privacy',
       value: true,
@@ -77,6 +77,9 @@ export default {
   ],
   formType: 'narrow',
   cameraDistance: 'default',
+  translations: {
+    Form_header: "It's custom header!",
+  },
   onComplete() {
     window.location.reload();
   },

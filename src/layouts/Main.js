@@ -20,7 +20,6 @@ class Main extends React.Component {
   componentDidMount() {
     const { flow, setFlow } = this.props;
     setFlow(flow);
-    this.getBackStepIndexAndStep();
   }
 
   componentDidUpdate(prevProps) {
@@ -33,21 +32,6 @@ class Main extends React.Component {
     }
   }
 
-  getBackStepIndexAndStep = () => {
-    const { flow, setIdCaptureBack } = this.props;
-    this.setState(() => ({
-      initialStep: flow
-        .find((item) => item.component.includes('IdCaptureBack')) || {},
-    }));
-
-    this.setState((state) => ({
-      initialBSIndex: flow.indexOf(state.initialStep) || -1,
-    }));
-    const stepWithIdCaptureBack = flow
-      .find((item) => item.component.includes('IdCaptureBack')) || {};
-    setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
-  };
-
   sendEvent = async (prevProps) => {
     const {
       api, idCaptureBackIndex,
@@ -58,6 +42,21 @@ class Main extends React.Component {
   }
 
   render() {
+    /*
+    if (appExists) {
+      return <AppExistsView callbacks={{ onExists }} />;
+    }
+
+    if (responseCode !== 200) {
+      return (
+        <FailError
+          submitAttempts={submitAttempts}
+          responseCode={responseCode}
+          callbacks={{ onFail, onSubmit: this.submitData }}
+        />
+      );
+    }
+    */
     return (
       <Widget {...this.props} {...this.state} />
     );

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../context/TranslationsContext';
+import Footer from '../../components/blocks/footer/footer';
 
 const docTypeMapping = {
   passport: 'Passport',
@@ -14,7 +15,10 @@ const getDocumentName = (type) => docTypeMapping[type] || type;
 const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
 
-const CountryAndDocument = ({ countryDocuments, country, documentType }) => {
+const CountryAndDocument = ({
+  countryDocuments, country, documentType, actions,
+}) => {
+  console.log(actions);
   const { translations } = useContext(TranslationsContext);
   const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
@@ -57,6 +61,11 @@ const CountryAndDocument = ({ countryDocuments, country, documentType }) => {
           </label>
         ))}
       </div>
+
+      <Footer
+        next={actions.nextStep}
+        back={actions.prevStep}
+      />
     </>
   );
 };

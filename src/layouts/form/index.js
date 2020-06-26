@@ -48,7 +48,7 @@ class Form extends Component {
    };
 
    render() {
-     const { fields } = this.props;
+     const { fields, actions } = this.props;
      return (
        <>
          <form className={css.form} data-role="blockForm">
@@ -58,7 +58,11 @@ class Form extends Component {
              </div>
            )) }
          </form>
-         <Footer />
+         <Footer
+           disable
+           next={actions.nextStep}
+           back={actions.prevStep}
+         />
        </>
      );
    }

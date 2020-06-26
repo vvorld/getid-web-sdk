@@ -8,42 +8,16 @@ import IdSelfie from './webcam/selfie';
 import IdCapture from './webcam/front';
 import IdCaptureBack from './webcam/back';
 
-import Loader from '../components/loader/loader';
 import Header from '../components/blocks/header/header';
 import TranslationsContext from '../context/TranslationsContext';
-import { stepNames } from '../constants/step-names';
-import { AppExistsView, FailError } from './error';
-import { promiseTimeout, getEventStepName } from '../helpers/generic';
 import css from './style.css';
 
 const allComponents = {
   Form, ThankYou, CountryAndDocument, IdCapture, IdSelfie, IdCaptureBack,
 };
-class Widget extends Component {
-  constructor(props) {
-    super(props);
-    this.api = props.api;
-    this.state = {
-      submitAttempts: 3,
-      loading: false,
-      responseCode: 200,
-      appExists: false,
-    };
-  }
 
-  componentDidUpdate() {
-    this.props.setButtonAsDisabled();
-  }
-
-  isPage = (pageName) => this.props.currentComponent.component.includes(pageName);
-
-  triggerNextComponent = async () => {
-    this.props.goToStep(this.props.currentStep + 1);
-  };
-
-  triggerPreviousComponent = () => { this.props.goToStep(this.props.currentStep - 1); };
-
-  prepare = async () => {
+/*
+prepare = async () => {
     const {
       currentStep, goToStep, currentComponent, idCaptureBackIndex,
     } = this.props;
@@ -54,7 +28,6 @@ class Widget extends Component {
   }
 
   submitData = async () => {
-    await this.prepare();
     const racing = promiseTimeout(60000, this.api.submitData());
 
     racing.then(async (res) => {
@@ -79,7 +52,7 @@ class Widget extends Component {
     });
   };
 
-  dealWithResponse = (code) => {
+    dealWithResponse = (code) => {
     setTimeout(() => {
       this.setState((state) => ({
         responseCode: code,
@@ -89,100 +62,47 @@ class Widget extends Component {
     }, 2000);
   }
 
-  getType = () => {
-    if (this.isButtonToSubmitData()) return 'submit';
-    if (this.isPage('ThankYou') || this.isPage('Consent')) return 'noIcon';
-    return 'next';
-  };
-
-  buttonAction = () => {
-    if (this.isPage('ThankYou')) {
-      return this.props.onComplete;
-    }
-
-    return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;
-  };
-
-  nextComponent = () => this.props.currentComponent.next;
-
-  nextButtonText = () => {
-    const { translations } = this.context;
-
-    if (this.isPage('ThankYou')) return translations.button_start_over;
-    if (this.isPage('Consent') && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
-    return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
-  };
-
-  isButtonToSubmitData = () => (this.nextComponent() === null && !this.isPage('ThankYou'))
-        || (this.nextComponent() && this.nextComponent().component.includes('ThankYou'));
-
-  footer = () => {
-    const { flow, currentComponent, isDisabled } = this.props;
-    const { translations } = this.context;
-
-    return {
-      next: {
-        action: this.buttonAction(),
-        text: this.nextButtonText(),
-        disabled: isDisabled,
-        type: this.getType(),
-      },
-      back: {
-        hidden: (currentComponent.order === 0 || this.isPage('ThankYou')) || flow.length === 1,
-        action: this.triggerPreviousComponent,
-        text: translations.button_back,
-      },
-      retake: {
-        hidden: true,
-        text: translations.button_retake,
-      },
+  */
+class Widget extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: 0,
     };
-  };
+  }
+
+  nextStep = () => {
+    const { step } = this.state;
+    this.setState({ step: step + 1 });
+    console.log('a', step + 1);
+  }
+
+  prevStep = () => {
+    const { step } = this.state;
+    this.setState({ step: step - 1 });
+  }
 
   render() {
-    const {
-      currentComponent,
-      onFail,
-      onExists,
-    } = this.props;
-
+    const { flow } = this.props;
+    const { step } = this.state;
+    console.log('step', step);
+    const currentComponent = flow[step];
     const { ...other } = this.props;
-    const {
-      loading, appExists, responseCode, submitAttempts,
-    } = this.state;
-
-    if (loading) {
-      return (
-        <div>
-          <Loader text="Sending data..." />
-        </div>
-      );
-    }
-
-    if (appExists) {
-      return <AppExistsView callbacks={{ onExists }} />;
-    }
-
-    if (responseCode !== 200) {
-      return (
-        <FailError
-          submitAttempts={submitAttempts}
-          responseCode={responseCode}
-          callbacks={{ onFail, onSubmit: this.submitData }}
-        />
-      );
-    }
 
     if (!currentComponent) {
       return null;
     }
     const componentName = currentComponent.component;
     const CurrentComponent = allComponents[componentName];
+    const actions = {
+      nextStep: step < flow.length - 1 ? this.nextStep : undefined,
+      prevStep: step > 0 ? this.prevStep : undefined,
+    };
     return (
       <main id="getid" data-role="container">
         <div className={css.grid}>
           <Header componentName={componentName} />
-          <CurrentComponent footer={this.footer()} {...other} />
+          <CurrentComponent actions={actions} {...other} />
         </div>
       </main>
     );

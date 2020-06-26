@@ -102,8 +102,12 @@ class WebcamView extends React.Component {
     this.setState({ step: 'preview', blob });
   }
 
+  showGuideStep = () => {
+    this.setState({ step: 'guide' });
+  }
+
   render() {
-    const { cameraOverlay, component } = this.props;
+    const { cameraOverlay, component, actions } = this.props;
     const { errorMessage, step, blob } = this.state;
 
     switch (step) {
@@ -117,13 +121,19 @@ class WebcamView extends React.Component {
       case 'guide': return (
         <>
           <Guide component={component} />
-          <Footer next={this.startRecordStep} />
+          <Footer
+            next={this.startRecordStep}
+            back={actions.prevStep}
+          />
         </>
       );
       case 'preview': return (
         <>
           <PreviewForm blob={blob} />
-          <Footer next={this.showPreviewStep} />
+          <Footer
+            next={actions.nextStep}
+            back={this.startRecordStep}
+          />
         </>
       );
       case 'record': return (
@@ -136,7 +146,10 @@ class WebcamView extends React.Component {
               capture={this.handleFile}
             />
           </div>
-          <Footer next={this.makePhoto} />
+          <Footer
+            next={this.makePhoto}
+            back={this.showGuideStep}
+          />
         </>
       );
       default:

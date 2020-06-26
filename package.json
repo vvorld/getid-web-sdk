@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "4.3.2",
+  "version": "0.3.3",
   "main": "./lib/bundle.js",
   "author": "GetID",
   "description": "GetID Web SDK",
@@ -15,6 +15,7 @@
     "build": "webpack --config webpack.prod.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
+    "deploy-assets": "webpack --config webpack.deploy-assets.js",
     "deploy": "webpack --config webpack.deploy.js",
     "lint": "eslint ./src",
     "test": "jest ./test",

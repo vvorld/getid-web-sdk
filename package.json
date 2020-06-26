@@ -15,6 +15,7 @@
     "build": "webpack --config webpack.prod.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
+    "deploy-assets": "webpack --config webpack.deploy-assets.js",
     "deploy": "webpack --config webpack.deploy.js",
     "lint": "eslint ./src",
     "test": "jest ./test",

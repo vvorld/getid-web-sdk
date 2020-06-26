@@ -13,6 +13,10 @@ import { isMobile } from '../../../helpers/generic';
 import Footer from '../../../components/blocks/footer/footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
+import Landscape from './mobile-landscape';
+
+const DESKTOP_QUALITY = 4096;
+const MOBILE_QUALITY = 1280;
 
 const useStyles = (theme) => ({
   subHeader: {
@@ -36,12 +40,10 @@ class WebcamView extends React.Component {
       saveImage: false,
       errorMessage: '',
       recording: true,
-      videoHeight: this.isMobile ? 1280 : 720,
-      videoWidth: this.isMobile ? 720 : 1125,
-      originVideoWidth: this.isMobile ? 720 : 1280,
       cropX: 0,
       show: false,
       cropY: 0,
+      mobileLandscape: false,
     };
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
@@ -77,15 +79,14 @@ class WebcamView extends React.Component {
       this.stream = await navigator.mediaDevices
         .getUserMedia({
           audio: false,
-          video: { deviceId: true, width: this.isMobile ? 1280 : 4096 },
+          video: { deviceId: true, width: this.isMobile ? MOBILE_QUALITY : DESKTOP_QUALITY },
         });
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
-      const maxValue = Math.max(originVideoWidth, videoHeight);
       const minValue = Math.min(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
-        videoHeight: this.isMobile ? maxValue : minValue,
+        videoHeight: this.isMobile ? minValue * (25 / 16) : minValue,
         videoWidth: this.isMobile ? minValue : minValue * (25 / 16),
         originVideoWidth,
       });
@@ -151,7 +152,7 @@ class WebcamView extends React.Component {
   cameraResize = () => {
     if (this.webcam) {
       if (this.isMobile) {
-        this.webcam.height = this.webcam.clientWidth * (16 / 9);
+        this.webcam.height = this.webcam.clientWidth * (25 / 16);
         return;
       }
       this.webcam.height = this.webcam.clientWidth * (16 / 25);
@@ -214,6 +215,7 @@ class WebcamView extends React.Component {
             height: videoHeight,
             videoElement: this.webcam,
             frameRate: 20,
+            bitrate: 2048,
           }),
         });
       } else {
@@ -309,15 +311,32 @@ class WebcamView extends React.Component {
     return this.mobileView ? cameraFooterMobile : cameraFooterDesktop;
   }
 
+  checkMobileLandscape = () => {
+    if (!this.isMobile) return;
+    const { mediaRecorder } = this.state;
+    if (window.orientation !== 0) {
+      this.setState({ mobileLandscape: true });
+      if (mediaRecorder) mediaRecorder.pauseRecording();
+      return;
+    }
+    this.setState({ mobileLandscape: false });
+    if (mediaRecorder) {
+      mediaRecorder.clearRecordedData();
+      mediaRecorder.resumeRecording();
+    }
+  }
+
   openComponent = () => {
     this.setState({ show: true });
     this.cropCoefficient();
     if (!this.mobileView) {
+      this.checkMobileLandscape();
       this.setWebStream();
     }
 
     document.addEventListener('keydown', this.spaceActivate, false);
     window.addEventListener('resize', this.cameraResize, false);
+    window.addEventListener("orientationchange", this.checkMobileLandscape, false);
   }
 
   render() {
@@ -325,7 +344,7 @@ class WebcamView extends React.Component {
       cameraOverlay, classes, component, scans, currentStep,
     } = this.props;
     const {
-      errorMessage, isCameraEnabled, saveImage, videoWidth, videoHeight, cropX, cropY, show,
+      errorMessage, isCameraEnabled, saveImage, videoWidth, videoHeight, cropX, cropY, show, mobileLandscape,
     } = this.state;
 
     const { translations } = this.context;
@@ -350,6 +369,7 @@ class WebcamView extends React.Component {
         )}
         {show && (
           <div>
+            {mobileLandscape && <Landscape />}
             {saveImage ? (
               <PreviewForm
                 component={component}

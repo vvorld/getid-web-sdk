@@ -77,6 +77,9 @@ export default {
   ],
   formType: 'narrow',
   cameraDistance: 'default',
+  translations: {
+    Form_header: "It's custom header!",
+  },
   onComplete() {
     window.location.reload();
   },

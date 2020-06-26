@@ -101,7 +101,7 @@ export const checkApiVersionSupport = (response) => {
     const { versions } = response;
     if (!versions) return true;
 
-    const majorVersions = versions.map((version) => version[0]);
+    const majorVersions = versions.map((version) => version.split('.')[0])
 
-    return majorVersions.includes(SUPPORTED_API_SCHEMA[0]);
+    return majorVersions.includes(SUPPORTED_API_SCHEMA.split('.')[0]);
 }

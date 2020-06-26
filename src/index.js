@@ -31,7 +31,9 @@ const init = (options, tokenProvider) => {
       .some((step) => cameraViews.includes(step)));
 
   if (found) {
-    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices || !navigator.mediaDevices.getUserMedia) {
+    if (!navigator.mediaDevices
+      || !navigator.mediaDevices.enumerateDevices
+      || !navigator.mediaDevices.getUserMedia) {
       if (options.onFail && typeof options.onFail === 'function') {
         const error = new Error('mediaDevices_no_supported');
         options.onFail(error);

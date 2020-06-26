@@ -336,7 +336,7 @@ class WebcamView extends React.Component {
 
     document.addEventListener('keydown', this.spaceActivate, false);
     window.addEventListener('resize', this.cameraResize, false);
-    window.addEventListener("orientationchange", this.checkMobileLandscape, false);
+    window.addEventListener('orientationchange', this.checkMobileLandscape, false);
   }
 
   render() {
@@ -344,7 +344,14 @@ class WebcamView extends React.Component {
       cameraOverlay, classes, component, scans, currentStep,
     } = this.props;
     const {
-      errorMessage, isCameraEnabled, saveImage, videoWidth, videoHeight, cropX, cropY, show, mobileLandscape,
+      errorMessage,
+      isCameraEnabled,
+      saveImage, videoWidth,
+      videoHeight,
+      cropX,
+      cropY,
+      show,
+      mobileLandscape,
     } = this.state;
 
     const { translations } = this.context;
@@ -377,23 +384,23 @@ class WebcamView extends React.Component {
                 currentStep={currentStep}
               />
             ) : (
-                <div>
-                  <Camera
-                    setWebcamRef={this.setWebcamRef}
-                    overlay={this.isMobile ? null : cameraOverlay}
-                    isMobile={this.mobileView}
-                    capture={this.handleFile}
-                  />
-                  <canvas
-                    width={canvasWidth}
-                    height={canvasHeight}
-                    ref={(ref) => {
-                      this.canvas = ref;
-                    }}
-                    style={{ display: 'none' }}
-                  />
-                </div>
-              )}
+              <div>
+                <Camera
+                  setWebcamRef={this.setWebcamRef}
+                  overlay={this.isMobile ? null : cameraOverlay}
+                  isMobile={this.mobileView}
+                  capture={this.handleFile}
+                />
+                <canvas
+                  width={canvasWidth}
+                  height={canvasHeight}
+                  ref={(ref) => {
+                    this.canvas = ref;
+                  }}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            )}
           </div>
         )}
         <Footer {...this.buildFooter()} />

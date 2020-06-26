@@ -1,4 +1,4 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core';
 import landscapeIcon from '../../../assets/icons/views/landscape.svg';
 import TranslationsContext from '../../../context/TranslationsContext';
@@ -31,15 +31,15 @@ const Landscape = () => {
   const { translations } = useContext(TranslationsContext);
   return (
     <div className={classes.root}>
-        <img
-            className={classes.picture}
-            src={landscapeIcon}
-            alt="mobile landscape"
-            data-role="mobile-landscape"
-          />
-        <div className={classes.text}>
-          {translations.mobile_landscape}
-        </div>
+      <img
+        className={classes.picture}
+        src={landscapeIcon}
+        alt="mobile landscape"
+        data-role="mobile-landscape"
+      />
+      <div className={classes.text}>
+        {translations.mobile_landscape}
+      </div>
     </div>
   );
 };

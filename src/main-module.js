@@ -5,8 +5,7 @@ import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import { create } from 'jss';
 import root from 'react-shadow';
-import store from './store/store';
-import actions from './store/actions';
+import createStore from './store/store';
 
 import MainTheme from './theme';
 import TranslationsContext from './context/TranslationsContext';
@@ -55,7 +54,7 @@ WrappedJssComponent.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const MainModule = (widgetOptions) => (
+const MainModule = (widgetOptions, store) => (
   <div>
     <WrappedJssComponent>
       <Provider store={store}>
@@ -79,12 +78,10 @@ const MainModule = (widgetOptions) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const component = MainModule(widgetOptions, store);
-
+  const store = createStore();
   if (container.hasChildNodes()) {
-    store.dispatch(actions.resetStore());
     ReactDOM.unmountComponentAtNode(container);
   }
-
+  const component = MainModule(widgetOptions, store);
   ReactDOM.render(component, container);
 };

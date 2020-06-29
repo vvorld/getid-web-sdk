@@ -7,7 +7,7 @@ import {
   buildFlow,
 } from '../../helpers/flow-builder';
 
-const initialState = {
+const initialState = () =>({
   fields: {},
   countriesAndDocs: {},
   scans: {},
@@ -15,9 +15,9 @@ const initialState = {
   step: 0,
   sdkFlow: [],
   idCaptureBackIndex: -1,
-};
+});
 
-export default function (state = initialState, action) {
+export default function (state = initialState(), action) {
   switch (action.type) {
     case ADD_FIELD: {
       const {
@@ -130,7 +130,7 @@ export default function (state = initialState, action) {
     }
 
     case RESET_STORE: {
-      return { ...initialState };
+      return initialState();
     }
 
     default:

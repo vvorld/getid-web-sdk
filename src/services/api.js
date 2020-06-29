@@ -25,8 +25,8 @@ const get = (url) => fetch(url, { ...defaultHeaders })
   .then((res) => res.json());
 
 export const createApi = (url, jwt, verificationTypes, metadata) => {
-  const submitData = () => {
-    const formData = createEAForSubmission(jwt, verificationTypes, metadata);
+  const submitData = (state) => {
+    const formData = createEAForSubmission(state, jwt, verificationTypes, metadata);
     return postFormData(`${url}${VERIFICATION_REQUEST}`, formData);
   };
 

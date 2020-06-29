@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Grid } from '@material-ui/core';
 import Widget from './views/widget';
 import actions from '../store/actions';
 import {
@@ -84,12 +85,21 @@ class Main extends React.Component {
   };
 
   render() {
-    const { flow } = this.props;
+    const { flow, classes } = this.props;
     if (!flow) return null;
     const properties = { ...this.props, ...this.state };
 
     return (
-      <Widget {...properties} />
+      <Grid
+        style={{ position: 'relative', minHeight: '300px' }}
+        container
+        className={classes.root}
+        justify="center"
+        alignItems="center"
+        data-role="container"
+      >
+        <Widget {...properties} />
+      </Grid>
     );
   }
 }
@@ -98,6 +108,7 @@ Main.defaultProps = {
   flow: [],
   fields: [],
   currentComponent: null,
+  classes: {},
 };
 
 Main.propTypes = {
@@ -110,6 +121,7 @@ Main.propTypes = {
   api: PropTypes.object.isRequired,
   currentStep: PropTypes.number.isRequired,
   idCaptureBackIndex: PropTypes.number.isRequired,
+  classes: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

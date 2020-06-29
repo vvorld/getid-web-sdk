@@ -53,7 +53,7 @@ class Widget extends Component {
 
   submitData = async () => {
     await this.prepare();
-    const racing = promiseTimeout(60000, this.api.submitData());
+    const racing = promiseTimeout(60000, this.api.submitData(this.props));
 
     racing.then(async (res) => {
       const { responseCode, exists } = res;
@@ -153,7 +153,6 @@ class Widget extends Component {
       onFail,
       onExists,
     } = this.props;
-
     const { classes, ...other } = this.props;
 
     const {
@@ -186,7 +185,7 @@ class Widget extends Component {
     const { length } = currentComponent.component;
 
     return (
-      <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
+      <>
         <Grid item xs={12} className={classes.item}>
           <Header currentComponent={currentComponent} />
         </Grid>
@@ -219,7 +218,7 @@ class Widget extends Component {
         <Grid item xs={12} sm={9} lg={6} className={classes.item}>
           {!isCameraView(currentComponent) && <Footer {...this.footer()} />}
         </Grid>
-      </Grid>
+      </>
     );
   }
 }

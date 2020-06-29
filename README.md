@@ -116,7 +116,7 @@ const config = {_your_config_here_}
 
 const token = post YOUR_SDK_SERVER_BACKEND_URL/sdk/token
 headers: {
-    apiKey: YOUR_API_KEY
+    sdkKey: YOUR_SDK_KEY
 },
 body: {
     customerId: YOUR_CUSTOMER_ID
@@ -129,12 +129,12 @@ window.getidWebSdk.init(config, token);
 ```
 --------------
 Also, you can use SDK built-in function `createPublicTokenProvider` that you can import along with `init`.
-In this scenario, apiKey must be passed to `init` method along with SDK config and API url.
+In this scenario, sdkKey must be passed to `init` method along with SDK config and API url.
 
 ``` js
 import { init, createPublicTokenProvider } from 'getid-web-sdk'
 const config = {_your_config_here_}
-const token = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
+const token = createPublicTokenProvider(config.apiUrl, config.sdkKey, customerId)
 init(config, token);
 ```
 
@@ -142,7 +142,7 @@ In case you are using our launcher script,
 `createPublicTokenProvider` will be accessible via `window.getidWebSdk` object.
 ```js
 const config = {_your_config_here_}
-const token = window.getidWebSdk.createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
+const token = window.getidWebSdk.createPublicTokenProvider(config.apiUrl, config.sdkKey, customerId)
 window.getidWebSdk.init(config, token);
 ```
 

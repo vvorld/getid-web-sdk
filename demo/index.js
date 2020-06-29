@@ -7,7 +7,7 @@ try {
   //
   // export default {
   //   apiUrl: 'http://localhost:3001',
-  //   apiKey: '1231223',
+  //   sdkKey: '1231223',
   // };
 
   // eslint-disable-next-line global-require
@@ -19,7 +19,7 @@ try {
 
 try {
   const customerId = Math.floor(Math.random() * 1000000);
-  const tokenProvider = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
+  const tokenProvider = createPublicTokenProvider(config.apiUrl, config.sdkKey, customerId);
   init(config, tokenProvider);
 } catch (e) {
   console.log(`Error: ${e.message}`);

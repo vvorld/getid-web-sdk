@@ -1,6 +1,6 @@
 export default {
   apiUrl: '',
-  apiKey: '',
+  sdkKey: '',
   containerId: 'getid-component',
   dictionary: 'amas::u-RU',
   metadata: {

@@ -49,12 +49,12 @@ export const createApi = (url, jwt, verificationTypes, metadata) => {
   };
 };
 
-export function getJwtToken(apiUrl, apiKey, customerId) {
-  return post(`${apiUrl}${TOKEN_REQUEST}`, { customerId }, { apiKey });
+export function getJwtToken(apiUrl, sdkKey, customerId) {
+  return post(`${apiUrl}${TOKEN_REQUEST}`, { customerId }, { sdkKey });
 }
 
-export function getScriptLink(apiUrl, apiKey) {
-  return post(`${apiUrl}${SCRIPT_LINK}`, {}, { apiKey });
+export function getScriptLink(apiUrl, sdkKey) {
+  return post(`${apiUrl}${SCRIPT_LINK}`, {}, { sdkKey });
 }
 
 export function getApiVersions(apiUrl) {

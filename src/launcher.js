@@ -2,7 +2,7 @@ import { getScriptLink } from './services/api';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 const init = async (cfg, token) => {
-  const { scriptLink } = await getScriptLink(cfg.apiUrl, cfg.apiKey);
+  const { scriptLink } = await getScriptLink(cfg.apiUrl, cfg.sdkKey);
   if (!scriptLink) {
     throw new Error('Script link is missing.');
   }

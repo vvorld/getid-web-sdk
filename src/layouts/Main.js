@@ -91,7 +91,7 @@ class Main extends React.Component {
 
     return (
       <Grid
-        style={{ position: 'relative', minHeight: '300px' }}
+        style={{ position: 'relative', minHeight: '300px', overflow: 'auto' }}
         container
         className={classes.root}
         justify="center"

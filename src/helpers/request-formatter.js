@@ -54,7 +54,7 @@ export const createEAForSubmission = (state, jwt, verificationTypes, metadata) =
   form.append('data', JSON.stringify({
     userData: {
       application: {
-        fields: mapFieldData(state.fields, ['Country', 'DocumentType', 'file']),
+        fields: mapFieldData(state.fieldValues, ['Country', 'DocumentType', 'file']),
         metadata: {
           externalId: metadata && metadata.externalId,
           author: (metadata && metadata.author) || '',

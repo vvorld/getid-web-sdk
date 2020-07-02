@@ -11,9 +11,9 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import { isMobile } from '../../../helpers/generic';
 import Footer from '../../../components/blocks/footer/footer';
-import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
 import Landscape from './mobile-landscape';
+import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 
 const DESKTOP_QUALITY = 4096;
 const MOBILE_QUALITY = 1280;
@@ -33,7 +33,6 @@ class WebcamView extends React.Component {
     super(props);
     this.isMobile = isMobile();
     this.selfieView = props.component === 'selfie';
-    this.mobileView = this.selfieView ? !props.sdkPermissions.videoRecording : this.isMobile;
     this.state = {
       mediaRecorder: null,
       isCameraEnabled: true,
@@ -41,6 +40,9 @@ class WebcamView extends React.Component {
       errorMessage: '',
       recording: true,
       cropX: 0,
+      originVideoWidth: 1280,
+      videoHeight: 720,
+      videoWidth: 1125,
       show: false,
       cropY: 0,
       mobileLandscape: false,
@@ -82,6 +84,7 @@ class WebcamView extends React.Component {
           video: { deviceId: true, width: this.isMobile ? MOBILE_QUALITY : DESKTOP_QUALITY },
         });
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
+
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
       const minValue = Math.min(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
@@ -153,6 +156,8 @@ class WebcamView extends React.Component {
     if (this.webcam) {
       if (this.isMobile) {
         this.webcam.height = this.webcam.clientWidth * (25 / 16);
+        this.webcam.width = this.webcam.clientWidth;
+
         return;
       }
       this.webcam.height = this.webcam.clientWidth * (16 / 25);
@@ -224,7 +229,8 @@ class WebcamView extends React.Component {
         this.webcam.srcObject = stream;
       }
 
-      if (!this.state.saveImage && !this.isMobileLandscape()) this.state.mediaRecorder.startRecording();
+      if (!this.state.saveImage
+          && !this.isMobileLandscape()) this.state.mediaRecorder.startRecording();
     } catch (e) {
       console.error(e);
     }
@@ -238,34 +244,49 @@ class WebcamView extends React.Component {
     this.setWebStream();
   };
 
-  handleFile = async (event) => {
-    const { addScan, component, currentStep } = this.props;
-    const eventTarget = event.target;
-    const file = [...event.target.files][0];
-    addScan(component,
-      file,
-      currentStep,
-      eventTarget.required);
-    this.setState({ saveImage: true });
+  requestCamera = async () => {
+    await this.setWebStream();
+    this.setState(() => ({ isCameraEnabled: true }));
   };
 
-  requestCamera = async () => {
-    this.setState(() => ({ isCameraEnabled: true }));
+  checkMobileLandscape = () => {
+    if (!this.isMobile) return;
+    const { mediaRecorder } = this.state;
+    if (this.isMobileLandscape()) {
+      this.setState({ mobileLandscape: true });
+      if (mediaRecorder) mediaRecorder.reset();
+      return;
+    }
+    this.setState({ mobileLandscape: false });
+    if (mediaRecorder) mediaRecorder.startRecording();
+  }
+
+  openComponent = () => {
+    this.setState({ show: true });
+    this.cropCoefficient();
+    if (this.isMobile) {
+      this.checkMobileLandscape();
+    }
     this.setWebStream();
-  };
+    document.addEventListener('keydown', this.spaceActivate, false);
+    window.addEventListener('resize', this.cameraResize, false);
+    window.addEventListener('orientationchange', this.checkMobileLandscape, false);
+  }
 
   buildFooter = () => {
     const {
-      footer, scans, currentStep,
+      footer,
     } = this.props;
-    const { isCameraEnabled, saveImage, show } = this.state;
+    const { isCameraEnabled } = this.state;
     const { translations } = this.context;
 
     const cameraFooterMobile = {
       ...footer,
       next: {
         ...footer.next,
-        disabled: !saveImage,
+        text: translations.button_make_photo,
+        disabled: !isCameraEnabled || !this.stream || !this.webcam,
+        action: this.capture,
       },
     };
 
@@ -276,41 +297,11 @@ class WebcamView extends React.Component {
         action: this.capture,
         text: translations.button_make_photo,
         iconItem: PhotoSVG,
-        disabled: !isCameraEnabled || !this.stream,
+        disabled: !isCameraEnabled || !this.stream || !this.webcam,
       },
     };
 
-    if (!show) {
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          text: translations.guide_accept,
-          action: this.openComponent,
-        },
-      };
-    }
-
-    if (saveImage) {
-      const showSpinner = (this.selfieView
-        && scans[currentStep]['selfie-video']
-        && !scans[currentStep]['selfie-video'].value) === true;
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          disabled: showSpinner,
-        },
-        retake: {
-          ...footer.retake,
-          hidden: showSpinner,
-          variant: 'outlined',
-          action: this.retake,
-        },
-      };
-    }
-
-    return this.mobileView ? cameraFooterMobile : cameraFooterDesktop;
+    return this.isMobile ? cameraFooterMobile : cameraFooterDesktop;
   }
 
   checkMobileLandscape = () => {
@@ -343,7 +334,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      cameraOverlay, classes, component, scans, currentStep,
+      cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay, footer,
     } = this.props;
     const {
       errorMessage,
@@ -366,15 +357,18 @@ class WebcamView extends React.Component {
         </div>
       );
     }
+
     const canvasWidth = this.isMobile ? videoWidth : (videoWidth * (1 - cropX * 2));
     const canvasHeight = this.isMobile ? videoHeight : (videoHeight * (1 - cropY * 2));
 
     return (
       <div id="webcam" className="webcam" data-role="webcamContainer">
         {!show && (
-          <Guide
-            component={component}
-          />
+        <Guide
+          footer={footer}
+          component={component}
+          action={this.openComponent}
+        />
         )}
         {show && (
           <div>
@@ -383,15 +377,17 @@ class WebcamView extends React.Component {
               <PreviewForm
                 component={component}
                 scans={scans}
+                action={this.retake}
+                footer={footer}
                 currentStep={currentStep}
               />
             ) : (
               <div>
                 <Camera
+                  isMobile={this.isMobile}
+                  footer={this.buildFooter}
                   setWebcamRef={this.setWebcamRef}
-                  overlay={this.isMobile ? null : cameraOverlay}
-                  isMobile={this.mobileView}
-                  capture={this.handleFile}
+                  overlay={this.isMobile ? mobileCameraOverlay : cameraOverlay}
                 />
                 <canvas
                   width={canvasWidth}
@@ -405,7 +401,6 @@ class WebcamView extends React.Component {
             )}
           </div>
         )}
-        <Footer {...this.buildFooter()} />
       </div>
     );
   }
@@ -416,6 +411,7 @@ WebcamView.propTypes = {
   addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,
+  mobileCameraOverlay: PropTypes.func.isRequired,
   isPassport: PropTypes.bool,
   scans: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,

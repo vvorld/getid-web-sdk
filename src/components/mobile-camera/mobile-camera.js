@@ -1,44 +1,79 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Button } from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
-import TranslationsContext from '../../context/TranslationsContext';
-import PhotoSVG from '../../assets/icons/views/photo-camera-purple.svg';
+import { Grid } from '@material-ui/core';
 import buttonStyles from '../buttons/style';
+import Footer from '../blocks/footer/footer';
 
 const MobileCamera = ({
-  capture,
+  overlay,
+  setWebcamRef,
+  footer,
 }) => {
-  const { translations } = useContext(TranslationsContext);
   const classes = buttonStyles();
+  const [isStream, setStream] = useState(false);
 
   return (
     <div>
-      <Grid container alignItems="center" justify="center">
-        <Grid item xs={6} sm={10} md={9} alignItems="center" data-role="cameraLive">
-          <Button
-            classes={{
-              root: classes.root,
-            }}
-            className={classes.makePhotoButton}
-            endIcon={(
-              <Icon>
-                <img alt="icon" src={PhotoSVG} />
-              </Icon>
-)}
-            component="label"
-          >
-            <input onChange={capture} hidden type="file" accept="image/*" capture="environment" />
-            {translations.button_make_photo}
-          </Button>
+      <div
+        style={{
+          position: 'fixed',
+          right: 0,
+          bottom: 0,
+          minHeight: '100vh',
+          height: '100vh',
+          width: '100vw',
+        }}
+        id="camera"
+      >
+        <Grid container justify="center">
+          <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
+            <div className={classes.mediaWrapper}>
+              <video
+                style={{
+                  height: '100vh',
+                  width: '100vw',
+                }}
+                id="video-capture"
+                className={classes.video}
+                width="100%"
+                playsInline
+                ref={setWebcamRef}
+                muted
+                autoPlay
+                onPlaying={() => { setTimeout(() => { setStream(true); }, 500); }}
+              >
+                <track kind="captions" />
+              </video>
+              {(isStream && overlay) ? (
+                <div>
+                  <img
+                    style={{
+                      position: 'fixed',
+                      top: 0,
+                      display: 'block',
+                      width: '100vw',
+                    }}
+                    className={classes.cameraOverlay}
+                    src={overlay()}
+                    alt="powered by getId"
+                  />
+                </div>
+              )
+                : null}
+            </div>
+          </Grid>
+
         </Grid>
-      </Grid>
+      </div>
     </div>
+
   );
 };
 
 MobileCamera.propTypes = {
-  capture: PropTypes.func.isRequired,
+  overlay: PropTypes.func.isRequired,
+  footer: PropTypes.func.isRequired,
+  setWebcamRef: PropTypes.func.isRequired,
 };
 
 export default MobileCamera;

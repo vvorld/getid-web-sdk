@@ -47,5 +47,8 @@
   "camera_error_generic": "To make a photo you need to give access for webcam",
   "mobile_landscape": "For a more convenient user experience, we ask you to turn the phone into portrait mode",
   "api_version_error_header": "Your sdk version not compatible with current api version",
-  "api_version_error_subHeader": "Please update your sdk version"
+  "api_version_error_subHeader": "Please update your sdk version",
+  "camera_mobile_back": "Go back",
+  "camera_mobile_confirm": "YES, CONTINUE",
+  "camera_mobile_retake": "NO, RETAKE"
 }

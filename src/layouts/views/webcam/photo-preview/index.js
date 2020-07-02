@@ -1,10 +1,12 @@
 import Grid from '@material-ui/core/Grid';
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import poweredBy from '../../../../assets/icons/views/powered-by.svg';
 import Loader from '../../../../components/loader/loader';
 import Footer from '../../../../components/blocks/footer/footer';
+import MobileFooter from '../../../../components/blocks/mobile-footer/mobile-footer';
+import TranslationsContext from '../../../../context/TranslationsContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,10 +31,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PreviewForm = ({
-  component, scans, currentStep, action, footer,
+  component, scans, currentStep, action, footer, isMobile,
 }) => {
   const urlCreator = window.URL || window.webkitURL;
   const classes = useStyles();
+  const { translations } = useContext(TranslationsContext);
 
   const showSpinner = (component === 'selfie'
     && scans[currentStep]['selfie-video']
@@ -45,14 +48,23 @@ const PreviewForm = ({
     next: {
       ...footer.next,
       disabled: showSpinner,
+      text: isMobile ? translations.camera_mobile_confirm : footer.next.text,
     },
     retake: {
       ...footer.retake,
       hidden: showSpinner,
       variant: 'outlined',
+      text: isMobile ? translations.camera_mobile_retake : footer.retake.text,
       action,
     },
+    back: {
+      ...footer.back,
+      text: isMobile ? translations.camera_mobile_back : footer.back.text,
+    }
   };
+
+  const FooterComponent = () =>
+    isMobile ? <MobileFooter {...previewFooter} /> : <Footer {...previewFooter} />
 
   return (
     <div>
@@ -78,7 +90,7 @@ const PreviewForm = ({
           />
         </Grid>
       </Grid>
-      <Footer {...previewFooter} />
+      {FooterComponent()}
     </div>
   );
 };

@@ -14,6 +14,7 @@ import Footer from '../../../components/blocks/footer/footer';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
 import Landscape from './mobile-landscape';
+import MobileCamera from '../../../components/mobile-camera/mobile-camera';
 
 const DESKTOP_QUALITY = 4096;
 const MOBILE_QUALITY = 1280;
@@ -112,7 +113,7 @@ class WebcamView extends React.Component {
   }
 
   setWebcamRef(webcam) {
-    console.log(webcam)
+    console.log(webcam);
     this.webcam = webcam;
   }
 
@@ -385,10 +386,15 @@ class WebcamView extends React.Component {
               />
             ) : (
               <div>
+                {this.isMobile && (
+                <MobileCamera
+                  setWebcamRef={this.setWebcamRef}
+                  overlay={mobileCameraOverlay}
+                />
+                )}
                 <Camera
                   setWebcamRef={this.setWebcamRef}
-                  overlay={this.isMobile ? mobileCameraOverlay : cameraOverlay}
-                  isMobile={this.isMobile}
+                  overlay={cameraOverlay}
                 />
                 <canvas
                   width={canvasWidth}
@@ -402,7 +408,7 @@ class WebcamView extends React.Component {
             )}
           </div>
         )}
-        <Footer {...this.buildFooter()} />
+        {/*<Footer {...this.buildFooter()} />*/}
       </div>
     );
   }

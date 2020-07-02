@@ -304,6 +304,34 @@ class WebcamView extends React.Component {
     return this.isMobile ? cameraFooterMobile : cameraFooterDesktop;
   }
 
+  checkMobileLandscape = () => {
+    if (!this.isMobile) return;
+    const { mediaRecorder } = this.state;
+    if (this.isMobileLandscape()) {
+      this.setState({ mobileLandscape: true });
+      if (mediaRecorder) {
+        mediaRecorder.stopRecording();
+        mediaRecorder.reset();
+      }
+      return;
+    }
+    this.setState({ mobileLandscape: false });
+    if (mediaRecorder) mediaRecorder.startRecording();
+  }
+
+  openComponent = () => {
+    this.setState({ show: true });
+    this.cropCoefficient();
+    if (!this.mobileView) {
+      this.checkMobileLandscape();
+      this.setWebStream();
+    }
+
+    document.addEventListener('keydown', this.spaceActivate, false);
+    window.addEventListener('resize', this.cameraResize, false);
+    window.addEventListener('orientationchange', this.checkMobileLandscape, false);
+  }
+
   render() {
     const {
       cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay, footer,

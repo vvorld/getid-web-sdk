@@ -29,11 +29,6 @@ const cameraStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 0,
   },
-  imgOverlay: {
-    bottom: '10px',
-    position: 'absolute',
-    right: '10px',
-  },
 }));
 
 export default cameraStyles;

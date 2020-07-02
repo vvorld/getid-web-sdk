@@ -10,8 +10,8 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import { isMobile } from '../../../helpers/generic';
-import Footer from '../../../components/blocks/footer/footer';
 import Guide from './guide';
+import Footer from '../../../components/blocks/footer';
 import Landscape from './mobile-landscape';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 
@@ -140,9 +140,7 @@ class WebcamView extends React.Component {
     }
   };
 
-  cropCoefficient = () => {
-    const { isPassport, cameraDistance } = this.props;
-    // cropx, cropY are calculated for each available overlays
+  desktopCropCoefficient = (isPassport, cameraDistance) => {
     if (isPassport) {
       this.setState({ cropX: 0.193, cropY: 0.036 });
     } else if (cameraDistance === 'far') {
@@ -150,6 +148,23 @@ class WebcamView extends React.Component {
     } else {
       this.setState({ cropX: 0.033, cropY: 0.036 });
     }
+  }
+
+  mobileCropCoefficient = (isPassport, cameraDistance) => {
+    if (isPassport) {
+      this.setState({ cropX: 0.193, cropY: 0.036 });
+    } else if (cameraDistance === 'far') {
+      this.setState({ cropX: 0.161, cropY: 0.164 });
+    } else {
+      this.setState({ cropX: 0.033, cropY: 0.036 });
+    }
+  }
+
+  cropCoefficient = () => {
+    const { isPassport, cameraDistance } = this.props;
+    // cropx, cropY are calculated for each available overlays
+    if (this.isMobile) return this.mobileCropCoefficient(isPassport, cameraDistance);
+    return this.desktopCropCoefficient(isPassport, cameraDistance);
   };
 
   cameraResize = () => {
@@ -281,12 +296,16 @@ class WebcamView extends React.Component {
     const { translations } = this.context;
 
     const cameraFooterMobile = {
-      ...footer,
       next: {
         ...footer.next,
         text: translations.button_make_photo,
         disabled: !isCameraEnabled || !this.stream || !this.webcam,
         action: this.capture,
+      },
+      back: {
+        ...footer.back,
+        text: translations.camera_mobile_back,
+        theme: isCameraEnabled ? 'dark' : '',
       },
     };
 
@@ -352,8 +371,11 @@ class WebcamView extends React.Component {
       const message = errorMessage || translations.camera_error_generic;
       return (
         <div className={classes.mediaWrapper}>
-          <CameraDisabled requestCamera={this.requestCamera} errorMessage={message} />
-          <Footer {...this.buildFooter()} />
+          <CameraDisabled
+            requestCamera={this.requestCamera}
+            errorMessage={message}
+          />
+          <Footer {...(this.buildFooter())} />
         </div>
       );
     }
@@ -380,6 +402,7 @@ class WebcamView extends React.Component {
                 action={this.retake}
                 footer={footer}
                 currentStep={currentStep}
+                isMobile={this.isMobile}
               />
             ) : (
               <div>

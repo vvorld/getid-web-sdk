@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import cameraStyles from './style';
-import Footer from '../blocks/mobile-footer/mobile-footer';
+import Footer from '../blocks/footer';
 
 const MobileCamera = ({
   overlay,
@@ -37,7 +37,7 @@ const MobileCamera = ({
               )
                 : null}
             </div>
-            <div className={classes.footer} >
+            <div className={classes.footer}>
               <Footer {...footer()} />
             </div>
           </Grid>

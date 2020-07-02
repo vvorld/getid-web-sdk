@@ -1,7 +1,7 @@
 import React from 'react';
-import ActionBar from '../action-bar/action-bar';
+import ActionBar from '../../action-bar/action-bar';
 import FooterStyles from './style';
-import PoweredBy from '../powered-by/index';
+import PoweredBy from '../../powered-by';
 
 const Footer = (props) => {
   const classes = FooterStyles();

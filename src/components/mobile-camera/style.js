@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-const MobileCameraStyles = makeStyles(({ palette }) => ({
+const MobileCameraStyles = makeStyles(() => ({
   cameraWrapper: {
     position: 'fixed',
     right: 0,

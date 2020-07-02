@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import poweredBy from '../../../../assets/icons/views/powered-by.svg';
 import Loader from '../../../../components/loader/loader';
-import Footer from '../../../../components/blocks/footer/footer';
-import MobileFooter from '../../../../components/blocks/mobile-footer/mobile-footer';
+import Footer from '../../../../components/blocks/footer';
 import TranslationsContext from '../../../../context/TranslationsContext';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,11 +59,8 @@ const PreviewForm = ({
     back: {
       ...footer.back,
       text: isMobile ? translations.camera_mobile_back : footer.back.text,
-    }
+    },
   };
-
-  const FooterComponent = () =>
-    isMobile ? <MobileFooter {...previewFooter} /> : <Footer {...previewFooter} />
 
   return (
     <div>
@@ -90,17 +86,23 @@ const PreviewForm = ({
           />
         </Grid>
       </Grid>
-      {FooterComponent()}
+      <Footer {...previewFooter} />
     </div>
   );
 };
+
+PreviewForm.defaultProps = {
+  isMobile: false,
+}
 
 PreviewForm.propTypes = {
   component: PropTypes.string.isRequired,
   scans: PropTypes.object.isRequired,
   currentStep: PropTypes.number.isRequired,
+  isMobile: PropTypes.bool,
   footer: PropTypes.shape({
     next: PropTypes.shape({}).isRequired,
+    back: PropTypes.shape({}).isRequired,
     retake: PropTypes.shape({}).isRequired,
   }).isRequired,
   action: PropTypes.func.isRequired,

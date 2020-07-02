@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import cameraStyles from './style';
-import Footer from '../blocks/footer/footer';
+import Footer from '../blocks/footer/desktop-footer/desktop-footer';
 import MobileCamera from '../mobile-camera/mobile-camera';
 
 const Camera = ({

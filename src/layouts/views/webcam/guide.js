@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { isMobile } from '../../../helpers/generic';
 import { getFormValues } from '../../../store/selectors';
+import Footer from '../../../components/blocks/footer/footer';
+import TranslationsContext from '../../../context/TranslationsContext';
 
 const AnimatedSvg = {
   front: 'https://cdn.getid.cloud/assets/desktop/default_front.svg',
@@ -38,12 +40,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Guide = ({ component }) => {
+const Guide = ({ component, footer, action }) => {
   const fieldValues = useSelector((state) => getFormValues(state));
   const classes = useStyles();
-
+  const { translations } = useContext(TranslationsContext);
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
+
+  const guideFooter = {
+    ...footer,
+    next: {
+      ...footer.next,
+      text: translations.guide_accept,
+      action,
+    },
+  };
+
+  console.log(guideFooter);
 
   const source = () => {
     if (component === 'selfie') {
@@ -53,15 +66,22 @@ const Guide = ({ component }) => {
   };
 
   return (
-    <div className={classes.container}>
-      <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
-      <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="elo6xpdttruc1" viewBox="0 0 342 196" shapeRendering="geometricPrecision" textRendering="geometricPrecision" />
+    <div>
+      <div className={classes.container}>
+        <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
+        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="elo6xpdttruc1" viewBox="0 0 342 196" shapeRendering="geometricPrecision" textRendering="geometricPrecision" />
+      </div>
+      <Footer {...guideFooter} />
     </div>
   );
 };
 
 Guide.propTypes = {
   component: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
+  footer: PropTypes.shape({
+    next: PropTypes.shape({}).isRequired,
+  }).isRequired,
 };
 
 export default Guide;

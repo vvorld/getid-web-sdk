@@ -16,6 +16,7 @@ const cameraStyles = makeStyles((theme) => ({
     },
   },
   mediaWrapper: {
+    margin: '0 auto',
     position: 'relative',
     display: 'flex',
     overflow: 'hidden',

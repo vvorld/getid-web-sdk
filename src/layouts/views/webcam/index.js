@@ -11,7 +11,6 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import { isMobile } from '../../../helpers/generic';
 import Footer from '../../../components/blocks/footer/footer';
-import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Guide from './guide';
 import Landscape from './mobile-landscape';
 import MobileCamera from '../../../components/mobile-camera/mobile-camera';
@@ -256,65 +255,6 @@ class WebcamView extends React.Component {
     this.setWebStream();
   };
 
-  buildFooter = () => {
-    const {
-      footer, scans, currentStep,
-    } = this.props;
-    const { isCameraEnabled, saveImage, show } = this.state;
-    const { translations } = this.context;
-
-    const cameraFooterMobile = {
-      ...footer,
-      next: {
-        ...footer.next,
-        disabled: !saveImage,
-      },
-    };
-
-    const cameraFooterDesktop = {
-      ...footer,
-      next: {
-        ...footer.next,
-        action: this.capture,
-        text: translations.button_make_photo,
-        iconItem: PhotoSVG,
-        disabled: !isCameraEnabled || !this.stream,
-      },
-    };
-
-    if (!show) {
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          text: translations.guide_accept,
-          action: this.openComponent,
-        },
-      };
-    }
-
-    if (saveImage) {
-      const showSpinner = (this.selfieView
-        && scans[currentStep]['selfie-video']
-        && !scans[currentStep]['selfie-video'].value) === true;
-      return {
-        ...footer,
-        next: {
-          ...footer.next,
-          disabled: showSpinner,
-        },
-        retake: {
-          ...footer.retake,
-          hidden: showSpinner,
-          variant: 'outlined',
-          action: this.retake,
-        },
-      };
-    }
-
-    return this.isMobile ? cameraFooterMobile : cameraFooterDesktop;
-  }
-
   checkMobileLandscape = () => {
     if (!this.isMobile) return;
     const { mediaRecorder } = this.state;
@@ -341,7 +281,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay,
+      cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay, footer,
     } = this.props;
     const {
       errorMessage,
@@ -368,12 +308,16 @@ class WebcamView extends React.Component {
     const canvasWidth = this.isMobile ? videoWidth : (videoWidth * (1 - cropX * 2));
     const canvasHeight = this.isMobile ? videoHeight : (videoHeight * (1 - cropY * 2));
 
+    console.log(canvasWidth,canvasHeight )
+
     return (
       <div id="webcam" className="webcam" data-role="webcamContainer">
         {!show && (
-          <Guide
-            component={component}
-          />
+        <Guide
+          footer={footer}
+          component={component}
+          action={this.openComponent}
+        />
         )}
         {show && (
           <div>
@@ -382,20 +326,29 @@ class WebcamView extends React.Component {
               <PreviewForm
                 component={component}
                 scans={scans}
+                action={this.retake()}
+                footer={footer}
                 currentStep={currentStep}
               />
             ) : (
               <div>
                 {this.isMobile && (
                 <MobileCamera
+                  saveImage={saveImage}
+                  footer={footer}
                   setWebcamRef={this.setWebcamRef}
                   overlay={mobileCameraOverlay}
                 />
                 )}
+                {!this.isMobile && (
                 <Camera
+                  isCameraEnabled={isCameraEnabled}
+                  capture={this.capture}
+                  footer={footer}
                   setWebcamRef={this.setWebcamRef}
                   overlay={cameraOverlay}
                 />
+                )}
                 <canvas
                   width={canvasWidth}
                   height={canvasHeight}
@@ -408,7 +361,6 @@ class WebcamView extends React.Component {
             )}
           </div>
         )}
-        {/*<Footer {...this.buildFooter()} />*/}
       </div>
     );
   }

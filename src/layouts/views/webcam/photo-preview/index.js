@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import poweredBy from '../../../../assets/icons/views/powered-by.svg';
 import Loader from '../../../../components/loader/loader';
+import Footer from '../../../../components/blocks/footer/footer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PreviewForm = ({
-  component, scans, currentStep,
+  component, scans, currentStep, action, footer,
 }) => {
   const urlCreator = window.URL || window.webkitURL;
   const classes = useStyles();
@@ -38,6 +39,20 @@ const PreviewForm = ({
     && !scans[currentStep]['selfie-video'].value) === true;
 
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
+
+  const previewFooter = {
+    ...footer,
+    next: {
+      ...footer.next,
+      disabled: showSpinner,
+    },
+    retake: {
+      ...footer.retake,
+      hidden: showSpinner,
+      variant: 'outlined',
+      action,
+    },
+  };
 
   return (
     <div>
@@ -63,6 +78,7 @@ const PreviewForm = ({
           />
         </Grid>
       </Grid>
+      <Footer {...previewFooter} />
     </div>
   );
 };
@@ -71,6 +87,11 @@ PreviewForm.propTypes = {
   component: PropTypes.string.isRequired,
   scans: PropTypes.object.isRequired,
   currentStep: PropTypes.number.isRequired,
+  footer: PropTypes.shape({
+    next: PropTypes.shape({}).isRequired,
+    retake: PropTypes.shape({}).isRequired,
+  }).isRequired,
+  action: PropTypes.func.isRequired,
 };
 
 export default PreviewForm;

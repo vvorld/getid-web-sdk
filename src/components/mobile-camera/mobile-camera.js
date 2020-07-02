@@ -6,12 +6,31 @@ import buttonStyles from '../buttons/style';
 const MobileCamera = ({
   overlay,
   setWebcamRef,
+    footer,
+                          saveImage
 }) => {
   const classes = buttonStyles();
   const [isStream, setStream] = useState(false);
 
+
+    const cameraFooterMobile = {
+        ...footer,
+        next: {
+            ...footer.next,
+            disabled: !saveImage,
+        },
+    };
+
   return (
     <div
+      style={{
+        position: 'fixed',
+        right: 0,
+        bottom: 0,
+        minHeight: '100vh',
+        height: '100vh',
+        width: '100vw',
+      }}
       id="camera"
     >
       <Grid container justify="center">
@@ -19,8 +38,6 @@ const MobileCamera = ({
           <div className={classes.mediaWrapper}>
             <video
               style={{
-                minHeight: '100vh',
-                display: 'block',
                 height: '100vh',
                 width: '100vw',
               }}
@@ -41,6 +58,7 @@ const MobileCamera = ({
                   style={{
                     position: 'fixed',
                     top: 0,
+                    display: 'block',
                     width: '100vw',
                   }}
                   className={classes.cameraOverlay}
@@ -59,6 +77,7 @@ const MobileCamera = ({
 
 MobileCamera.propTypes = {
   overlay: PropTypes.func.isRequired,
+  setWebcamRef: PropTypes.func.isRequired,
 };
 
 export default MobileCamera;

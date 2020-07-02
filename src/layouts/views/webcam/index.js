@@ -318,7 +318,10 @@ class WebcamView extends React.Component {
     const { mediaRecorder } = this.state;
     if (this.isMobileLandscape()) {
       this.setState({ mobileLandscape: true });
-      if (mediaRecorder) mediaRecorder.reset();
+      if (mediaRecorder) {
+        mediaRecorder.stopRecording();
+        mediaRecorder.reset();
+      }
       return;
     }
     this.setState({ mobileLandscape: false });

@@ -202,6 +202,8 @@ class WebcamView extends React.Component {
     });
   };
 
+  isMobileLandscape = () => this.isMobile && window.orientation !== 0;
+
   initVideoRecorder = (stream) => {
     if (!this.state.recording) return;
     const { videoHeight, videoWidth } = this.state;
@@ -223,7 +225,7 @@ class WebcamView extends React.Component {
         this.webcam.srcObject = stream;
       }
 
-      if (!this.state.saveImage) this.state.mediaRecorder.startRecording();
+      if (!this.state.saveImage && !this.isMobileLandscape()) this.state.mediaRecorder.startRecording();
     } catch (e) {
       console.error(e);
     }
@@ -315,16 +317,13 @@ class WebcamView extends React.Component {
   checkMobileLandscape = () => {
     if (!this.isMobile) return;
     const { mediaRecorder } = this.state;
-    if (window.orientation && window.orientation !== 0) {
+    if (this.isMobileLandscape()) {
       this.setState({ mobileLandscape: true });
-      if (mediaRecorder) mediaRecorder.pauseRecording();
+      if (mediaRecorder) mediaRecorder.reset();
       return;
     }
     this.setState({ mobileLandscape: false });
-    if (mediaRecorder) {
-      mediaRecorder.clearRecordedData();
-      mediaRecorder.resumeRecording();
-    }
+    if (mediaRecorder) mediaRecorder.startRecording();
   }
 
   openComponent = () => {

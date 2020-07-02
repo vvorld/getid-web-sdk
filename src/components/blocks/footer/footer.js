@@ -4,7 +4,6 @@ import FooterStyles from './style';
 import PoweredBy from '../powered-by/index';
 
 const Footer = (props) => {
-  console.log(props)
   const classes = FooterStyles();
   return (
     <div>

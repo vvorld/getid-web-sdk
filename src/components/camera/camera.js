@@ -1,34 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import cameraStyles from './style';
 import Footer from '../blocks/footer/footer';
-import PhotoSVG from '../../assets/icons/views/photo-camera.svg';
-import TranslationsContext from '../../context/TranslationsContext';
+import MobileCamera from '../mobile-camera/mobile-camera';
 
 const Camera = ({
   setWebcamRef,
   overlay,
   footer,
-  capture,
-  isCameraEnabled,
+  isMobile,
 }) => {
   const [isStream, setStream] = useState(false);
-
   const classes = cameraStyles();
-  const { translations } = useContext(TranslationsContext);
-  const { next } = footer;
 
-  const cameraFooter = {
-    ...footer,
-    next: {
-      ...next,
-      action: capture,
-      text: translations.button_make_photo,
-      iconItem: PhotoSVG,
-      disabled: !isCameraEnabled,
-    },
-  };
+  if (isMobile) {
+    return (
+      <MobileCamera
+        footer={footer}
+        setWebcamRef={setWebcamRef}
+        overlay={overlay}
+      />
+    );
+  }
 
   return (
     <div
@@ -61,20 +55,17 @@ const Camera = ({
               : null}
           </div>
         </Grid>
-        <Footer {...cameraFooter} />
       </Grid>
+      <Footer {...footer()} />
     </div>
   );
 };
 
 Camera.propTypes = {
-  isCameraEnabled: PropTypes.bool.isRequired,
-  footer: PropTypes.shape({
-    next: PropTypes.shape({}).isRequired,
-  }).isRequired,
-  capture: PropTypes.func.isRequired,
+  footer: PropTypes.func.isRequired,
   setWebcamRef: PropTypes.func.isRequired,
   overlay: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
 export default Camera;

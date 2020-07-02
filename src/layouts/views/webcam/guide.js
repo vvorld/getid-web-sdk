@@ -56,8 +56,6 @@ const Guide = ({ component, footer, action }) => {
     },
   };
 
-  console.log(guideFooter);
-
   const source = () => {
     if (component === 'selfie') {
       return AnimatedSvg[`${component}${isMobile() ? 'Mobile' : ''}`];

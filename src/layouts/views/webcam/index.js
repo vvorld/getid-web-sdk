@@ -85,7 +85,9 @@ class WebcamView extends React.Component {
           video: {
             deviceId: true,
             width: this.isMobile ? MOBILE_QUALITY : DESKTOP_QUALITY,
-            facingMode: this.selfieView ? 'user' : 'environment',
+            facingMode: {
+              exact: this.selfieView ? 'user' : 'environment',
+            },
           },
         });
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
@@ -234,9 +236,9 @@ class WebcamView extends React.Component {
   };
 
   retake = async () => {
-    const { addScan, component, currentStep } = this.props;
+    const { addScan, component, currentStep, sdkPermissions } = this.props;
     addScan(component, null, currentStep, true);
-    if (this.selfieView) addScan('selfie-video', null, currentStep, true);
+    if (this.selfieView && sdkPermissions.videoRecording) addScan('selfie-video', null, currentStep, true);
     this.setState({ saveImage: false, recording: true });
     this.setWebStream();
   };

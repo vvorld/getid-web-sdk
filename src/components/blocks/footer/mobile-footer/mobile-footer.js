@@ -1,19 +1,22 @@
 import React from 'react';
 import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 import FooterStyles from './style';
 import poweredBy from '../../../../assets/icons/views/poweredby-mobile.svg';
 import poweredByDark from '../../../../assets/icons/views/poweredby-mobile-dark.svg';
 
 const MobileFooter = (props) => {
   const classes = FooterStyles();
-  const darkMode = props.back && props.back.theme === 'dark';
+  const { back } = props;
+  const darkMode = back && back.theme === 'dark';
   return (
     <div className={classes.root}>
       <div className={classes.actionsBlock} data-role="footerBlock">
         {Object.entries(props).map(([key, value]) => (value
           && (
             <Button
+              key={`btn_${key}`}
               data-role={`btn_${key}`}
               variant={value.variant}
               className={clsx(
@@ -40,6 +43,9 @@ const MobileFooter = (props) => {
 };
 
 MobileFooter.propTypes = {
+  back: PropTypes.shape({
+    theme: PropTypes.string,
+  }).isRequired,
 };
 
 export default MobileFooter;

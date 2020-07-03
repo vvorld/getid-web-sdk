@@ -77,6 +77,7 @@ class WebcamView extends React.Component {
 
   async setWebStream() {
     const { translations } = this.context;
+    const { sdkPermissions } = this.props;
     try {
       this.stream = await navigator.mediaDevices
         .getUserMedia({
@@ -97,13 +98,9 @@ class WebcamView extends React.Component {
         videoWidth: this.isMobile ? minValue : minValue * (25 / 16),
         originVideoWidth: this.isMobile ? minValue : originVideoWidth,
       });
-
       if (this.webcam) {
-        if (this.selfieView) {
-          this.recordLiveness(this.stream);
-        } else {
-          this.webcam.srcObject = this.stream;
-        }
+        if (this.selfieView && sdkPermissions.videoRecording) return this.initVideoRecorder(this.stream);
+        this.webcam.srcObject = this.stream;
       }
       this.cameraResize();
     } catch (error) {
@@ -123,17 +120,6 @@ class WebcamView extends React.Component {
     this.webcam = webcam;
   }
 
-  recordLiveness = (stream) => {
-    const { sdkPermissions } = this.props;
-
-    if (sdkPermissions.videoRecording) {
-      try {
-        this.initVideoRecorder(stream);
-      } catch (e) {
-        console.error('videoRecorder', e);
-      }
-    }
-  };
 
   spaceActivate = (e) => {
     if (e.keyCode === 32) {
@@ -256,8 +242,8 @@ class WebcamView extends React.Component {
   };
 
   requestCamera = async () => {
-    await this.setWebStream();
     this.setState(() => ({ isCameraEnabled: true }));
+    await this.setWebStream();
   };
 
   checkMobileLandscape = () => {

@@ -11,7 +11,7 @@
     "url": "git+https://github.com/vvorld/getid-web-sdk.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --watch --host=0.0.0.0 --config webpack.dev.js ",
+    "start": "webpack-dev-server --open --watch --config webpack.dev.js ",
     "build": "webpack --config webpack.prod.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",

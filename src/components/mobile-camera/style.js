@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core';
 const MobileCameraStyles = makeStyles(() => ({
   cameraWrapper: {
     position: 'fixed',
-    right: 0,
+    left: 0,
     bottom: 0,
     minHeight: '100vh',
+    minWidth: '100vw',
     height: '100vh',
     width: '100vw',
   },

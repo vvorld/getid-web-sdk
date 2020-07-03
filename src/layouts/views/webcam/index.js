@@ -337,7 +337,7 @@ class WebcamView extends React.Component {
 
   canvasParams = () => {
     const { videoWidth, videoHeight, cropX, cropY } = this.state;
-    const mobileOverlayTop = this.props.isPassport ? 0.17 : 0.13;
+    const mobileOverlayTop = this.props.isPassport ? 0.195 : 0.13;
     if (this.isMobile) return {
       width: videoWidth * (1 - cropX * 2),
       height: videoHeight * (1 - cropY * 2 + mobileOverlayTop),

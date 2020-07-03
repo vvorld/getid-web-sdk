@@ -23,7 +23,7 @@
   "camera_access_tooltip": "Make sure camera is enabled and browser has access to it.",
   "CountryAndDocument_country-placeholder": "Choose country",
   "button_next": "next",
-  "button_back": "back",
+  "button_back": "Back",
   "button_submit": "submit",
   "button_retake": "retake",
   "button_agree": "I agree",
@@ -47,5 +47,8 @@
   "camera_error_generic": "To make a photo you need to give access for webcam",
   "mobile_landscape": "For a more convenient user experience, we ask you to turn the phone into portrait mode",
   "api_version_error_header": "Your sdk version not compatible with current api version",
-  "api_version_error_subHeader": "Please update your sdk version"
+  "api_version_error_subHeader": "Please update your sdk version",
+  "camera_mobile_back": "Go back",
+  "camera_mobile_confirm": "YES, CONTINUE",
+  "camera_mobile_retake": "NO, RETAKE"
 }

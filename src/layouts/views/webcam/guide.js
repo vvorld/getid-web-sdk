@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core';
 import { isMobile } from '../../../helpers/generic';
 import { getFormValues } from '../../../store/selectors';
-import Footer from '../../../components/blocks/footer/footer';
+import Footer from '../../../components/blocks/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 
 const AnimatedSvg = {
@@ -69,7 +69,7 @@ const Guide = ({ component, footer, action }) => {
         <object type="image/svg+xml" className={classes.guide} data={source()} aria-label={`${component}_guide`} />
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" id="elo6xpdttruc1" viewBox="0 0 342 196" shapeRendering="geometricPrecision" textRendering="geometricPrecision" />
       </div>
-      <Footer {...guideFooter} />
+      <Footer {...(guideFooter)} />
     </div>
   );
 };

@@ -1,40 +1,26 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
-import buttonStyles from '../buttons/style';
-import Footer from '../blocks/footer/footer';
+import cameraStyles from './style';
+import Footer from '../blocks/footer';
 
 const MobileCamera = ({
   overlay,
   setWebcamRef,
   footer,
 }) => {
-  const classes = buttonStyles();
+  const classes = cameraStyles();
   const [isStream, setStream] = useState(false);
 
   return (
     <div>
-      <div
-        style={{
-          position: 'fixed',
-          right: 0,
-          bottom: 0,
-          minHeight: '100vh',
-          height: '100vh',
-          width: '100vw',
-        }}
-        id="camera"
-      >
+      <div className={classes.cameraWrapper} id="camera">
         <Grid container justify="center">
           <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
-            <div className={classes.mediaWrapper}>
+            <div>
               <video
-                style={{
-                  height: '100vh',
-                  width: '100vw',
-                }}
-                id="video-capture"
                 className={classes.video}
+                id="video-capture"
                 width="100%"
                 playsInline
                 ref={setWebcamRef}
@@ -46,23 +32,15 @@ const MobileCamera = ({
               </video>
               {(isStream && overlay) ? (
                 <div>
-                  <img
-                    style={{
-                      position: 'fixed',
-                      top: 0,
-                      display: 'block',
-                      width: '100vw',
-                    }}
-                    className={classes.cameraOverlay}
-                    src={overlay()}
-                    alt="powered by getId"
-                  />
+                  <img className={classes.overlay} src={overlay()} alt="powered by getId" />
                 </div>
               )
                 : null}
             </div>
+            <div className={classes.footer}>
+              <Footer {...footer()} />
+            </div>
           </Grid>
-
         </Grid>
       </div>
     </div>

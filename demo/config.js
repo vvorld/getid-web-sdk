@@ -10,8 +10,8 @@ export default {
     // { component: ['CountryAndDocument'] },
     // { component: ['Consent'] },
     // { component: ['Form'] },
-    { component: ['IdSelfie'] },
-    { component: ['IdCapture'] },
+    // { component: ['IdSelfie'] },
+    // { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
     { component: ['ThankYou'] }],
   documentData: [

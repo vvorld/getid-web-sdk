@@ -18,7 +18,27 @@ import Header from '../../../components/blocks/header/header';
 import { buildFlow } from '../../../helpers/flow-builder';
 
 const DESKTOP_QUALITY = 4096;
-const MOBILE_QUALITY = 1980;
+const MOBILE_QUALITY = 1920;
+
+const ID_CARD_ASPECT = 1.565;
+const PASSPORT_MOBILE_ASPECT = 1.4216;
+const PASSPORT_ASPECT = 1.1;
+const SELFIE_ASPECT = 0.723;
+const ZOOM = 1.145;
+
+const CROP_COEFFICIENT = {
+  mobile: {
+    idCard: { x: 0.1, y: 0.41 },
+    passport: { x: 0.1, y: 0.42 },
+    selfie: { x: 0.13, y: 0.2 },
+  },
+  desktop: {
+    idCard: { x: 0.1, y: 0.036 },
+    idCardFar: { x: 0.19, y: 0.15 },
+    passport: { x: 0.22, y: 0.03 },
+    selfie: { x: 0.033, y: 0.036 },
+  },
+};
 
 const useStyles = (theme) => ({
   subHeader: {
@@ -112,10 +132,11 @@ class WebcamView extends React.Component {
       });
       if (this.webcam) {
         if (this.selfieView
-            && sdkPermissions.videoRecording) { return this.initVideoRecorder(this.stream); }
+          && sdkPermissions.videoRecording) { return this.initVideoRecorder(this.stream); }
         this.webcam.srcObject = this.stream;
       }
       this.cameraResize();
+      return null;
     } catch (error) {
       if (error.name === 'NotAllowedError') {
         this.setState(() => ({ errorMessage: 'Please enable web camera access in your browser settings.' }));
@@ -126,6 +147,7 @@ class WebcamView extends React.Component {
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
+      return null;
     }
   }
 
@@ -142,24 +164,16 @@ class WebcamView extends React.Component {
     }
   };
 
-  desktopCropCoefficient = (isPassport, cameraDistance) => {
-    if (isPassport) return this.setState({ cropX: 0.193, cropY: 0.036 });
-    if (cameraDistance === 'far') return this.setState({ cropX: 0.161, cropY: 0.164 });
-    return this.setState({ cropX: 0.033, cropY: 0.036 });
-  }
-
-  mobileCropCoefficient = (isPassport) => {
-    if (this.selfieView) return this.setState({ cropX: 0.2, cropY: 0.17 });
-    if (isPassport) return this.setState({ cropX: 0.093, cropY: 0.39 });
-    return this.setState({ cropX: 0.093, cropY: 0.4 });
-  }
-
-  cropCoefficient = () => {
+  setCroppingParams = () => {
     const { isPassport, cameraDistance } = this.props;
-    // cropx, cropY are calculated for each available overlays
-    if (this.isMobile) return this.mobileCropCoefficient(isPassport, cameraDistance);
-    return this.desktopCropCoefficient(isPassport);
-  };
+    const coef = this.isMobile ? CROP_COEFFICIENT.mobile : CROP_COEFFICIENT.desktop;
+    if (this.selfieView) return this.setState({ cropX: coef.selfie.x, cropY: coef.selfie.y });
+    if (isPassport) return this.setState({ cropX: coef.passport.x, cropY: coef.passport.y });
+    if (this.isMobile || cameraDistance !== 'far') {
+      return this.setState({ cropX: coef.idCard.x, cropY: coef.idCard.y });
+    }
+    return this.setState({ cropX: coef.idCardFar.x, cropY: coef.idCardFar.y });
+  }
 
   cameraResize = () => {
     if (this.webcam) {
@@ -181,15 +195,15 @@ class WebcamView extends React.Component {
 
     const { addScan, component, currentStep } = this.props;
     const {
-      videoWidth, videoHeight, originVideoWidth, cropX, cropY,
+      videoHeight, originVideoWidth, cropX, cropY,
     } = this.state;
 
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     context.drawImage(
       this.webcam,
-      -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
-      (-videoHeight * cropY),
+      -(originVideoWidth * cropX),
+      -(videoHeight * cropY),
     );
 
     if (this.state.mediaRecorder) this.stopRecording();
@@ -262,7 +276,7 @@ class WebcamView extends React.Component {
 
   openComponent = () => {
     this.setState({ show: true });
-    this.cropCoefficient();
+    this.setCroppingParams();
     if (this.isMobile) {
       this.checkMobileLandscape();
     }
@@ -323,23 +337,21 @@ class WebcamView extends React.Component {
   }
 
   canvasParams = () => {
-    const {
-      videoWidth, videoHeight, cropX, cropY,
-    } = this.state;
-    const mobileOverlayTop = this.selfieView ? -0.22 : (this.props.isPassport ? 0.195 : 0.13);
-    if (this.isMobile) {
-      return {
-        width: videoWidth * (1 - cropX * 2),
-        height: videoHeight * (1 - cropY * 2 + mobileOverlayTop),
-      };
-    }
+    const { videoWidth, cropX } = this.state;
+
+    const width = videoWidth * (1 - cropX * 2) * (this.isMobile ? 1 : ZOOM);
+    const passportAspectRatio = this.isMobile ? PASSPORT_MOBILE_ASPECT : PASSPORT_ASPECT;
+    const docAspectRatio = this.props.isPassport ? passportAspectRatio : ID_CARD_ASPECT;
+    const aspectRatio = this.selfieView ? SELFIE_ASPECT : docAspectRatio;
+
     return {
-      width: videoWidth * (1 - cropX * 2),
-      height: videoHeight * (1 - cropY * 2),
+      width,
+      height: width / aspectRatio,
     };
   }
 
   render() {
+    /* eslint-disable max-len */
     const {
       cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay, footer, currentComponent,
     } = this.props;
@@ -435,6 +447,7 @@ WebcamView.propTypes = {
   cameraDistance: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
   sdkPermissions: PropTypes.object.isRequired,
+  currentComponent: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {

@@ -66,7 +66,7 @@ const PreviewForm = ({
   };
 
   return (
-    <div >
+    <div>
       <Grid container justify="center">
         <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
           {showSpinner && (
@@ -96,7 +96,7 @@ const PreviewForm = ({
 
 PreviewForm.defaultProps = {
   isMobile: false,
-}
+};
 
 PreviewForm.propTypes = {
   component: PropTypes.string.isRequired,

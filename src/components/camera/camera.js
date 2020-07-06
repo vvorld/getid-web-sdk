@@ -63,11 +63,16 @@ const Camera = ({
   );
 };
 
+Camera.defaultProps = {
+  isSelfie: false,
+};
+
 Camera.propTypes = {
   footer: PropTypes.func.isRequired,
   setWebcamRef: PropTypes.func.isRequired,
   overlay: PropTypes.func.isRequired,
   isMobile: PropTypes.bool.isRequired,
+  isSelfie: PropTypes.bool,
 };
 
 export default Camera;

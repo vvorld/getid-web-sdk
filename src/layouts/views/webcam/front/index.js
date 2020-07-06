@@ -24,7 +24,7 @@ const IdCapture = (props) => {
 
     return OverlaySVG;
   };
-  const mobileCameraOverlay = () => isPassport ? MobilePassportOverlaySVG : MobileOverlaySVG;
+  const mobileCameraOverlay = () => (isPassport ? MobilePassportOverlaySVG : MobileOverlaySVG);
   return (
     <WebcamView {...props} mobileCameraOverlay={mobileCameraOverlay} isPassport={isPassport} cameraOverlay={cameraOverlay} component="front" />
   );

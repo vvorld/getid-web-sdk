@@ -9,7 +9,7 @@ const MobileCamera = ({
   overlay,
   setWebcamRef,
   footer,
-  isSelfie
+  isSelfie,
 }) => {
   const classes = cameraStyles();
   const [isStream, setStream] = useState(false);
@@ -50,10 +50,15 @@ const MobileCamera = ({
   );
 };
 
+MobileCamera.defaultProps = {
+  isSelfie: false,
+};
+
 MobileCamera.propTypes = {
   overlay: PropTypes.func.isRequired,
   footer: PropTypes.func.isRequired,
   setWebcamRef: PropTypes.func.isRequired,
+  isSelfie: PropTypes.bool,
 };
 
 export default MobileCamera;

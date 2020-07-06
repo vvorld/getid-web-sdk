@@ -66,7 +66,7 @@ const PreviewForm = ({
   };
 
   return (
-    <div>
+    <div >
       <Grid container justify="center">
         <Grid item xs={12} sm={10} md={9} className={classes.root} data-role="cameraPreview">
           {showSpinner && (
@@ -104,9 +104,15 @@ PreviewForm.propTypes = {
   currentStep: PropTypes.number.isRequired,
   isMobile: PropTypes.bool,
   footer: PropTypes.shape({
-    next: PropTypes.shape({}).isRequired,
-    back: PropTypes.shape({}).isRequired,
-    retake: PropTypes.shape({}).isRequired,
+    next: PropTypes.shape({
+      text: PropTypes.string,
+    }).isRequired,
+    back: PropTypes.shape({
+      text: PropTypes.string,
+    }).isRequired,
+    retake: PropTypes.shape({
+      text: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   action: PropTypes.func.isRequired,
 };

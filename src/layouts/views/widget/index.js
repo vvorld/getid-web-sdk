@@ -188,7 +188,7 @@ class Widget extends Component {
     return (
       <Grid container className={classes.root} justify="center" alignItems="center" data-role="container">
         <Grid item xs={12} className={classes.item}>
-          <Header currentComponent={currentComponent} />
+          {!isCameraView(currentComponent) && <Header currentComponent={currentComponent} />}
         </Grid>
         <Grid
           container

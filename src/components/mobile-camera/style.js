@@ -11,8 +11,13 @@ const MobileCameraStyles = makeStyles(() => ({
     width: '100vw',
   },
   video: {
-    height: '100vh',
     width: '100vw',
+    minWidth: '100vw',
+    minHeight: '100vh',
+    objectFit: 'fill',
+  },
+  selfie: {
+    transform: 'scale(-1, 1)',
   },
   footer: {
     position: 'fixed',

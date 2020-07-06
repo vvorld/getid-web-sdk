@@ -8,6 +8,7 @@ import MobileCamera from '../mobile-camera/mobile-camera';
 const Camera = ({
   setWebcamRef,
   overlay,
+  isSelfie,
   footer,
   isMobile,
 }) => {
@@ -18,6 +19,7 @@ const Camera = ({
     return (
       <MobileCamera
         footer={footer}
+        isSelfie={isSelfie}
         setWebcamRef={setWebcamRef}
         overlay={overlay}
       />

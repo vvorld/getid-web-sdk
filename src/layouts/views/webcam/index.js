@@ -90,13 +90,13 @@ class WebcamView extends React.Component {
       },
     };
 
-    // if (this.isMobile) {
-    //   Object.assign(constraints.video, {
-    //     facingMode: {
-    //       exact: this.selfieView ? 'user' : 'environment',
-    //     },
-    //   });
-    // }
+    if (this.isMobile) {
+      Object.assign(constraints.video, {
+        facingMode: {
+          exact: this.selfieView ? 'user' : 'environment',
+        },
+      });
+    }
 
     try {
       this.stream = await navigator.mediaDevices
@@ -402,6 +402,7 @@ class WebcamView extends React.Component {
               <div>
                 <Camera
                   isMobile={this.isMobile}
+                  isSelfie={this.selfieView}
                   footer={this.buildFooter}
                   setWebcamRef={this.setWebcamRef}
                   overlay={this.isMobile ? mobileCameraOverlay : cameraOverlay}

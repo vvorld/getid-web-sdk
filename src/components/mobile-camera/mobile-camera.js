@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { Grid } from '@material-ui/core';
 import cameraStyles from './style';
 import Footer from '../blocks/footer';
@@ -8,6 +9,7 @@ const MobileCamera = ({
   overlay,
   setWebcamRef,
   footer,
+  isSelfie
 }) => {
   const classes = cameraStyles();
   const [isStream, setStream] = useState(false);
@@ -19,7 +21,7 @@ const MobileCamera = ({
           <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
             <div>
               <video
-                className={classes.video}
+                className={clsx(classes.video, isSelfie ? classes.selfie : '')}
                 id="video-capture"
                 width="100%"
                 playsInline

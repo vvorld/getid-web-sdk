@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import RecordRTC from 'recordrtc-ponyfill';
-import { Grid } from '@material-ui/core';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
@@ -19,7 +18,7 @@ import Header from '../../../components/blocks/header/header';
 import { buildFlow } from '../../../helpers/flow-builder';
 
 const DESKTOP_QUALITY = 4096;
-const MOBILE_QUALITY = 1280;
+const MOBILE_QUALITY = 1980;
 
 const useStyles = (theme) => ({
   subHeader: {

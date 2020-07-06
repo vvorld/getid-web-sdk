@@ -41,13 +41,16 @@ const PreviewForm = ({
     && !scans[currentStep]['selfie-video'].value) === true;
 
   const imageSrc = urlCreator.createObjectURL(scans[currentStep][component].value);
+  const { next } = footer;
 
   const previewFooter = {
     ...footer,
     next: {
-      ...footer.next,
+      ...next,
       disabled: showSpinner,
-      text: isMobile ? translations.camera_mobile_confirm : footer.next.text,
+      text: (isMobile && next.text !== translations.button_submit)
+        ? translations.camera_mobile_confirm
+        : next.text,
     },
     retake: {
       ...footer.retake,

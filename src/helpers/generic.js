@@ -17,6 +17,24 @@ export const removeFieldDupes = (fields = {}) => {
     );
 };
 
+export const checkRealMimeType = (headerString) => {
+    let type;
+    switch (headerString) {
+        case '89504e47':
+            type = [true, 'image/png'];
+            break;
+        case 'ffd8ffe0':
+        case 'ffd8ffe1':
+        case 'ffd8ffe2':
+            type = [true, 'image/jpeg'];
+            break;
+        default:
+            type = [null, 'unknown'];
+            break;
+    }
+    return type;
+}
+
 export const checkContainerId = (options) => {
     const { containerId } = options;
     if (!containerId) {

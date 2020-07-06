@@ -149,7 +149,7 @@ class WebcamView extends React.Component {
   }
 
   mobileCropCoefficient = (isPassport) => {
-    if (this.selfieView) return this.setState({ cropX: 0.1, cropY: 0.25 });
+    if (this.selfieView) return this.setState({ cropX: 0.2, cropY: 0.17 });
     if (isPassport) return this.setState({ cropX: 0.093, cropY: 0.39 });
     return this.setState({ cropX: 0.093, cropY: 0.4 });
   }
@@ -326,7 +326,7 @@ class WebcamView extends React.Component {
     const {
       videoWidth, videoHeight, cropX, cropY,
     } = this.state;
-    const mobileOverlayTop = this.props.isPassport ? 0.195 : 0.13;
+    const mobileOverlayTop = this.selfieView ? -0.22 : (this.props.isPassport ? 0.195 : 0.13);
     if (this.isMobile) {
       return {
         width: videoWidth * (1 - cropX * 2),

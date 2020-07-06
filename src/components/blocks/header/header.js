@@ -7,19 +7,24 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
 
 function Header(props) {
-  const { currentComponent } = props;
+  const { currentComponent, cameraComponent } = props;
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
   let subHeaderText;
+  let headerText;
 
   const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
-  const headerText = translations[`${componentName}_header`];
+  headerText = translations[`${componentName}_header`];
   subHeaderText = translations[`${componentName}_subHeader`];
 
   if (isMobile()) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
+  }
+
+  if (componentName === 'PreviewForm') {
+    headerText = translations[`${componentName}_${cameraComponent}`];
   }
 
   return (
@@ -55,6 +60,7 @@ function Header(props) {
 
 Header.propTypes = {
   currentComponent: PropTypes.object.isRequired,
+  cameraComponent: PropTypes.string.isRequired,
 };
 
 export default Header;

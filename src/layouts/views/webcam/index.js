@@ -378,7 +378,7 @@ class WebcamView extends React.Component {
 
     return (
       <div id="webcam" className="webcam" data-role="webcamContainer">
-        <Header currentComponent={getCurrentComponent()} />
+        <Header cameraComponent={component} currentComponent={getCurrentComponent()} />
         {!show && (
           <Guide
             footer={footer}

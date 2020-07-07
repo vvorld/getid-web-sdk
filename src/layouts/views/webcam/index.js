@@ -125,7 +125,6 @@ class WebcamView extends React.Component {
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
 
       const minValue = Math.min(originVideoWidth, videoHeight);
-      const maxValue = Math.max(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
         videoHeight: this.isMobile ? minValue * (25 / 16) : minValue,
@@ -340,7 +339,7 @@ class WebcamView extends React.Component {
   }
 
   canvasParams = () => {
-    const { originVideoWidth:videoWidth, cropX } = this.state;
+    const { videoWidth, cropX } = this.state;
 
     const width = videoWidth * (1 - cropX * 2) * (this.isMobile ? 1 : ZOOM);
     const passportAspectRatio = this.isMobile ? PASSPORT_MOBILE_ASPECT : PASSPORT_ASPECT;

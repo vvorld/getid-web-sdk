@@ -20,7 +20,9 @@ export const removeFieldDupes = (fields = {}) => {
 export const checkRealMimeType = (headerString) => {
     if (headerString === '89504e47') {
         return [true, 'image/png'];
-    } else if (headerString.includes('ffd8ff')) {
+    }
+
+    if (headerString.includes('ffd8ff')) {
         return [true, 'image/jpeg'];
     }
 

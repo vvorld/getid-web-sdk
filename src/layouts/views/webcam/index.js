@@ -23,7 +23,8 @@ const MOBILE_QUALITY = 1920;
 const ID_CARD_ASPECT = 1.565;
 const PASSPORT_MOBILE_ASPECT = 1.4216;
 const PASSPORT_ASPECT = 1.1;
-const SELFIE_ASPECT = 0.723;
+const SELFIE_MOBILE_ASPECT = 0.723;
+const SELFIE_ASPECT = 1.735;
 const ZOOM = 1.145;
 
 const CROP_COEFFICIENT = {
@@ -342,7 +343,8 @@ class WebcamView extends React.Component {
     const width = videoWidth * (1 - cropX * 2) * (this.isMobile ? 1 : ZOOM);
     const passportAspectRatio = this.isMobile ? PASSPORT_MOBILE_ASPECT : PASSPORT_ASPECT;
     const docAspectRatio = this.props.isPassport ? passportAspectRatio : ID_CARD_ASPECT;
-    const aspectRatio = this.selfieView ? SELFIE_ASPECT : docAspectRatio;
+    const selfieAspectRatio = this.isMobile ? SELFIE_MOBILE_ASPECT : SELFIE_ASPECT;
+    const aspectRatio = this.selfieView ? selfieAspectRatio : docAspectRatio;
 
     return {
       width,

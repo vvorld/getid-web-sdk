@@ -17,7 +17,7 @@ import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Header from '../../../components/blocks/header/header';
 
 const DESKTOP_QUALITY = 4096;
-const MOBILE_QUALITY = 1920;
+const MOBILE_QUALITY = 4096;
 
 const ID_CARD_ASPECT = 1.565;
 const PASSPORT_MOBILE_ASPECT = 1.4216;
@@ -28,9 +28,9 @@ const ZOOM = 1.145;
 
 const CROP_COEFFICIENT = {
   mobile: {
-    idCard: { x: 0.1, y: 0.41 },
-    passport: { x: 0.1, y: 0.42 },
-    selfie: { x: 0.13, y: 0.2 },
+    idCard: { x: 0.07, y: 0.28 },
+    passport: { x: 0.1, y: 0.29 },
+    selfie: { x: 0.13, y: 0.08 },
   },
   desktop: {
     idCard: { x: 0.1, y: 0.036 },
@@ -123,13 +123,16 @@ class WebcamView extends React.Component {
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
 
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
+
       const minValue = Math.min(originVideoWidth, videoHeight);
+      const maxValue = Math.max(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
         videoHeight: this.isMobile ? minValue * (25 / 16) : minValue,
         videoWidth: this.isMobile ? minValue : minValue * (25 / 16),
         originVideoWidth: this.isMobile ? minValue : originVideoWidth,
       });
+
       if (this.webcam) {
         if (this.selfieView
           && sdkPermissions.videoRecording) { return this.initVideoRecorder(this.stream); }
@@ -337,7 +340,7 @@ class WebcamView extends React.Component {
   }
 
   canvasParams = () => {
-    const { videoWidth, cropX } = this.state;
+    const { originVideoWidth:videoWidth, cropX } = this.state;
 
     const width = videoWidth * (1 - cropX * 2) * (this.isMobile ? 1 : ZOOM);
     const passportAspectRatio = this.isMobile ? PASSPORT_MOBILE_ASPECT : PASSPORT_ASPECT;

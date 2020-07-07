@@ -15,7 +15,6 @@ import Footer from '../../../components/blocks/footer';
 import Landscape from './mobile-landscape';
 import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
 import Header from '../../../components/blocks/header/header';
-import { buildFlow } from '../../../helpers/flow-builder';
 
 const DESKTOP_QUALITY = 4096;
 const MOBILE_QUALITY = 1920;
@@ -353,9 +352,15 @@ class WebcamView extends React.Component {
   }
 
   render() {
-    /* eslint-disable max-len */
     const {
-      cameraOverlay, classes, component, scans, currentStep, mobileCameraOverlay, footer, currentComponent,
+      cameraOverlay,
+      classes,
+      component,
+      scans,
+      currentStep,
+      mobileCameraOverlay,
+      footer,
+      currentComponent,
     } = this.props;
     const {
       errorMessage,
@@ -381,17 +386,13 @@ class WebcamView extends React.Component {
 
     const { width: canvasWidth, height: canvasHeight } = this.canvasParams();
 
-    const getCurrentComponent = () => {
-      if (saveImage) {
-        return buildFlow([{ component: ['PreviewForm'] }])[0];
-      }
-
-      return currentComponent;
-    };
-
     return (
       <div id="webcam" className="webcam" data-role="webcamContainer">
-        <Header cameraComponent={component} currentComponent={getCurrentComponent()} />
+        <Header
+          isPhotoPreview={saveImage && show}
+          cameraComponent={component}
+          currentComponent={currentComponent}
+        />
         {!show && (
           <Guide
             footer={footer}

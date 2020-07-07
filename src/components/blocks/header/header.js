@@ -7,25 +7,24 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
 
 function Header(props) {
-  const { currentComponent, cameraComponent } = props;
+  const {
+    currentComponent, cameraComponent, isPhotoPreview,
+  } = props;
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
   let subHeaderText;
-  let headerText;
 
   const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
-  headerText = translations[`${componentName}_header`];
-  subHeaderText = translations[`${componentName}_subHeader`];
 
+  subHeaderText = translations[`${componentName}_subHeader`];
   if (isMobile()) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
-  if (componentName === 'PreviewForm') {
-    headerText = translations[`${componentName}_${cameraComponent}`];
-  }
+  const headerText = isPhotoPreview ? translations[`PreviewForm_${cameraComponent}`]
+    : translations[`${componentName}_header`];
 
   return (
     <Grid container alignItems="center" justify="center" data-role="header">
@@ -60,7 +59,13 @@ function Header(props) {
 
 Header.propTypes = {
   currentComponent: PropTypes.object.isRequired,
-  cameraComponent: PropTypes.string.isRequired,
+  isPhotoPreview: PropTypes.bool,
+  cameraComponent: PropTypes.string,
+};
+
+Header.defaultProps = {
+  cameraComponent: null,
+  isPhotoPreview: false,
 };
 
 export default Header;

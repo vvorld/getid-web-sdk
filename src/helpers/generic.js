@@ -22,9 +22,9 @@ export const checkRealMimeType = (headerString) => {
         return [true, 'image/png'];
     } else if (headerString.includes('ffd8ff')) {
         return [true, 'image/jpeg'];
-    } else {
-        return [null, 'unknown'];
     }
+
+    return [null, 'unknown'];
 }
 
 export const checkContainerId = (options) => {

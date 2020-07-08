@@ -26,6 +26,10 @@ export const checkRealMimeType = (headerString) => {
         return [true, 'image/jpeg'];
     }
 
+    if (headerString === '25504446') {
+        return [true, 'application/pdf'];
+    }
+
     return [null, 'unknown'];
 }
 

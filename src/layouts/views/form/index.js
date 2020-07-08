@@ -89,7 +89,7 @@ class Form extends Component {
       const [isMimeType] = checkRealMimeType(header);
       if (!isMimeType) {
         this.changeFileData(eventTarget, null);
-        this.setErrorState(true, eventTarget.name, 'We support only JPG and PNG formats');
+        this.setErrorState(true, eventTarget.name, 'We support only JPG, PNG and PDF formats');
       }
     };
     fr.readAsArrayBuffer(file);

@@ -80,9 +80,10 @@ const init = (options, tokenProvider) => {
     }
 
     if (responseCode !== 200 || exists) {
-      renderMainComponent(config);
+      renderMainComponent({ ...config, responseCode });
       return;
     }
+
     Promise.all([
       removeFieldDupes(config.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
@@ -102,6 +103,20 @@ const init = (options, tokenProvider) => {
       config.fields = filteredFields;
       renderMainComponent({
         ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
+      });
+    }).catch((e) => {
+      const mapApiErrors = {
+        'jwt malformed': 'token_malformed',
+        'invalid token': 'token_invalid',
+        'No JWT has been provided': 'token_empty',
+        'jwt expired': 'token_expired',
+      };
+      renderMainComponent({
+        ...options,
+        exists,
+        api,
+        translations: defaultTranslations,
+        errorMessage: mapApiErrors[e.message],
       });
     });
   });

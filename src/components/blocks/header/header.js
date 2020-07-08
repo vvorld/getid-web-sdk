@@ -31,7 +31,8 @@ function Header(props) {
 
   return (
     <Grid container alignItems="center" justify="center" data-role="header">
-      <Grid className={classes.root}
+      <Grid
+        className={classes.root}
         container
         alignItems="center"
         justify="center"

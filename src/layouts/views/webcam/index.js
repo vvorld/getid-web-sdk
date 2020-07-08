@@ -256,6 +256,8 @@ class WebcamView extends React.Component {
 
       if (!this.state.saveImage
         && !this.isMobileLandscape()) this.state.mediaRecorder.startRecording();
+
+      this.cameraResize();
     } catch (e) {
       console.error(e);
     }
@@ -282,7 +284,7 @@ class WebcamView extends React.Component {
     if (this.isMobile) {
       this.checkMobileLandscape();
     }
-    this.setWebStream();
+    if (!this.state.saveImage) this.setWebStream();
     document.addEventListener('keydown', this.spaceActivate, false);
     window.addEventListener('resize', this.cameraResize, false);
     window.addEventListener('orientationchange', this.checkMobileLandscape, false);

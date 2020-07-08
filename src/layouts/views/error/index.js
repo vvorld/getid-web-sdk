@@ -9,7 +9,7 @@ import CustomLogo from '../../../components/logo/custom-logo';
 
 const createErrorView = (config) => (props) => {
   const {
-    callbacks, responseCode, submitAttempts,
+    callbacks, responseCode, submitAttempts, error,
   } = props;
 
   const buttonStyle = ButtonStyles();
@@ -42,7 +42,7 @@ const createErrorView = (config) => (props) => {
                   classes={{ root: buttonStyle.root }}
                   variant={button.variant}
                   className={buttonStyle[button.class]}
-                  onClick={button.action(callbacks)}
+                  onClick={() => button.action(callbacks)(error)}
                 >
                   {button.name(dictionary)}
                 </Button>
@@ -57,6 +57,7 @@ const createErrorView = (config) => (props) => {
 
 const errorProps = {
   condition: PropTypes.string,
+  error: PropTypes.string,
   submitAttempts: PropTypes.number,
   callbacks: PropTypes.object,
 };

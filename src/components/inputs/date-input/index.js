@@ -33,7 +33,8 @@ function DateInput(props) {
             InputLabelProps={{
               classes: { root: classes.labelRoot },
             }}
-            InputProps={{
+            inputProps={{
+              autocomplete: 'off',
               classes: { root: classes.root + classname },
             }}
           />

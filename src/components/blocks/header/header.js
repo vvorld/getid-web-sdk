@@ -5,11 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import CustomLogo from '../../logo/custom-logo';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
+import headerStyles from './style';
 
 function Header(props) {
   const {
     currentComponent, cameraComponent, isPhotoPreview,
   } = props;
+
+  const classes = headerStyles();
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
@@ -28,10 +31,7 @@ function Header(props) {
 
   return (
     <Grid container alignItems="center" justify="center" data-role="header">
-      <Grid
-        style={{
-          marginBottom: '40px',
-        }}
+      <Grid className={classes.root}
         container
         alignItems="center"
         justify="center"

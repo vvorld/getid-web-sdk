@@ -2,6 +2,9 @@ const widgetStyles = (theme) => ({
   root: {
     padding: '40px 0 20px',
     fontFamily: theme.typography.fontFamily,
+    [theme.breakpoints.down('sm')]: {
+      padding: '20px 0',
+    },
   },
   loader: {
     color: theme.palette.blueLoader,

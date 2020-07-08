@@ -11,7 +11,7 @@ const MobileFooter = (props) => {
   const { back } = props;
   const darkMode = back && back.theme === 'dark';
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, darkMode ? '' : classes.default)}>
       <div className={classes.actionsBlock} data-role="footerBlock">
         {Object.entries(props).map(([key, value]) => (value
           && (
@@ -22,7 +22,7 @@ const MobileFooter = (props) => {
               className={clsx(
                 classes.button,
                 classes[key],
-                value.hidden ? 'hidden' : '',
+                value.hidden ? classes.hidden : '',
                 darkMode ? classes.darkMode : '',
               )}
               onClick={value.action}

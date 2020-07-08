@@ -8,7 +8,7 @@ const FooterStyles = makeStyles(({ palette }) => ({
     lineHeight: '100%',
     textAlign: 'center',
     width: '100%',
-    padding: '14px 18px',
+    padding: '17px 18px',
     borderRadius: '34px',
     margin: '5px 0',
     letterSpacing: '1px',
@@ -38,9 +38,18 @@ const FooterStyles = makeStyles(({ palette }) => ({
     textTransform: 'none',
     opacity: 0.4,
   },
+  hidden: {
+    display: 'none',
+  },
   darkMode: {
     color: palette.white,
     opacity: 1,
+  },
+  default: {
+    marginTop: '30px',
+  },
+  poweredBy: {
+    marginTop: '5px',
   },
 }));
 

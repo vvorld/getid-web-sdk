@@ -209,11 +209,11 @@ class WebcamView extends React.Component {
     );
 
     if (this.state.mediaRecorder) this.stopRecording();
-    if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
 
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
       this.setState({ saveImage: true });
+      if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
     };
     this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
   };

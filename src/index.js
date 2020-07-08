@@ -116,7 +116,7 @@ const init = (options, tokenProvider) => {
         exists,
         api,
         translations: defaultTranslations,
-        errorMessage: mapApiErrors[e.message],
+        errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });
     });
   });

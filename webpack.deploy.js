@@ -18,6 +18,7 @@ module.exports = merge(common, {
       },
       s3UploadOptions: {
         Bucket: config.bucketName,
+        CacheControl: 'random',
       },
       directory: path.resolve(__dirname, 'dist/lib'),
     }),

@@ -5,9 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import CustomLogo from '../../logo/custom-logo';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
+import headerStyles from './style';
 
 function Header(props) {
-  const { currentComponent } = props;
+  const {
+    currentComponent, cameraComponent, isPhotoPreview,
+  } = props;
+
+  const classes = headerStyles();
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
@@ -15,19 +20,19 @@ function Header(props) {
 
   const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
-  const headerText = translations[`${componentName}_header`];
-  subHeaderText = translations[`${componentName}_subHeader`];
 
+  subHeaderText = translations[`${componentName}_subHeader`];
   if (isMobile()) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
+  const headerText = isPhotoPreview ? translations[`PreviewForm_${cameraComponent}`]
+    : translations[`${componentName}_header`];
+
   return (
     <Grid container alignItems="center" justify="center" data-role="header">
       <Grid
-        style={{
-          marginBottom: '40px',
-        }}
+        className={classes.root}
         container
         alignItems="center"
         justify="center"
@@ -42,7 +47,7 @@ function Header(props) {
               { headerText }
             </Typography>
           )}
-          { subHeaderText && (
+          { (subHeaderText && !isPhotoPreview) && (
             <Typography variant="h2">
               { subHeaderText }
             </Typography>
@@ -55,6 +60,13 @@ function Header(props) {
 
 Header.propTypes = {
   currentComponent: PropTypes.object.isRequired,
+  isPhotoPreview: PropTypes.bool,
+  cameraComponent: PropTypes.string,
+};
+
+Header.defaultProps = {
+  cameraComponent: null,
+  isPhotoPreview: false,
 };
 
 export default Header;

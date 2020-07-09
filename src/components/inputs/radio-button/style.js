@@ -35,9 +35,12 @@ const RadioButtonStyles = makeStyles((theme) => ({
     ...theme.inputBorder,
     height: 16,
     margin: '30px 0 0px',
-    padding: '17px 0',
+    padding: '18px 0',
     '&.MuiFormControlLabel-root > .MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1': {
       paddingLeft: 15,
+    },
+    [theme.breakpoints.down('sm')]: {
+      margin: '15px 0 0px',
     },
   },
   checked: {},

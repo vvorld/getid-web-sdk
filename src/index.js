@@ -6,6 +6,7 @@ import { renderMainComponent } from './main-module';
 import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+import mapApiErrors from './constants/error-mapping';
 import {
   removeFieldDupes,
   checkContainerId,
@@ -30,10 +31,11 @@ const init = (options, tokenProvider) => {
   const found = options.flow
     .some((view) => view.component
       .some((step) => cameraViews.includes(step)));
-  const isIOSChrome = navigator.userAgent.match('CriOS');
 
   if (found) {
-    if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
+    if (!navigator.mediaDevices
+      || !navigator.mediaDevices.enumerateDevices
+      || !navigator.mediaDevices.getUserMedia) {
       if (options.onFail && typeof options.onFail === 'function') {
         const error = new Error('mediaDevices_no_supported');
         options.onFail(error);
@@ -105,12 +107,6 @@ const init = (options, tokenProvider) => {
         ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
       });
     }).catch((e) => {
-      const mapApiErrors = {
-        'jwt malformed': 'token_malformed',
-        'invalid token': 'token_invalid',
-        'No JWT has been provided': 'token_empty',
-        'jwt expired': 'token_expired',
-      };
       renderMainComponent({
         ...options,
         exists,

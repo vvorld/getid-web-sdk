@@ -6,6 +6,7 @@ import { renderMainComponent } from './main-module';
 import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+import mapApiErrors from './constants/error-mapping';
 import {
   removeFieldDupes,
   checkContainerId,
@@ -106,18 +107,12 @@ const init = (options, tokenProvider) => {
         ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
       });
     }).catch((e) => {
-      const mapApiErrors = {
-        'jwt malformed': 'token_malformed',
-        'invalid token': 'token_invalid',
-        'No JWT has been provided': 'token_empty',
-        'jwt expired': 'token_expired',
-      };
       renderMainComponent({
         ...options,
         exists,
         api,
         translations: defaultTranslations,
-        errorMessage: mapApiErrors[e.message],
+        errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });
     });
   });

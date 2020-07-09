@@ -37,7 +37,6 @@ const style = makeStyles((theme) => ({
     ...theme.typography.mainInput,
     width: '95%!important',
     display: 'none',
-    zIndex: -1,
     '&.selected': {
       border: 'none',
       outline: 'none',

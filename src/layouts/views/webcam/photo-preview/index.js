@@ -48,6 +48,7 @@ const PreviewForm = ({
     next: {
       ...next,
       disabled: showSpinner,
+      order: isMobile ? 1 : 2,
       text: (isMobile && next.text !== translations.button_submit)
         ? translations.camera_mobile_confirm
         : next.text,
@@ -56,12 +57,14 @@ const PreviewForm = ({
       ...footer.retake,
       hidden: showSpinner,
       variant: 'outlined',
+      order: isMobile ? 2 : 3,
       text: isMobile ? translations.camera_mobile_retake : footer.retake.text,
       action,
     },
     back: {
       ...footer.back,
       text: isMobile ? translations.camera_mobile_back : footer.back.text,
+      order: isMobile ? 3 : 1,
     },
   };
 

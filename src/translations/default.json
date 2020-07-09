@@ -40,7 +40,7 @@
   "file_input_tooltip": "Allowed formats: jpg, png, pdf.",
   "button_make_photo": "Take photo",
   "guide_accept": "Ok, got it",
-  "consent": "I have read and understand or I have read and understood <a href=\"https://getid.ee/sdk-terms-of-use/\" data-role=\"linkTerms\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of use</a> and <a href=\"https://getid.ee/sdk-privacy-policy/\" data-role=\"linkPolicy\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy policy</a> of GetID OÜ.",
+  "consent": "I have read and understand <a href=\"https://getid.ee/sdk-terms-of-use/\" data-role=\"linkTerms\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of use</a> and <a href=\"https://getid.ee/sdk-privacy-policy/\" data-role=\"linkPolicy\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy policy</a> of GetID OÜ.",
   "error_header": "Something was wrong",
   "camera_error_header": "Camera is not supported",
   "error_subHeader": "Please contact your provider for further information.",

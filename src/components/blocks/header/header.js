@@ -47,7 +47,7 @@ function Header(props) {
               { headerText }
             </Typography>
           )}
-          { subHeaderText && (
+          { (subHeaderText && !isPhotoPreview) && (
             <Typography variant="h2">
               { subHeaderText }
             </Typography>

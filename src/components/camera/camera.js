@@ -1,40 +1,35 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import cameraStyles from './style';
-import Footer from '../blocks/footer/footer';
-import PhotoSVG from '../../assets/icons/views/photo-camera.svg';
-import TranslationsContext from '../../context/TranslationsContext';
+import Footer from '../blocks/footer/desktop-footer/desktop-footer';
+import MobileCamera from '../mobile-camera/mobile-camera';
 
-const Camera = (props) => {
+const Camera = ({
+  setWebcamRef,
+  overlay,
+  isSelfie,
+  footer,
+  isMobile,
+}) => {
   const [isStream, setStream] = useState(false);
-
   const classes = cameraStyles();
-  const { translations } = useContext(TranslationsContext);
-  const {
-    setWebcamRef,
-    overlay,
-    footer,
-    isCameraEnabled,
-    capture,
-  } = props;
 
-  const { next } = footer;
-
-  const cameraFooter = {
-    ...footer,
-    next: {
-      ...next,
-      action: capture,
-      text: translations.button_make_photo,
-      iconItem: PhotoSVG,
-      disabled: !isCameraEnabled,
-    },
-    isCameraEnabled,
-  };
+  if (isMobile) {
+    return (
+      <MobileCamera
+        footer={footer}
+        isSelfie={isSelfie}
+        setWebcamRef={setWebcamRef}
+        overlay={overlay}
+      />
+    );
+  }
 
   return (
-    <div>
+    <div
+      id="camera"
+    >
       <Grid container justify="center">
         <Grid item xs={12} sm={10} md={9} data-role="cameraLive">
           <div className={classes.mediaWrapper}>
@@ -50,28 +45,34 @@ const Camera = (props) => {
             >
               <track kind="captions" />
             </video>
-            {isStream ? (
+            {(isStream && overlay) ? (
               <div>
-                <img className={classes.cameraOverlay} src={overlay()} alt="powered by getId" />
+                <img
+                  className={classes.cameraOverlay}
+                  src={overlay()}
+                  alt="powered by getId"
+                />
               </div>
             )
               : null}
           </div>
         </Grid>
       </Grid>
-      <Footer {...cameraFooter} />
+      <Footer {...footer()} />
     </div>
   );
 };
 
+Camera.defaultProps = {
+  isSelfie: false,
+};
+
 Camera.propTypes = {
-  isCameraEnabled: PropTypes.bool.isRequired,
-  footer: PropTypes.shape({
-    next: PropTypes.shape({}).isRequired,
-  }).isRequired,
-  capture: PropTypes.func.isRequired,
+  footer: PropTypes.func.isRequired,
   setWebcamRef: PropTypes.func.isRequired,
   overlay: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  isSelfie: PropTypes.bool,
 };
 
 export default Camera;

@@ -11,7 +11,7 @@ const consentStyles = (theme) => ({
   poweredLabel: {
     fontSize: '15px',
     lineHeight: '22px',
-    color: theme.palette.blue,
+    color: theme.palette.blue.main,
     opacity: 0.3,
   },
   slash: {
@@ -25,6 +25,7 @@ const consentStyles = (theme) => ({
   },
   labelCheckbox: {
     textAlign: 'left',
+    marginLeft: 0,
     '& label': {
       color: theme.palette.blueDark,
       lineHeight: '22px',
@@ -33,7 +34,7 @@ const consentStyles = (theme) => ({
       fontSize: '15px',
     },
     '& a': {
-      color: theme.palette.violet,
+      color: theme.palette.violet.main,
     },
   },
 });

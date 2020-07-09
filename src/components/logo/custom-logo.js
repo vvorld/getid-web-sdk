@@ -17,7 +17,7 @@ function CustomLogo(props) {
   if (!condition) return null;
   const styles = imgStyles();
   return (
-    <div className={styles.block}>
+    <div>
       {text && <span className={styles.text}>{text}</span>}
       <img className={`${styles.img} ${condition}`} data-role="logo" src={logoMapping[condition]} alt={`${condition}-logo`} />
     </div>

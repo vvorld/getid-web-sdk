@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "4.3.2",
+  "version": "4.4.0",
   "main": "./lib/bundle.js",
   "author": "GetID",
   "description": "GetID Web SDK",
@@ -11,10 +11,12 @@
     "url": "git+https://github.com/vvorld/getid-web-sdk.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --watch --config webpack.dev.js",
+    "start": "webpack-dev-server --open --watch --config webpack.dev.js ",
     "build": "webpack --config webpack.prod.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
+    "deploy-assets": "webpack --config webpack.deploy-assets.js",
+    "deploy": "webpack --config webpack.deploy.js",
     "lint": "eslint ./src",
     "test": "jest ./test",
     "supportedBrowsers": "echo \"module.exports = $(browserslist-useragent-regexp --allowHigherVersions);\" > supportedBrowsers.js"
@@ -52,16 +54,21 @@
     "clsx": "latest",
     "core-js": "^3.4.8",
     "date-fns": "^2.8.1",
+    "file-loader": "^6.0.0",
     "html-react-parser": "^0.10.0",
+    "jss": "^10.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
+    "react-shadow": "^18.1.2",
+    "recordrtc-ponyfill": "^1.3.0",
     "redux": "^4.0.4",
     "rollup": "^1.27.14",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-postcss": "^2.0.3"
+    "rollup-plugin-postcss": "^2.0.3",
+    "webpack-s3-plugin": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -97,7 +104,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "file-loader": "^4.3.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",

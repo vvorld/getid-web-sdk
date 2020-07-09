@@ -12,7 +12,7 @@ const loader = makeStyles((theme) => ({
     color: theme.palette.blueLight,
   },
   bottom: {
-    color: theme.palette.violet,
+    color: theme.palette.violet.main,
     animationDuration: '850ms',
     position: 'absolute',
     left: 0,
@@ -20,7 +20,7 @@ const loader = makeStyles((theme) => ({
   text: {
     fontFamily: theme.typography.fontFamily,
     position: 'absolute',
-    top: '55%',
+    top: 'calc(50% + 40px)',
     left: 0,
     right: 0,
     margin: 'auto',
@@ -28,7 +28,6 @@ const loader = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     fontSize: '22px',
     lineHeight: '100%',
-    color: theme.palette.blueLoader,
   },
 }));
 

@@ -5,11 +5,12 @@ import WebcamView from '../index';
 import OverlaySVG from '../../../../assets/icons/views/large-overlay.svg';
 import OverlayFarSVG from '../../../../assets/icons/views/large-overlay-far.svg';
 import PassportSVG from '../../../../assets/icons/views/passport-overlay.svg';
+import MobileOverlaySVG from '../../../../assets/icons/views/large-overlay-mobile.svg';
+import MobilePassportOverlaySVG from '../../../../assets/icons/views/passport-overlay-mobile.svg';
 import { getFormValues } from '../../../../store/selectors';
 
 const IdCapture = (props) => {
   const { fieldValues, cameraDistance } = props;
-
   const isPassport = !!Object.values(fieldValues)
     .find(({ DocumentType }) => (DocumentType && DocumentType.value === 'passport'));
 
@@ -20,11 +21,12 @@ const IdCapture = (props) => {
     if (cameraDistance === 'far') {
       return OverlayFarSVG;
     }
+
     return OverlaySVG;
   };
-
+  const mobileCameraOverlay = () => (isPassport ? MobilePassportOverlaySVG : MobileOverlaySVG);
   return (
-    <WebcamView {...props} isPassport={isPassport} cameraOverlay={cameraOverlay} component="front" />
+    <WebcamView {...props} mobileCameraOverlay={mobileCameraOverlay} isPassport={isPassport} cameraOverlay={cameraOverlay} component="front" />
   );
 };
 

@@ -20,7 +20,7 @@ function DateInput(props) {
             data-role="datePicker"
             openTo="date"
             autoOk
-            inputVariant="filled"
+            inputVariant="outlined"
             variant="inline"
             disableFuture
             keyboardIcon={(
@@ -31,17 +31,11 @@ function DateInput(props) {
             views={['year', 'month', 'date']}
             {...props}
             InputLabelProps={{
-              classes: {
-                root: classes.labelRoot,
-                focused: classes.labelFocused,
-              },
+              classes: { root: classes.labelRoot },
             }}
-            InputProps={{
-              classes: {
-                root: classes.root + classname,
-                focused: classes.focused,
-              },
-              disableUnderline: true,
+            inputProps={{
+              autocomplete: 'off',
+              classes: { root: classes.root + classname },
             }}
           />
         </FormControl>

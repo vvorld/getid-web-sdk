@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import CustomLogo from '../../logo/custom-logo';
-import headerStyles from './style';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
+import headerStyles from './style';
 
 function Header(props) {
-  const { currentComponent } = props;
+  const {
+    currentComponent, cameraComponent, isPhotoPreview,
+  } = props;
+
+  const classes = headerStyles();
 
   const { translations } = useContext(TranslationsContext);
   const { component } = currentComponent;
@@ -15,35 +20,39 @@ function Header(props) {
 
   const isThankYou = () => component.includes('ThankYou') && 'ThankYou';
   const componentName = component[0];
-  const headerText = translations[`${componentName}_header`];
-  subHeaderText = translations[`${componentName}_subHeader`];
 
+  subHeaderText = translations[`${componentName}_subHeader`];
   if (isMobile()) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
-  const {
-    header, hr, subHeader, topPart,
-  } = headerStyles();
+  const headerText = isPhotoPreview ? translations[`PreviewForm_${cameraComponent}`]
+    : translations[`${componentName}_header`];
 
   return (
-    <Grid className={topPart} container alignItems="center" justify="center">
-      <Grid item xs={10} sm={8} md={4}>
-        <CustomLogo condition={isThankYou()} />
-        { headerText && (
-          <h3
-            data-role="componentTitle"
-            className={header}
-          >
-            { headerText }
-          </h3>
-        )}
-        <hr className={hr} />
-        { subHeaderText && (
-          <h5 className={subHeader}>
-            { subHeaderText }
-          </h5>
-        ) }
+    <Grid container alignItems="center" justify="center" data-role="header">
+      <Grid
+        className={classes.root}
+        container
+        alignItems="center"
+        justify="center"
+      >
+        <Grid item xs={10} sm={8} md={6}>
+          <CustomLogo condition={isThankYou()} />
+          { headerText && (
+            <Typography
+              variant="h1"
+              data-role="componentTitle"
+            >
+              { headerText }
+            </Typography>
+          )}
+          { (subHeaderText && !isPhotoPreview) && (
+            <Typography variant="h2">
+              { subHeaderText }
+            </Typography>
+          ) }
+        </Grid>
       </Grid>
     </Grid>
   );
@@ -51,6 +60,13 @@ function Header(props) {
 
 Header.propTypes = {
   currentComponent: PropTypes.object.isRequired,
+  isPhotoPreview: PropTypes.bool,
+  cameraComponent: PropTypes.string,
+};
+
+Header.defaultProps = {
+  cameraComponent: null,
+  isPhotoPreview: false,
 };
 
 export default Header;

@@ -3,43 +3,38 @@ export const styles = (theme) => ({
     color: theme.palette.error.main,
     fontSize: '12px',
     textAlign: 'left',
-    margin: '8px 14px 0',
   },
   hidden: {
     display: 'none',
   },
   fieldWrapper: {
+    margin: '0 30px 28px 0!important',
     position: 'relative',
-    marginBottom: '4px',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0 30px 22px 0!important',
+    },
+    [theme.breakpoints.down('xs')]: {
+      margin: '0 0 22px 0!important',
+    },
     '& p': {
       position: 'absolute',
       bottom: '-14px',
+      height: '10px',
     },
     '& $helper': {
-      position: 'initial',
+      position: 'absolute',
+      height: '10px',
+      top: '-25px',
     },
     '& $error': {
       position: 'absolute',
-      bottom: '-6px',
-    },
-  },
-  labelCheckbox: {
-    margin: '40px 0 0 0',
-    textAlign: 'left',
-    '& label': {
-      color: theme.palette.blueDark,
-      lineHeight: '22px',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      fontSize: '15px',
-    },
-    '& a': {
-      color: theme.palette.violet,
+      bottom: '-14px',
+      left: '12px',
     },
   },
   helper: {
-    margin: '0 8px 10px',
-    color: theme.palette.blueDark,
+    paddingBottom: '10px',
+    color: theme.palette.gray.semiLight,
     opacity: '0.7',
   },
 });

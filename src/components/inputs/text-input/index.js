@@ -13,19 +13,17 @@ function CustomInput(props) {
     <FormControl fullWidth>
       <TextField
         data-role={`textField_${type}`}
-        variant="filled"
+        variant="outlined"
         InputLabelProps={{
           classes: {
             root: classes.labelRoot,
-            focused: classes.labelFocused,
           },
         }}
-        InputProps={{
+        inputProps={{
           classes: {
             root: classes.root + classname,
-            focused: classes.focused,
           },
-          disableUnderline: true,
+          autocomplete: 'off',
         }}
         {...props}
       />

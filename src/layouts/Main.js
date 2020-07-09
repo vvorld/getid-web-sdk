@@ -6,6 +6,7 @@ import actions from '../store/actions';
 import {
   getCurrentComponent, getFormValues, getIsDisabled, getScanValues, getStep, getIdCaptureBackIndex,
 } from '../store/selectors';
+import { getEventStepName } from '../helpers/generic';
 
 class Main extends React.Component {
   constructor(props) {
@@ -19,6 +20,16 @@ class Main extends React.Component {
   componentDidMount() {
     this.setSdkFlow();
     this.getBackStepIndexAndStep();
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      currentStep, currentComponent,
+    } = this.props;
+
+    if ((prevProps.currentStep < currentStep) && currentComponent.next) {
+      this.sendEvent(prevProps);
+    }
   }
 
   getBackStepIndexAndStep = () => {
@@ -35,6 +46,15 @@ class Main extends React.Component {
       .find((item) => item.component.includes('IdCaptureBack')) || {};
     setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
   };
+
+  sendEvent = async (prevProps) => {
+    const {
+      api, idCaptureBackIndex,
+    } = this.props;
+
+    const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
+    await api.trySendEvent(stepName, 'completed');
+  }
 
   setSdkFlow = () => {
     const {
@@ -77,6 +97,7 @@ class Main extends React.Component {
 Main.defaultProps = {
   flow: [],
   fields: [],
+  currentComponent: null,
 };
 
 Main.propTypes = {
@@ -85,6 +106,10 @@ Main.propTypes = {
   addField: PropTypes.func.isRequired,
   fields: PropTypes.array,
   setIdCaptureBack: PropTypes.func.isRequired,
+  currentComponent: PropTypes.any,
+  api: PropTypes.object.isRequired,
+  currentStep: PropTypes.number.isRequired,
+  idCaptureBackIndex: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

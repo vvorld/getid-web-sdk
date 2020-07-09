@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 const cameraStyles = makeStyles((theme) => ({
   cameraDisabled: {
     boxSizing: 'border-box',
-    background: theme.palette.blue,
+    background: theme.palette.blue.main,
     padding: '80px 0',
     '&& img': {
       marginBottom: '22px',
@@ -16,6 +16,7 @@ const cameraStyles = makeStyles((theme) => ({
     },
   },
   mediaWrapper: {
+    margin: '0 auto',
     position: 'relative',
     display: 'flex',
     overflow: 'hidden',
@@ -28,11 +29,6 @@ const cameraStyles = makeStyles((theme) => ({
     left: 0,
     position: 'absolute',
     top: 0,
-  },
-  imgOverlay: {
-    bottom: '10px',
-    position: 'absolute',
-    right: '10px',
   },
 }));
 

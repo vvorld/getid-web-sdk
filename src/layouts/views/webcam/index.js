@@ -2,24 +2,48 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
+import RecordRTC from 'recordrtc-ponyfill';
 import Camera from '../../../components/camera/camera';
 import actions from '../../../store/actions';
 import { getScanValues } from '../../../store/selectors';
 import TranslationsContext from '../../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
-import MobileCamera from '../../../components/mobile-camera/mobile-camera';
 import { isMobile } from '../../../helpers/generic';
+import Guide from './guide';
+import Footer from '../../../components/blocks/footer';
+import Landscape from './mobile-landscape';
+import PhotoSVG from '../../../assets/icons/views/photo-camera.svg';
+import Header from '../../../components/blocks/header/header';
+
+const DESKTOP_QUALITY = 4096;
+const MOBILE_QUALITY = 4096;
+
+const ID_CARD_ASPECT = 1.565;
+const PASSPORT_MOBILE_ASPECT = 1.4216;
+const PASSPORT_ASPECT = 1.1;
+const SELFIE_MOBILE_ASPECT = 0.723;
+const SELFIE_ASPECT = 1.735;
+const ZOOM = 1.145;
+
+const CROP_COEFFICIENT = {
+  mobile: {
+    idCard: { x: 0.07, y: 0.28 },
+    passport: { x: 0.1, y: 0.29 },
+    selfie: { x: 0.13, y: 0.08 },
+  },
+  desktop: {
+    idCard: { x: 0.1, y: 0.036 },
+    idCardFar: { x: 0.19, y: 0.15 },
+    passport: { x: 0.22, y: 0.03 },
+    selfie: { x: 0.033, y: 0.036 },
+  },
+};
 
 const useStyles = (theme) => ({
   subHeader: {
+    ...theme.typography.subHeader,
     margin: '0 8px 30px 8px',
-    fontSize: '15px',
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    lineHeight: '22px',
-    color: theme.palette.blueDark,
-    opacity: '0.7',
     [theme.breakpoints.down('sm')]: {
       marginTop: '13px',
     },
@@ -29,20 +53,22 @@ const useStyles = (theme) => ({
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
-
+    this.isMobile = isMobile();
+    this.selfieView = props.component === 'selfie';
     this.state = {
+      mediaRecorder: null,
       isCameraEnabled: true,
       saveImage: false,
       errorMessage: '',
       recording: true,
-      videoChunks: [],
+      cropX: 0,
+      originVideoWidth: 1280,
       videoHeight: 720,
       videoWidth: 1125,
-      originVideoWidth: 1280,
-      cropX: 0,
+      show: false,
       cropY: 0,
+      mobileLandscape: false,
     };
-    this.mediaRecorders = [];
     this.setWebcamRef = this.setWebcamRef.bind(this);
     this.setWebStream = this.setWebStream.bind(this);
     this.retake = this.retake.bind(this);
@@ -55,57 +81,64 @@ class WebcamView extends React.Component {
     const {
       component, scans, currentStep,
     } = this.props;
-
     if (scans && scans[currentStep] && scans[currentStep][component]) {
       this.setState({
         saveImage:
-            (scans[currentStep] && !!scans[currentStep][component].value)
-            || false,
+          (scans[currentStep] && !!scans[currentStep][component].value)
+          || false,
       });
     }
-
-
-    this.cropCoefficient();
-    this.setWebStream();
-
-    document.addEventListener('keydown', this.spaceActivate, false);
-    window.addEventListener('resize', this.cameraResize, false);
   }
 
   componentWillUnmount() {
+    if (this.state.mediaRecorder) this.state.mediaRecorder.destroy();
     if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
-    this.stopRecording();
     document.removeEventListener('keydown', this.spaceActivate, false);
     window.removeEventListener('resize', this.cameraResize, false);
   }
 
   async setWebStream() {
-    if (isMobile()) return;
     const { translations } = this.context;
-    const { component } = this.props;
+    const { sdkPermissions } = this.props;
+
+    const constraints = {
+      audio: false,
+      video: {
+        deviceId: true,
+        width: this.isMobile ? MOBILE_QUALITY : DESKTOP_QUALITY,
+      },
+    };
+
+    if (this.isMobile) {
+      Object.assign(constraints.video, {
+        facingMode: {
+          exact: this.selfieView ? 'user' : 'environment',
+        },
+      });
+    }
+
     try {
       this.stream = await navigator.mediaDevices
-        .getUserMedia({
-          audio: false,
-          video: { deviceId: true, width: 4096 },
-        });
+        .getUserMedia(constraints);
       const streamSettings = this.stream.getVideoTracks()[0].getSettings();
+
       const { width: originVideoWidth, height: videoHeight } = streamSettings;
+
+      const minValue = Math.min(originVideoWidth, videoHeight);
       // set width and height of original stream and stream in 25/16 ratio to state
       this.setState({
-        videoHeight,
-        videoWidth: videoHeight * (25 / 16),
-        originVideoWidth,
+        videoHeight: this.isMobile ? minValue * (25 / 16) : minValue,
+        videoWidth: this.isMobile ? minValue : minValue * (25 / 16),
+        originVideoWidth: this.isMobile ? minValue : originVideoWidth,
       });
 
-      if (component === 'selfie') {
-        this.recordLiveness(this.stream);
-      }
-
-      this.cameraResize();
       if (this.webcam) {
+        if (this.selfieView
+          && sdkPermissions.videoRecording) { return this.initVideoRecorder(this.stream); }
         this.webcam.srcObject = this.stream;
       }
+      this.cameraResize();
+      return null;
     } catch (error) {
       if (error.name === 'NotAllowedError') {
         this.setState(() => ({ errorMessage: 'Please enable web camera access in your browser settings.' }));
@@ -116,34 +149,13 @@ class WebcamView extends React.Component {
       if (!this.state.saveImage) {
         this.setState(() => ({ isCameraEnabled: false }));
       }
+      return null;
     }
   }
 
   setWebcamRef(webcam) {
     this.webcam = webcam;
   }
-
-  recordLiveness = (stream) => {
-    const { sdkPermissions } = this.props;
-
-    const { videoRecording, maxVideoDuration } = sdkPermissions;
-    let duration = maxVideoDuration;
-    if (typeof maxVideoDuration !== 'number') {
-      duration = parseInt(maxVideoDuration, 10);
-    }
-
-    if (videoRecording && !Number.isNaN(duration)) {
-      try {
-        // start video recording
-        this.initVideoRecorder(stream, duration);
-        setTimeout(() => {
-          this.initVideoRecorder(stream, duration);
-        }, duration * 1000);
-      } catch (e) {
-        console.error('videoRecorder', e);
-      }
-    }
-  };
 
   spaceActivate = (e) => {
     if (e.keyCode === 32) {
@@ -154,23 +166,26 @@ class WebcamView extends React.Component {
     }
   };
 
-  cameraOverlay = () => null;
-
-  cropCoefficient = () => {
+  setCroppingParams = () => {
     const { isPassport, cameraDistance } = this.props;
-    // cropx, cropY are calculated for each available overlays
-    if (isPassport) {
-      this.setState({ cropX: 0.193, cropY: 0.036 });
-    } else if (cameraDistance === 'far') {
-      this.setState({ cropX: 0.161, cropY: 0.164 });
-    } else {
-      this.setState({ cropX: 0.033, cropY: 0.036 });
+    const coef = this.isMobile ? CROP_COEFFICIENT.mobile : CROP_COEFFICIENT.desktop;
+    if (this.selfieView) return this.setState({ cropX: coef.selfie.x, cropY: coef.selfie.y });
+    if (isPassport) return this.setState({ cropX: coef.passport.x, cropY: coef.passport.y });
+    if (this.isMobile || cameraDistance !== 'far') {
+      return this.setState({ cropX: coef.idCard.x, cropY: coef.idCard.y });
     }
-  };
+    return this.setState({ cropX: coef.idCardFar.x, cropY: coef.idCardFar.y });
+  }
 
   cameraResize = () => {
     if (this.webcam) {
-      this.webcam.height = this.webcam.clientWidth * 0.64;
+      if (this.isMobile) {
+        this.webcam.height = this.webcam.clientWidth * (25 / 16);
+        this.webcam.width = this.webcam.clientWidth;
+
+        return;
+      }
+      this.webcam.height = this.webcam.clientWidth * (16 / 25);
     }
   };
 
@@ -182,105 +197,181 @@ class WebcamView extends React.Component {
 
     const { addScan, component, currentStep } = this.props;
     const {
-      videoWidth, videoHeight, originVideoWidth, cropX, cropY,
+      videoHeight, originVideoWidth, cropX, cropY,
     } = this.state;
 
     // draw image in canvas
     const context = this.canvas.getContext('2d');
     context.drawImage(
       this.webcam,
-      -((originVideoWidth - videoWidth) / 2 + videoWidth * cropX),
-      -videoHeight * cropY,
+      -(originVideoWidth * cropX),
+      -(videoHeight * cropY),
     );
 
-    this.stopRecording();
+    if (this.state.mediaRecorder) this.stopRecording();
 
     const blobCallback = (blob) => {
       addScan(component, blob, currentStep, true);
       this.setState({ saveImage: true });
+      if (this.stream) this.stream.getTracks().forEach((track) => track.stop());
     };
     this.canvas.toBlob(blobCallback, 'image/jpeg', 1.0);
   };
 
   stopRecording = () => {
-    this.setState({ recording: false });
-    if (this.mediaRecorders.length > 0) {
-      this.mediaRecorders.forEach((recorder) => {
-        recorder.stop();
-      });
-    }
+    const { addScan, currentStep } = this.props;
+    const { mediaRecorder } = this.state;
+    this.setState({ recording: false, mediaRecorder: null });
+    addScan('selfie-video', null, currentStep, true);
+
+    mediaRecorder.stopRecording(() => {
+      const blob = mediaRecorder.getBlob();
+      addScan('selfie-video', blob, currentStep, true);
+      mediaRecorder.destroy();
+    });
   };
 
-  initVideoRecorder = (stream, maxVideoDuration) => {
+  isMobileLandscape = () => this.isMobile && window.orientation !== 0;
+
+  initVideoRecorder = (stream) => {
     if (!this.state.recording) return;
-    const { addScan, currentStep } = this.props;
-    const startTime = Date.now() / 1000;
+    const { videoHeight, videoWidth } = this.state;
     try {
-      const mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp8' });
-      this.mediaRecorders.push(mediaRecorder);
+      if (!this.state.mediaRecorder) {
+        this.setState({
+          mediaRecorder: RecordRTC(stream, {
+            type: 'video',
+            mimeType: 'video/webm',
+            recorderType: RecordRTC.WebAssemblyRecorder,
+            width: videoWidth,
+            height: videoHeight,
+            videoElement: this.webcam,
+            frameRate: 20,
+            bitrate: 2048,
+          }),
+        });
+      } else {
+        this.webcam.srcObject = stream;
+      }
 
-      mediaRecorder.onstop = () => {
-        this.initVideoRecorder(stream, maxVideoDuration);
-      };
+      if (!this.state.saveImage
+        && !this.isMobileLandscape()) this.state.mediaRecorder.startRecording();
 
-      mediaRecorder.ondataavailable = ({ data }) => {
-        // store chunk with data
-        const duration = Date.now() / 1000 - startTime;
-        const { videoChunks } = this.state;
-        if (videoChunks.length > 1) videoChunks.shift();
-        videoChunks.push({ time: duration, data });
-        this.setState({ videoChunks });
-
-        this.mediaRecorders.shift();
-        // filter and store video in case no more recorders are running
-        if (this.mediaRecorders.length === 0) {
-          const acceptedVideo = this.state.videoChunks.reduce((acceptedChunk, chunk) => (
-            (chunk.time < acceptedChunk.time && chunk.time > maxVideoDuration)
-              ? chunk : acceptedChunk
-          ));
-          addScan('selfie-video', acceptedVideo.data, currentStep, true);
-        }
-      };
-
-      mediaRecorder.start();
-      // stop recording and gather data after delay
-      setTimeout(() => {
-        if (mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-      }, maxVideoDuration * 2000);
+      this.cameraResize();
     } catch (e) {
       console.error(e);
     }
   };
 
   retake = async () => {
-    const { addScan, component, currentStep } = this.props;
+    const {
+      addScan, component, currentStep, sdkPermissions,
+    } = this.props;
     addScan(component, null, currentStep, true);
-    this.setState({ saveImage: false, videoChunks: [], recording: true });
+    if (this.selfieView && sdkPermissions.videoRecording) addScan('selfie-video', null, currentStep, true);
+    this.setState({ saveImage: false, recording: true });
     this.setWebStream();
-  };
-
-  handleFile = async (event) => {
-    const { addScan, component, currentStep } = this.props;
-    const eventTarget = event.target;
-    const file = [...event.target.files][0];
-    addScan(component,
-      file,
-      currentStep,
-      eventTarget.required);
-    this.setState({ saveImage: true });
   };
 
   requestCamera = async () => {
     this.setState(() => ({ isCameraEnabled: true }));
-    this.setWebStream();
+    await this.setWebStream();
   };
+
+  openComponent = () => {
+    this.setState({ show: true });
+    this.setCroppingParams();
+    if (this.isMobile) {
+      this.checkMobileLandscape();
+    }
+    if (!this.state.saveImage) this.setWebStream();
+    document.addEventListener('keydown', this.spaceActivate, false);
+    window.addEventListener('resize', this.cameraResize, false);
+    window.addEventListener('orientationchange', this.checkMobileLandscape, false);
+  }
+
+  buildFooter = () => {
+    const {
+      footer,
+    } = this.props;
+    const { isCameraEnabled } = this.state;
+    const { translations } = this.context;
+
+    const cameraFooterMobile = {
+      next: {
+        ...footer.next,
+        text: translations.button_make_photo,
+        disabled: !isCameraEnabled || !this.stream || !this.webcam,
+        action: this.capture,
+      },
+      back: {
+        ...footer.back,
+        text: translations.camera_mobile_back,
+        theme: isCameraEnabled ? 'dark' : '',
+      },
+    };
+
+    const cameraFooterDesktop = {
+      ...footer,
+      next: {
+        ...footer.next,
+        action: this.capture,
+        text: translations.button_make_photo,
+        iconItem: PhotoSVG,
+        disabled: !isCameraEnabled || !this.stream || !this.webcam,
+      },
+    };
+
+    return this.isMobile ? cameraFooterMobile : cameraFooterDesktop;
+  }
+
+  checkMobileLandscape = () => {
+    if (!this.isMobile) return;
+    const { mediaRecorder } = this.state;
+    if (this.isMobileLandscape()) {
+      this.setState({ mobileLandscape: true });
+      if (mediaRecorder) {
+        mediaRecorder.stopRecording();
+        mediaRecorder.reset();
+      }
+      return;
+    }
+    this.setState({ mobileLandscape: false });
+    if (mediaRecorder) mediaRecorder.startRecording();
+  }
+
+  canvasParams = () => {
+    const { videoWidth, cropX } = this.state;
+
+    const width = videoWidth * (1 - cropX * 2) * (this.isMobile ? 1 : ZOOM);
+    const passportAspectRatio = this.isMobile ? PASSPORT_MOBILE_ASPECT : PASSPORT_ASPECT;
+    const docAspectRatio = this.props.isPassport ? passportAspectRatio : ID_CARD_ASPECT;
+    const selfieAspectRatio = this.isMobile ? SELFIE_MOBILE_ASPECT : SELFIE_ASPECT;
+    const aspectRatio = this.selfieView ? selfieAspectRatio : docAspectRatio;
+
+    return {
+      width,
+      height: width / aspectRatio,
+    };
+  }
 
   render() {
     const {
-      footer, cameraOverlay, classes, component, scans, currentStep,
+      cameraOverlay,
+      classes,
+      component,
+      scans,
+      currentStep,
+      mobileCameraOverlay,
+      footer,
+      currentComponent,
     } = this.props;
     const {
-      errorMessage, isCameraEnabled, saveImage, videoWidth, videoHeight, cropX, cropY,
+      errorMessage,
+      isCameraEnabled,
+      saveImage,
+      show,
+      mobileLandscape,
     } = this.state;
 
     const { translations } = this.context;
@@ -288,53 +379,62 @@ class WebcamView extends React.Component {
       const message = errorMessage || translations.camera_error_generic;
       return (
         <div className={classes.mediaWrapper}>
-          <CameraDisabled requestCamera={this.requestCamera} errorMessage={message} />
+          <CameraDisabled
+            requestCamera={this.requestCamera}
+            errorMessage={message}
+          />
+          <Footer {...(this.buildFooter())} />
         </div>
       );
     }
 
-    const canvasWidth = videoWidth * (1 - cropX * 2);
-    const canvasHeight = videoHeight * (1 - cropY * 2);
+    const { width: canvasWidth, height: canvasHeight } = this.canvasParams();
 
     return (
-      <div className="webcam" data-role="webcamContainer">
-        <div className={classes.subHeader}>{translations.camera_access_tooltip}</div>
-        {saveImage ? (
-          <PreviewForm
+      <div id="webcam" className="webcam" data-role="webcamContainer">
+        <Header
+          isPhotoPreview={saveImage && show}
+          cameraComponent={component}
+          currentComponent={currentComponent}
+        />
+        {!show && (
+          <Guide
             footer={footer}
             component={component}
-            scans={scans}
-            currentStep={currentStep}
-            retakeAction={this.retake}
+            action={this.openComponent}
           />
-
-        ) : (
+        )}
+        {show && (
           <div>
-            {isMobile() ? (
-              <MobileCamera
-                isPhotoTaken={saveImage}
+            {mobileLandscape && <Landscape />}
+            {saveImage ? (
+              <PreviewForm
+                component={component}
+                scans={scans}
+                action={this.retake}
                 footer={footer}
-                capture={this.handleFile}
-                retakeAction={this.retake}
+                currentStep={currentStep}
+                isMobile={this.isMobile}
               />
             ) : (
-              <Camera
-                isCameraEnabled={isCameraEnabled}
-                setWebcamRef={this.setWebcamRef}
-                overlay={cameraOverlay}
-                footer={footer}
-                capture={this.capture}
-                canvas={this.canvas}
-              />
+              <div>
+                <Camera
+                  isMobile={this.isMobile}
+                  isSelfie={this.selfieView}
+                  footer={this.buildFooter}
+                  setWebcamRef={this.setWebcamRef}
+                  overlay={this.isMobile ? mobileCameraOverlay : cameraOverlay}
+                />
+                <canvas
+                  width={canvasWidth}
+                  height={canvasHeight}
+                  ref={(ref) => {
+                    this.canvas = ref;
+                  }}
+                  style={{ display: 'none' }}
+                />
+              </div>
             )}
-            <canvas
-              width={canvasWidth}
-              height={canvasHeight}
-              ref={(ref) => {
-                this.canvas = ref;
-              }}
-              style={{ display: 'none' }}
-            />
           </div>
         )}
       </div>
@@ -347,12 +447,14 @@ WebcamView.propTypes = {
   addScan: PropTypes.func.isRequired,
   component: PropTypes.string.isRequired,
   cameraOverlay: PropTypes.func.isRequired,
+  mobileCameraOverlay: PropTypes.func.isRequired,
   isPassport: PropTypes.bool,
   scans: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   cameraDistance: PropTypes.string.isRequired,
   currentStep: PropTypes.number.isRequired,
   sdkPermissions: PropTypes.object.isRequired,
+  currentComponent: PropTypes.object.isRequired,
 };
 
 WebcamView.defaultProps = {

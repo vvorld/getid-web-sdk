@@ -1,10 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   plugins: [
-    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './demo/index.html',
     }),
@@ -36,7 +34,8 @@ module.exports = {
         test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
         loader: 'url-loader',
         options: {
-          limit: 15 * 1024,
+          limit: 10000,
+          name: '[name].[ext]',
         },
       },
     ],

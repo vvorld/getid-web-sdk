@@ -3,14 +3,16 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
 import { renderMainComponent } from './main-module';
-import { createApi } from './services/api';
+import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+import mapApiErrors from './constants/error-mapping';
 import {
   removeFieldDupes,
   checkContainerId,
   convertAnswer,
   addDefaultValues,
+  checkApiVersionSupport,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -29,10 +31,11 @@ const init = (options, tokenProvider) => {
   const found = options.flow
     .some((view) => view.component
       .some((step) => cameraViews.includes(step)));
-  const isIOSChrome = navigator.userAgent.match('CriOS');
 
   if (found) {
-    if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
+    if (!navigator.mediaDevices
+      || !navigator.mediaDevices.enumerateDevices
+      || !navigator.mediaDevices.getUserMedia) {
       if (options.onFail && typeof options.onFail === 'function') {
         const error = new Error('mediaDevices_no_supported');
         options.onFail(error);
@@ -79,19 +82,37 @@ const init = (options, tokenProvider) => {
     }
 
     if (responseCode !== 200 || exists) {
-      renderMainComponent(config);
+      renderMainComponent({ ...config, responseCode });
       return;
     }
+
     Promise.all([
       removeFieldDupes(config.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
-    ]).then(([filteredFields, info, responseTranslations]) => {
+      getApiVersions(apiUrl).then(checkApiVersionSupport).catch((error) => {
+        console.log(`Can't get supported api versions ${error}`);
+        return true;
+      }),
+    ]).then(([filteredFields, info, responseTranslations, isSupportedApiVersion]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
-      const translations = { ...defaultTranslations, ...responseTranslations };
+      const customTranslations = options.translations || {};
+      const translations = {
+        ...defaultTranslations,
+        ...responseTranslations,
+        ...customTranslations,
+      };
       config.fields = filteredFields;
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions,
+        ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
+      });
+    }).catch((e) => {
+      renderMainComponent({
+        ...options,
+        exists,
+        api,
+        translations: defaultTranslations,
+        errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });
     });
   });

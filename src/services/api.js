@@ -1,8 +1,8 @@
 import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
-  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK,
+  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK, API_VERSION,
 } from '../constants/api';
-import { createEAForSubmission } from '../helpers/tree-builder';
+import { createEAForSubmission } from '../helpers/request-formatter';
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
@@ -55,4 +55,8 @@ export function getJwtToken(apiUrl, apiKey, customerId) {
 
 export function getScriptLink(apiUrl, apiKey) {
   return post(`${apiUrl}${SCRIPT_LINK}`, {}, { apiKey });
+}
+
+export function getApiVersions(apiUrl) {
+  return get(`${apiUrl}${API_VERSION}`);
 }

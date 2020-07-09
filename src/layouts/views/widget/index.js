@@ -21,6 +21,7 @@ class Widget extends Component {
     this.api = props.api;
     this.state = {
       submitAttempts: 3,
+      id: null,
       loading: false,
       largeGrid: 8,
       responseCode: 200,
@@ -56,7 +57,8 @@ class Widget extends Component {
     const racing = promiseTimeout(60000, this.api.submitData(this.props));
 
     racing.then(async (res) => {
-      const { responseCode, exists } = res;
+      const { responseCode, exists, id } = res;
+      if (id) this.setState({ id });
       if (exists) { this.setState({ appExists: true }); }
       if (responseCode >= 500) {
         this.dealWithResponse(500);
@@ -95,7 +97,7 @@ class Widget extends Component {
 
   buttonAction = () => {
     if (this.isPage('ThankYou')) {
-      return this.props.onComplete;
+      return () => this.props.onComplete(this.state.id);
     }
 
     return this.isButtonToSubmitData() ? this.submitData : this.triggerNextComponent;

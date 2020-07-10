@@ -94,6 +94,7 @@ const init = (options, tokenProvider) => {
         console.log(`Can't get supported api versions ${error}`);
         return true;
       }),
+      api.verifyToken().then(convertAnswer()),
     ]).then(([filteredFields, info, responseTranslations, isSupportedApiVersion]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
       const customTranslations = options.translations || {};

@@ -113,7 +113,7 @@ const init = (options, tokenProvider) => {
       renderMainComponent({
         ...options,
         api,
-        statusCode,
+        statusCode: e.statusCode,
         translations,
         errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });

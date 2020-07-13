@@ -18,16 +18,20 @@ class ErrorBoundary extends React.Component {
       errorMessage,
       onFail,
       onExists,
-      exists,
       isSupportedApiVersion,
-      responseCode,
+      statusCode,
     } = this.props.children.props;
 
     if (cameraNoSupported) { return <CameraErrorView />; }
-    if (errorMessage
-        || responseCode) { return <ErrorView error={errorMessage} callbacks={{ onFail }} />; }
-    if (exists) { return <AppExistsView callbacks={{ onExists }} />; }
     if (isSupportedApiVersion === false) { return <ApiVersionErrorView />; }
+    if (statusCode && statusCode === 'customerid_exists') {
+      return <AppExistsView callbacks={{ onExists }} />;
+    }
+
+    if (errorMessage) {
+      return <ErrorView error={errorMessage} callbacks={{ onFail }} />;
+    }
+
     return this.props.children;
   }
 }
@@ -56,6 +60,7 @@ ErrorBoundary.propTypes = {
       onFail: PropTypes.func,
       onExists: PropTypes.func,
       responseCode: PropTypes.number,
+      statusCode: PropTypes.string,
     }),
   }),
 };

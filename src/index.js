@@ -66,14 +66,12 @@ const init = (options, tokenProvider) => {
   }
 
   tokenPromise.then((result) => {
-    const {
-      responseCode, errorMessage, token, exists,
-    } = result;
+    const { errorMessage, token, statusCode } = result;
     const { metadata, verificationTypes, apiUrl } = options;
     const api = createApi(apiUrl, token, verificationTypes, metadata);
 
     const config = {
-      ...options, exists, api, translations: defaultTranslations, errorMessage,
+      ...options, api, translations: defaultTranslations, errorMessage,
     };
 
     if (config.documentData) {
@@ -81,8 +79,8 @@ const init = (options, tokenProvider) => {
         .map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
     }
 
-    if (responseCode !== 200 || exists) {
-      renderMainComponent({ ...config, responseCode });
+    if (errorMessage || statusCode) {
+      renderMainComponent({ ...config, statusCode, errorMessage });
       return;
     }
 
@@ -108,11 +106,15 @@ const init = (options, tokenProvider) => {
         ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
       });
     }).catch((e) => {
+      const translations = {
+        ...defaultTranslations,
+        ...options.translations || {},
+      };
       renderMainComponent({
         ...options,
-        exists,
         api,
-        translations: defaultTranslations,
+        statusCode,
+        translations,
         errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });
     });

@@ -24,7 +24,7 @@ class ErrorBoundary extends React.Component {
 
     if (cameraNoSupported) { return <CameraErrorView />; }
     if (isSupportedApiVersion === false) { return <ApiVersionErrorView />; }
-    if (statusCode && statusCode === 'customerid_exists') {
+    if (statusCode === 'customerid_exists' || errorMessage === 'app_exists') {
       return <AppExistsView callbacks={{ onExists }} />;
     }
 

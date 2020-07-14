@@ -27,11 +27,11 @@ const createErrorView = (config) => (props) => {
       <Grid item xs={12} sm={9} md={7} lg={6} className={item}>
         <CustomLogo condition="Reset" />
         <Typography variant="h1">
-          {config.header(dictionary, responseCode)}
+          {config.header(dictionary, responseCode, error)}
         </Typography>
         <hr className={hr} />
         <Typography variant="h2">
-          {config.subHeader(dictionary, responseCode)}
+          {config.subHeader(dictionary, responseCode, error)}
         </Typography>
         <hr className={hrLong} />
         {buttons && (
@@ -75,11 +75,11 @@ export const AppExistsView = createErrorView({
 });
 
 export const ErrorView = createErrorView({
-  header: (dictionary) => dictionary.error_header,
-  subHeader: (dictionary) => dictionary.error_subHeader,
+  header: (dictionary, responseCode, errorMessage) => dictionary[`${errorMessage}_header`] || dictionary.error_header,
+  subHeader: (dictionary, responseCode, errorMessage) => dictionary[`${errorMessage}_subHeader`] || dictionary.error_subHeader,
   buttons: {
     done: {
-      name: (dictionary) => dictionary.done_button,
+      name: (dictionary) => dictionary.done_onfail_button,
       action: (callbacks) => callbacks.onFail,
       variant: 'contained',
     },

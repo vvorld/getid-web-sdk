@@ -1,6 +1,6 @@
 import {
   COUNTRY_AND_DOC_LIST, VERIFICATION_REQUEST, CONFIGURATION,
-  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK, API_VERSION,
+  EVENT, DICTIONARY, TOKEN_REQUEST, LOG_ERROR, SCRIPT_LINK, API_VERSION, VERIFY_TOKEN,
 } from '../constants/api';
 import { createEAForSubmission } from '../helpers/request-formatter';
 
@@ -31,6 +31,7 @@ export const createApi = (url, jwt, verificationTypes, metadata) => {
   };
 
   const getInfo = () => post(`${url}${CONFIGURATION}`, { jwt });
+  const verifyToken = () => post(`${url}${VERIFY_TOKEN}`, { jwt });
   const getCountryAndDocList = () => get(`${url}${COUNTRY_AND_DOC_LIST}`);
   const getTranslations = (dictionary) => post(`${url}${DICTIONARY}`, { dictionary });
 
@@ -45,7 +46,13 @@ export const createApi = (url, jwt, verificationTypes, metadata) => {
   const sendErrorToServer = (errorText, stack) => post(`${url}${LOG_ERROR}`, { error: { errorText, stack } });
 
   return {
-    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, sendErrorToServer,
+    submitData,
+    getInfo,
+    getCountryAndDocList,
+    trySendEvent,
+    getTranslations,
+    sendErrorToServer,
+    verifyToken,
   };
 };
 

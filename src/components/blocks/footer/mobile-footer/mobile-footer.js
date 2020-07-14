@@ -25,7 +25,7 @@ const MobileFooter = (props) => {
                 value.hidden ? classes.hidden : '',
                 darkMode ? classes.darkMode : '',
               )}
-              style = { (value.order) ? { order: value.order } : {}}
+              style={(value.order) ? { order: value.order } : {}}
               onClick={value.action}
               disabled={value.disabled}
             >

@@ -31,27 +31,27 @@ upload (capture) ids and face photos.
 - node 12.15.0
 - browsers and features we support: 
             
-| OS | Browser | photos | liveness |
+| OS | Browser | Version | Photos | 
 | --- | --- | --- | --- |
-| iOS | Chrome, last versions | ✔️ | ― |
-| iOS | Safari, last versions | ✔️ | ― |
-| iOS | Firefox, last versions | ✔️ | ― |
-| Android | Chrome | ✔️ | ― |
-| Android | Samsung Internet | ✔️ | ― |
-| Android | Firefox | ✔️ | ― |
-| Android | Native | ✔️ | ― |
-| Android | UC | ✔️ | ― |
-| Android | Opera | ✔️ | ― |
-| Android | Web browser  | ✔️ | ― |
-| Desktop mac | Chrome | ✔️ | ✔️ |
-| Desktop mac | Safari | ✔️ | ― |
-| Desktop mac | Firefox | ✔️ | ✔️ |
-| Desktop mac | Opera | ✔️ | ✔️ |
-| Desktop mac | Edge | ✔️ | ✔️ |
-| Windows | Edge | ✔️ | ― |
-| Windows | Chrome | ✔️ | ✔️ |
-| Windows | Opera | ✔️ | ✔️ |
-| Windows | Firefox | ✔️ | ✔️ |
+| iOS | Safari | 13 or higher | ✔️ |
+| iOS | Chrome | 84 or higher | ― |
+| iOS | Firefox | 27 or higher| ― |
+| Android | Chrome | 83 or higher | ✔️ |
+| Android | Samsung Internet | 12 or higher | ✔️ |
+| Android | Firefox | 68 or higher | ✔️ |
+| Android | Native | 12 or higher | ― |
+| Android | UC | 13 or higher | ― |
+| Android | Opera | 58 or higher | ✔️ |
+| Android | Web browser  | 3 or higher | ― |
+| Desktop mac | Safari | 13 or higher | ✔️ |
+| Desktop mac | Chrome | 83 or higher | ✔️ |
+| Desktop mac | Firefox | 78 or higher | ✔️ |
+| Desktop mac | Opera | 69 or higher | ✔️ |
+| Desktop mac | Edge | 83 or higher | ✔️ |
+| Windows | Edge | 83 or higher | ✔️ |
+| Windows | Chrome | 83 or higher | ✔️ |
+| Windows | Opera | 69 or higher | ✔️ |
+| Windows | Firefox | 78 or higher | ✔️ |
     
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url.

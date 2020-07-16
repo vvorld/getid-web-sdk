@@ -31,7 +31,7 @@ upload (capture) ids and face photos.
 - node 12.15.0
 - browsers and features we support: 
             
-| OS | Browser | version | photos | liveness | 
+| OS | Browser | Version | Photos | Liveness | 
 | --- | --- | --- | --- | --- |
 | iOS | Safari | 13.1 | ✔️ | ✔️ |
 | iOS | Chrome | 84.0 | - | ― |

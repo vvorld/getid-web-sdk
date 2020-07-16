@@ -70,10 +70,14 @@ class Widget extends Component {
 
       this.dealWithResponse(200);
       await this.api.trySendEvent(stepNames.Submit, 'completed');
+
       await this.triggerNextComponent();
     }).catch((e) => {
       console.log(e);
       this.dealWithResponse(null);
+    }).finally(async () => {
+      const { currentComponent } = this.props;
+      await this.api.trySendEvent(getEventStepName(currentComponent, null), 'completed');
     });
   };
 

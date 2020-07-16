@@ -33,17 +33,17 @@ upload (capture) ids and face photos.
             
 | OS | Browser | Version | Photos | 
 | --- | --- | --- | --- |
-| iOS | Safari | 13.1 or higher | ✔️ |
+| iOS | Safari | 13 or higher | ✔️ |
 | iOS | Chrome | 84 or higher | ― |
 | iOS | Firefox | 27 or higher| ― |
 | Android | Chrome | 83 or higher | ✔️ |
 | Android | Samsung Internet | 12 or higher | ✔️ |
 | Android | Firefox | 68 or higher | ✔️ |
 | Android | Native | 12 or higher | ― |
-| Android | UC | 13.2 or higher | ― |
+| Android | UC | 13 or higher | ― |
 | Android | Opera | 58 or higher | ✔️ |
 | Android | Web browser  | 3.2 or higher | ― |
-| Desktop mac | Safari | 13.1 or higher | ✔️ |
+| Desktop mac | Safari | 13 or higher | ✔️ |
 | Desktop mac | Chrome | 83 or higher | ✔️ |
 | Desktop mac | Firefox | 78 or higher | ✔️ |
 | Desktop mac | Opera | 69 or higher | ✔️ |

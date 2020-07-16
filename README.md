@@ -31,27 +31,27 @@ upload (capture) ids and face photos.
 - node 12.15.0
 - browsers and features we support: 
             
-| OS | Browser | Version | Photos | Liveness | 
-| --- | --- | --- | --- | --- |
-| iOS | Safari | 13.1 | ✔️ | ✔️ |
-| iOS | Chrome | 84.0 | - | ― |
-| iOS | Firefox | 27.0 | - | ― |
-| Android | Chrome | 83.0 | ✔️ | ✔️ |
-| Android | Samsung Internet | 12.0 | ✔️ | ✔️ |
-| Android | Firefox | 68.1 | ✔️ | ✔️ |
-| Android | Native | 12.2 | - | - |
-| Android | UC | 13.2 | - | ― |
-| Android | Opera | 58.2 | ✔️ | ✔️ |
-| Android | Web browser  | 3.2 | - | ― |
-| Desktop mac | Safari | 13.1 | ✔️ | ✔️ |
-| Desktop mac | Chrome | 83.0 | ✔️ | ✔️ |
-| Desktop mac | Firefox | 78.0 | ✔️ | ✔️ |
-| Desktop mac | Opera | 69.0 | ✔️ | ✔️ |
-| Desktop mac | Edge | 83.0 | ✔️ | ✔️ |
-| Windows | Edge | 83.0 | ✔️ | ✔️ |
-| Windows | Chrome | 83.0 | ✔️ | ✔️ |
-| Windows | Opera | 69.0 | ✔️ | ✔️ |
-| Windows | Firefox | 78.0 | ✔️ | ✔️ |
+| OS | Browser | Version | Photos | 
+| --- | --- | --- | --- |
+| iOS | Safari | 13.1 | ✔️ |
+| iOS | Chrome | 84.0 | ― |
+| iOS | Firefox | 27.0 | ― |
+| Android | Chrome | 83.0 | ✔️ |
+| Android | Samsung Internet | 12.0 | ✔️ |
+| Android | Firefox | 68.1 | ✔️ |
+| Android | Native | 12.2 | ― |
+| Android | UC | 13.2 | ― |
+| Android | Opera | 58.2 | ✔️ |
+| Android | Web browser  | 3.2 | ― |
+| Desktop mac | Safari | 13.1 | ✔️ |
+| Desktop mac | Chrome | 83.0 | ✔️ |
+| Desktop mac | Firefox | 78.0 | ✔️ |
+| Desktop mac | Opera | 69.0 | ✔️ |
+| Desktop mac | Edge | 83.0 | ✔️ |
+| Windows | Edge | 83.0 | ✔️ |
+| Windows | Chrome | 83.0 | ✔️ |
+| Windows | Opera | 69.0 | ✔️ |
+| Windows | Firefox | 78.0 | ✔️ |
     
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url.

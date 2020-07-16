@@ -32,23 +32,23 @@ upload (capture) ids and face photos.
 - browsers and features we support: 
             
 | OS | Browser | version | photos | liveness | 
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | iOS | Safari | 13.1 | ✔️ | ✔️ |
 | iOS | Chrome | 84.0 | - | ― |
 | iOS | Firefox | 27.0 | - | ― |
-| Android | Chrome | 83.0 | ✔️ | ✔️|
+| Android | Chrome | 83.0 | ✔️ | ✔️ |
 | Android | Samsung Internet | 12.0 | ✔️ | ✔️ |
 | Android | Firefox | 68.1 | ✔️ | ✔️ |
 | Android | Native | 12.2 | - | - |
 | Android | UC | 13.2 | - | ― |
-| Android | Opera | 58.2 | ✔️ | ✔️|
+| Android | Opera | 58.2 | ✔️ | ✔️ |
 | Android | Web browser  | 3.2 | - | ― |
-| Desktop mac | Safari | 13.1 | ✔️ | ✔️ 
+| Desktop mac | Safari | 13.1 | ✔️ | ✔️ |
 | Desktop mac | Chrome | 83.0 | ✔️ | ✔️ |
 | Desktop mac | Firefox | 78.0 | ✔️ | ✔️ |
 | Desktop mac | Opera | 69.0 | ✔️ | ✔️ |
 | Desktop mac | Edge | 83.0 | ✔️ | ✔️ |
-| Windows | Edge | 83.0 | ✔️ | ✔️|
+| Windows | Edge | 83.0 | ✔️ | ✔️ |
 | Windows | Chrome | 83.0 | ✔️ | ✔️ |
 | Windows | Opera | 69.0 | ✔️ | ✔️ |
 | Windows | Firefox | 78.0 | ✔️ | ✔️ |

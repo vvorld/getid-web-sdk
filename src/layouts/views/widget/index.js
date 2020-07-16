@@ -77,7 +77,7 @@ class Widget extends Component {
       this.dealWithResponse(null);
     }).finally(async () => {
       const { currentComponent } = this.props;
-      await this.api.trySendEvent(getEventStepName(currentComponent, null), 'completed');
+      await this.api.trySendEvent(getEventStepName(currentComponent || 'Fail', null), 'completed');
     });
   };
 

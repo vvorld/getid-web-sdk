@@ -70,7 +70,6 @@ class Widget extends Component {
 
       this.dealWithResponse(200);
       await this.api.trySendEvent(stepNames.Submit, 'completed');
-
       await this.triggerNextComponent();
     }).catch((e) => {
       console.log(e);

@@ -33,25 +33,25 @@ upload (capture) ids and face photos.
             
 | OS | Browser | Version | Photos | 
 | --- | --- | --- | --- |
-| iOS | Safari | 13.1 | ✔️ |
-| iOS | Chrome | 84.0 | ― |
-| iOS | Firefox | 27.0 | ― |
-| Android | Chrome | 83.0 | ✔️ |
-| Android | Samsung Internet | 12.0 | ✔️ |
-| Android | Firefox | 68.1 | ✔️ |
-| Android | Native | 12.2 | ― |
-| Android | UC | 13.2 | ― |
-| Android | Opera | 58.2 | ✔️ |
-| Android | Web browser  | 3.2 | ― |
-| Desktop mac | Safari | 13.1 | ✔️ |
-| Desktop mac | Chrome | 83.0 | ✔️ |
-| Desktop mac | Firefox | 78.0 | ✔️ |
-| Desktop mac | Opera | 69.0 | ✔️ |
-| Desktop mac | Edge | 83.0 | ✔️ |
-| Windows | Edge | 83.0 | ✔️ |
-| Windows | Chrome | 83.0 | ✔️ |
-| Windows | Opera | 69.0 | ✔️ |
-| Windows | Firefox | 78.0 | ✔️ |
+| iOS | Safari | 13.1 or higher | ✔️ |
+| iOS | Chrome | 84 or higher | ― |
+| iOS | Firefox | 27 or higher| ― |
+| Android | Chrome | 83 or higher | ✔️ |
+| Android | Samsung Internet | 12 or higher | ✔️ |
+| Android | Firefox | 68 or higher | ✔️ |
+| Android | Native | 12 or higher | ― |
+| Android | UC | 13.2 or higher | ― |
+| Android | Opera | 58 or higher | ✔️ |
+| Android | Web browser  | 3.2 or higher | ― |
+| Desktop mac | Safari | 13.1 or higher | ✔️ |
+| Desktop mac | Chrome | 83 or higher | ✔️ |
+| Desktop mac | Firefox | 78 or higher | ✔️ |
+| Desktop mac | Opera | 69 or higher | ✔️ |
+| Desktop mac | Edge | 83 or higher | ✔️ |
+| Windows | Edge | 83 or higher | ✔️ |
+| Windows | Chrome | 83 or higher | ✔️ |
+| Windows | Opera | 69 or higher | ✔️ |
+| Windows | Firefox | 78 or higher | ✔️ |
     
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an API key and API url.

@@ -42,7 +42,7 @@ upload (capture) ids and face photos.
 | Android | Native | 12 or higher | ― |
 | Android | UC | 13 or higher | ― |
 | Android | Opera | 58 or higher | ✔️ |
-| Android | Web browser  | 3.2 or higher | ― |
+| Android | Web browser  | 3 or higher | ― |
 | Desktop mac | Safari | 13 or higher | ✔️ |
 | Desktop mac | Chrome | 83 or higher | ✔️ |
 | Desktop mac | Firefox | 78 or higher | ✔️ |

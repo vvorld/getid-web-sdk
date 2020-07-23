@@ -29,7 +29,7 @@ export const styles = (theme) => ({
     '& $error': {
       position: 'absolute',
       bottom: '-14px',
-      left: '12px'
+      left: '12px',
     },
   },
   helper: {

@@ -9,7 +9,7 @@ import CustomLogo from '../../../components/logo/custom-logo';
 
 const createErrorView = (config) => (props) => {
   const {
-    callbacks, responseCode, submitAttempts,
+    callbacks, responseCode, submitAttempts, error,
   } = props;
 
   const buttonStyle = ButtonStyles();
@@ -27,28 +27,28 @@ const createErrorView = (config) => (props) => {
       <Grid item xs={12} sm={9} md={7} lg={6} className={item}>
         <CustomLogo condition="Reset" />
         <Typography variant="h1">
-          {config.header(dictionary, responseCode)}
+          {config.header(dictionary, responseCode, error)}
         </Typography>
         <hr className={hr} />
         <Typography variant="h2">
-          {config.subHeader(dictionary, responseCode)}
+          {config.subHeader(dictionary, responseCode, error)}
         </Typography>
         <hr className={hrLong} />
         {buttons && (
-        <div className={center}>
-          {Object.entries(buttons).map(([key, button]) => (
-            <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
-              <Button
-                classes={{ root: buttonStyle.root }}
-                variant={button.variant}
-                className={buttonStyle[button.class]}
-                onClick={button.action(callbacks)}
-              >
-                {button.name(dictionary)}
-              </Button>
-            </Grid>
-          ))}
-        </div>
+          <div className={center}>
+            {Object.entries(buttons).map(([key, button]) => (
+              <Grid className={marginAuto} key={`button-${key}`} item xs={9} sm={12 / Object.keys(buttons).length}>
+                <Button
+                  classes={{ root: buttonStyle.root }}
+                  variant={button.variant}
+                  className={buttonStyle[button.class]}
+                  onClick={() => button.action(callbacks)(error)}
+                >
+                  {button.name(dictionary)}
+                </Button>
+              </Grid>
+            ))}
+          </div>
         )}
       </Grid>
     </Grid>
@@ -57,6 +57,7 @@ const createErrorView = (config) => (props) => {
 
 const errorProps = {
   condition: PropTypes.string,
+  error: PropTypes.string,
   submitAttempts: PropTypes.number,
   callbacks: PropTypes.object,
 };
@@ -74,11 +75,11 @@ export const AppExistsView = createErrorView({
 });
 
 export const ErrorView = createErrorView({
-  header: (dictionary) => dictionary.error_header,
-  subHeader: (dictionary) => dictionary.error_subHeader,
+  header: (dictionary, responseCode, errorMessage) => dictionary[`${errorMessage}_header`] || dictionary.error_header,
+  subHeader: (dictionary, responseCode, errorMessage) => dictionary[`${errorMessage}_subHeader`] || dictionary.error_subHeader,
   buttons: {
     done: {
-      name: (dictionary) => dictionary.done_button,
+      name: (dictionary) => dictionary.done_onfail_button,
       action: (callbacks) => callbacks.onFail,
       variant: 'contained',
     },
@@ -88,6 +89,11 @@ export const ErrorView = createErrorView({
 export const CameraErrorView = createErrorView({
   header: (dictionary) => dictionary.camera_error_header,
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
+});
+
+export const ApiVersionErrorView = createErrorView({
+  header: (dictionary) => dictionary.api_version_error_header,
+  subHeader: (dictionary) => dictionary.api_version_error_subHeader,
 });
 
 export const FailError = createErrorView({

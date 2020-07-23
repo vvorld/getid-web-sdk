@@ -7,8 +7,8 @@ export default {
     externalId: 121212,
   },
   flow: [
-    // { component: ['CountryAndDocument'] },
-    // { component: ['Consent'] },
+    { component: ['CountryAndDocument'] },
+    { component: ['Consent'] },
     { component: ['Form'] },
     { component: ['IdSelfie'] },
     { component: ['IdCapture'] },
@@ -77,9 +77,6 @@ export default {
   ],
   formType: 'narrow',
   cameraDistance: 'default',
-  translations: {
-    Form_header: "It's custom header!",
-  },
   onComplete() {
     window.location.reload();
   },

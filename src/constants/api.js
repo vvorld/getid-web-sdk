@@ -6,3 +6,6 @@ export const EVENT = '/sdk/v1/event';
 export const TOKEN_REQUEST = '/sdk/v1/token';
 export const LOG_ERROR = '/sdk/v1/log-error';
 export const SCRIPT_LINK = '/sdk/v1/script-link';
+export const API_VERSION = '/sdk/versions';
+export const VERIFY_TOKEN = '/sdk/v1/verify-token';
+export const SUPPORTED_API_SCHEMA = '1.2.4';

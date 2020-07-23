@@ -19,10 +19,11 @@ function CustomInput(props) {
             root: classes.labelRoot,
           },
         }}
-        InputProps={{
+        inputProps={{
           classes: {
             root: classes.root + classname,
           },
+          autocomplete: 'off',
         }}
         {...props}
       />

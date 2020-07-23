@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppExistsView, CameraErrorView, ErrorView } from './views/error';
+import {
+  AppExistsView, CameraErrorView, ErrorView, ApiVersionErrorView,
+} from './views/error';
 
 class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
@@ -12,11 +14,24 @@ class ErrorBoundary extends React.Component {
 
   render() {
     const {
-      cameraNoSupported, errorMessage, onFail, onExists, exists,
+      cameraNoSupported,
+      errorMessage,
+      onFail,
+      onExists,
+      isSupportedApiVersion,
+      statusCode,
     } = this.props.children.props;
+
     if (cameraNoSupported) { return <CameraErrorView />; }
-    if (errorMessage) { return <ErrorView callbacks={{ onFail }} />; }
-    if (exists) { return <AppExistsView callbacks={{ onExists }} />; }
+    if (isSupportedApiVersion === false) { return <ApiVersionErrorView />; }
+    if (statusCode === 'customerid_exists' || errorMessage === 'app_exists') {
+      return <AppExistsView callbacks={{ onExists }} />;
+    }
+
+    if (errorMessage) {
+      return <ErrorView error={errorMessage} callbacks={{ onFail }} />;
+    }
+
     return this.props.children;
   }
 }
@@ -41,8 +56,11 @@ ErrorBoundary.propTypes = {
       exists: PropTypes.bool,
       api: PropTypes.object,
       errorMessage: PropTypes.string,
+      isSupportedApiVersion: PropTypes.bool,
       onFail: PropTypes.func,
       onExists: PropTypes.func,
+      responseCode: PropTypes.number,
+      statusCode: PropTypes.string,
     }),
   }),
 };

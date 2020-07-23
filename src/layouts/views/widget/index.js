@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Loader from '../../../components/loader/loader';
 import Header from '../../../components/blocks/header/header';
 import actions from '../../../store/actions';
-import Footer from '../../../components/blocks/footer/footer';
+import Footer from '../../../components/blocks/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { stepNames } from '../../../constants/step-names';
 import widgetStyles from './style';
@@ -189,7 +189,7 @@ class Widget extends Component {
     return (
       <>
         <Grid item xs={12} className={classes.item}>
-          <Header currentComponent={currentComponent} />
+          {!isCameraView(currentComponent) && <Header currentComponent={currentComponent} />}
         </Grid>
         <Grid
           container

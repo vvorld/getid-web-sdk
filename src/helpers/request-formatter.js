@@ -67,8 +67,8 @@ export const createEAForSubmission = (state, jwt, verificationTypes, metadata) =
         },
         documents: [
           {
-            issuingCountry: getDocumentData(state.fields, 'Country'),
-            documentType: getDocumentData(state.fields, 'DocumentType'),
+            issuingCountry: getDocumentData(state.documentData, 'Country'),
+            documentType: getDocumentData(state.documentData, 'DocumentType'),
             images: [],
           },
         ],

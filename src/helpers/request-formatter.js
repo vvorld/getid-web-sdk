@@ -38,9 +38,9 @@ const documentImages = (scans) => Object.keys(scans)
   }), {}));
 
 const getDocumentData = (fieldValues, name) => {
-  const allFields = [].concat(...Object.values(fieldValues).map(x => Object.entries(x)))
+  const allFields = [].concat(...Object.values(fieldValues).map((x) => Object.entries(x)));
   const [, f] = allFields.find(([n]) => n === name);
-  return f && f.value || ''
+  return f && f.value || '';
 };
 
 export const createEAForSubmission = (state, jwt, verificationTypes, metadata) => {

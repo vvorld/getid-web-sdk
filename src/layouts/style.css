@@ -18,7 +18,7 @@ main a {
     color:#9C77E0;
 }
 
-.grid {
+.grid__main {
     display: grid;
     grid-row-gap: 16px;
     grid-template-rows: auto auto auto 1fr;
@@ -34,12 +34,12 @@ main a {
 /*-----------FORM---------*/
 
 
-input, select, textarea, button:active, inputbox {
+input, select, textarea, button:active {
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
 }
-input[type='text'], select, inputbox, .doc-pick {
+input[type='text'], select, .doc-pick {
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
@@ -60,7 +60,7 @@ select {
     background-position: calc(100% - 6px) 7px;
     background-size: 25px;
 }
-input:hover, select:hover, inputbox:hover {
+input:hover, select:hover {
     border: 1px solid #9C77E0;
 }
 input:focus, select:focus, button:focus, input:active, select:focus, button:active {
@@ -72,10 +72,7 @@ input:focus, select:focus, button:focus, input:active, select:focus, button:acti
   color: #999;
   opacity: 1; /* Firefox */
 }
-placeholder {
-  color: #999;
-  opacity: 1;
-}
+
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: #999;
 }
@@ -121,8 +118,6 @@ button:active, button:focus {
 [type=button], [type=reset], [type=submit], button {
     -webkit-appearance: button;
 }
-
-
 
 .doc-type label {
     margin: 0 auto;

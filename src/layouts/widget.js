@@ -10,7 +10,7 @@ import IdCaptureBack from './webcam/back';
 
 import Header from '../components/blocks/header/header';
 import TranslationsContext from '../context/TranslationsContext';
-import css from './style.css';
+import './style.css';
 
 const allComponents = {
   Form, ThankYou, CountryAndDocument, IdCapture, IdSelfie, IdCaptureBack,
@@ -100,7 +100,7 @@ class Widget extends Component {
     };
     return (
       <main id="getid" data-role="container">
-        <div className={css.grid}>
+        <div className="getid-grid__main">
           <Header componentName={componentName} />
           <CurrentComponent actions={actions} {...other} />
         </div>

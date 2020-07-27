@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../../context/TranslationsContext';
-import css from './file-input.css';
+import './file-input.css';
 import fileIcon from '../../../assets/icons/file.svg';
 /*
 
@@ -40,10 +40,9 @@ const FileInput = (props) => {
   { /* translations.file_input_tooltip */ }
   const placeholder = label + (required ? '*' : '');
   return (
-
     <label>
       <input
-        className={css.fileInput}
+          className="getid-file-input__generic"
         accept="image/x-png,image/jpeg"
         onChange={(e) => {
           const newValue = e.target.value;
@@ -52,20 +51,20 @@ const FileInput = (props) => {
         }}
         type="file"
       />
-      <inputbox className={css.fakeFileInput}>
-        <div className={css.label}>
-          {currValue || <placeholder>{placeholder}</placeholder> }
+      <div className="getid-file-input">
+        <div className="getid-file-input__label">
+          {currValue || <div className="getid-file-input__placeholder">{placeholder}</div> }
         </div>
-        <div className={css.fileIcon}>
+        <div className="getid-file-input__icon">
           <img src={fileIcon} />
         </div>
-      </inputbox>
+      </div>
     </label>
   );
 };
 
 FileInput.propTypes = {
-  type: PropTypes.string.isRequired,
+  // type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

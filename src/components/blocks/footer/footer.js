@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PoweredBy from '../powered-by/index';
 import TranslationsContext from '../../../context/TranslationsContext';
-import css from './footer.css';
+import './footer.css';
 
 /*  nextButtonText = () => {
     const { translations } = this.context;
@@ -16,8 +16,8 @@ const Footer = ({ next, back, disable }) => {
   return (
     <>
       { next && <button disable onClick={next}>Go next</button> }
-      { back && <a onClick={back} className={css.goBack}>{translations.button_back}</a>}
-      <footer className={css.footer}>
+      { back && <a onClick={back} className="getid-btn__back">{translations.button_back}</a>}
+      <footer className="getid-footer">
         <PoweredBy />
       </footer>
     </>

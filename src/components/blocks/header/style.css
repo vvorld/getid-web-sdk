@@ -1,9 +1,9 @@
-.title {
+.header__big {
     text-align: center;
     color:#333;
     margin: 0;
 }
-.subtitle {
+.header__small {
     font-size: 16px;
     color:#666;
     margin: 0 0 8px;

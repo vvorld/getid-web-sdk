@@ -1,16 +1,28 @@
-.label{
+.file-input__label{
     flex-grow: 1;
     padding-right: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: justify;         
 }
-.fileIcon {
+.file-input__icon {
     width: 18px;
     min-width: 18px;
 }
-.fakeFileInput {
-   
+.file-input__placeholder {
+    color: #999;
+    opacity: 1;
+}
+.file-input {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    margin: 0 auto;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: #fafafc;
+    transition: all .3s;
+    z-index: 1;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -19,8 +31,12 @@
     box-sizing: border-box;
     text-overflow: ellipsis;
 }
-
-.fileInput{
+.file-input:hover { border: 1px solid #9C77E0; }
+.file-input:focus {
+    border: 1px solid #9C77E0;
+    box-shadow: none;
+}
+.file-input__generic{
     width: 0.1px;
     height: 0.1px;
     opacity: 0;

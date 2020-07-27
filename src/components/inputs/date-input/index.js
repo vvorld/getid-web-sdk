@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import css from './style.css';
+import './style.css';
 
 const months = [
   { name: 'January', days: 31 },
@@ -77,18 +76,18 @@ function DateInput({ required, value, onChange }) {
   const monthLabel = `Month${required ? '*' : ''}`;
   const yearLabel = `Year${required ? '*' : ''}`;
   return (
-    <div className={css.date}>
+    <div className="getid-date-input">
       <select value={day} onChange={(e) => change(undefined, undefined, +e.target.value)}>
         <option value="0">{dayLabel}</option>
-        {monthDays.map((x) => <option value={x}>{x}</option>)}
+        {monthDays.map((x) => <option key={x} value={x}>{x}</option>)}
       </select>
       <select value={month} onChange={(e) => change(undefined, +e.target.value, undefined)}>
         <option value="0">{monthLabel}</option>
-        {months.map((x, n) => <option value={n + 1}>{x.name}</option>)}
+        {months.map((x, n) => <option key={x.name} value={n + 1}>{x.name}</option>)}
       </select>
       <select value={year} onChange={(e) => change(+e.target.value, undefined, undefined)}>
         <option value="0">{yearLabel}</option>
-        {years.map((x) => <option value={x}>{x}</option>)}
+        {years.map((x) => <option key={x} value={x}>{x}</option>)}
       </select>
     </div>
   );

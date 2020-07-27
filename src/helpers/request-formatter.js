@@ -37,16 +37,10 @@ const documentImages = (scans) => Object.keys(scans)
     [key]: scans[step][key].value,
   }), {}));
 
-const getDocumentData = (fields, fieldName) => {
-  let docData = '';
-
-  Object.keys(fields).forEach((step) => {
-    if (fields[step][fieldName]) {
-      docData = fields[step][fieldName].value;
-    }
-  });
-
-  return docData;
+const getDocumentData = (fieldValues, name) => {
+  const allFields = [].concat(...Object.values(fieldValues).map(x => Object.entries(x)))
+  const [, f] = allFields.find(([n]) => n === name);
+  return f && f.value || ''
 };
 
 export const createEAForSubmission = (state, jwt, verificationTypes, metadata) => {
@@ -67,8 +61,8 @@ export const createEAForSubmission = (state, jwt, verificationTypes, metadata) =
         },
         documents: [
           {
-            issuingCountry: getDocumentData(state.documentData, 'Country'),
-            documentType: getDocumentData(state.documentData, 'DocumentType'),
+            issuingCountry: getDocumentData(state.fieldValues, 'Country'),
+            documentType: getDocumentData(state.fieldValues, 'DocumentType'),
             images: [],
           },
         ],

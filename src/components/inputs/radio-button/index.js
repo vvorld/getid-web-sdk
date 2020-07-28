@@ -4,18 +4,21 @@ import './style.css';
 
 const Radiobutton = (props) => (
   <label
+    htmlFor={props.name}
     data-role={`radiogroup-${props.value}`}
     key={`label-${props.value}`}
-    className={`getid-radio-input${props.checked ? ' getid-checked' : ''}`}
+    className="getid-radio-button__label"
     {...props}
   >
     <input
       onChange={props.onChange}
-      checked={props.checked}
+      checked={props.checked && 'checked'}
       type="radio"
+      id={props.name}
       data-role="radioBtn"
       key={`radio-${props.value}`}
     />
+    <span className="getid-radio-button__input" />
     {props.name}
   </label>
 );

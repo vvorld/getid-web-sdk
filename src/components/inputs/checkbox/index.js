@@ -8,13 +8,12 @@ function Checkbox(props) {
   const [currValue, setValue] = useState(value);
   return (
     <label
-      className="getid-checkbox__text"
+      className="getid-checkbox__label"
       data-role="checkbox"
       key={`control-${label}`}
     >
       <input
         checked={currValue}
-        className="getid-checkbox__input"
         type="checkbox"
         onChange={
           (e) => {
@@ -24,6 +23,7 @@ function Checkbox(props) {
           }
         }
       />
+      <span className="getid-checkbox__input"/>
       <span>
         {parse(label)}
       </span>

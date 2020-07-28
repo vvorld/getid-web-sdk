@@ -3,4 +3,5 @@ import Radio from './index';
 
 export default { title: 'Inputs|Radio Button' };
 
-export const radio = () => <Radio name="Test" placeholder="Test" value="Test" />;
+export const RadioButton = () => <Radio name="Test" placeholder="Test" value="Test" />;
+export const RadioButtonChecked = () => <Radio checked name="Test" placeholder="Test" value="Test" />;

@@ -4,7 +4,7 @@ import {
   InputRenderer,
 } from '../../components/inputs';
 import Footer from '../../components/blocks/footer/footer';
-import css from './form.css';
+import './form.css';
 
 class Form extends Component {
   /*
@@ -51,9 +51,9 @@ class Form extends Component {
      const { fields, actions } = this.props;
      return (
        <>
-         <form className={css.form} data-role="blockForm">
+         <form className="getid-form__body" data-role="blockForm">
            { fields.map((field) => (
-             <div className={css.formElementWrapper}>
+             <div className="getid-form__input-wrapper">
                <InputRenderer {...field} />
              </div>
            )) }

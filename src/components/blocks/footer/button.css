@@ -1,0 +1,70 @@
+.btn__back {
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    color: #999;
+}
+
+.button__main:focus {
+    border: 1px solid #9C77E0;
+    box-shadow: none;
+}
+
+.button__main:hover {
+    background: #9C77E0;
+    box-shadow: 0px 2px 5px #150f3830;
+}
+
+.button__main:active, .button__main:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    top: 2px;
+}
+
+.button__main {
+    margin: 40px auto 20px auto;
+    display: block;
+    background: #8762ca;
+    padding: 14px 60px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all .3s;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    top:0;
+    height: 42px;
+    box-shadow: 0px 10px 16px #150f3830;
+    align-self: end;
+}
+
+.button__grey {
+    margin: 40px auto 20px auto;
+    display: block;
+    background: #F8F7FA;
+    padding: 14px 60px;
+    border: none;
+    border-radius: 30px;
+    color: #1B3361;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: all .3s;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    top:0;
+    height: 42px;
+    box-shadow: 0px 10px 16px #150f3830;
+    align-self: end;
+}

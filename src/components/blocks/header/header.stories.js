@@ -3,4 +3,4 @@ import Header from './header';
 
 export default { title: 'Blocks|Header' };
 
-export const HeaderBlock = () => <Header componentName="Form" />;
+export const HeaderBlock = () => <Header componentName={{ name: 'Form' }} />;

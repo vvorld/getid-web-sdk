@@ -1,0 +1,19 @@
+.radio-input {
+    margin: 0 auto;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    background: #fafafc;
+    transition: all .3s;
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.radio-input:hover{
+    border: 1px solid #9C77E0;
+}
+
+.radio-input.checked{
+    border: 1px solid #9C77E0!important;
+}

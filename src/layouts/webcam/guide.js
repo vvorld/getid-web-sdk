@@ -23,8 +23,8 @@ const Guide = ({ component, isPassport }) => {
   };
 
   return (
-    <div className={css.guideContainer}>
-      <img className={css.guide} src={source()} />
+    <div className="getid-guide__container">
+      <img className="getid-guide__img" src={source()} />
       <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 342 196" />
     </div>
   );

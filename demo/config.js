@@ -7,7 +7,7 @@ export default {
     externalId: 121212,
   },
   flow: [
-    { component: 'Form' },
+    // { component: 'Form' },
     { component: 'CountryAndDocument' },
     { component: 'IdCapture' },
     { component: 'IdCaptureBack' },

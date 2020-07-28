@@ -1,7 +1,7 @@
-.guideContainer {
+.guide__container {
     position: relative;
 }
-.guide {
+.guide__img {
     position: absolute;
     width: 100%;
 }

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../context/TranslationsContext';
+import TranslationsContext from '../../../context/TranslationsContext';
 
 const MobileCamera = ({
   capture,

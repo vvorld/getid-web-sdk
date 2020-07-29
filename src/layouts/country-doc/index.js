@@ -16,9 +16,8 @@ const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
 
 const CountryAndDocument = ({
-  countryDocuments, country, documentType, actions,
+  countryDocuments, country, documentType, finishStep, prevStep,
 }) => {
-  console.log(actions);
   const { translations } = useContext(TranslationsContext);
   const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
@@ -63,8 +62,8 @@ const CountryAndDocument = ({
       </div>
 
       <Footer
-        next={actions.nextStep}
-        back={actions.prevStep}
+        next={() => finishStep({})}
+        back={prevStep}
       />
     </>
   );

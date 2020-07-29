@@ -4,16 +4,42 @@ import PropTypes from 'prop-types';
 import Form from './form';
 import ThankYou from './thank-you';
 import CountryAndDocument from './country-doc';
-import IdSelfie from './webcam/selfie';
-import IdCapture from './webcam/front';
-import IdCaptureBack from './webcam/back';
+import {
+  Selfie as IdSelfie,
+  CaptureFront as IdCapture,
+  CaptureBack as IdCaptureBack,
+} from './webcam';
 
 import Header from '../components/blocks/header/header';
 import TranslationsContext from '../context/TranslationsContext';
 import css from './style.css';
 
 const allComponents = {
-  Form, ThankYou, CountryAndDocument, IdCapture, IdSelfie, IdCaptureBack,
+  Form: (app, next) => [
+    (props) => <Form form={app.form} {...props} />,
+    (form) => next({ form }),
+  ],
+  IdCapture: (app, next) => [
+    (props) => <IdCapture blob={app.front} {...props} />,
+    (front) => next({ front }),
+  ],
+  IdCaptureBack: (app, next) => [
+    (props) => <IdCaptureBack blob={app.back} {...props} />,
+    (back) => next({ back }),
+  ],
+  IdSelfie: (app, next) => [
+    (props) => <IdSelfie blob={app.selfie} {...props} />,
+    (selfie) => next({ selfie }),
+  ],
+  ThankYou: (app, next) => [
+    (props) => <ThankYou {...props} />,
+    () => next({}),
+  ],
+  CountryAndDocument: (app, next) => [
+    (props) => <CountryAndDocument country={app.country} type={app.type} {...props} />,
+    (country, type) => next({ country, type }),
+  ],
+
 };
 
 /*
@@ -68,41 +94,55 @@ class Widget extends Component {
     super(props);
     this.state = {
       step: 0,
+      direction: 'forvard',
+      app: {},
     };
   }
 
-  nextStep = () => {
+  nextStep = (delta) => {
     const { step } = this.state;
-    this.setState({ step: step + 1 });
-    console.log('a', step + 1);
+    this.setState({
+      step: step + 1,
+      direction: 'forvard',
+      app: { ...this.state.app, ...delta },
+    });
   }
 
   prevStep = () => {
     const { step } = this.state;
-    this.setState({ step: step - 1 });
+    this.setState({
+      step: step - 1,
+      direction: 'back',
+    });
+  }
+
+  finish = (delta) => {
+
   }
 
   render() {
     const { flow } = this.props;
-    const { step } = this.state;
-    console.log('step', step);
+    const { step, direction, app } = this.state;
+    console.log('app:', app);
     const currentComponent = flow[step];
     const { ...other } = this.props;
-
     if (!currentComponent) {
       return null;
     }
     const componentName = currentComponent.component;
-    const CurrentComponent = allComponents[componentName];
-    const actions = {
-      nextStep: step < flow.length - 1 ? this.nextStep : undefined,
-      prevStep: step > 0 ? this.prevStep : undefined,
-    };
+    const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
+    const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
+    const prevStep = step > 0 ? this.prevStep : undefined;
     return (
       <main id="getid" data-role="container">
         <div className={css.grid}>
           <Header componentName={componentName} />
-          <CurrentComponent actions={actions} {...other} />
+          <CurrentComponent
+            finishStep={finishStep}
+            prevStep={prevStep}
+            direction={direction}
+            {...other}
+          />
         </div>
       </main>
     );

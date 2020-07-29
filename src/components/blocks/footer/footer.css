@@ -7,13 +7,33 @@
     margin-top: 40px;
 }
 
-.goBack {
+.goBack, .goBack:hover  {
     margin: 0 auto;
     display: block;
     text-align: center;
     color: #999;
+    background: none;
+    border: none;
+    box-shadow: none;   
+}
+.additional {
+    background-color: #F8F7FA;
+    color: black;
+    box-shadow: none;   
 }
 
+.footerButton {
+    margin: 20px auto;
+    width: 50%;
+    max-width: 250px;
+    padding: 14px;
+}
+.placeholder{
+    margin: 20px auto;
+    width: 50%;
+    max-width: 250px;
+    padding: 14px;
+}
 
 .footer img {
     margin:0 auto;

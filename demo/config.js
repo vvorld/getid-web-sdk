@@ -9,6 +9,7 @@ export default {
   flow: [
     { component: 'Form' },
     { component: 'CountryAndDocument' },
+
     { component: 'IdCapture' },
     { component: 'IdCaptureBack' },
     { component: 'IdSelfie' },
@@ -109,7 +110,6 @@ export default {
     },
   ],
   formType: 'narrow',
-  cameraDistance: 'default',
   onComplete() {
     window.location.reload();
   },

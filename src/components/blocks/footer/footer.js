@@ -11,12 +11,17 @@ import css from './footer.css';
     return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
   };
   */
-const Footer = ({ next, back, disable }) => {
+const Footer = ({
+  next, back, disable, additional,
+}) => {
   const { translations } = useContext(TranslationsContext); // this.context;
+
   return (
     <>
-      { next && <button disable onClick={next}>Go next</button> }
-      { back && <a onClick={back} className={css.goBack}>{translations.button_back}</a>}
+      { next && <button className={css.footerButton} disable={disable} onClick={!disable && next}>Go next</button> }
+      { additional && <button className={`${css.footerButton} ${css.additional}`} onClick={additional.onClick}>{additional.text}</button> }
+      { back && <button className={`${css.footerButton} ${css.goBack}`} onClick={back}>{translations.button_back}</button>}
+      {!additional && !back && <div className={css.placeholder}>&nbsp;</div>}
       <footer className={css.footer}>
         <PoweredBy />
       </footer>

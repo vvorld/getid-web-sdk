@@ -23,7 +23,7 @@ function Checkbox(props) {
           }
         }
       />
-      <span className="getid-checkbox__input"/>
+      <span className="getid-checkbox__input" />
       <span>
         {parse(label)}
       </span>

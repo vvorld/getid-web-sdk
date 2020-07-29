@@ -4,5 +4,15 @@
 }
 
 .form__input-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.form__input-label {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 100%;
+    color: #1B3361;
+    display: flex;
+    margin-bottom: 10px;
 }

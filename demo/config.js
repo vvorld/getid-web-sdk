@@ -26,6 +26,7 @@ export default {
   fields: [
     {
       label: 'First Name',
+      placeholder: 'First Name',
       type: 'text',
       value: 'John',
       name: 'First name',
@@ -34,17 +35,20 @@ export default {
     },
     {
       label: 'Last Name',
+      placeholder: 'Last Name',
       type: 'text',
       name: 'Last name',
     },
     {
       label: 'Document front side',
+      placeholder: 'Document front side',
       type: 'file',
       name: 'front',
       required: true,
     },
     {
       label: 'Document back side',
+      placeholder: 'Document back side',
       type: 'file',
       name: 'back',
       required: false,

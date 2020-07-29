@@ -16,7 +16,7 @@ const Footer = ({ next, back, disable }) => {
   const { translations } = useContext(TranslationsContext); // this.context;
   return (
     <>
-      { next && <button type="button" className="getid-button__main getid-violet" disable onClick={next}>Go next</button> }
+      { next && <div className="getid-button__wrapper"><button type="button" className="getid-button__main getid-violet" disable onClick={next}>Go next</button></div> }
       { back && <a onClick={back} className="getid-btn__back">{translations.button_back}</a>}
       <footer className="getid-footer">
         <PoweredBy />

@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from './index';
+import '../../../layouts/form/form.css';
 
 export default { title: 'Inputs|Select Input' };
 
@@ -22,4 +23,4 @@ const options = [
   },
 ];
 
-export const SelectInput = () => <Select options={options} name="Test" placeholder="Select option" />;
+export const SelectInput = () => <Select label="Country" options={options} name="Test" placeholder="Select option" />;

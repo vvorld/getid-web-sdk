@@ -3,17 +3,25 @@
     padding-right: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
-    text-align: justify;         
+    text-align: justify;
+    font-size: 14px;
+    color: #1B3361;
 }
 .file-input__icon {
+    background-image: url("../../../assets/icons/file-grey.svg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
     width: 18px;
     min-width: 18px;
 }
+
 .file-input__placeholder {
     color: #999;
     opacity: 1;
 }
 .file-input {
+    font-size: 14px;
     -webkit-user-select: none; /* Chrome/Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
@@ -32,6 +40,9 @@
     text-overflow: ellipsis;
 }
 .file-input:hover { border: 1px solid #9C77E0; }
+.file-input:hover .file-input__icon {
+    background-image: url("../../../assets/icons/file.svg");
+}
 .file-input:focus {
     border: 1px solid #9C77E0;
     box-shadow: none;

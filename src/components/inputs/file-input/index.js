@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 import './file-input.css';
-import fileIcon from '../../../assets/icons/file.svg';
+
 /*
 
 setErrorState = (isError, name, errorText) => {
@@ -33,33 +33,34 @@ setErrorState = (isError, name, errorText) => {
 */
 const FileInput = (props) => {
   const {
-    onChange, label, value, name, required,
+    onChange, label, value, name, required, placeholder,
   } = props;
   const [currValue, setValue] = useState(value);
   const { translations } = useContext(TranslationsContext);
+  const ph = (placeholder && placeholder + (required ? '*' : '')) || '';
   { /* translations.file_input_tooltip */ }
-  const placeholder = label + (required ? '*' : '');
   return (
-    <label>
-      <input
-        className="getid-file-input__generic"
-        accept="image/x-png,image/jpeg"
-        onChange={(e) => {
-          const newValue = e.target.value;
-          setValue(newValue.split('\\').pop());
-          onChange(newValue);
-        }}
-        type="file"
-      />
-      <div className="getid-file-input">
-        <div className="getid-file-input__label">
-          {currValue || <div className="getid-file-input__placeholder">{placeholder}</div> }
+    <>
+      {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}
+      <label>
+        <input
+          className="getid-file-input__generic"
+          accept="image/x-png,image/jpeg"
+          onChange={(e) => {
+            const newValue = e.target.value;
+            setValue(newValue.split('\\').pop());
+            onChange(newValue);
+          }}
+          type="file"
+        />
+        <div className="getid-file-input">
+          <div className="getid-file-input__label">
+            {currValue || <div className="getid-file-input__placeholder">{ph}</div> }
+          </div>
+          <div className="getid-file-input__icon" />
         </div>
-        <div className="getid-file-input__icon">
-          <img src={fileIcon} />
-        </div>
-      </div>
-    </label>
+      </label>
+    </>
   );
 };
 

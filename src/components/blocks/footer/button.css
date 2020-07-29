@@ -7,6 +7,10 @@
     text-decoration-line: underline;
     font-size: 14px;
 }
+.button__wrapper {
+    margin: 30px auto 20px auto;
+    display: block;
+}
 
 .btn__back:hover {
     color: #9C77E0;
@@ -45,25 +49,18 @@ button.button__main {
     filter: drop-shadow(0px 5px 8px rgba(14, 51, 123, 0.15));
     /*box-shadow: 0 10px 16px #150f3830;*/
     align-self: end;
+    padding: 14px 60px;
+    border-radius: 30px;
+    border: none;
 }
 
 .button__main.violet {
-    margin: 40px auto 20px auto;
-    display: block;
     background: #8762ca;
-    padding: 14px 60px;
-    border: none;
-    border-radius: 30px;
     color: #fff;
 }
 
 .button__main.grey {
-    margin: 40px auto 20px auto;
-    display: block;
     background: #F8F7FA;
-    padding: 14px 60px;
-    border: none;
-    border-radius: 30px;
     color: #1B3361;
     filter: none;
 }

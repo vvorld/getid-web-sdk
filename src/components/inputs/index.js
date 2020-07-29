@@ -11,7 +11,7 @@ const InputRenderer = (props) => {
     type, name, onChange, ...other
   } = props;
 
-  const changeHandler = (name, type, value) => console.log(name, type, value);
+  const changeHandler = (name, type, value) => onChange(name, type, value);
   if (type === 'select') {
     return (
       <Select

@@ -7,19 +7,22 @@ const Select = (props) => {
   const [currValue, setValue] = useState(value || '');
   const pl = placeholder + (required ? '*' : '');
   return (
-    <select
-      value={currValue}
-      onChange={(e) => {
-        const v = e.target.value;
-        setValue(v);
-        onChange(v);
-      }}
-    >
-      <option value="">
-        {pl}
-      </option>
-      {options.map(({ name, value }) => <option value={value}>{name}</option>)}
-    </select>
+    <>
+      {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}
+      <select
+        value={currValue}
+        onChange={(e) => {
+          const v = e.target.value;
+          setValue(v);
+          onChange(v);
+        }}
+      >
+        <option value="">
+          {pl}
+        </option>
+        {options.map(({ name, value }) => <option value={value}>{name}</option>)}
+      </select>
+    </>
   );
 };
 

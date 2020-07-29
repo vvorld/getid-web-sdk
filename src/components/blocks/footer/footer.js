@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import PoweredBy from '../powered-by/index';
 import TranslationsContext from '../../../context/TranslationsContext';
-import css from './footer.css';
+import './footer.css';
+import './button.css';
 
 /*  nextButtonText = () => {
     const { translations } = this.context;
@@ -18,11 +19,12 @@ const Footer = ({
 
   return (
     <>
-      { next && <button className={css.footerButton} disable={disable} onClick={!disable && next}>Go next</button> }
-      { additional && <button className={`${css.footerButton} ${css.additional}`} onClick={additional.onClick}>{additional.text}</button> }
-      { back && <button className={`${css.footerButton} ${css.goBack}`} onClick={back}>{translations.button_back}</button>}
-      {!additional && !back && <div className={css.placeholder}>&nbsp;</div>}
-      <footer className={css.footer}>
+
+      { next && <div className="getid-button__wrapper"><button type="button" className="getid-button__main getid-violet" disable onClick={next}>Go next</button></div> }
+      { additional && <button className="getid-footer_button getid-footer_additional" onClick={additional.onClick}>{additional.text}</button> }
+      { back && <a onClick={back} className="getid-btn__back">{translations.button_back}</a>}
+      {!additional && !back && <div className="getid-placeholder">&nbsp;</div>}
+      <footer className="getid-footer">
         <PoweredBy />
       </footer>
     </>

@@ -1,8 +1,17 @@
-.date select {
-    width: 30%;
+.form__date-input select {
     display: inline-block;
-    margin-right: 11px;
+    margin-right: 10px;
 }
-.date>select:last-child {
-    margin-right: 0px;
+
+.form__date-input>select:first-child {
+    width: 26%;
+}
+
+.form__date-input>select:nth-child(2) {
+    width: 40%;
+}
+
+.form__date-input>select:last-child {
+    margin-right: 0;
+    width: 27%;
 }

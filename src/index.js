@@ -9,7 +9,6 @@ import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 import {
-  removeFieldDupes,
   convertAnswer,
   addDefaultValues,
 } from './helpers/generic';
@@ -86,15 +85,13 @@ const init = (options, tokenProvider) => {
     }
     const api = createApi(apiUrl, token, verificationTypes, metadata);
     Promise.all([
-      removeFieldDupes(options.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
       api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
       api.getCountryAndDocList().then(convertAnswer({ field: 'countries' })),
-    ]).then(([filteredFields, info, responseTranslations, countryDocuments]) => {
+    ]).then(([info, responseTranslations, countryDocuments]) => {
       renderMainComponent({
         ...info,
         ...options,
-        fields: filteredFields,
         translations: { ...defaultTranslations, ...responseTranslations },
         countryDocuments,
         api,

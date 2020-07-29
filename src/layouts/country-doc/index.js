@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../context/TranslationsContext';
 import Footer from '../../components/blocks/footer/footer';
+import Radiobutton from '../../components/inputs/radio-button';
+import '../form/form.css';
 
 const docTypeMapping = {
   passport: 'Passport',
@@ -25,7 +27,7 @@ const CountryAndDocument = ({
   const [currDocumentType, setDocumentType] = useState(documentType);
 
   const countryInfo = countryDocuments[currValue];
-  const documents = countryInfo && countryInfo.documents || [];
+  const documents = (countryInfo && countryInfo.documents) || [];
   const changeCountry = (cntr) => {
     setValue(cntr);
     setDocumentType('');
@@ -33,6 +35,7 @@ const CountryAndDocument = ({
   const changeDocumentType = (dt) => {
     setDocumentType(dt);
   };
+
   return (
     <>
       <div>
@@ -50,14 +53,13 @@ const CountryAndDocument = ({
       </div>
       <div>
         {documents && documents.map((docType) => (
-          <label>
-            <input
-              type="radio"
+          <div className="getid-form__input-wrapper">
+            <Radiobutton
+              name={getDocumentName(docType.name)}
               checked={docType === currDocumentType}
               onChange={() => changeDocumentType(docType)}
             />
-            {getDocumentName(docType.name)}
-          </label>
+          </div>
         ))}
       </div>
 

@@ -1,4 +1,3 @@
-import store from '../store/store';
 import { version } from '../../package.json';
 
 export const appendScansToForm = (form, scans) => {
@@ -51,7 +50,7 @@ const getDocumentData = (fields, fieldName) => {
 };
 
 export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
-  const state = store.getState();
+  
   let form = new FormData();
   form.append('data', JSON.stringify({
     userData: {

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 import { isMobile } from '../../../helpers/generic';
-import css from './style.css';
+import './style.css';
 
 function Header(props) {
   const { componentName } = props;
@@ -18,12 +18,12 @@ function Header(props) {
   return (
     <>
       { headerText && (
-      <h1 className={css.title} data-role="componentTitle">
+      <h1 className="getid-header__big" data-role="componentTitle">
         { headerText }
       </h1>
       )}
       { subHeaderText && (
-      <p className={css.subtitle}>
+      <p className="getid-header__small">
         { subHeaderText }
       </p>
       ) }

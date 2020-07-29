@@ -4,62 +4,31 @@ import {
   InputRenderer,
 } from '../../components/inputs';
 import Footer from '../../components/blocks/footer/footer';
-import css from './form.css';
+import './form.css';
 
 class Form extends Component {
-  /*
-  handleDateChange = (key, isRequired) => (date) => {
-    const convertToUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    this.props.addField(key, convertToUTC, this.currentStep, isRequired, 'date');
-  };
-
-  changeFileData = (eventTarget, file) => {
-    this.props.addField(eventTarget.name,
-      (file && file.name) || '',
-      this.currentStep,
-      eventTarget.required,
-      eventTarget.type);
-
-    this.props.addScan(eventTarget.name,
-      file,
-      this.currentStep,
-      eventTarget.required);
+  constructor(props) {
+    super(props);
+    this.form = {};
   }
 
-  handleSelectChange = (isRequired, type) => (event) => {
-    const eventTarget = event.target;
-    const { value } = eventTarget;
-
-    this.props.addField(eventTarget.name,
-      value,
-      this.currentStep,
-      isRequired,
-      type);
-  }; */
-
-   handleChange = (value, type, name) => {
-     /* const eventTarget = event.target;
-     const value = eventTarget.type === 'checkbox' ? eventTarget.checked : eventTarget.value;
-     this.props.addField(eventTarget.name,
-       value,
-       this.currentStep,
-       eventTarget.required,
-       eventTarget.type); */
+   handleChange = (name, type, value) => {
+     this.form[name] = value;
    };
 
    render() {
      const { fields, finishStep, prevStep } = this.props;
      return (
        <>
-         <form className={css.form} data-role="blockForm">
+         <form className="getid-form__body" data-role="blockForm">
            { fields.map((field) => (
-             <div className={css.formElementWrapper}>
-               <InputRenderer {...field} />
+             <div className="getid-form__input-wrapper">
+               <InputRenderer {...field} onChange={this.handleChange} />
              </div>
            )) }
          </form>
          <Footer
-           next={() => finishStep({})}
+           next={() => finishStep(this.form)}
            back={prevStep}
          />
        </>

@@ -1,25 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 // TODO import root from 'react-shadow';
-import store from './store/store';
-import actions from './store/actions';
 
 import TranslationsContext from './context/TranslationsContext';
-import Main from './layouts/Main';
+import Widget from './layouts/widget';
 
 /* </root.div>
 <root.div>
  */
 const MainModule = (widgetOptions) => (
   <div>
-    <Provider store={store}>
-      <TranslationsContext.Provider
-        value={{ translations: widgetOptions.translations }}
-      >
-        <Main {...widgetOptions} />
-      </TranslationsContext.Provider>
-    </Provider>
+    <TranslationsContext.Provider
+      value={{ translations: widgetOptions.translations }}
+    >
+      <Widget {...widgetOptions} />
+    </TranslationsContext.Provider>
   </div>
 
 );
@@ -30,9 +25,8 @@ const MainModule = (widgetOptions) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const component = MainModule(widgetOptions, store);
+  const component = MainModule(widgetOptions);
   if (container.hasChildNodes()) {
-    store.dispatch(actions.resetStore());
     ReactDOM.unmountComponentAtNode(container);
   }
 

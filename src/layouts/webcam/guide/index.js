@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import css from './guide.css';
+import './guide.css';
 
 const Guide = ({ src }) => (
-  <div className={css.guideContainer}>
-    <img className={css.guide} src={src} />
+  <div className="getid-guide__container">
+    <img className="getid-guide__img" src={src} />
   </div>
 );
 

@@ -1,5 +1,5 @@
 main, #getid {
-    font-family: Roboto, Arial;
+    font-family: Roboto, Arial, serif;
     padding: 20px;
     transition: all .3s;
     font-size: 14px;
@@ -18,7 +18,7 @@ main a {
     color:#9C77E0;
 }
 
-.grid {
+.grid__main {
     display: grid;
     grid-row-gap: 16px;
     grid-template-rows: auto auto auto 1fr;
@@ -28,42 +28,44 @@ main a {
     text-align: center;
     margin: 0 auto;
 }
-
-
-
 /*-----------FORM---------*/
 
 
-input, select, textarea, button:active, inputbox {
+input, select, textarea, button:active {
     -webkit-user-select: none; /* Chrome/Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+ */
 }
-input[type='text'], select, inputbox, .doc-pick {
+input[type='text'], select, .doc-pick {
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
     border-radius: 4px;
     border: 1px solid #eee;
     background: #fafafc;
+    color: #1B3361;
     width: 100%;
+    font-size: 14px;
     transition: all .3s;
     z-index: 1;
     box-sizing: border-box;
 }
+
 select {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
     background-image: url(../assets/icons/arrow-down.svg);
     background-repeat: no-repeat;
-    background-position: calc(100% - 6px) 7px;
-    background-size: 25px;
+    background-position: calc(100% - 15px) 16px;
+    background-size: 10px;
+    font-size: 14px;
+    color: #1B3361;
 }
-input:hover, select:hover, inputbox:hover {
+input:hover, select:hover {
     border: 1px solid #9C77E0;
 }
-input:focus, select:focus, button:focus, input:active, select:focus, button:active {
+input:focus, select:focus, input:active, select:focus, button:active {
     border: 1px solid #9C77E0;
     box-shadow: none;
 }
@@ -72,10 +74,7 @@ input:focus, select:focus, button:focus, input:active, select:focus, button:acti
   color: #999;
   opacity: 1; /* Firefox */
 }
-placeholder {
-  color: #999;
-  opacity: 1;
-}
+
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
   color: #999;
 }
@@ -84,45 +83,7 @@ placeholder {
   color: #999;
 }
 
-button {
-    margin: 40px auto 20px auto;
-    display: block;
-    background: #8762ca;
-    padding: 14px 60px;
-    border: none;
-    border-radius: 30px;
-    color: #fff;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 1px;
-    transition: all .3s;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    position: relative;
-    top:0;
-    height: 42px;
-    box-shadow: 0px 10px 16px #150f3830;
-    align-self: end;
-}
-
-button:hover {
-    background: #9C77E0;
-    box-shadow: 0px 2px 5px #150f3830;
-}
-button:active, button:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
-    top:2px;
-    
-}
-[type=button], [type=reset], [type=submit], button {
-    -webkit-appearance: button;
-}
-
-
+[type=button], [type=reset], [type=submit], button { -webkit-appearance: button; }
 
 .doc-type label {
     margin: 0 auto;
@@ -145,7 +106,7 @@ button:active, button:focus {
 
 .doc-type label + input[type=checkbox]:checked {
     border: 1px solid #8762ca;
-  } 
+}
 /*-----------FORM END---------*/
 
 

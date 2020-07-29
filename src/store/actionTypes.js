@@ -1,8 +1,0 @@
-export const ADD_FIELD = 'ADD_FIELD';
-export const ADD_SCAN = 'ADD_SCAN';
-export const SET_BUTTON_AS_DISABLED = 'SET_BUTTON_AS_DISABLED';
-export const STORE_COUNTRIES_AND_DOCS = 'STORE_COUNTRIES_AND_DOCS';
-export const GO_TO_STEP = 'GO_TO_STEP';
-export const SET_FLOW = 'SET_FLOW';
-export const SET_ID_CAPTURE_BACK = 'SET_ID_CAPTURE_BACK';
-export const RESET_STORE = 'RESET_STORE';

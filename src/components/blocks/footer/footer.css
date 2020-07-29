@@ -7,7 +7,7 @@
     margin-top: 40px;
 }
 
-.goBack, .goBack:hover  {
+.btn__back, .btn__back:hover  {
     margin: 0 auto;
     display: block;
     text-align: center;
@@ -16,13 +16,13 @@
     border: none;
     box-shadow: none;   
 }
-.additional {
+.footer_additional {
     background-color: #F8F7FA;
     color: black;
     box-shadow: none;   
 }
 
-.footerButton {
+.footer_button {
     margin: 20px auto;
     width: 50%;
     max-width: 250px;
@@ -36,5 +36,5 @@
 }
 
 .footer img {
-    margin:0 auto;
+    margin: 0 auto;
 }

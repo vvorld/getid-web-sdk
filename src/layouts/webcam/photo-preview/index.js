@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './preview.css';
+import './preview.css';
 
 const PreviewForm = ({ blob }) => {
   const urlCreator = window.URL || window.webkitURL;
@@ -10,7 +10,7 @@ const PreviewForm = ({ blob }) => {
   return (
     <div data-role="cameraPreview">
       <img
-        className={css.preview}
+        className="getid-preview"
         src={imageSrc}
         alt="current"
         data-role="cameraPreviewImg"

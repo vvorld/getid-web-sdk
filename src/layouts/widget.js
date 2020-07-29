@@ -12,7 +12,7 @@ import {
 
 import Header from '../components/blocks/header/header';
 import TranslationsContext from '../context/TranslationsContext';
-import css from './style.css';
+import './style.css';
 
 const allComponents = {
   Form: (app, next) => [
@@ -100,6 +100,14 @@ class Widget extends Component {
   }
 
   nextStep = (delta) => {
+    /*
+  const {
+      api, idCaptureBackIndex,
+    } = this.props;
+
+    const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
+    await api.trySendEvent(stepName, 'completed');
+    */
     const { step } = this.state;
     this.setState({
       step: step + 1,
@@ -129,19 +137,20 @@ class Widget extends Component {
     if (!currentComponent) {
       return null;
     }
-    const componentName = currentComponent.component;
+    const { component: componentName, ...componenetProps } = currentComponent;
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
     const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
     const prevStep = step > 0 ? this.prevStep : undefined;
     return (
       <main id="getid" data-role="container">
-        <div className={css.grid}>
+        <div className="getid-grid__main">
           <Header componentName={componentName} />
           <CurrentComponent
             finishStep={finishStep}
             prevStep={prevStep}
             direction={direction}
             {...other}
+            {...componenetProps}
           />
         </div>
       </main>

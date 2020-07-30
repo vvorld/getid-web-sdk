@@ -16,14 +16,14 @@ export default {
           value: 'John',
           name: 'First name',
           required: true,
-          validation: (value, setError) => {
-            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (value && value.length !== 0 && !re.test(String(value).toLowerCase())) {
-              setError('Input is not valid');
-              return;
-            }
-            setError(null);
-          },
+          // validation: (value, setError) => {
+          //   const re = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/;
+          //   if (value && value.length !== 0 && !re.test(String(value).toLowerCase())) {
+          //     setError('Input is not valid');
+          //     return;
+          //   }
+          //   setError(null);
+          // },
         },
         {
           label: 'Last Name',

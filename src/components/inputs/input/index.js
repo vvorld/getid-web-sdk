@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+const defaultValidation = (value, isRequired) => {
+  if (!value && isRequired) {
+    return 'Value can not be empty';
+  }
+  return null;
+};
+
 const Input = ({
   name, label, value, onChange, required, validation,
 }) => {
@@ -11,7 +18,10 @@ const Input = ({
   const validate = (checkValue) => {
     if (validation && typeof validation === 'function') {
       validation(checkValue, setError);
+      return;
     }
+    const errorMessage = defaultValidation(checkValue, required);
+    setError(errorMessage);
   };
 
   useEffect(() => {
@@ -54,7 +64,7 @@ Input.defaultProps = {
   value: null,
   onChange: () => {},
   required: false,
-  validation: () => {},
+  validation: null,
 };
 
 export default Input;

@@ -34,12 +34,12 @@ function Checkbox(props) {
 Checkbox.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
   label: '',
-  value: '',
+  value: false,
   onChange: () => {},
 };
 

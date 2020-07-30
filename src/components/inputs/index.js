@@ -35,7 +35,6 @@ const InputRenderer = (props) => {
       <Checkbox
         onChange={(value) => changeHandler(name, 'checkbox', value)}
         {...other}
-        value
       />
     );
   }

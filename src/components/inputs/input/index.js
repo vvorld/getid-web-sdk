@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
 const Input = ({
-  name, label, value, onChange, required,
+  name, label, value, onChange, required, validation,
 }) => {
   const placeholder = label + (required ? '*' : '');
   const [currValue, setValue] = useState(value);
   const [error, setError] = useState(null);
 
   const validate = (checkValue) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (currValue && currValue.length !== 0 && !re.test(String(checkValue).toLowerCase())) {
-      setError('Input is not valid');
-      return;
+    if (validation && typeof validation === 'function') {
+      validation(checkValue, setError);
     }
-    setError(null);
   };
 
   useEffect(() => {

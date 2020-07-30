@@ -94,7 +94,7 @@ class Widget extends Component {
     super(props);
     this.state = {
       step: 0,
-      direction: 'forvard',
+      direction: 'forward',
       app: {},
     };
   }
@@ -111,7 +111,7 @@ class Widget extends Component {
     const { step } = this.state;
     this.setState({
       step: step + 1,
-      direction: 'forvard',
+      direction: 'forward',
       app: { ...this.state.app, ...delta },
     });
   }

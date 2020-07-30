@@ -6,6 +6,7 @@
     --main-input-border-color: #eee;
     --main-input-hover-border: #CED3DD;
     --main-white: #FFFFFF;
+    --main-error-color: red;
     --button-grey-bg: #F8F7FA;
     --main-font-size: 14px;
     --main-button-border-radius: 4px;
@@ -55,8 +56,16 @@ input, select, textarea, button:active {
     -ms-user-select: none; /* IE10+ */
 }
 
-input:invalid {
-
+input.error {
+    border: 1px solid var(--main-error-color)!important;
+}
+.error__message {
+    color: var(--main-error-color);
+    font-size: 11px;
+    font-weight: var(--main-font-weight);
+    text-align: left;
+    display: flex;
+    margin-top: 5px;
 }
 
 input[type='text'], select, .doc-pick {

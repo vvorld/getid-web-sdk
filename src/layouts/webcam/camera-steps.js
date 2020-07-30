@@ -82,9 +82,8 @@ class WebcamView extends React.Component {
             <Guide />
           </Placeholder>
           <Footer
-            disable={!cameraStepIsAllowed}
-            next={this.startRecordStep}
-            back={prevStep}
+            next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
+            back={{ onClick: prevStep }}
           />
         </div>
         <div style={{ display: step === 'record' ? 'block' : 'none' }}>
@@ -96,8 +95,8 @@ class WebcamView extends React.Component {
             />
           </Placeholder>
           <Footer
-            next={this.makePhoto}
-            back={this.showGuideStep}
+            next={{ onClick: this.makePhoto }}
+            back={{ onClick: this.showGuideStep }}
           />
         </div>
         <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
@@ -105,9 +104,8 @@ class WebcamView extends React.Component {
             <PreviewForm blob={blob} />
           </Placeholder>
           <Footer
-            additional={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={() => finishStep(blob)}
-            // back={this.startRecordStep}
+            back={{ text: 'No, retake', onClick: this.startRecordStep }}
+            next={{ onClick: () => finishStep(blob) }}
           />
         </div>
       </>

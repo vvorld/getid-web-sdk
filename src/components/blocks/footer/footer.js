@@ -4,26 +4,22 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import './footer.css';
 import './button.css';
 
-/*  nextButtonText = () => {
-    const { translations } = this.context;
-
-    if (this.isPage('ThankYou')) return translations.button_start_over;
-    if (this.isPage('Consent') && (this.nextComponent() && !this.nextComponent().component.includes('ThankYou'))) return translations.button_agree;
-    return this.isButtonToSubmitData() ? translations.button_submit : translations.button_next;
-  };
-  */
-const Footer = ({
-  next, back, disable, additional,
-}) => {
+const Footer = ({ next, back }) => {
   const { translations } = useContext(TranslationsContext); // this.context;
 
   return (
     <>
 
-      { next && <div className="getid-button__wrapper"><button type="button" className="getid-button__main getid-violet" disable onClick={next}>Go next</button></div> }
-      { additional && <button className="getid-footer_button getid-footer_additional" onClick={additional.onClick}>{additional.text}</button> }
-      { back && <a onClick={back} className="getid-btn__back">{translations.button_back}</a>}
-      {!additional && !back && <div className="getid-placeholder">&nbsp;</div>}
+      { next && (
+      <div className="getid-button__wrapper">
+        <button type="button" className="getid-button__main getid-violet" disable={next.disable} onClick={next.onClick}>
+          {next.text || translations.button_next}
+        </button>
+      </div>
+      ) }
+      { back
+        ? <a onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</a>
+        : <div className="getid-placeholder">&nbsp;</div>}
       <footer className="getid-footer">
         <PoweredBy />
       </footer>

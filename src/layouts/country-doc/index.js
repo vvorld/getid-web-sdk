@@ -64,8 +64,8 @@ const CountryAndDocument = ({
       </div>
 
       <Footer
-        next={() => finishStep({})}
-        back={prevStep}
+        next={{ onClick: () => finishStep({}) }}
+        back={{ onClick: prevStep }}
       />
     </>
   );

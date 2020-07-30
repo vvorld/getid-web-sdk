@@ -28,8 +28,8 @@ class Form extends Component {
            )) }
          </form>
          <Footer
-           next={() => finishStep(this.form)}
-           back={prevStep}
+           next={{ onClick: () => finishStep(this.form) }}
+           back={{ onClick: prevStep }}
          />
        </>
      );

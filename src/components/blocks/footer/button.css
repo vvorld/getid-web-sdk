@@ -3,9 +3,9 @@
     margin: 0 auto;
     display: block;
     text-align: center;
-    color: #999;
+    color: var(--main-txt-color-grey);
     text-decoration-line: underline;
-    font-size: 14px;
+    font-size: var(--main-font-size);
 }
 .button__wrapper {
     margin: 30px auto 20px auto;
@@ -13,16 +13,16 @@
 }
 
 .btn__back:hover {
-    color: #9C77E0;
+    color: var(--main-accent-color);
 }
 
 .button__main.violet:focus {
-    border: 1px solid #9C77E0;
+    border: 1px solid var(--main-accent-color);
     box-shadow: none;
 }
 
 .button__main.violet:hover {
-    background: #9C77E0;
+    background: var(--main-accent-color);
     filter: drop-shadow(0px 15px 18px rgba(14, 51, 123, 0.15));
     /*box-shadow: 0px 2px 5px #150f3830;*/
 }
@@ -35,11 +35,11 @@
 }
 
 button.button__main {
-    font-weight: 600;
+    font-weight: var(--main-font-weight-bold);
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 1px;
-    transition: all .3s;
+    transition: var(--main-transition);
     text-align: center;
     text-decoration: none;
     cursor: pointer;
@@ -55,13 +55,13 @@ button.button__main {
 }
 
 .button__main.violet {
-    background: #8762ca;
-    color: #fff;
+    background: var(--main-accent-color);
+    color: var(--main-white);
 }
 
 .button__main.grey {
-    background: #F8F7FA;
-    color: #1B3361;
+    background: var(--button-grey-bg);
+    color: var(--main-txt-color);
     filter: none;
 }
 .button__main.grey:hover {

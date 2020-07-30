@@ -9,10 +9,10 @@
 
 .form__input-label {
     font-style: normal;
-    font-weight: bold;
+    font-weight: var(--main-font-weight-bold);
     font-size: 12px;
     line-height: 100%;
-    color: #1B3361;
+    color: var(--main-txt-color);
     display: flex;
     margin-bottom: 10px;
 }

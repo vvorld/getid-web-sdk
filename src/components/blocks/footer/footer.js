@@ -9,7 +9,6 @@ const Footer = ({ next, back }) => {
 
   return (
     <>
-
       { next && (
       <div className="getid-button__wrapper">
         <button type="button" className="getid-button__main getid-violet" disable={next.disable} onClick={next.onClick}>

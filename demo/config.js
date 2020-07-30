@@ -16,17 +16,23 @@ export default {
           value: 'John',
           name: 'First name',
           required: true,
-          hidden: true,
         },
         {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',
+          required: true,
         },
         {
           label: 'Date Of Birth',
           type: 'date',
           name: 'Date of Birth',
+          required: true,
+        },
+        {
+          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
+          type: 'checkbox',
+          name: 'privacy',
         },
       ],
 
@@ -66,19 +72,13 @@ export default {
           value: '1991-08-15',
           name: 'Date of expiry',
           required: true,
+          hidden: true,
+
         },
 
-        {
-          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
-          type: 'checkbox',
-          name: 'privacy',
-          value: true,
-        },
       ],
-
     },
     { component: 'CountryAndDocument' },
-
     { component: 'IdCapture' },
     { component: 'IdCaptureBack' },
     { component: 'IdSelfie' },

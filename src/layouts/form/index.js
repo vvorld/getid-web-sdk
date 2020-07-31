@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  InputRenderer,
-} from '../../components/inputs';
+import { InputRenderer } from '../../components/inputs';
 import Footer from '../../components/blocks/footer/footer';
 import './form.css';
 
@@ -22,7 +20,7 @@ class Form extends Component {
        <>
          <form className="getid-form__body" data-role="blockForm">
            { fields.map((field) => (
-             <div className="getid-form__input-wrapper">
+             <div key={field.name} className="getid-form__input-wrapper">
                <InputRenderer {...field} onChange={this.handleChange} />
              </div>
            )) }
@@ -39,9 +37,13 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   translations: PropTypes.object.isRequired,
-  addField: PropTypes.func.isRequired,
-  addScan: PropTypes.func.isRequired,
-  currentStep: PropTypes.number.isRequired,
+  finishStep: PropTypes.func,
+  prevStep: PropTypes.func,
+};
+
+Form.defaultProps = {
+  finishStep: null,
+  prevStep: null,
 };
 
 export default Form;

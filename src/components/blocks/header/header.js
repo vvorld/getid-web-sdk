@@ -32,7 +32,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  componentName: PropTypes.object.isRequired,
+  componentName: PropTypes.string.isRequired,
 };
 
 export default Header;

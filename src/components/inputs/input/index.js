@@ -61,7 +61,7 @@ Input.propTypes = {
 Input.defaultProps = {
   name: '',
   label: '',
-  value: null,
+  value: '',
   onChange: () => {},
   required: false,
   validation: null,

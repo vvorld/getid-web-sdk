@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TranslationsContext from '../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
@@ -64,7 +65,6 @@ class WebcamView extends React.Component {
     const {
       errorMessage, step, blob, cameraStepIsAllowed,
     } = this.state;
-
     if (step === 'disabled') {
       return (
         <div style={{ display: 'block' }}>
@@ -114,6 +114,23 @@ class WebcamView extends React.Component {
 }
 
 WebcamView.contextType = TranslationsContext;
+
+WebcamView.propTypes = {
+  Camera: PropTypes.func.isRequired,
+  Guide: PropTypes.func.isRequired,
+  Placeholder: PropTypes.func.isRequired,
+  prevStep: PropTypes.func,
+  finishStep: PropTypes.func,
+  direction: PropTypes.string,
+  blob: PropTypes.any
+};
+
+WebcamView.defaultProps = {
+  prevStep: null,
+  finishStep: null,
+  direction: '',
+  blob: null
+};
 
 export default (props) => (
   <div id="webcam" className="webcam" data-role="webcamContainer">

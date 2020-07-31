@@ -28,8 +28,8 @@ const CountryAndDocument = ({
 
   const countryInfo = countryDocuments[currValue];
   const documents = (countryInfo && countryInfo.documents) || [];
-  const changeCountry = (cntr) => {
-    setValue(cntr);
+  const changeCountry = (countryVal) => {
+    setValue(countryVal);
     setDocumentType('');
   };
   const changeDocumentType = (dt) => {
@@ -46,14 +46,14 @@ const CountryAndDocument = ({
         >
           <option value="">Country</option>
           {countries.map(({ value, name }) => (
-            <option value={value}>{name}</option>
+            <option key={name} value={value}>{name}</option>
           ))}
         </select>
 
       </div>
       <div>
         {documents && documents.map((docType) => (
-          <div className="getid-form__input-wrapper">
+          <div key={docType.name} className="getid-form__input-wrapper">
             <Radiobutton
               name={getDocumentName(docType.name)}
               checked={docType === currDocumentType}
@@ -73,12 +73,18 @@ const CountryAndDocument = ({
 
 CountryAndDocument.propTypes = {
   countryDocuments: PropTypes.object,
+  country: PropTypes.string,
+  documentType: PropTypes.string,
+  finishStep: PropTypes.func,
+  prevStep: PropTypes.func,
 };
 
 CountryAndDocument.defaultProps = {
   countryDocuments: {},
+  country: '',
+  documentType: '',
+  finishStep: null,
+  prevStep: null,
 };
-
-CountryAndDocument.contextType = TranslationsContext;
 
 export default CountryAndDocument;

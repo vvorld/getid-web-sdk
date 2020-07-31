@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import PoweredBy from '../powered-by/index';
 import TranslationsContext from '../../../context/TranslationsContext';
 import './footer.css';
@@ -24,6 +25,16 @@ const Footer = ({ next, back }) => {
       </footer>
     </>
   );
+};
+
+Footer.propTypes = {
+  next: PropTypes.shape({}),
+  back: PropTypes.shape({}),
+};
+
+Footer.defaultProps = {
+  next: null,
+  back: null,
 };
 
 export default Footer;

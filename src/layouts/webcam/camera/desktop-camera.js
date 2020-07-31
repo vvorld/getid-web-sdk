@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
+import frameRenderer from './helpers';
+import PropTypes from 'prop-types';
 
-const frameRenderer = (webcam, width, height) => (callback) => {
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const context = canvas.getContext('2d');
-  context.drawImage(webcam, 0, 0);
-  canvas.toBlob(callback, 'image/jpeg', 1.0);
-};
-
-class Camera extends Component {
+class DesktopCamera extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +24,7 @@ class Camera extends Component {
       });
       const { width, height } = stream.getVideoTracks()[0].getSettings();
       this.setState({ width, height });
-      ref.srcObject = stream;
+      this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4) {
           clearInterval(intervalId);
@@ -63,4 +56,10 @@ class Camera extends Component {
   }
 }
 
-export default Camera;
+DesktopCamera.propTypes = {
+  Overlay: PropTypes.any.isRequired,
+  onError: PropTypes.func.isRequired,
+  onReady: PropTypes.func.isRequired,
+}
+
+export default DesktopCamera;

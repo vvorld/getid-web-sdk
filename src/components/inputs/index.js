@@ -22,6 +22,7 @@ const InputRenderer = (props) => {
   }
 
   if (type === 'file') {
+    console.log(other)
     return (
       <FileInput
         onChange={(value) => changeHandler(name, 'file', value)}

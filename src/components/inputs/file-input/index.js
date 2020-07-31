@@ -68,15 +68,15 @@ const FileInput = (props) => {
 };
 
 FileInput.propTypes = {
-  // type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   required: PropTypes.bool,
 };
 
 FileInput.defaultProps = {
   required: false,
+  name: '',
 };
 
 export default FileInput;

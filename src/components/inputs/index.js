@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DateInput from './date-input';
 import Checkbox from './checkbox';
 import RadioButton from './radio-button';
@@ -11,7 +12,7 @@ const InputRenderer = (props) => {
     type, name, onChange, ...other
   } = props;
 
-  const changeHandler = (name, type, value) => onChange(name, type, value);
+  const changeHandler = (nm, tp, val) => onChange(nm, tp, val);
   if (type === 'select') {
     return (
       <Select
@@ -22,7 +23,6 @@ const InputRenderer = (props) => {
   }
 
   if (type === 'file') {
-    console.log(other)
     return (
       <FileInput
         onChange={(value) => changeHandler(name, 'file', value)}
@@ -54,6 +54,19 @@ const InputRenderer = (props) => {
     />
   );
 };
+
+InputRenderer.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+InputRenderer.defaultProps = {
+  type: '',
+  name: '',
+  onChange: null,
+};
+
 export {
   DateInput,
   Checkbox,

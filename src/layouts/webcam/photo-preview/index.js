@@ -1,5 +1,6 @@
 import React from 'react';
 import './preview.css';
+import PropTypes from 'prop-types';
 
 const PreviewForm = ({ blob }) => {
   const urlCreator = window.URL || window.webkitURL;
@@ -17,6 +18,10 @@ const PreviewForm = ({ blob }) => {
       />
     </div>
   );
+};
+
+PreviewForm.propTypes = {
+  blob: PropTypes.any.isRequired,
 };
 
 export default PreviewForm;

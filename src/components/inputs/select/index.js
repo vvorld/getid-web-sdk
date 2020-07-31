@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Select = (props) => {
   const {
@@ -20,10 +21,28 @@ const Select = (props) => {
         <option value="">
           {pl}
         </option>
-        {options.map(({ name, value }) => <option key={name} value={value}>{name}</option>)}
+        {options.map(({ name, val }) => <option key={name} value={val}>{name}</option>)}
       </select>
     </>
   );
+};
+
+Select.propTypes = {
+  options: PropTypes.shape([]),
+  label: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
+};
+
+Select.defaultProps = {
+  options: [],
+  label: '',
+  value: '',
+  placeholder: '',
+  required: false,
+  onChange: null,
 };
 
 export default Select;

@@ -6,7 +6,7 @@ const index = ({ requestCamera, errorMessage }) => (
   <div>
     <img src={SadSmileSVG} alt="something wrong" />
     <div>{errorMessage}</div>
-    <button onClick={requestCamera}>
+    <button type="button" onClick={requestCamera}>
       try again
     </button>
   </div>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './file-input.css';
 
 /*
-
 setErrorState = (isError, name, errorText) => {
     this.setState((prevState) => ({
       isError: {
@@ -36,7 +35,7 @@ const FileInput = (props) => {
   } = props;
   const [currValue, setValue] = useState(value);
   const ph = (placeholder && placeholder + (required ? '*' : '')) || '';
-  { /* translations.file_input_tooltip */ }
+  // translations.file_input_tooltip
   return (
     <>
       {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}
@@ -49,6 +48,7 @@ const FileInput = (props) => {
             setValue(newValue.split('\\').pop());
             onChange(newValue);
           }}
+          name={name}
           type="file"
         />
         <div className="getid-file-input">
@@ -71,12 +71,16 @@ FileInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
   required: PropTypes.bool,
 };
 
 FileInput.defaultProps = {
   required: false,
   name: '',
+  value: '',
+  placeholder: '',
 };
 
 export default FileInput;

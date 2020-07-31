@@ -8,7 +8,7 @@ const MobileCamera = (props) => {
   const { Overlay } = props;
   const videoRef = useRef();
 
-  useEffect( () => {
+  useEffect(() => {
     const setSrc = async (ref) => {
       const refLocal = ref;
       if (!refLocal) {

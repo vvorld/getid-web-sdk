@@ -122,14 +122,14 @@ WebcamView.propTypes = {
   prevStep: PropTypes.func,
   finishStep: PropTypes.func,
   direction: PropTypes.string,
-  blob: PropTypes.any
+  blob: PropTypes.any,
 };
 
 WebcamView.defaultProps = {
   prevStep: null,
   finishStep: null,
   direction: '',
-  blob: null
+  blob: null,
 };
 
 export default (props) => (

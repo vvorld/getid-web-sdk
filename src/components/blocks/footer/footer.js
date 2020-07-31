@@ -12,12 +12,13 @@ const Footer = ({ next, back }) => {
     <>
       { next && (
       <div className="getid-button__wrapper">
-        <button type="button" className="getid-button__main getid-violet" disable={next.disable} onClick={next.onClick}>
+        <button type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
           {next.text || translations.button_next}
         </button>
       </div>
       ) }
       { back
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
         ? <a onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</a>
         : <div className="getid-placeholder">&nbsp;</div>}
       <footer className="getid-footer">
@@ -28,8 +29,15 @@ const Footer = ({ next, back }) => {
 };
 
 Footer.propTypes = {
-  next: PropTypes.shape({}),
-  back: PropTypes.shape({}),
+  next: PropTypes.shape({
+    text: PropTypes.string,
+    disable: PropTypes.bool,
+    onClick: PropTypes.func,
+  }),
+  back: PropTypes.shape({
+    onClick: PropTypes.func,
+    text: PropTypes.string,
+  }),
 };
 
 Footer.defaultProps = {

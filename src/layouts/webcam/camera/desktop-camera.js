@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import frameRenderer from './helpers';
 import PropTypes from 'prop-types';
+import frameRenderer from './helpers';
 
 class DesktopCamera extends Component {
   constructor(props) {
@@ -60,6 +60,6 @@ DesktopCamera.propTypes = {
   Overlay: PropTypes.any.isRequired,
   onError: PropTypes.func.isRequired,
   onReady: PropTypes.func.isRequired,
-}
+};
 
 export default DesktopCamera;

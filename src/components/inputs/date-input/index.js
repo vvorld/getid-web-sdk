@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
+import PropTypes from 'prop-types';
 
 const months = [
   { name: 'January', days: 31 },
@@ -30,22 +31,21 @@ const parseDate = (date) => {
 function DateInput({
   required, value, onChange, label,
 }) {
-  console.log(label)
   const [y, m, d] = parseDate(value);
   const [monthDays, setDays] = useState(days);
 
   const [year, setYear] = useState(y);
   const [month, setMonth] = useState(m);
   const [day, setDay] = useState(d);
-  const changeDate = (y, m, d) => {
-    if (y && m && d) {
-      const date = `${y}-${m}-${d}`;
+  const changeDate = (yr, mth, dy) => {
+    if (yr && mth && dy) {
+      const date = `${yr}-${mth}-${dy}`;
       onChange(date);
     }
   };
-  const normaliseDays = (y, m) => {
-    if (m !== 0) {
-      if (m === 2 && y && y % 4 !== 0) {
+  const normaliseDays = (yr, mth) => {
+    if (mth !== 0) {
+      if (mth === 2 && yr && yr % 4 !== 0) {
         setDays(days.slice(0, 28));
         if (day > 28) {
           setDay(0);
@@ -61,18 +61,18 @@ function DateInput({
     }
     setDays(days);
   };
-  const change = (y, m, d) => {
-    if (y !== undefined) {
-      setYear(y);
-      normaliseDays(y, month);
-      changeDate(y, month, day);
-    } else if (m !== undefined) {
-      setMonth(m);
-      normaliseDays(year, m);
-      changeDate(year, m, day);
-    } else if (d !== undefined) {
-      setDay(d);
-      changeDate(year, month, d);
+  const change = (yr, mth, dy) => {
+    if (yr !== undefined) {
+      setYear(yr);
+      normaliseDays(yr, month);
+      changeDate(yr, month, day);
+    } else if (mth !== undefined) {
+      setMonth(mth);
+      normaliseDays(year, mth);
+      changeDate(year, mth, day);
+    } else if (dy !== undefined) {
+      setDay(dy);
+      changeDate(year, month, dy);
     }
   };
   const dayLabel = `Day${required ? '*' : ''}`;
@@ -99,8 +99,18 @@ function DateInput({
   );
 }
 
+DateInput.propTypes = {
+  value: PropTypes.string,
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
+  label: PropTypes.string,
+};
+
 DateInput.defaultProps = {
   value: '',
+  required: false,
+  onChange: null,
+  label: '',
 };
 
 export default DateInput;

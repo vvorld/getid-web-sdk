@@ -50,7 +50,6 @@ const getDocumentData = (fields, fieldName) => {
 };
 
 export const createEAForSubmission = (jwt, verificationTypes, metadata) => {
-  
   let form = new FormData();
   form.append('data', JSON.stringify({
     userData: {

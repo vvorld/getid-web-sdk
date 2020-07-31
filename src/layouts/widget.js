@@ -39,7 +39,6 @@ const allComponents = {
     (props) => <CountryAndDocument country={app.country} type={app.type} {...props} />,
     (country, type) => next({ country, type }),
   ],
-
 };
 
 /*
@@ -125,13 +124,12 @@ class Widget extends Component {
   }
 
   finish = (delta) => {
-
+    console.log('delta', delta);
   }
 
   render() {
     const { flow } = this.props;
     const { step, direction, app } = this.state;
-    console.log('app:', app);
     const currentComponent = flow[step];
     const { ...other } = this.props;
     if (!currentComponent) {

@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
 
 import { renderMainComponent } from './main-module';
+import React from 'react';
 import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
@@ -20,7 +21,7 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
   console.log('Your browser is not supported.');
 }
 
-const сameraDontAchievable = (options) => {
+const cameraNotAchievable = (options) => {
   const enableCamera = options.flow.some((view) => cameraViews.includes(view.component));
   const isIOSChrome = navigator.userAgent.match('CriOS');
   if (!enableCamera) {
@@ -38,7 +39,7 @@ const init = (options, tokenProvider) => {
     throw new Error('Please provide container id.');
   }
 
-  if (сameraDontAchievable(options)) {
+  if (cameraNotAchievable(options)) {
     if (options.onFail && typeof options.onFail === 'function') {
       const error = new Error('mediaDevices_no_supported');
       options.onFail(error);
@@ -81,7 +82,12 @@ const init = (options, tokenProvider) => {
     }
     const { metadata, verificationTypes, apiUrl } = options;
     if (options.documentData) {
-      options.documentData = options.documentData.map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
+      options.documentData = options.documentData
+        .map((el) => (el.value ? {
+          ...el,
+          value: el.value
+            .toLowerCase(),
+        } : el));
     }
     const api = createApi(apiUrl, token, verificationTypes, metadata);
     Promise.all([

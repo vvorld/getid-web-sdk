@@ -2,10 +2,8 @@ const merge = require('webpack-merge');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
-const S3Plugin = require('webpack-s3-plugin');
 const common = require('./webpack.common.js');
 const { version } = require('./package');
-const config = require('./do-config.js');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -32,21 +30,6 @@ module.exports = merge(common, {
       openAnalyzer: false,
       reportFilename: `${__dirname}/dist/reports/bundle_getid-sdk_size.html`,
       defaultSizes: 'parsed',
-    }),
-    new S3Plugin({
-      exclude: /.*\.html|svg|LICENSE/,
-      basePath: 'sdk',
-      include: /.*\.(js)/,
-      s3Options: {
-        endpoint: config.bucketUrl,
-        accessKeyId: config.bucketAccessKeyId,
-        secretAccessKey: config.bucketSecret,
-        region: 'FRA-1',
-      },
-      s3UploadOptions: {
-        Bucket: config.bucketName,
-      },
-      directory: path.resolve(__dirname, 'dist/lib'),
     }),
   ],
 });

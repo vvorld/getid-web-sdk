@@ -72,7 +72,11 @@ class Widget extends Component {
 
       this.dealWithResponse(200);
       await this.api.trySendEvent(stepNames.Submit, 'completed');
-      await this.triggerNextComponent();
+      if (this.props.currentStep + 1 >= this.props.flow.length){
+        this.props.onComplete(id);
+      }else{
+        await this.triggerNextComponent();
+      }
     }).catch((e) => {
       console.log(e);
       this.dealWithResponse(null);

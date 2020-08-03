@@ -111,4 +111,7 @@ export default {
   onExists() {
     console.log('exists');
   },
+  onBack() {
+    alert('back');
+  },
 };

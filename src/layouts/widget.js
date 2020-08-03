@@ -128,7 +128,7 @@ class Widget extends Component {
   }
 
   render() {
-    const { flow } = this.props;
+    const { flow, onBack } = this.props;
     const { step, direction, app } = this.state;
     const currentComponent = flow[step];
     const { ...other } = this.props;
@@ -138,7 +138,7 @@ class Widget extends Component {
     const { component: componentName, ...componenetProps } = currentComponent;
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
     const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
-    const prevStep = step > 0 ? this.prevStep : undefined;
+    const prevStep = step > 0 ? this.prevStep : onBack;
     return (
       <main id="getid" data-role="container">
         <div className="getid-grid__main">
@@ -164,6 +164,7 @@ Widget.defaultProps = {
   onFail: null,
   onCancel: null,
   onExists: null,
+  onBack: null,
   currentComponent: null,
   idCaptureBackIndex: -1,
 };
@@ -174,6 +175,7 @@ Widget.propTypes = {
   classes: PropTypes.object,
   onComplete: PropTypes.func,
   onFail: PropTypes.func,
+  onBack: PropTypes.func,
   onExists: PropTypes.func,
   onCancel: PropTypes.func,
   currentComponent: PropTypes.any,

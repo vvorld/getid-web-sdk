@@ -1,15 +1,30 @@
 .header__big {
     text-align: center;
     color:#333;
-    margin: 0;
+    width: 80%;
+    margin: 0 auto;
     margin-bottom: 20px;
 }
 .header__small {
-    min-height: 36px;
     font-size: 16px;
     color:#666;
     margin: 0 0 8px;
     font-weight: var(--main-font-weight);
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+}
+
+.header__small.list {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.header__small.list ul {
+    list-style-image: url(../../../assets/icons/checkmark.svg);
+}
+
+.header__small.list ul li {
+    margin-bottom: 10px;
 }

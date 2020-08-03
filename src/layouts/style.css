@@ -160,21 +160,6 @@ div#animation {
     height: 270px;
 }
 
-.description {
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.description ul {
-    /*    list-style-image: url('./images/checked.svg');*/
-}
-
-.description ul li {
-    margin-bottom: 10px;
-}
-
 .icon {
     margin-top: 20%;
 }

@@ -27,6 +27,10 @@
     /*box-shadow: 0px 2px 5px #150f3830;*/
 }
 
+.button__main:disabled {
+    opacity: 0.38;
+}
+
 .button__main:active, .button__main:focus {
     outline: none;
     box-shadow: none;

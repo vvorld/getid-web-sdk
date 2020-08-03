@@ -35,58 +35,11 @@ const allComponents = {
     () => next({}),
   ],
   CountryAndDocument: (app, next) => [
-    (props) => <CountryAndDocument country={app.country} type={app.type} {...props} />,
-    (country, type) => next({ country, type }),
+    (props) => <CountryAndDocument country={app.country} documentType={app.documentType} {...props} />,
+    ({ country, documentType }) => next({ country, documentType }),
   ],
 };
 
-/*
-prepare = async () => {
-    const {
-      currentStep, goToStep, currentComponent, idCaptureBackIndex,
-    } = this.props;
-    await this.api.trySendEvent(getEventStepName(currentComponent, idCaptureBackIndex), 'completed');
-    goToStep(currentStep);
-    this.setState({ loading: true });
-    await this.api.trySendEvent(stepNames.Submit, 'started');
-  }
-
-  submitData = async () => {
-    const racing = promiseTimeout(60000, this.api.submitData());
-
-    racing.then(async (res) => {
-      const { responseCode, exists } = res;
-      if (exists) { this.setState({ appExists: true }); }
-      if (responseCode >= 500) {
-        this.dealWithResponse(500);
-        return;
-      }
-
-      if (responseCode >= 400 && responseCode < 500) {
-        this.dealWithResponse(400);
-        return;
-      }
-
-      this.dealWithResponse(200);
-      await this.api.trySendEvent(stepNames.Submit, 'completed');
-      await this.triggerNextComponent();
-    }).catch((e) => {
-      console.log(e);
-      this.dealWithResponse(null);
-    });
-  };
-
-    dealWithResponse = (code) => {
-    setTimeout(() => {
-      this.setState((state) => ({
-        responseCode: code,
-        loading: false,
-        submitAttempts: state.submitAttempts - 1,
-      }));
-    }, 2000);
-  }
-
-  */
 class Widget extends Component {
   constructor(props) {
     super(props);
@@ -98,14 +51,12 @@ class Widget extends Component {
   }
 
   nextStep = (delta) => {
-
-  const {
-     api, idCaptureBackIndex,
-   } = this.props;
+    const {
+      api, idCaptureBackIndex,
+    } = this.props;
 
     // const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
     // await api.trySendEvent(stepName, 'completed');completed
-    console.log(idCaptureBackIndex)
     const { step } = this.state;
     this.setState({
       step: step + 1,

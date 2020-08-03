@@ -4,19 +4,20 @@ import TranslationsContext from '../../context/TranslationsContext';
 import Footer from '../../components/blocks/footer/footer';
 import Radiobutton from '../../components/inputs/radio-button';
 import '../form/form.css';
-import Header from "../../components/blocks/header/header";
+import Header from '../../components/blocks/header/header';
 
 const docTypeMapping = {
   passport: 'Passport',
   'id-card': 'ID Card',
   'residence-permit': 'Residence Permit',
   'driving-licence': 'Drivers License',
-  visa: 'Visa',
 };
 const getDocumentName = (type) => docTypeMapping[type] || type;
 
 const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
+
+const iterArr = [1, 2, 3, 4];
 
 const CountryAndDocument = ({
   countryDocuments, country, documentType, finishStep, prevStep, componentName,
@@ -24,10 +25,10 @@ const CountryAndDocument = ({
   const { translations } = useContext(TranslationsContext);
   const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
-  const [currValue, setValue] = useState(country);
+  const [currCountry, setValue] = useState(country);
   const [currDocumentType, setDocumentType] = useState(documentType);
 
-  const countryInfo = countryDocuments[currValue];
+  const countryInfo = countryDocuments[currCountry];
   const documents = (countryInfo && countryInfo.documents) || [];
   const changeCountry = (countryVal) => {
     setValue(countryVal);
@@ -36,13 +37,13 @@ const CountryAndDocument = ({
   const changeDocumentType = (dt) => {
     setDocumentType(dt);
   };
-
+  const plArr = iterArr.slice(documents.length);
   return (
     <>
       <Header componentName={componentName} />
       <div>
         <select
-          value={currValue}
+          value={currCountry}
           onChange={(e) => changeCountry(e.target.value)}
           placeholder={placeholder}
         >
@@ -63,10 +64,22 @@ const CountryAndDocument = ({
             />
           </div>
         ))}
+        {plArr.map((x) => (
+          <div key={x} className="getid-form__input-wrapper" style={{ visibility: 'hidden' }}>
+            <Radiobutton />
+          </div>
+        ))}
+
       </div>
 
       <Footer
-        next={{ onClick: () => finishStep({}) }}
+        next={{
+          onClick: () => finishStep({
+            country: currCountry,
+            documentType: currDocumentType,
+          }),
+          disable: !currDocumentType,
+        }}
         back={{ onClick: prevStep }}
       />
     </>

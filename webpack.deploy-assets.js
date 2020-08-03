@@ -5,11 +5,12 @@ const common = require('./webpack.common.js');
 const config = require('./do-config.js');
 
 module.exports = merge(common, {
+  entry: path.join(__dirname, 'src'),
   plugins: [
     new S3Plugin({
-      exclude: /.*\.html|svg|LICENSE/,
-      basePath: 'sdk',
-      include: /.*\.(js)/,
+      exclude: /.*\.html|js|LICENSE/,
+      basePath: 'assets',
+      include: /.*\.(svg)/,
       s3Options: {
         endpoint: config.bucketUrl,
         accessKeyId: config.bucketAccessKeyId,
@@ -18,9 +19,11 @@ module.exports = merge(common, {
       },
       s3UploadOptions: {
         Bucket: config.bucketName,
-        CacheControl: 'random',
       },
-      directory: path.resolve(__dirname, 'dist/lib'),
+      cdnizerOptions: {
+        defaultCDNBase: config.bucketUrl,
+      },
+      directory: path.resolve(__dirname, 'src/assets/animations'),
     }),
   ],
 });

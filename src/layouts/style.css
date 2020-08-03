@@ -36,6 +36,10 @@ main a {
     color: var(--main-accent-color);
 }
 
+.logo__top{
+    margin-bottom: 40px;
+}
+
 .grid__main {
     display: grid;
     grid-row-gap: 16px;

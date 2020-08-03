@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { InputRenderer } from '../../components/inputs';
 import Footer from '../../components/blocks/footer/footer';
 import './form.css';
+import Header from '../../components/blocks/header/header';
 
 class Form extends Component {
   constructor(props) {
@@ -15,9 +16,10 @@ class Form extends Component {
    };
 
    render() {
-     const { fields, finishStep, prevStep } = this.props;
+     const { fields, finishStep, prevStep, componentName } = this.props;
      return (
        <>
+         <Header componentName={componentName} />
          <form className="getid-form__body" data-role="blockForm">
            { fields.map((field) => (
              <div key={field.name} className="getid-form__input-wrapper">

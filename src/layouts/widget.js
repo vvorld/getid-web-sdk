@@ -10,7 +10,6 @@ import {
   CaptureBack as IdCaptureBack,
 } from './webcam';
 
-import Header from '../components/blocks/header/header';
 import TranslationsContext from '../context/TranslationsContext';
 import './style.css';
 
@@ -99,14 +98,14 @@ class Widget extends Component {
   }
 
   nextStep = (delta) => {
-    /*
-  const {
-      api, idCaptureBackIndex,
-    } = this.props;
 
-    const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
-    await api.trySendEvent(stepName, 'completed');
-    */
+  const {
+     api, idCaptureBackIndex,
+   } = this.props;
+
+    // const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
+    // await api.trySendEvent(stepName, 'completed');completed
+    console.log(idCaptureBackIndex)
     const { step } = this.state;
     this.setState({
       step: step + 1,
@@ -135,20 +134,20 @@ class Widget extends Component {
     if (!currentComponent) {
       return null;
     }
-    const { component: componentName, ...componenetProps } = currentComponent;
+    const { component: componentName, ...componentProps } = currentComponent;
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
     const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
     const prevStep = step > 0 ? this.prevStep : onBack;
     return (
       <main id="getid" data-role="container">
         <div className="getid-grid__main">
-          <Header componentName={componentName} />
           <CurrentComponent
             finishStep={finishStep}
             prevStep={prevStep}
             direction={direction}
             {...other}
-            {...componenetProps}
+            componentName={componentName}
+            {...componentProps}
           />
         </div>
       </main>

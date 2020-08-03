@@ -3,6 +3,7 @@ import CameraSteps from './camera-steps';
 import Guide from './guide';
 import Camera from './camera';
 import overlay from './overlay';
+import Header from "../../components/blocks/header/header";
 
 const guide = (src) => () => <Guide src={src} />;
 const camera = (figure, ratio) => (props) => (
@@ -20,17 +21,17 @@ const placeholder = () => ({ children }) => (
     >
       {children}
     </div>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 342 196" />
+    <svg style={{ width: '500px' }} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 342 196" />
   </div>
 );
 const CaptureFront = (props) => (
-  <CameraSteps
-    {...props}
-    Camera={camera('rectangle', 3 / 2)}
-    Placeholder={placeholder()}
-    // 'https://cdn.getid.cloud/assets/mobile/default_front.svg'
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
-  />
+    <CameraSteps
+        {...props}
+        Camera={camera('rectangle', 3 / 2)}
+        Placeholder={placeholder()}
+        // 'https://cdn.getid.cloud/assets/mobile/default_front.svg'
+        Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
+    />
 );
 
 const CaptureBack = (props) => (
@@ -47,7 +48,7 @@ const Selfie = (props) => (
     {...props}
     Camera={camera('ellips', 2 / 3)}
     Placeholder={placeholder()}
-    // 'https://cdn.getid.cloud/assets/mobile/selfie.svg',
+            // 'https://cdn.getid.cloud/assets/mobile/selfie.svg',
     Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg')}
   />
 );

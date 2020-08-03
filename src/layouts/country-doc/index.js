@@ -4,6 +4,7 @@ import TranslationsContext from '../../context/TranslationsContext';
 import Footer from '../../components/blocks/footer/footer';
 import Radiobutton from '../../components/inputs/radio-button';
 import '../form/form.css';
+import Header from "../../components/blocks/header/header";
 
 const docTypeMapping = {
   passport: 'Passport',
@@ -18,7 +19,7 @@ const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
 
 const CountryAndDocument = ({
-  countryDocuments, country, documentType, finishStep, prevStep,
+  countryDocuments, country, documentType, finishStep, prevStep, componentName,
 }) => {
   const { translations } = useContext(TranslationsContext);
   const placeholder = translations['CountryAndDocument_country-placeholder'];
@@ -38,6 +39,7 @@ const CountryAndDocument = ({
 
   return (
     <>
+      <Header componentName={componentName} />
       <div>
         <select
           value={currValue}

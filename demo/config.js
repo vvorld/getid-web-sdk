@@ -86,7 +86,7 @@ export default {
     //
     //   ],
     // },
-    // { component: 'CountryAndDocument' },
+    { component: 'CountryAndDocument' },
     // { component: 'IdCapture' },
     // { component: 'IdCaptureBack' },
     { component: 'IdSelfie' },

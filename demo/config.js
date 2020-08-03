@@ -87,8 +87,8 @@ export default {
     //   ],
     // },
     // { component: 'CountryAndDocument' },
-    { component: 'IdCapture' },
-    { component: 'IdCaptureBack' },
+    // { component: 'IdCapture' },
+    // { component: 'IdCaptureBack' },
     { component: 'IdSelfie' },
     { component: 'ThankYou' }],
   documentData: [

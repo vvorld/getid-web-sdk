@@ -2,11 +2,14 @@
     text-align: center;
     color:#333;
     margin: 0;
+    margin-bottom: 20px;
 }
 .header__small {
+    min-height: 36px;
     font-size: 16px;
     color:#666;
     margin: 0 0 8px;
     font-weight: var(--main-font-weight);
     text-align: center;
+    margin-bottom: 30px;
 }

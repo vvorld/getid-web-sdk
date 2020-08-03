@@ -22,11 +22,9 @@ function Header(props) {
         { headerText }
       </h1>
       )}
-      { subHeaderText && (
       <p className="getid-header__small">
         { subHeaderText }
       </p>
-      ) }
     </>
   );
 }

@@ -4,6 +4,7 @@ import TranslationsContext from '../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Footer from '../../components/blocks/footer/footer';
+import Header from "../../components/blocks/header/header";
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -59,15 +60,18 @@ class WebcamView extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const {
-      Camera, Guide, Placeholder, prevStep, finishStep,
+      Camera, Guide, Placeholder, prevStep, finishStep, componentName,
     } = this.props;
     const {
       errorMessage, step, blob, cameraStepIsAllowed,
     } = this.state;
+
     if (step === 'disabled') {
       return (
         <div style={{ display: 'block' }}>
+          <Header componentName={componentName} />
           <Placeholder>
             <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
           </Placeholder>
@@ -78,6 +82,7 @@ class WebcamView extends React.Component {
     return (
       <>
         <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
+          <Header componentName={`${componentName}_guide`} />
           <Placeholder>
             <Guide />
           </Placeholder>
@@ -87,6 +92,7 @@ class WebcamView extends React.Component {
           />
         </div>
         <div style={{ display: step === 'record' ? 'block' : 'none' }}>
+          <Header componentName={componentName} />
           <Placeholder>
             <Camera
               stream={this.state.stream}
@@ -100,6 +106,7 @@ class WebcamView extends React.Component {
           />
         </div>
         <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
+          <Header componentName={`${componentName}_preview`} />
           <Placeholder>
             <PreviewForm blob={blob} />
           </Placeholder>

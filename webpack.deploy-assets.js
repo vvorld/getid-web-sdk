@@ -7,23 +7,23 @@ const config = require('./do-config.js');
 module.exports = merge(common, {
   entry: path.join(__dirname, 'src'),
   plugins: [
-    // new S3Plugin({
-    //   exclude: /.*\.html|js|LICENSE/,
-    //   basePath: 'assets',
-    //   include: /.*\.(svg)/,
-    //   s3Options: {
-    //     endpoint: config.bucketUrl,
-    //     accessKeyId: config.bucketAccessKeyId,
-    //     secretAccessKey: config.bucketSecret,
-    //     region: 'FRA-1',
-    //   },
-    //   s3UploadOptions: {
-    //     Bucket: config.bucketName,
-    //   },
-    //   cdnizerOptions: {
-    //     defaultCDNBase: config.bucketUrl,
-    //   },
-    //   directory: path.resolve(__dirname, 'src/assets/animations'),
-    // }),
+    new S3Plugin({
+      exclude: /.*\.html|js|LICENSE/,
+      basePath: 'assets',
+      include: /.*\.(svg)/,
+      s3Options: {
+        endpoint: config.bucketUrl,
+        accessKeyId: config.bucketAccessKeyId,
+        secretAccessKey: config.bucketSecret,
+        region: 'FRA-1',
+      },
+      s3UploadOptions: {
+        Bucket: config.bucketName,
+      },
+      cdnizerOptions: {
+        defaultCDNBase: config.bucketUrl,
+      },
+      directory: path.resolve(__dirname, 'src/assets/animations'),
+    }),
   ],
 });

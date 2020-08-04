@@ -90,11 +90,12 @@ export default {
       component: 'CountryAndDocument',
 
     }, */
+    { component: 'Rules' },
     {
       component: 'DocumentPhoto',
-      interactive: true,
-      country: 'ee',
-      documentType: 'passport1',
+      interactive: false,
+      // country: 'ee',
+      // documentType: 'passport1',
     },
     { component: 'Selfie' },
     { component: 'ThankYou' }],

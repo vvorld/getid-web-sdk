@@ -40,6 +40,14 @@ const CaptureBack = (props) => (
     Camera={camera('rectangle', 3 / 2)}
     Placeholder={placeholder()}
     componentName="IdCaptureBack"
+    onCheck={(blob) => props.api.checkSide(props.front, blob)
+      .then((res) => {
+        if (res.documentType === 'unknown') {
+          return { result: false, message: 'back side not found' };
+        }
+        return { result: true };
+      })
+      .catch(console.log)}
     // 'https://cdn.getid.cloud/assets/mobile/default_back.svg'
     Guide={guide('https://cdn.getid.cloud/assets/desktop/default_back.svg')}
   />
@@ -75,6 +83,14 @@ const DocumentPhoto = (props) => (
       props.setEnableBack(true);
       props.finishStep(delta);
     }}
+    onCheck={(blob) => props.api.checkSide(blob)
+      .then((res) => {
+        if (res.documentType === 'unknown') {
+          return { result: false, message: 'document not found' };
+        }
+        return { result: true };
+      })
+      .catch(console.log)}
     componentName="IdCapture"
         // 'https://cdn.getid.cloud/assets/mobile/default_front.svg'
     Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}

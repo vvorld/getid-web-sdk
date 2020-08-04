@@ -33,23 +33,23 @@ class WebcamView extends React.Component {
   }
 
   makePhoto = () => {
-    this.state.frameRenderer(this.showCheckStep);
+    this.state.frameRenderer(this.showPreviewStep);
   };
 
   startRecordStep = () => {
     this.setState({ step: 'record' });
   }
 
-  showPreviewStep = (result) => {
-    this.setState({ step: 'preview', result });
+  showPreviewStep = (blob) => {
+    this.setState({ step: 'preview', blob });
   }
 
   showGuideStep = () => {
     this.setState({ step: 'guide' });
   }
 
-  showCheckStep = (blob) => {
-    this.setState({ step: 'checking', blob });
+  showCheckStep = () => {
+    this.setState({ step: 'checking' });
   }
 
   cameraReady = (frameRenderer) => {
@@ -67,7 +67,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, Placeholder, prevStep, finishStep, componentName,
+      Camera, Guide, Placeholder, prevStep, finishStep, componentName, onCheck,
     } = this.props;
     const {
       errorMessage, step, blob, cameraStepIsAllowed, result,
@@ -110,12 +110,6 @@ class WebcamView extends React.Component {
             back={{ onClick: this.showGuideStep }}
           />
         </div>
-        <div style={{ display: step === 'checking' ? 'block' : 'none' }}>
-          <Header componentName={componentName} />
-          <Placeholder>
-            { step === 'checking' && <Check showPreviewStep={this.showPreviewStep} />}
-          </Placeholder>
-        </div>
         <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
           <Header componentName={`${componentName}_preview`} />
           <Placeholder>
@@ -123,8 +117,21 @@ class WebcamView extends React.Component {
           </Placeholder>
           <Footer
             back={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={{ onClick: () => finishStep(blob) }}
+            next={{ onClick: this.showCheckStep }}
           />
+        </div>
+        <div style={{ display: step === 'checking' ? 'block' : 'none' }}>
+          <Header componentName={componentName} />
+          <Placeholder>
+            { step === 'checking' && (
+            <Check
+              onCheck={onCheck}
+              blob={blob}
+              onFinish={() => finishStep(blob)}
+              onRetake={this.startRecordStep}
+            />
+            )}
+          </Placeholder>
         </div>
       </>
     );

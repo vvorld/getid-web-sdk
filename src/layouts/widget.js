@@ -11,6 +11,8 @@ import {
   DocumentPhoto,
 } from './webcam';
 
+import Rules from './rules';
+
 import TranslationsContext from '../context/TranslationsContext';
 import './style.css';
 
@@ -21,8 +23,12 @@ const allComponents = {
     (props) => <Form form={app.form} {...props} />,
     (form) => next({ form }),
   ],
+  Rules: (app, next) => [
+    (props) => <Rules {...props} />,
+    () => next({ }),
+  ],
   CaptureBack: (app, next) => [
-    (props) => <CaptureBack blob={app.front} {...props} />,
+    (props) => <CaptureBack front={app.front} blob={app.back} {...props} />,
     (back) => next({ back }),
   ],
   DocumentPhoto: (app, next) => [
@@ -115,7 +121,10 @@ class Widget extends Component {
   }
 
   nextStep = (delta) => {
-    const app = { ...this.state.app, ...delta };
+    const app = {
+      ...this.state.app,
+      ...delta,
+    };
 
     // await api.trySendEvent(stepName, 'completed');completed
     const { step } = this.state;

@@ -15,31 +15,16 @@ function Header(props) {
     subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
   }
 
-  if (componentName.includes('guide')) {
-    subHeaderText = Object.keys(translations).filter((el) => el.includes(`${componentName}_subHeader_`)).map((ele) => translations[ele]);
-  }
-
   return (
     <>
       { headerText && (
-      <h1 className="getid-header__big" data-role="componentTitle">
+      <h1 style={{ minHeight: '65px' }} className="getid-header__big" data-role="componentTitle">
         { headerText }
       </h1>
       )}
 
-      <div style={{minHeight: '36px'}}>
-        {Array.isArray(subHeaderText) && (
-            <p className="getid-header__small getid-list">
-              <ul>
-                { subHeaderText.map((el) => (
-                    <li>
-                      { el }
-                    </li>
-                ))}
-              </ul>
-            </p>
-        )}
-        {typeof subHeaderText === 'string' && <p className="getid-header__small">{subHeaderText}</p>}
+      <div style={{ minHeight: '45px' }}>
+        <p className="getid-header__small">{subHeaderText || '-'}</p>
       </div>
     </>
   );

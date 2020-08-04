@@ -4,38 +4,46 @@ import PropTypes from 'prop-types';
 import Form from './form';
 import ThankYou from './thank-you';
 import CountryAndDocument from './country-doc';
+import Sending from './sending';
 import {
   Selfie as IdSelfie,
-  CaptureFront as IdCapture,
-  CaptureBack as IdCaptureBack,
+  CaptureFront as DocumentPhoto,
 } from './webcam';
 
 import TranslationsContext from '../context/TranslationsContext';
 import './style.css';
+
+const transformAppIntoApiModel = (app) => app;
 
 const allComponents = {
   Form: (app, next) => [
     (props) => <Form form={app.form} {...props} />,
     (form) => next({ form }),
   ],
-  IdCapture: (app, next) => [
-    (props) => <IdCapture blob={app.front} {...props} />,
+  DocumentPhoto: (app, next) => [
+    (props) => <DocumentPhoto blob={app.front} {...props} />,
     (front) => next({ front }),
   ],
-  IdCaptureBack: (app, next) => [
-    (props) => <IdCaptureBack blob={app.back} {...props} />,
-    (back) => next({ back }),
-  ],
-  IdSelfie: (app, next) => [
+  Selfie: (app, next) => [
     (props) => <IdSelfie blob={app.selfie} {...props} />,
     (selfie) => next({ selfie }),
+  ],
+  Sending: (app, next) => [
+    (props) => <Sending data={transformAppIntoApiModel(app)} {...props} />,
+    () => next({}),
   ],
   ThankYou: (app, next) => [
     (props) => <ThankYou {...props} />,
     () => next({}),
   ],
   CountryAndDocument: (app, next) => [
-    (props) => <CountryAndDocument country={app.country} documentType={app.documentType} {...props} />,
+    (props) => (
+      <CountryAndDocument
+        country={app.country}
+        documentType={app.documentType}
+        {...props}
+      />
+    ),
     ({ country, documentType }) => next({ country, documentType }),
   ],
 };
@@ -47,6 +55,7 @@ class Widget extends Component {
       step: 0,
       direction: 'forward',
       app: {},
+      submitStep: props.flow.length - 2,
     };
   }
 
@@ -54,14 +63,17 @@ class Widget extends Component {
     const {
       api, idCaptureBackIndex,
     } = this.props;
+    const app = { ...this.state.app, ...delta };
 
-    // const stepName = getEventStepName(prevProps.currentComponent, idCaptureBackIndex);
     // await api.trySendEvent(stepName, 'completed');completed
     const { step } = this.state;
+    if (step === this.state.submitStep) {
+      alert(1);
+    }
     this.setState({
       step: step + 1,
       direction: 'forward',
-      app: { ...this.state.app, ...delta },
+      app,
     });
   }
 
@@ -74,7 +86,10 @@ class Widget extends Component {
   }
 
   finish = (delta) => {
-    console.log('delta', delta);
+    if (this.props.onComplete) {
+      // TODO add data from server
+      this.props.onComplete();
+    }
   }
 
   render() {
@@ -86,6 +101,8 @@ class Widget extends Component {
       return null;
     }
     const { component: componentName, ...componentProps } = currentComponent;
+
+    console.log(step, flow.length);
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
     const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
     const prevStep = step > 0 ? this.prevStep : onBack;

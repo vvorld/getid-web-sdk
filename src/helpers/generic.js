@@ -68,13 +68,6 @@ export const promiseTimeout = (ms, promise) => {
 
 
 
-export const getEventStepName = (component, idCaptureBackIndex) => {
-    const isSingle = component.component.includes('IdCapture') && idCaptureBackIndex < 0;
-    return isSingle
-        ? stepNames.Single
-        : stepNames[component.component[0]];
-}
-
 const isPage = (pageName, componentName) => componentName.includes(pageName);
 
 export const isCameraView = (componentName) => cameraViews.some((name) => isPage(name, componentName));

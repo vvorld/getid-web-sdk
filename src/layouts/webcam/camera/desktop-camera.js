@@ -1,39 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import frameRenderer from './helpers';
+import CameraBase from './camera-base';
 
-class DesktopCamera extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: 0,
-      height: 0,
-    };
-  }
-
-  setSrc = async (ref) => {
-    this.ref = ref;
-
-    if (!ref) {
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: { deviceId: true, width: 4096 },
-      });
-      const { width, height } = stream.getVideoTracks()[0].getSettings();
-      this.setState({ width, height });
-      this.ref.srcObject = stream;
-      const intervalId = setInterval(() => {
-        if (ref.readyState === 4) {
-          clearInterval(intervalId);
-          this.props.onReady(frameRenderer(ref, width, height));
-        }
-      }, 100);
-    } catch (err) {
-      this.props.onError(err);
-    }
+class DesktopCamera extends CameraBase {
+  componentWillUnmount() {
+    this.stopRecord();
   }
 
   render() {

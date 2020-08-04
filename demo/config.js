@@ -86,22 +86,14 @@ export default {
     //
     //   ],
     // },
-    { component: 'CountryAndDocument' },
-    // { component: 'IdCapture' },
-    // { component: 'IdCaptureBack' },
-    { component: 'IdSelfie' },
+    {
+      component: 'CountryAndDocument',
+      county: 'ee',
+      documentType: 'passport',
+    },
+    { component: 'DocumentPhoto' },
+    { component: 'Selfie' },
     { component: 'ThankYou' }],
-  documentData: [
-    {
-      name: 'Country',
-      value: 'ee',
-    },
-    {
-      name: 'DocumentType',
-      value: 'passport',
-    },
-  ],
-  formType: 'narrow',
   onComplete() {
     window.location.reload();
   },

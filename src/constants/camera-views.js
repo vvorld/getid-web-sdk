@@ -1,3 +1,3 @@
-const cameraViews = ['IdSelfie', 'IdCapture', 'IdCaptureBack'];
+const cameraViews = ['Selfie', 'DocumentPhoto', 'IdCaptureBack'];
 
 export default cameraViews;

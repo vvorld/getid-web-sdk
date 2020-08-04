@@ -7,44 +7,44 @@ export default {
     externalId: 121212,
   },
   flow: [
-    // {
-    //   component: 'Form',
-    //   fields: [
-    //     {
-    //       label: 'First Name',
-    //       type: 'text',
-    //       value: 'John',
-    //       name: 'First name',
-    //       required: true,
-    //       // validation: (value, setError) => {
-    //       //   const re = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/;
-    //       //   if (value && value.length !== 0 && !re.test(String(value).toLowerCase())) {
-    //       //     setError('Input is not valid');
-    //       //     return;
-    //       //   }
-    //       //   setError(null);
-    //       // },
-    //     },
-    //     {
-    //       label: 'Last Name',
-    //       type: 'text',
-    //       name: 'Last name',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'Date Of Birth',
-    //       type: 'date',
-    //       name: 'Date of Birth',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
-    //       type: 'checkbox',
-    //       name: 'privacy',
-    //     },
-    //   ],
-    //
-    // },
+    {
+      component: 'Form',
+      fields: [
+        {
+          label: 'First Name',
+          type: 'text',
+          value: 'John',
+          name: 'First name',
+          required: true,
+          // validation: (value, setError) => {
+          //   const re = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/;
+          //   if (value && value.length !== 0 && !re.test(String(value).toLowerCase())) {
+          //     setError('Input is not valid');
+          //     return;
+          //   }
+          //   setError(null);
+          // },
+        },
+        {
+          label: 'Last Name',
+          type: 'text',
+          name: 'Last name',
+          required: true,
+        },
+        {
+          label: 'Date Of Birth',
+          type: 'date',
+          name: 'Date of Birth',
+          // required: true,
+        },
+        {
+          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
+          type: 'checkbox',
+          name: 'privacy',
+        },
+      ],
+
+    },
     // {
     //   component: 'Form',
     //   fields: [

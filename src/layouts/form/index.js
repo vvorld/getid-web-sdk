@@ -9,31 +9,43 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.form = {};
+    this.asd = null;
   }
 
-   handleChange = (name, type, value) => {
-     this.form[name] = value;
-   };
+  componentDidMount() {
+    this.props.fields.forEach((el) => {
+      this.form[el.name] = { value: el.value, required: el.required || el.name === 'privacy' };
+    });
+  }
 
-   render() {
-     const { fields, finishStep, prevStep, componentName } = this.props;
-     return (
-       <>
-         <Header componentName={componentName} />
-         <form className="getid-form__body" data-role="blockForm">
-           { fields.map((field) => (
-             <div key={field.name} className="getid-form__input-wrapper">
-               <InputRenderer {...field} onChange={this.handleChange} />
-             </div>
-           )) }
-         </form>
-         <Footer
-           next={{ onClick: () => finishStep(this.form) }}
-           back={{ onClick: prevStep }}
-         />
-       </>
-     );
-   }
+    handleChange = (name, type, value, required) => {
+      this.form[name] = { value, required };
+    };
+
+    isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
+
+    render() {
+      const {
+        fields, finishStep, prevStep, componentName,
+      } = this.props;
+
+      return (
+        <>
+          <Header componentName={componentName} />
+          <form className="getid-form__body" data-role="blockForm">
+            {fields.map((field) => (
+              <div key={field.name} className="getid-form__input-wrapper">
+                <InputRenderer {...field} onChange={this.handleChange} />
+              </div>
+            ))}
+          </form>
+          <Footer
+            next={{ onClick: () => finishStep(this.form), disable: this.isDisabled()  }}
+            back={{ onClick: prevStep }}
+          />
+        </>
+      );
+    }
 }
 
 Form.propTypes = {

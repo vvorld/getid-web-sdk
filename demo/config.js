@@ -86,12 +86,16 @@ export default {
     //
     //   ],
     // },
-    {
+    /* {
       component: 'CountryAndDocument',
-      county: 'ee',
-      documentType: 'passport',
+
+    }, */
+    {
+      component: 'DocumentPhoto',
+      interactive: true,
+      country: 'ee',
+      documentType: 'passport1',
     },
-    { component: 'DocumentPhoto' },
     { component: 'Selfie' },
     { component: 'ThankYou' }],
   onComplete() {

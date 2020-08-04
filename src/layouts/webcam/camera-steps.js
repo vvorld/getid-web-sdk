@@ -4,7 +4,7 @@ import TranslationsContext from '../../context/TranslationsContext';
 import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Footer from '../../components/blocks/footer/footer';
-import Header from "../../components/blocks/header/header";
+import Header from '../../components/blocks/header/header';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }

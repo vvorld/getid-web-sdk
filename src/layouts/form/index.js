@@ -9,52 +9,58 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.form = {};
-    this.asd = null;
+    this.state = {
+      disabled: false,
+    };
   }
 
   componentDidMount() {
     this.props.fields.forEach((el) => {
       this.form[el.name] = { value: el.value, required: el.required || el.name === 'privacy' };
     });
+    this.setState({ disabled: this.isDisabled() });
   }
 
-    handleChange = (name, type, value, required) => {
-      this.form[name] = { value, required };
-    };
+  handleChange = (name, type, value, required) => {
+    this.form[name] = { value, required };
+    this.setState({ disabled: this.isDisabled() });
+  };
 
-    isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
+  isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
 
-    render() {
-      const {
-        fields, finishStep, prevStep, componentName,
-      } = this.props;
+  render() {
+    const {
+      fields, finishStep, prevStep, componentName,
+    } = this.props;
 
-      return (
-        <>
-          <div>
-            <Header componentName={componentName} />
-          </div>
+    return (
+      <>
+        <div>
+          <Header componentName={componentName} />
+        </div>
 
-          <form className="getid-form__body" data-role="blockForm">
-            {fields.map((field) => (
-              <div key={field.name} className="getid-form__input-wrapper">
-                <InputRenderer {...field} onChange={this.handleChange} />
-              </div>
-            ))}
-          </form>
-          <div>
-            <Footer
-              next={{ onClick: () => finishStep(this.form), disable: this.isDisabled() }}
-              back={{ onClick: prevStep }}
-            />
-          </div>
-        </>
-      );
-    }
+        <form className="getid-form__body" data-role="blockForm">
+          {fields.map((field) => (
+            <div key={field.name} className="getid-form__input-wrapper">
+              <InputRenderer {...field} onChange={this.handleChange} />
+            </div>
+          ))}
+        </form>
+        <div>
+
+          <Footer
+            next={{ onClick: () => finishStep(this.form), disable: this.state.disabled }}
+            back={{ onClick: prevStep }}
+          />
+        </div>
+      </>
+    );
+  }
 }
 
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
+  componentName: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
   finishStep: PropTypes.func,
   prevStep: PropTypes.func,

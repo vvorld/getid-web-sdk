@@ -39,7 +39,12 @@ export default {
         },
         {
           label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
-          type: 'checkbox',
+          type: 'consent',
+          name: 'privacy',
+        },
+        {
+          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
+          type: 'bool',
           name: 'privacy',
         },
       ],

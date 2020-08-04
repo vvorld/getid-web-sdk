@@ -9,10 +9,11 @@ import Input from './input';
 
 const InputRenderer = (props) => {
   const {
-    type, name, onChange, ...other
+    type, name, onChange, required, ...other
   } = props;
 
-  const changeHandler = (nm, tp, val) => onChange(nm, tp, val);
+  const changeHandler = (nm, tp, val, req) => onChange(nm, tp, val, req);
+
   if (type === 'select') {
     return (
       <Select
@@ -49,7 +50,7 @@ const InputRenderer = (props) => {
   }
   return (
     <Input
-      onChange={(value) => changeHandler(name, 'text', value)}
+      onChange={(value) => changeHandler(name, 'text', value, required)}
       {...other}
     />
   );

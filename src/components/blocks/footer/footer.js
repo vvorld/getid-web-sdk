@@ -7,7 +7,7 @@ import './button.css';
 
 const Footer = ({ next, back }) => {
   const { translations } = useContext(TranslationsContext); // this.context;
-
+  console.log(next)
   return (
     <>
       { next && (

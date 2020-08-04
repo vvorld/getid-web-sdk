@@ -5,6 +5,7 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
+import Check from './check';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -21,6 +22,7 @@ class WebcamView extends React.Component {
       stream: null,
       cameraStepIsAllowed: false,
       blob: props.blob,
+      result: {},
     };
   }
 
@@ -31,19 +33,23 @@ class WebcamView extends React.Component {
   }
 
   makePhoto = () => {
-    this.state.frameRenderer(this.showPreviewStep);
+    this.state.frameRenderer(this.showCheckStep);
   };
 
   startRecordStep = () => {
     this.setState({ step: 'record' });
   }
 
-  showPreviewStep = (blob) => {
-    this.setState({ step: 'preview', blob });
+  showPreviewStep = (result) => {
+    this.setState({ step: 'preview', result });
   }
 
   showGuideStep = () => {
     this.setState({ step: 'guide' });
+  }
+
+  showCheckStep = (blob) => {
+    this.setState({ step: 'checking', blob });
   }
 
   cameraReady = (frameRenderer) => {
@@ -60,12 +66,11 @@ class WebcamView extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const {
       Camera, Guide, Placeholder, prevStep, finishStep, componentName,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed,
+      errorMessage, step, blob, cameraStepIsAllowed, result,
     } = this.state;
 
     if (step === 'disabled') {
@@ -105,10 +110,16 @@ class WebcamView extends React.Component {
             back={{ onClick: this.showGuideStep }}
           />
         </div>
+        <div style={{ display: step === 'checking' ? 'block' : 'none' }}>
+          <Header componentName={componentName} />
+          <Placeholder>
+            { step === 'checking' && <Check showPreviewStep={this.showPreviewStep} />}
+          </Placeholder>
+        </div>
         <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
           <Header componentName={`${componentName}_preview`} />
           <Placeholder>
-            <PreviewForm blob={blob} />
+            <PreviewForm blob={blob} result={result} />
           </Placeholder>
           <Footer
             back={{ text: 'No, retake', onClick: this.startRecordStep }}

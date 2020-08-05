@@ -6,6 +6,12 @@ export default {
   metadata: {
     externalId: 121212,
   },
+  additionalData: [
+    {
+      name: 'Test',
+      value: 'test',
+    },
+  ],
   flow: [
     {
       component: 'Form',
@@ -45,7 +51,7 @@ export default {
         {
           label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
           type: 'bool',
-          name: 'privacy',
+          name: 'privacy test',
         },
       ],
 

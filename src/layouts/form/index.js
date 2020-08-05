@@ -21,7 +21,7 @@ class Form extends Component {
       this.form[el.name] = { value: el.value };
     });
     this.props.fields.forEach((el) => {
-      this.form[el.name] = { value: el.value, required: el.required };
+      this.form[el.name] = { value: el.value, required: el.required || el.type === 'consent' };
     });
     this.setState({ disabled: this.isDisabled() });
   }

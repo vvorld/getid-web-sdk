@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Loader from '../../components/loader/loader';
 
 const Sending = ({ data, finishStep }) => {
   useEffect((x) => {
@@ -8,9 +9,9 @@ const Sending = ({ data, finishStep }) => {
     }, 1000);
   }, data);
   return (
-    <div>
+    <Loader>
       Send....
-    </div>
+    </Loader>
   );
 };
 

@@ -1,24 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import './loader.css';
 
-const Loader = (props) => {
-  const { text } = props;
-  return (
-    <div>
-      <div>
-        Load
-      </div>
-      <div>{text}</div>
+const Loader = () => (
+  <div className="getid-cell">
+    <div className="getid-wrapper">
+      <div className="getid-spinner getid-spinner3" />
     </div>
-  );
-};
-
-Loader.propTypes = {
-  text: PropTypes.string,
-};
-
-Loader.defaultProps = {
-  text: '',
-};
+  </div>
+);
 
 export default Loader;

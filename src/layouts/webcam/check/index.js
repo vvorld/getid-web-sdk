@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import './check.css';
+import Loader from '../../../components/loader/loader';
 
 const Check = ({
   onFinish, onCheck, onRetake, blob,
@@ -26,12 +26,12 @@ const Check = ({
   }, []);
   return (
     <div>
+      <Loader />
       {state.message}
       {state.enableRetake && (
         <div style={{ marginTop: '50px' }}>
           <button type="button" onClick={() => onRetake()} className="getid-button__main getid-violet">Retake</button>
         </div>
-
       )}
     </div>
   );

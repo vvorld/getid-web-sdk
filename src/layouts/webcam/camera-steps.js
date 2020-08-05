@@ -69,7 +69,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, Placeholder, prevStep, finishStep, componentName, onCheck,
+      Camera, Guide, prevStep, finishStep, componentName, onCheck,
     } = this.props;
     const {
       errorMessage, step, blob, cameraStepIsAllowed, result,
@@ -80,9 +80,7 @@ class WebcamView extends React.Component {
         <>
           <Header componentName={componentName} />
           <Content>
-            <Placeholder>
-              <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
-            </Placeholder>
+            <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
           </Content>
           <Footer />
         </>

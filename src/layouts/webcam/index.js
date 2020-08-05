@@ -13,14 +13,8 @@ const camera = (figure, ratio) => (props) => (
 );
 
 const placeholder = () => ({ children }) => (
-  <div style={{ position: 'relative' }}>
-    <div style={{
-      position: 'absolute', top: 0, left: 0, width: '100%',
-    }}
-    >
-      {children}
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 342 196" />
+  <div>
+    {children}
   </div>
 );
 const CaptureFront = (props) => (

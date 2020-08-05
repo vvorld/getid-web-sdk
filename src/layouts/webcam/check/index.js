@@ -5,6 +5,7 @@ import './check.css';
 const Check = ({
   onFinish, onCheck, onRetake, blob,
 }) => {
+  console.log('onCheck', onCheck);
   if (!onCheck) {
     onFinish();
     return null;

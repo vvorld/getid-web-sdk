@@ -7,9 +7,9 @@ import './button.css';
 
 const Footer = ({ next, back }) => {
   const { translations } = useContext(TranslationsContext); // this.context;
-  console.log(next)
+  console.log(next);
   return (
-    <>
+    <div className="getid-footer__container">
       { next && (
       <div className="getid-button__wrapper">
         <button type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
@@ -24,7 +24,7 @@ const Footer = ({ next, back }) => {
       <footer className="getid-footer">
         <PoweredBy />
       </footer>
-    </>
+    </div>
   );
 };
 

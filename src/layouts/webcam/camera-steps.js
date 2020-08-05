@@ -5,6 +5,8 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
+import Content from '../../components/blocks/content';
+
 import Check from './check';
 
 const getErrorText = (name, translations) => {
@@ -75,64 +77,77 @@ class WebcamView extends React.Component {
 
     if (step === 'disabled') {
       return (
-        <div style={{ display: 'block' }}>
+        <>
           <Header componentName={componentName} />
-          <Placeholder>
-            <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
-          </Placeholder>
+          <Content>
+            <Placeholder>
+              <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
+            </Placeholder>
+          </Content>
           <Footer />
-        </div>
+        </>
       );
     }
-    return (
-      <>
-        <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-          <Header componentName={`${componentName}_guide`} />
-          <Placeholder>
-            <Guide />
-          </Placeholder>
-          <Footer
+    const layout = (() => {
+      switch (step) {
+        case 'guide': return {
+          header: <Header componentName={`${componentName}_guide`} />,
+          footer: <Footer
             next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
             back={{ onClick: prevStep }}
-          />
-        </div>
-        <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-          <Header componentName={componentName} />
-          <Placeholder>
+          />,
+        };
+        case 'record': return {
+          header: <Header componentName={componentName} />,
+          footer: <Footer
+            next={{ onClick: this.makePhoto }}
+            back={{ onClick: this.showGuideStep }}
+          />,
+        };
+        case 'preview': return {
+          header: <Header componentName={`${componentName}_preview`} />,
+          footer: <Footer
+            back={{ text: 'No, retake', onClick: this.startRecordStep }}
+            next={{ onClick: this.showCheckStep }}
+          />,
+        };
+        case 'checking': return {
+          header: <Header componentName={componentName} />,
+          footer: null,
+        };
+        default: throw new Error(`Bad step ${step}`);
+      }
+    })();
+
+    return (
+      <>
+        {layout.header}
+        <Content>
+          <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
+            <Guide />
+          </div>
+          <div style={{ display: step === 'record' ? 'block' : 'none' }}>
             <Camera
               stream={this.state.stream}
               onReady={this.cameraReady}
               onError={this.cameraError}
             />
-          </Placeholder>
-          <Footer
-            next={{ onClick: this.makePhoto }}
-            back={{ onClick: this.showGuideStep }}
-          />
-        </div>
-        <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-          <Header componentName={`${componentName}_preview`} />
-          <Placeholder>
+          </div>
+          <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewForm blob={blob} result={result} />
-          </Placeholder>
-          <Footer
-            back={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={{ onClick: this.showCheckStep }}
-          />
-        </div>
-        <div style={{ display: step === 'checking' ? 'block' : 'none' }}>
-          <Header componentName={componentName} />
-          <Placeholder>
-            { step === 'checking' && (
-            <Check
-              onCheck={onCheck}
-              blob={blob}
-              onFinish={() => finishStep(blob)}
-              onRetake={this.startRecordStep}
-            />
-            )}
-          </Placeholder>
-        </div>
+          </div>
+          {step === 'checking'
+            ? (
+              <Check
+                onCheck={onCheck}
+                blob={blob}
+                onFinish={() => finishStep(blob)}
+                onRetake={this.startRecordStep}
+              />
+            )
+            : null}
+        </Content>
+        {layout.footer}
       </>
     );
   }
@@ -157,8 +172,4 @@ WebcamView.defaultProps = {
   blob: null,
 };
 
-export default (props) => (
-  <div id="webcam" className="webcam" data-role="webcamContainer">
-    <WebcamView {...props} />
-  </div>
-);
+export default WebcamView;

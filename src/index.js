@@ -3,8 +3,8 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
 
-import { renderMainComponent } from './main-module';
 import React from 'react';
+import { renderMainComponent } from './main-module';
 import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';

@@ -95,12 +95,13 @@ export default {
       component: 'CountryAndDocument',
 
     }, */
-    { component: 'Rules' },
     {
       component: 'DocumentPhoto',
-      interactive: false,
-      // country: 'ee',
-      // documentType: 'passport1',
+      showRules: true,
+      interactive: true,
+      enableCheckPhoto: false,
+      country: 'ee',
+      documentType: 'passport',
     },
     { component: 'Selfie' },
     { component: 'ThankYou' }],

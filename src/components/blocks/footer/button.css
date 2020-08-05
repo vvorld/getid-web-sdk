@@ -1,6 +1,6 @@
 .btn__back {
     cursor: pointer;
-    margin: 0 auto;
+    margin: 10px auto 0 auto;
     display: block;
     text-align: center;
     color: var(--main-txt-color-grey);
@@ -8,7 +8,7 @@
     font-size: var(--main-font-size);
 }
 .button__wrapper {
-    margin: 30px auto 20px auto;
+    margin: auto;
     display: block;
 }
 

@@ -69,7 +69,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, prevStep, finishStep, componentName, onCheck,
+      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto,
     } = this.props;
     const {
       errorMessage, step, blob, cameraStepIsAllowed, result,
@@ -137,6 +137,7 @@ class WebcamView extends React.Component {
           {step === 'checking'
             ? (
               <Check
+                enable={enableCheckPhoto}
                 onCheck={onCheck}
                 blob={blob}
                 onFinish={() => finishStep(blob)}

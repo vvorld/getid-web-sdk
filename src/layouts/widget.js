@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Form from './form';
 import ThankYou from './thank-you';
@@ -13,7 +12,6 @@ import {
 
 import Rules from './rules';
 
-import TranslationsContext from '../context/TranslationsContext';
 import './style.css';
 
 const transformAppToApiModel = (app) => app;
@@ -32,7 +30,12 @@ const allComponents = {
     (back) => next({ back }),
   ],
   DocumentPhoto: (app, next) => [
-    (props) => <DocumentPhoto blob={app.front} {...props} />,
+    (props) => (
+      <DocumentPhoto
+        blob={app.front}
+        {...props}
+      />
+    ),
     (front) => {
       next({ front });
     },
@@ -78,6 +81,11 @@ const normaliseFlow = (flow) => {
   const app = {};
   if (documentIndex !== -1) {
     const dockStep = flow[documentIndex];
+    if (dockStep.showRules) {
+      flow.splice(documentIndex, 0, {
+        component: 'Rules',
+      });
+    }
     if (dockStep.interactive) {
       flow.splice(documentIndex, 0, {
         component: 'CountryAndDocument',
@@ -93,17 +101,16 @@ class Widget extends Component {
     super(props);
 
     const [flow, app] = normaliseFlow(props.flow);
-    console.log(app);
     this.state = {
       step: 0,
       direction: 'forward',
       app,
-      flow,
     };
+    this.flow = flow;
   }
 
   setEnableBack = (enable) => {
-    const { flow } = this.state;
+    const { flow } = this;
     if (enable) {
       const step = flow.find((x) => x.component === 'CaptureBack');
       if (step) {
@@ -113,12 +120,35 @@ class Widget extends Component {
       if (documentIndex !== -1) {
         const newFlow = [...flow];
         newFlow.splice(documentIndex + 1, 0, { component: 'CaptureBack' });
-        this.setState({ flow: newFlow });
+        this.flow = newFlow;
       }
     } else {
-      this.setState({ flow: flow.filter((x) => x.component === 'CaptureBack') });
+      this.flow = flow.filter((x) => x.component !== 'CaptureBack');
     }
   }
+
+  checkDocumentPhoto = async (blob) => {
+    const res = await this.props.api.checkSide(blob);
+    this.checkDocumentType(res.documentType);
+    if (res.documentType === 'unknown') {
+      return { result: false, message: 'document not found' };
+    }
+    return { result: true };
+  };
+
+  checkDocumentType = async (documentType) => {
+    switch (documentType) {
+      case 'passport':
+        this.setEnableBack(false);
+        break;
+      case 'id-card':
+      case 'residence-permit':
+      case 'driving-licence':
+        this.setEnableBack(true);
+        break;
+      default:
+    }
+  };
 
   nextStep = (delta) => {
     const app = {
@@ -126,6 +156,9 @@ class Widget extends Component {
       ...delta,
     };
 
+    if (delta.documentType) {
+      this.checkDocumentType(delta.documentType);
+    }
     // await api.trySendEvent(stepName, 'completed');completed
     const { step } = this.state;
     this.setState({
@@ -153,8 +186,9 @@ class Widget extends Component {
   render() {
     const { onBack } = this.props;
     const {
-      step, direction, flow, app,
+      step, direction, app,
     } = this.state;
+    const { flow } = this;
     const currentComponent = flow[step];
     const { ...other } = this.props;
     if (!currentComponent) {
@@ -176,36 +210,12 @@ class Widget extends Component {
             componentName={componentName}
             {...componentProps}
             setEnableBack={this.setEnableBack}
+            checkDocumentPhoto={this.checkDocumentPhoto}
           />
         </div>
       </main>
     );
   }
 }
-
-Widget.defaultProps = {
-  classes: {},
-  scans: {},
-  flow: [],
-  onComplete: null,
-  onFail: null,
-  onCancel: null,
-  onExists: null,
-  onBack: null,
-};
-
-Widget.propTypes = {
-  flow: PropTypes.array,
-  scans: PropTypes.object,
-  classes: PropTypes.object,
-  onComplete: PropTypes.func,
-  onFail: PropTypes.func,
-  onBack: PropTypes.func,
-  onExists: PropTypes.func,
-  onCancel: PropTypes.func,
-  api: PropTypes.object.isRequired,
-};
-
-Widget.contextType = TranslationsContext;
 
 export default Widget;

@@ -29,6 +29,7 @@ const CaptureBack = (props) => (
     componentName="IdCaptureBack"
     onCheck={(blob) => props.api.checkSide(props.front, blob)
       .then((res) => {
+        console.log('a', res, blob);
         if (res.documentType === 'unknown') {
           return { result: false, message: 'back side not found' };
         }
@@ -64,17 +65,9 @@ const DocumentPhoto = (props) => (
     {...props}
     Camera={camera('rectangle', 3 / 2)}
     finishStep={(delta) => {
-      props.setEnableBack(true);
       props.finishStep(delta);
     }}
-    onCheck={(blob) => props.api.checkSide(blob)
-      .then((res) => {
-        if (res.documentType === 'unknown') {
-          return { result: false, message: 'document not found' };
-        }
-        return { result: true };
-      })
-      .catch(console.log)}
+    onCheck={props.checkDocumentPhoto}
     componentName="IdCapture"
         // 'https://cdn.getid.cloud/assets/mobile/default_front.svg'
     Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}

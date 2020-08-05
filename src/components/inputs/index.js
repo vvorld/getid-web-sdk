@@ -9,7 +9,7 @@ import Input from './input';
 
 const InputRenderer = (props) => {
   const {
-    type, name, onChange, required, ...other
+    type, name, onChange, ...other
   } = props;
 
   const changeHandler = (nm, tp, val, req) => onChange(nm, tp, val, req);
@@ -17,7 +17,7 @@ const InputRenderer = (props) => {
   if (type === 'select') {
     return (
       <Select
-        onChange={(value) => changeHandler(name, 'select', value, required)}
+        onChange={(value) => changeHandler(name, 'select', value, other.required)}
         {...other}
       />
     );
@@ -26,7 +26,7 @@ const InputRenderer = (props) => {
   if (type === 'file') {
     return (
       <FileInput
-        onChange={(value) => changeHandler(name, 'file', value, required)}
+        onChange={(value) => changeHandler(name, 'file', value, other.required)}
         {...other}
       />
     );
@@ -35,7 +35,7 @@ const InputRenderer = (props) => {
   if (type === 'consent' || type === 'bool') {
     return (
       <Checkbox
-        onChange={(value) => changeHandler(name, 'checkbox', value, required || type === 'consent')}
+        onChange={(value) => changeHandler(name, 'checkbox', value, other.required || type === 'consent')}
         {...other}
       />
     );
@@ -43,14 +43,14 @@ const InputRenderer = (props) => {
   if (type === 'date') {
     return (
       <DateInput
-        onChange={(value) => changeHandler(name, 'date', value, required)}
+        onChange={(value) => changeHandler(name, 'date', value, other.required)}
         {...other}
       />
     );
   }
   return (
     <Input
-      onChange={(value) => changeHandler(name, 'text', value, required)}
+      onChange={(value) => changeHandler(name, 'text', value, other.required)}
       {...other}
     />
   );

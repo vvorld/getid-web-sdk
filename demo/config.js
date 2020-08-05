@@ -6,6 +6,12 @@ export default {
   metadata: {
     externalId: 121212,
   },
+  additionalData: [
+    {
+      name: 'Test',
+      value: 'test',
+    },
+  ],
   flow: [
     {
       component: 'Form',

@@ -17,9 +17,13 @@ class Form extends Component {
   }
 
   componentDidMount() {
-    this.props.fields.forEach((el) => {
-      this.form[el.name] = { value: el.value, required: el.required || el.name === 'privacy' };
+    this.props.additionalData.forEach((el) => {
+      this.form[el.name] = { value: el.value };
     });
+    this.props.fields.forEach((el) => {
+      this.form[el.name] = { value: el.value, required: el.required };
+    });
+    console.log(this.form)
     this.setState({ disabled: this.isDisabled() });
   }
 
@@ -58,6 +62,7 @@ class Form extends Component {
 
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
+  additionalData: PropTypes.array,
   componentName: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
   finishStep: PropTypes.func,
@@ -67,6 +72,7 @@ Form.propTypes = {
 Form.defaultProps = {
   finishStep: null,
   prevStep: null,
+  additionalData: [],
 };
 
 export default Form;

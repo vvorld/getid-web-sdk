@@ -1,0 +1,14 @@
+.rule-list {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.rule-list ul {
+    list-style-image: url(../../assets/icons/checkmark.svg);
+}
+
+.rule-list ul li {
+    margin-bottom: 10px;
+}

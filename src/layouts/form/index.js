@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { InputRenderer } from '../../components/inputs';
 import Footer from '../../components/blocks/footer/footer';
+import Content from '../../components/blocks/content';
+
 import './form.css';
 import Header from '../../components/blocks/header/header';
 
@@ -38,24 +40,20 @@ class Form extends Component {
 
     return (
       <>
-        <div>
-          <Header componentName={componentName} />
-        </div>
-
-        <form className="getid-form__body" data-role="blockForm">
-          {fields.map((field) => (
-            <div key={field.name} className="getid-form__input-wrapper">
-              <InputRenderer {...field} onChange={this.handleChange} />
-            </div>
-          ))}
-        </form>
-        <div>
-
-          <Footer
-            next={{ onClick: () => finishStep(this.form), disable: this.state.disabled }}
-            back={{ onClick: prevStep }}
-          />
-        </div>
+        <Header componentName={componentName} />
+        <Content>
+          <form className="getid-form__body " data-role="blockForm">
+            {fields.map((field) => (
+              <div key={field.name} className="getid-form__input-wrapper">
+                <InputRenderer {...field} onChange={this.handleChange} />
+              </div>
+            ))}
+          </form>
+        </Content>
+        <Footer
+          next={{ onClick: () => finishStep(this.form), disable: this.state.disabled }}
+          back={{ onClick: prevStep }}
+        />
       </>
     );
   }

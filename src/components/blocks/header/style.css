@@ -17,17 +17,3 @@
 
 }
 
-.header__small.list {
-    width: 80%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.header__small.list ul {
-    list-style-image: url(../../../assets/icons/checkmark.svg);
-}
-
-.header__small.list ul li {
-    margin-bottom: 10px;
-}

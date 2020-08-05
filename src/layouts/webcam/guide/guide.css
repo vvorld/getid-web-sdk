@@ -2,7 +2,5 @@
     position: relative;
 }
 .guide__img {
-    position: absolute;
     width: 100%;
-    left: 0;
 }

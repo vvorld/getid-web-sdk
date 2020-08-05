@@ -5,6 +5,7 @@ import Footer from '../../components/blocks/footer/footer';
 import Radiobutton from '../../components/inputs/radio-button';
 import '../form/form.css';
 import Header from '../../components/blocks/header/header';
+import Content from '../../components/blocks/content';
 
 const docTypeMapping = {
   passport: 'Passport',
@@ -40,39 +41,40 @@ const CountryAndDocument = ({
   return (
     <>
       <Header componentName={componentName} />
-      <form className="getid-form__body">
-        <div>
-          <select
-            value={currCountry}
-            onChange={(e) => changeCountry(e.target.value)}
-            placeholder={placeholder}
-            className="getid-form__input-wrapper"
-          >
-            <option value="">Country</option>
-            {countries.map(({ value, name }) => (
-              <option key={name} value={value}>{name}</option>
+      <Content>
+        <form className="getid-form__body">
+          <div>
+            <select
+              value={currCountry}
+              onChange={(e) => changeCountry(e.target.value)}
+              placeholder={placeholder}
+              className="getid-form__input-wrapper"
+            >
+              <option value="">Country</option>
+              {countries.map(({ value, name }) => (
+                <option key={name} value={value}>{name}</option>
+              ))}
+            </select>
+
+          </div>
+          <div>
+            {documents && documents.map((docType) => (
+              <div key={docType.name} className="getid-form__input-wrapper">
+                <Radiobutton
+                  name={getDocumentName(docType.name)}
+                  checked={docType.name === currDocumentType}
+                  onChange={() => changeDocumentType(docType.name)}
+                />
+              </div>
             ))}
-          </select>
-
-        </div>
-        <div>
-          {documents && documents.map((docType) => (
-            <div key={docType.name} className="getid-form__input-wrapper">
-              <Radiobutton
-                name={getDocumentName(docType.name)}
-                checked={docType.name === currDocumentType}
-                onChange={() => changeDocumentType(docType.name)}
-              />
-            </div>
-          ))}
-          {plArr.map((x) => (
-            <div key={x} className="getid-form__input-wrapper" style={{ visibility: 'hidden' }}>
-              <Radiobutton />
-            </div>
-          ))}
-        </div>
-      </form>
-
+            {plArr.map((x) => (
+              <div key={x} className="getid-form__input-wrapper" style={{ visibility: 'hidden' }}>
+                <Radiobutton />
+              </div>
+            ))}
+          </div>
+        </form>
+      </Content>
       <Footer
         next={{
           onClick: () => finishStep({

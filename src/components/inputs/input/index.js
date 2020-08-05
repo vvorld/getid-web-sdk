@@ -12,12 +12,8 @@ const Input = ({
   name, label, value, onChange, required, validation,
 }) => {
   const placeholder = label + (required ? '*' : '');
-  console.log(required)
   const [currValue, setValue] = useState(value);
   const [error, setError] = useState(null);
-
-  // const ph = `${el.name + el.required && '*'}`;
-
 
   const validate = (checkValue) => {
     if (validation && typeof validation === 'function') {

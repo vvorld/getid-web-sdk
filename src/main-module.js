@@ -19,23 +19,13 @@ const MainModule = (widgetOptions) => (
 
 );
 
-const validateFlow = (flow) => true;
-const enableThankYou = (flow) => true;
 /**
  * Renders main widget component
  * @param widgetOptions
  */
 export const renderMainComponent = (widgetOptions) => {
-  const copy = { ...widgetOptions };
-  const { flow } = copy;
-  validateFlow(flow);
-  if (enableThankYou(flow)) {
-    copy.flow = [...copy.flow.slice(0, -1), { component: 'Sending' }, copy.flow.pop()];
-  } else {
-    copy.flow = [...copy.flow, { Component: 'Sending' }];
-  }
-  const container = document.getElementById(copy.containerId);
-  const component = MainModule(copy);
+  const container = document.getElementById(widgetOptions.containerId);
+  const component = MainModule(widgetOptions);
   if (container.hasChildNodes()) {
     ReactDOM.unmountComponentAtNode(container);
   }

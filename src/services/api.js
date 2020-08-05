@@ -6,10 +6,13 @@ const createHeaders = (headers) => ({
   ...headers,
 });
 
-const postFormData = (url, formData) => fetch(url, {
+const postFormData = (url, body, token) => fetch(url, {
   method: 'POST',
-  headers: { 'Access-Control-Allow-Origin': '*' },
-  body: formData,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    Authorization: `Bearer ${token}`,
+  },
+  body,
 }).then((res) => res.json());
 
 const post = (url, query, headers) => fetch(url, {
@@ -34,8 +37,25 @@ export const createApi = (url, jwt, verificationTypes, metadata) => {
   const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step } })
     .catch(console.log);
 
+  const checkSide = async (front, back) => {
+    const form = new FormData();
+
+    if (front) {
+      form.append('front', front, 'front');
+    }
+    if (back) {
+      form.append('back', back, 'back');
+    }
+    return postFormData(`${url}/sdk/v1/document`, form, jwt);
+  };
   return {
-    submitData, getInfo, getCountryAndDocList, trySendEvent, getTranslations, sendErrorToServer,
+    submitData,
+    getInfo,
+    getCountryAndDocList,
+    trySendEvent,
+    getTranslations,
+    sendErrorToServer,
+    checkSide,
   };
 };
 

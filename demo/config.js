@@ -97,12 +97,17 @@ export default {
     //
     //   ],
     // },
-    {
+    /* {
       component: 'CountryAndDocument',
-      county: 'ee',
-      documentType: 'passport',
+
+    }, */
+    { component: 'Rules' },
+    {
+      component: 'DocumentPhoto',
+      interactive: false,
+      // country: 'ee',
+      // documentType: 'passport1',
     },
-    { component: 'DocumentPhoto' },
     { component: 'Selfie' },
     { component: 'ThankYou' }],
   onComplete() {

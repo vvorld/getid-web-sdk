@@ -41,6 +41,7 @@ main a {
 }
 
 .grid__main {
+    width: 100%;
     display: grid;
     grid-row-gap: 16px;
     grid-template-rows: auto auto auto 1fr;

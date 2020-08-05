@@ -1,16 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './check.css';
 
-const Check = ({ showPreviewStep }) => {
+const Check = ({
+  onFinish, onCheck, onRetake, blob,
+}) => {
+  if (!onCheck) {
+    onFinish();
+    return null;
+  }
+  const [state, setState] = useState({
+    message: 'Checking...',
+    enableRetake: false,
+  });
   useEffect(() => {
-    setTimeout(() => {
-      showPreviewStep({ ok: true, message: 'photo is ok' });
-    }, 1000);
+    onCheck(blob)
+      .then(({ result, message }) => {
+        if (result) {
+          onFinish();
+        } else {
+          setState({ message, enableRetake: true });
+        }
+      }).catch((e) => onFinish());
   }, []);
   return (
     <div>
-      Checking photo....
+      {state.message}
+      {state.enableRetake && (
+        <div style={{ marginTop: '50px' }}>
+          <button type="button" onClick={() => onRetake()} className="getid-button__main getid-violet">Retake</button>
+        </div>
+
+      )}
     </div>
   );
 };

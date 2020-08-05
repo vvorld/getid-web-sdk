@@ -12,16 +12,10 @@ const camera = (figure, ratio) => (props) => (
   />
 );
 
-const placeholder = () => ({ children }) => (
-  <div>
-    {children}
-  </div>
-);
 const CaptureFront = (props) => (
   <CameraSteps
     {...props}
     Camera={camera('rectangle', 3 / 2)}
-    Placeholder={placeholder()}
     componentName="IdCapture"
         // 'https://cdn.getid.cloud/assets/mobile/default_front.svg'
     Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
@@ -32,7 +26,6 @@ const CaptureBack = (props) => (
   <CameraSteps
     {...props}
     Camera={camera('rectangle', 3 / 2)}
-    Placeholder={placeholder()}
     componentName="IdCaptureBack"
     onCheck={(blob) => props.api.checkSide(props.front, blob)
       .then((res) => {
@@ -50,7 +43,6 @@ const Selfie = (props) => (
   <CameraSteps
     {...props}
     Camera={camera('ellips', 2 / 3)}
-    Placeholder={placeholder()}
     componentName="IdSelfie"
             // 'https://cdn.getid.cloud/assets/mobile/selfie.svg',
     Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg')}
@@ -61,7 +53,6 @@ const Passport = (props) => (
   <CameraSteps
     {...props}
     Camera={camera('rectangle', 1)}
-    Placeholder={placeholder()}
     componentName="IdCapture"
     // 'https://cdn.getid.cloud/assets/mobile/passport.svg',
     Guide={guide('https://cdn.getid.cloud/assets/desktop/passport.svg')}
@@ -72,7 +63,6 @@ const DocumentPhoto = (props) => (
   <CameraSteps
     {...props}
     Camera={camera('rectangle', 3 / 2)}
-    Placeholder={placeholder()}
     finishStep={(delta) => {
       props.setEnableBack(true);
       props.finishStep(delta);

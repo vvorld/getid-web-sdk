@@ -24,9 +24,12 @@ const Input = ({
     setError(errorMessage);
   };
 
-  useEffect(() => {
-    validate(currValue);
-  }, [currValue]);
+  const fillAndValidate = (e) => {
+    const newValue = e.target.value;
+    onChange(newValue);
+    setValue(newValue);
+    validate(newValue);
+  };
 
   return (
     <div>
@@ -37,11 +40,7 @@ const Input = ({
         required={required}
         className={error && 'getid-error'}
         value={currValue}
-        onChange={(e) => {
-          const newValue = e.target.value;
-          onChange(newValue);
-          setValue(newValue);
-        }}
+        onChange={fillAndValidate}
         key={`input-${label}`}
       />
       {error && <span className="getid-error__message">{error }</span>}

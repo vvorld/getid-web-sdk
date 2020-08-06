@@ -20,7 +20,7 @@ export default {
         {
           label: 'First Name',
           type: 'text',
-          value: 'Artem',
+          // value: 'John',
           name: 'First name',
           required: true,
           // validation: (value, setError) => {

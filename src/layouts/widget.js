@@ -54,6 +54,7 @@ const normaliseFlow = (flow) => {
   } else {
     flow = [...flow, { Component: 'Sending' }];
   }
+
   const documentIndex = flow.findIndex((x) => x.component === 'DocumentPhoto');
   const app = {};
   if (documentIndex !== -1) {
@@ -78,6 +79,7 @@ class Widget extends Component {
     super(props);
 
     const [flow, app] = normaliseFlow(props.flow);
+    app.additionalData = props.additionalData
     this.state = {
       step: 0,
       direction: 'forward',
@@ -163,7 +165,7 @@ class Widget extends Component {
   getComponent = (name) => {
     switch (name) {
       case 'Form': return (app, next) => [
-        (props) => <Form form={app.form} {...props} />,
+        (props) => <Form form={app.form} additionalData={app.additionalData} {...props} />,
         (form) => next({ form }),
       ];
       case 'Rules': return (app, next) => [
@@ -233,6 +235,7 @@ class Widget extends Component {
     }
     const { component: componentName, ...componentProps } = currentComponent;
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
+    console.log(app);
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 

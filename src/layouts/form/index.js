@@ -18,13 +18,11 @@ class Form extends Component {
   }
 
   componentDidMount() {
-    this.preFillForm(this.props.additionalData);
-    this.preFillForm(this.props.fields);
-  }
-
-  preFillForm = (fields) => {
-    fields.forEach((el) => {
+    this.props.additionalData.forEach((el) => {
       this.form[el.name] = { value: el.value, required: (el.required || el.type === 'consent') || false };
+    });
+    this.props.fields.forEach((el) => {
+      this.form[el.name] = { value: el.value || this.getExtractedValue(el.name), required: (el.required || el.type === 'consent') || false };
     });
     this.setState({ disabled: this.isDisabled() });
   }
@@ -37,8 +35,8 @@ class Form extends Component {
   isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
 
   getExtractedValue = (name) => {
-    const extractedValue = (n) => extractedData.find((el) => el.category === n);
-    return extractedValue(name);
+    const extractedField = extractedData.find((el) => el.category === name);
+    return extractedField && extractedField.content;
   }
 
   render() {
@@ -53,7 +51,12 @@ class Form extends Component {
           <form className="getid-form__body " data-role="blockForm">
             {fields.map((field) => (
               <div key={field.name} className="getid-form__input-wrapper">
-                <InputRenderer {...field} onChange={this.handleChange} />
+                <InputRenderer
+                  value={field.value || this.getExtractedValue(field.name)}
+                  required={(field.required || field.type === 'consent') || false}
+                  {...field}
+                  onChange={this.handleChange}
+                />
               </div>
             ))}
           </form>

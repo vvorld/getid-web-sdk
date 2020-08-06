@@ -4,9 +4,7 @@ import Loader from '../../components/loader/loader';
 
 const Sending = ({ send, finishStep }) => {
   useEffect((x) => {
-    send().then(
-      finishStep(),
-    );
+    send().then((result) => finishStep(result));
   }, send);
   return (
     <Loader>

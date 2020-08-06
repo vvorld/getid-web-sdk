@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
 import Content from '../../components/blocks/content';
+import TranslationsContext from '../../context/TranslationsContext';
+
 import './rules.css';
 
-export const RulesList = ({ translations, children }) => {
+export const RulesList = ({ children }) => {
+  const { translations } = useContext(TranslationsContext);
   const rules = Object.keys(translations).filter((el) => el.includes('PhotoRules_line_')).map((ele) => translations[ele]);
   return (
     <>
@@ -22,11 +25,11 @@ export const RulesList = ({ translations, children }) => {
     </>
   );
 };
-const Rules = ({ translations, finishStep, prevStep }) => (
+const Rules = ({ finishStep, prevStep }) => (
   <>
     <Header componentName="PhotoRules" />
     <Content>
-      <RulesList translations={translations} />
+      <RulesList />
     </Content>
     <Footer
       next={{ onClick: () => finishStep() }}

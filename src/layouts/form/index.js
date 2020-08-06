@@ -35,12 +35,12 @@ class Form extends Component {
 
   render() {
     const {
-      fields, finishStep, prevStep, componentName,
+      fields, finishStep, prevStep,
     } = this.props;
 
     return (
       <>
-        <Header componentName={componentName} />
+        <Header componentName="Form" />
         <Content>
           <form className="getid-form__body " data-role="blockForm">
             {fields.map((field) => (

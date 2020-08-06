@@ -21,7 +21,7 @@ const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
 const iterArr = [1, 2, 3, 4];
 
 const CountryAndDocument = ({
-  countryDocuments, country, documentType, finishStep, prevStep, componentName,
+  countryDocuments, country, documentType, finishStep, prevStep,
 }) => {
   const { translations } = useContext(TranslationsContext);
   const placeholder = translations['CountryAndDocument_country-placeholder'];
@@ -40,7 +40,7 @@ const CountryAndDocument = ({
   const plArr = iterArr.slice(documents.length);
   return (
     <>
-      <Header componentName={componentName} />
+      <Header componentName="CountryAndDocument" />
       <Content>
         <form className="getid-form__body">
           <div>

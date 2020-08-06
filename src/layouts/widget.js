@@ -41,54 +41,6 @@ const transformAppToApiModel = (app, props) => async () => {
   return api.submitData(data, files);
 };
 
-const allComponents = {
-  Form: (app, next) => [
-    (props) => <Form form={app.form} {...props} />,
-    (form) => next({ form }),
-  ],
-  Rules: (app, next) => [
-    (props) => <Rules {...props} />,
-    () => next({ }),
-  ],
-  CaptureBack: (app, next) => [
-    (props) => <CaptureBack front={app.front} blob={app.back} {...props} />,
-    (back) => next({ back }),
-  ],
-  DocumentPhoto: (app, next) => [
-    (props) => (
-      <DocumentPhoto
-        blob={app.front}
-        {...props}
-      />
-    ),
-    (front) => {
-      next({ front });
-    },
-  ],
-  Selfie: (app, next) => [
-    (props) => <IdSelfie blob={app.selfie} {...props} />,
-    (selfie) => next({ selfie }),
-  ],
-  Sending: (app, next) => [
-    (props) => <Sending send={transformAppToApiModel(app, props)} {...props} />,
-    () => next({}),
-  ],
-  ThankYou: (app, next) => [
-    (props) => <ThankYou {...props} />,
-    () => next({}),
-  ],
-  CountryAndDocument: (app, next) => [
-    (props) => (
-      <CountryAndDocument
-        country={app.country}
-        documentType={app.documentType}
-        {...props}
-      />
-    ),
-    ({ country, documentType }) => next({ country, documentType }),
-  ],
-};
-
 const validateFlow = (flow) =>
   // warning CountryAndDocument
   true;
@@ -208,34 +160,89 @@ class Widget extends Component {
     }
   }
 
+  getComponent = (name) => {
+    switch (name) {
+      case 'Form': return (app, next) => [
+        (props) => <Form form={app.form} {...props} />,
+        (form) => next({ form }),
+      ];
+      case 'Rules': return (app, next) => [
+        (props) => <Rules {...props} />,
+        () => next({ }),
+      ];
+      case 'CaptureBack': return (app, next) => [
+        (props) => (
+          <CaptureBack
+            front={app.front}
+            blob={app.back}
+            {...props}
+            direction={this.state.direction}
+            checkDocumentPhoto={this.checkDocumentPhoto}
+          />
+        ),
+        (back) => next({ back }),
+      ];
+      case 'DocumentPhoto': return (app, next) => [
+        (props) => (
+          <DocumentPhoto
+            blob={app.front}
+            {...props}
+            direction={this.state.direction}
+            checkDocumentPhoto={this.checkDocumentPhoto}
+          />
+        ),
+        (front) => {
+          next({ front });
+        },
+      ];
+      case 'Selfie': return (app, next) => [
+        (props) => <IdSelfie blob={app.selfie} {...props} />,
+        (selfie) => next({ selfie }),
+      ];
+      case 'Sending': return (app, next) => [
+        (props) => <Sending send={transformAppToApiModel(app, props)} {...props} />,
+        (result) => {
+          next({});
+        },
+      ];
+      case 'ThankYou': return (app, next) => [
+        (props) => <ThankYou {...props} />,
+        () => next({}),
+      ];
+      case 'CountryAndDocument': return (app, next) => [
+        (props) => (
+          <CountryAndDocument
+            country={app.country}
+            documentType={app.documentType}
+            countryDocuments={this.props.countryDocuments}
+            {...props}
+          />
+        ),
+        ({ country, documentType }) => next({ country, documentType }),
+      ];
+      default: throw new Error(`Unexpected step: ${name}`);
+    }
+  }
+
   render() {
-    const { onBack } = this.props;
-    const {
-      step, direction, app,
-    } = this.state;
+    const { step, app } = this.state;
     const { flow } = this;
     const currentComponent = flow[step];
-    const { ...other } = this.props;
     if (!currentComponent) {
       return null;
     }
     const { component: componentName, ...componentProps } = currentComponent;
-
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
-    const [CurrentComponent, finishStep] = allComponents[componentName](app, nextStep);
-    const prevStep = step > 0 ? this.prevStep : onBack;
+    const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
+    const prevStep = step > 0 ? this.prevStep : this.props.onBack;
+
     return (
       <main id="getid" data-role="container">
         <div className="getid-grid__main">
           <CurrentComponent
             finishStep={finishStep}
             prevStep={prevStep}
-            direction={direction}
-            {...other}
-            componentName={componentName}
             {...componentProps}
-            setEnableBack={this.setEnableBack}
-            checkDocumentPhoto={this.checkDocumentPhoto}
           />
         </div>
       </main>

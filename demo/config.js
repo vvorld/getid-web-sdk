@@ -108,7 +108,8 @@ export default {
     },
     { component: 'Selfie' },
     { component: 'ThankYou' }],
-  onComplete() {
+  onComplete({ id }) {
+    alert(id);
     window.location.reload();
   },
   // onFail(error) {

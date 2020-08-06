@@ -9,7 +9,7 @@ import Input from './input';
 
 const InputRenderer = (props) => {
   const {
-    type, name, value, onChange, ...other
+    type, name, onChange, ...other
   } = props;
 
   const changeHandler = (nm, tp, val, req) => onChange(nm, tp, val, req);
@@ -51,7 +51,6 @@ const InputRenderer = (props) => {
   return (
     <Input
       onChange={(val) => changeHandler(name, 'text', val, other.required)}
-      value={value}
       {...other}
     />
   );

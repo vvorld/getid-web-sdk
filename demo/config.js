@@ -12,7 +12,6 @@ export default {
       value: 'test',
     },
   ],
-
   flow: [
     {
       component: 'Form',

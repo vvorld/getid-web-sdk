@@ -26,7 +26,7 @@ const parseDate = (date) => {
   if (isNaN(timestamp) === false) {
     return [+y, +m, +d];
   }
-  return [0, 0, 0];
+  return [0, 1, 0];
 };
 function DateInput({
   required, value, onChange, label,
@@ -52,7 +52,7 @@ function DateInput({
         }
         return;
       }
-      const daysInMonth = months[m - 1].days;
+      const daysInMonth = months[ (m || 1) - 1].days;
       if (day > daysInMonth) {
         setDay(0);
       }

@@ -6,7 +6,7 @@ import Content from '../../components/blocks/content';
 
 const ThankYou = (props) => (
   <>
-    <Header componentName={props.componentName} />
+    <Header componentName="ThankYou" />
     <Content>
       <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
     </Content>

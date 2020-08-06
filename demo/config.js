@@ -100,7 +100,7 @@ export default {
     }, */
     {
       component: 'DocumentPhoto',
-      showRules: true,
+      showRules: false,
       interactive: true,
       enableCheckPhoto: true,
       country: 'ee',

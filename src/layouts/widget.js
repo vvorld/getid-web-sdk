@@ -14,8 +14,7 @@ import Rules from './rules';
 
 import './style.css';
 
-const transformAppToApiModel = (app, props) => async () => {
-  const { metadata, api } = props;
+const transformAppToApiModel = (app, api, metadata) => async () => {
   const data = {
     application: { metadata },
   };
@@ -38,7 +37,8 @@ const transformAppToApiModel = (app, props) => async () => {
     front: app.front,
     selfie: app.selfie,
   };
-  return api.submitData(data, files);
+  const result = await api.submitData(data, files);
+  return result;
 };
 
 const validateFlow = (flow) =>
@@ -154,9 +154,15 @@ class Widget extends Component {
   }
 
   finish = (delta) => {
-    if (this.props.onComplete) {
+    if (this.onComplete) {
       // TODO add data from server
-      this.props.onComplete();
+      this.onComplete();
+    }
+  }
+
+  setResult = (result) => {
+    if (this.props.onComplete) {
+      this.onComplete = () => this.props.onComplete(result);
     }
   }
 
@@ -200,8 +206,11 @@ class Widget extends Component {
         (selfie) => next({ selfie }),
       ];
       case 'Sending': return (app, next) => [
-        (props) => <Sending send={transformAppToApiModel(app, props)} {...props} />,
+        (props) => (
+          <Sending send={transformAppToApiModel(app, this.props.api, this.props.metadata)} {...props} />
+        ),
         (result) => {
+          this.setResult(result);
           next({});
         },
       ];

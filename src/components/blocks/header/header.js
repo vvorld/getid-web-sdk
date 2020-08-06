@@ -18,13 +18,13 @@ function Header(props) {
   return (
     <div className="getid-header__container">
       { headerText && (
-      <h1 style={{ minHeight: '65px' }} className="getid-header__big" data-role="componentTitle">
+      <div className="getid-header__big" data-role="componentTitle">
         { headerText }
-      </h1>
+      </div>
       )}
 
-      <div style={{ minHeight: '45px' }}>
-        <p className="getid-header__small">{subHeaderText || '-'}</p>
+      <div className="getid-header__small">
+        {subHeaderText || '-'}
       </div>
     </div>
   );

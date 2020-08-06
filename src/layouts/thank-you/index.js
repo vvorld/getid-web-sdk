@@ -2,18 +2,16 @@ import React from 'react';
 import ThankYouIcon from '../../assets/icons/thank-you-logo.svg';
 import Header from '../../components/blocks/header/header';
 import Footer from '../../components/blocks/footer/footer';
+import Content from '../../components/blocks/content';
 
-const ThankYou = (props) => {
-  console.log(props.finishStep);
-  return (
-    <div>
+const ThankYou = (props) => (
+  <>
+    <Header componentName={props.componentName} />
+    <Content>
       <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
-      <Header componentName={props.componentName} />
-      <Footer
-        next={{ onClick: props.finishStep }}
-      />
-    </div>
-  );
-};
+    </Content>
+    <Footer next={{ onClick: props.finishStep }} />
+  </>
+);
 
 export default ThankYou;

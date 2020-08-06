@@ -14,7 +14,32 @@ import Rules from './rules';
 
 import './style.css';
 
-const transformAppToApiModel = (app) => app;
+const transformAppToApiModel = (app, props) => async () => {
+  const { metadata, api } = props;
+  const data = {
+    application: { metadata },
+  };
+  if (app.form) {
+    data.application.fields = Object.entries(app.form || {})
+      .map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
+  }
+  if (app.front) {
+    data.application.documents = [{
+      issuingCountry: app.country,
+      documentType: app.documentType,
+      images: [],
+    }];
+  }
+  if (app.selfie) {
+    data.application.faces = [{ category: 'selfie', content: [] }];
+  }
+  const files = {
+    back: app.back,
+    front: app.front,
+    selfie: app.selfie,
+  };
+  return api.submitData(data, files);
+};
 
 const allComponents = {
   Form: (app, next) => [
@@ -45,7 +70,7 @@ const allComponents = {
     (selfie) => next({ selfie }),
   ],
   Sending: (app, next) => [
-    (props) => <Sending data={transformAppToApiModel(app)} {...props} />,
+    (props) => <Sending send={transformAppToApiModel(app, props)} {...props} />,
     () => next({}),
   ],
   ThankYou: (app, next) => [
@@ -131,7 +156,7 @@ class Widget extends Component {
     const res = await this.props.api.checkSide(blob);
     this.checkDocumentType(res.documentType);
     if (res.documentType === 'unknown') {
-      return { result: false, message: 'document not found' };
+      return { result: false, message: 'Document was not readed' };
     }
     return { result: true };
   };

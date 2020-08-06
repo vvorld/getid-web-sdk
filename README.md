@@ -355,10 +355,8 @@ or `This document type is not supported.`
 For now we mostly support these documents:
  - passport, 
  - id-card, 
- - visa, 
  - driving-licence, 
- - residence-permit,
- - internal-passport.
+ - residence-permit.
  
 Example: 
  ``` js

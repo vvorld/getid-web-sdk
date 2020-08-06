@@ -5,22 +5,34 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import './footer.css';
 import './button.css';
 
-const Footer = ({ next, back }) => {
+const Footer = ({ next = {}, back = {} }) => {
+  if (!next) {
+    next = {};
+  }
+  if (!back) {
+    back = {};
+  }
   const { translations } = useContext(TranslationsContext); // this.context;
-  console.log(next);
   return (
     <div className="getid-footer__container">
-      { next && (
       <div className="getid-button__wrapper">
-        <button type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
-          {next.text || translations.button_next}
-        </button>
+        {next.onClick
+          ? (
+            <button type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
+              {next.text || translations.button_next}
+            </button>
+          )
+          : (
+            <div className="getid-hidden">
+              <button type="button" className="getid-button__main">-</button>
+            </div>
+          )}
       </div>
-      ) }
-      { back && back.onClick
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid,jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+
+      {back.onClick
         ? <a onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</a>
-        : <div className="getid-placeholder">&nbsp;</div>}
+        : <a className="getid-btn__back getid-hidden">-</a>}
+
       <footer className="getid-footer">
         <PoweredBy />
       </footer>

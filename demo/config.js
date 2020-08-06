@@ -12,6 +12,7 @@ export default {
       value: 'test',
     },
   ],
+
   flow: [
     {
       component: 'Form',
@@ -19,7 +20,7 @@ export default {
         {
           label: 'First Name',
           type: 'text',
-          value: 'John',
+          value: 'Artem',
           name: 'First name',
           required: true,
           // validation: (value, setError) => {
@@ -35,16 +36,18 @@ export default {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',
+          value: 'Gerus',
           required: true,
         },
         {
           label: 'Date Of Birth',
           type: 'date',
           name: 'Date of Birth',
+          value: '1986-09-22',
           // required: true,
         },
         {
-          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID OÜ.',
+          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
           type: 'consent',
           name: 'privacy',
         },
@@ -99,9 +102,9 @@ export default {
       component: 'DocumentPhoto',
       showRules: true,
       interactive: true,
-      enableCheckPhoto: false,
+      enableCheckPhoto: true,
       country: 'ee',
-      documentType: 'passport',
+      documentType: 'residence-permit',
     },
     { component: 'Selfie' },
     { component: 'ThankYou' }],

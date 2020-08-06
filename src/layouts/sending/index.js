@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '../../components/loader/loader';
 
-const Sending = ({ data, finishStep }) => {
+const Sending = ({ send, finishStep }) => {
   useEffect((x) => {
-    setTimeout(() => {
-      finishStep();
-    }, 1000);
-  }, data);
+    send().then(
+      finishStep(),
+    );
+  }, send);
   return (
     <Loader>
       Send....

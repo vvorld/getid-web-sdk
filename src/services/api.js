@@ -1,5 +1,3 @@
-import { createEAForSubmission } from '../helpers/request-formatter';
-
 const createHeaders = (headers) => ({
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -24,10 +22,15 @@ const post = (url, query, headers) => fetch(url, {
 const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
-export const createApi = (url, jwt, verificationTypes, metadata) => {
-  const submitData = () => {
-    const formData = createEAForSubmission(jwt, verificationTypes, metadata);
-    return postFormData(`${url}/sdk/v1/verify-data`, formData);
+export const createApi = (url, jwt) => {
+  const submitData = (userData, files) => {
+    const form = new FormData();
+    form.append('data', JSON.stringify({
+      userData,
+      jwt,
+    }));
+    Object.entries(files).forEach(([name, blob]) => blob && form.append(name, blob));
+    return postFormData(`${url}/sdk/v1/verify-data`, form);
   };
 
   const getInfo = () => post(`${url}/sdk/v1/configuration`, { jwt });

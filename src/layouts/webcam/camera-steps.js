@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../context/TranslationsContext';
-import CameraDisabled from './cam-disabled';
-import PreviewForm from './photo-preview';
+
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
 import Content from '../../components/blocks/content';
 
-import Check from './check';
+import CameraDisabled from './cam-disabled';
+import PreviewForm from './photo-preview';
+import Checking from './checking';
+import RetakeDescription from './retake-description';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -25,6 +27,7 @@ class WebcamView extends React.Component {
       cameraStepIsAllowed: false,
       blob: props.blob,
       result: {},
+      retakeMessage: '',
     };
   }
 
@@ -61,6 +64,13 @@ class WebcamView extends React.Component {
     });
   }
 
+  retakeDescription= ({ message }) => {
+    this.setState({
+      retakeMessage: message,
+      step: 'retake-description',
+    });
+  }
+
   cameraError = (error) => {
     const { translations } = this.context;
     const errorMessage = getErrorText(error.name, translations);
@@ -72,7 +82,7 @@ class WebcamView extends React.Component {
       Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed, result,
+      errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
     } = this.state;
 
     if (step === 'disabled') {
@@ -111,7 +121,17 @@ class WebcamView extends React.Component {
         };
         case 'checking': return {
           header: <Header componentName={componentName} />,
-          footer: null,
+          footer: <Footer
+            back={{ onClick: () => this.showPreviewStep(blob) }}
+          />,
+        };
+
+        case 'retake-description': return {
+          header: <Header componentName={componentName} />,
+          footer: <Footer
+            next={{ text: 'Retake', onClick: this.startRecordStep }}
+            back={{ text: 'Continue', onClick: () => finishStep(blob) }}
+          />,
         };
         default: throw new Error(`Bad step ${step}`);
       }
@@ -134,14 +154,17 @@ class WebcamView extends React.Component {
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewForm blob={blob} result={result} />
           </div>
+          <div style={{ display: step === 'retake-description' ? 'block' : 'none' }}>
+            <RetakeDescription message={retakeMessage} />
+          </div>
           {step === 'checking'
             ? (
-              <Check
+              <Checking
                 enable={enableCheckPhoto}
                 onCheck={onCheck}
                 blob={blob}
-                onFinish={() => finishStep(blob)}
-                onRetake={this.startRecordStep}
+                onSuccess={() => finishStep(blob)}
+                onFail={this.retakeDescription}
               />
             )
             : null}

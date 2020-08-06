@@ -16,11 +16,13 @@ import './style.css';
 
 const transformAppToApiModel = (app, api, metadata) => async () => {
   const data = {
-    application: { metadata },
+    application: { metadata: metadata || {} },
   };
   if (app.form) {
     data.application.fields = Object.entries(app.form || {})
       .map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
+  } else {
+    data.application.fields = []
   }
   if (app.front) {
     data.application.documents = [{
@@ -28,13 +30,17 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
       documentType: app.documentType,
       images: [],
     }];
+  } else {
+    data.application.documents = [];
   }
   if (app.selfie) {
     data.application.faces = [{ category: 'selfie', content: [] }];
+  } else {
+    data.application.faces = [];
   }
   const files = {
-    back: app.back,
     front: app.front,
+    back: app.back,
     selfie: app.selfie,
   };
   const result = await api.submitData(data, files);
@@ -229,7 +235,7 @@ class Widget extends Component {
         ),
         ({ country, documentType }) => next({ country, documentType }),
       ];
-      default: throw new Error(`Unexpected step: ${name}`);
+      default: throw new Error(`Unexpected step: '${name}'`);
     }
   }
 

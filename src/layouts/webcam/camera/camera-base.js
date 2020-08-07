@@ -10,6 +10,7 @@ class CameraBase extends Component {
     this.state = {
       width: 0,
       height: 0,
+      mode: '',
     };
   }
 
@@ -23,19 +24,39 @@ class CameraBase extends Component {
     }
   }
 
+  getStream = async () => {
+    const params = {
+      audio: false,
+      video: {
+        width: 2048,
+        facingMode: { exact: this.props.facingMode },
+      },
+    };
+    try {
+      return [
+        await navigator.mediaDevices.getUserMedia(params),
+        this.props.facingMode,
+      ];
+    } catch (e) {
+      params.video.facingMode = 'user';
+      return [
+        await navigator.mediaDevices.getUserMedia(params),
+        'user',
+      ];
+    }
+  }
+
   setSrc = async (ref) => {
     this.ref = ref;
     if (!ref) {
       return;
     }
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: { deviceId: true, width: 2048 },
-      });
-
-      const { width, height } = stream.getVideoTracks()[0].getSettings();
-      this.setState({ width, height });
+      navigator.mediaDevices.enumerateDevices().then(console.log);
+      const [stream, mode] = await this.getStream();
+      const settings = stream.getVideoTracks()[0].getSettings();
+      const { width, height } = settings;
+      this.setState({ width, height, mode });
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4) {

@@ -13,45 +13,6 @@ export default {
     },
   ],
   flow: [
-    {
-      component: 'Form',
-      fields: [
-        {
-          label: 'First Name',
-          type: 'text',
-          // value: 'John',
-          name: 'First name',
-          required: true,
-          // validation: (value, setError) => {
-          //   const re = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/;
-          //   if (value && value.length !== 0 && !re.test(String(value).toLowerCase())) {
-          //     setError('Input is not valid');
-          //     return;
-          //   }
-          //   setError(null);
-          // },
-        },
-        {
-          label: 'Last Name',
-          type: 'text',
-          name: 'Last name',
-          value: 'Gerus',
-          required: true,
-        },
-        {
-          label: 'Date Of Birth',
-          type: 'date',
-          name: 'Date of Birth',
-          value: '1986-09-22',
-          // required: true,
-        },
-        {
-          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
-          type: 'consent',
-          name: 'privacy',
-        },
-      ],
-    },
     // {
     //   component: 'Form',
     //   fields: [
@@ -99,13 +60,40 @@ export default {
     }, */
     {
       component: 'DocumentPhoto',
-      showRules: false,
-      interactive: true,
+      showRules: true,
+      interactive: false,
       enableCheckPhoto: true,
       country: 'ee',
       documentType: 'residence-permit',
     },
     { component: 'Selfie' },
+    {
+      component: 'Form',
+      fields: [
+        {
+          label: 'First Name',
+          type: 'text',
+          name: 'First name',
+          required: true,
+        },
+        {
+          label: 'Last Name',
+          type: 'text',
+          name: 'Last name',
+          required: true,
+        },
+        {
+          label: 'Date Of Birth',
+          type: 'date',
+          name: 'Date of birth',
+        },
+        {
+          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
+          type: 'consent',
+          name: 'privacy',
+        },
+      ],
+    },
     { component: 'ThankYou' }],
   onComplete({ id }) {
     alert(id);

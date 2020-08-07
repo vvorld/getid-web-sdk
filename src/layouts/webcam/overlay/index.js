@@ -1,12 +1,11 @@
 import React from 'react';
 
-const createOverlay = (figure, ratio) => ({ width, height }) => {
+const createOverlay = (figure, containerRation) => ({ width, height, style }) => {
   const Path = (function () {
     const streamRatio = width / height;
-    const [fwidth, fheight] = streamRatio < ratio
-      ? [width * 0.9, height * ratio * 0.9]
-      : [(height * 0.9) * ratio, height * 0.9];
-
+    const [fwidth, fheight] = streamRatio < containerRation
+      ? [width * 0.9, width * 0.9 / containerRation]
+      : [(height * 0.9) * containerRation, height * 0.9];
     switch (figure) {
       case 'ellips':
         return () => (
@@ -40,13 +39,14 @@ const createOverlay = (figure, ratio) => ({ width, height }) => {
 
   return (
     <svg
-      style={{
+      style={({
         position: 'absolute',
         top: 0,
         bottom: 0,
         right: 0,
         left: 0,
-      }}
+        ...style || {},
+      })}
       width="100%"
       viewBox={`0 0 ${width} ${height}`}
     >

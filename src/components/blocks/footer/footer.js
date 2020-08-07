@@ -5,7 +5,7 @@ import TranslationsContext from '../../../context/TranslationsContext';
 import './footer.css';
 import './button.css';
 
-const Footer = ({ next = {}, back = {} }) => {
+const Footer = ({ next = {}, back = {}, style }) => {
   if (!next) {
     next = {};
   }
@@ -14,7 +14,7 @@ const Footer = ({ next = {}, back = {} }) => {
   }
   const { translations } = useContext(TranslationsContext); // this.context;
   return (
-    <div className="getid-footer__container">
+    <div className="getid-footer__container" style={style}>
       <div className="getid-button__wrapper">
         {next.onClick
           ? (

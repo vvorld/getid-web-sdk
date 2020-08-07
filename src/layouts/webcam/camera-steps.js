@@ -79,7 +79,7 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto,
+      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto, facingMode,
     } = this.props;
     const {
       errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
@@ -107,10 +107,12 @@ class WebcamView extends React.Component {
         };
         case 'record': return {
           header: <Header componentName={componentName} />,
-          footer: <Footer
+          footer: !this.props.isMobile && (
+          <Footer
             next={{ onClick: this.makePhoto }}
             back={{ onClick: this.showGuideStep }}
-          />,
+          />
+          ),
         };
         case 'preview': return {
           header: <Header componentName={`${componentName}_preview`} />,
@@ -149,6 +151,10 @@ class WebcamView extends React.Component {
               stream={this.state.stream}
               onReady={this.cameraReady}
               onError={this.cameraError}
+              facingMode={facingMode}
+
+              next={{ onClick: this.makePhoto }}
+              back={{ onClick: this.showGuideStep }}
             />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>

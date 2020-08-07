@@ -5,7 +5,7 @@ import ThankYou from './thank-you';
 import CountryAndDocument from './country-doc';
 import Sending from './sending';
 import {
-  Selfie as IdSelfie,
+  Selfie,
   CaptureBack,
   DocumentPhoto,
 } from './webcam';
@@ -22,7 +22,7 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     data.application.fields = Object.entries(app.form || {})
       .map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
   } else {
-    data.application.fields = []
+    data.application.fields = [];
   }
   if (app.front) {
     data.application.documents = [{
@@ -85,7 +85,9 @@ class Widget extends Component {
     super(props);
 
     const [flow, app] = normaliseFlow(props.flow);
-    app.additionalData = props.additionalData
+    app.additionalData = props.additionalData;
+    app.extractedData = [];
+
     this.state = {
       step: 0,
       direction: 'forward',
@@ -103,8 +105,9 @@ class Widget extends Component {
       }
       const documentIndex = flow.findIndex((x) => x.component === 'DocumentPhoto');
       if (documentIndex !== -1) {
+        const docPhoto = flow[documentIndex];
         const newFlow = [...flow];
-        newFlow.splice(documentIndex + 1, 0, { component: 'CaptureBack' });
+        newFlow.splice(documentIndex + 1, 0, { ...docPhoto, component: 'CaptureBack' });
         this.flow = newFlow;
       }
     } else {
@@ -112,9 +115,12 @@ class Widget extends Component {
     }
   }
 
-  checkDocumentPhoto = async (blob) => {
-    const res = await this.props.api.checkSide(blob);
+  checkDocumentPhoto = async (front, back) => {
+    const res = await this.props.api.checkSide(front, back);
     this.checkDocumentType(res.documentType);
+    if (res.extractedData) {
+      this.state.app.extractedData = res.extractedData;
+    }
     if (res.documentType === 'unknown') {
       return { result: false, message: 'Document was not readed' };
     }
@@ -177,7 +183,7 @@ class Widget extends Component {
   getComponent = (name) => {
     switch (name) {
       case 'Form': return (app, next) => [
-        (props) => <Form form={app.form} additionalData={app.additionalData} {...props} />,
+        (props) => <Form form={app.form} additionalData={app.additionalData} extractedData={app.extractedData} {...props} />,
         (form) => next({ form }),
       ];
       case 'Rules': return (app, next) => [
@@ -191,7 +197,7 @@ class Widget extends Component {
             blob={app.back}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={this.checkDocumentPhoto}
+            checkDocumentPhoto={(back) => this.checkDocumentPhoto(app.front, back)}
           />
         ),
         (back) => next({ back }),
@@ -202,7 +208,7 @@ class Widget extends Component {
             blob={app.front}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={this.checkDocumentPhoto}
+            checkDocumentPhoto={(front) => this.checkDocumentPhoto(front)}
           />
         ),
         (front) => {
@@ -210,7 +216,7 @@ class Widget extends Component {
         },
       ];
       case 'Selfie': return (app, next) => [
-        (props) => <IdSelfie blob={app.selfie} {...props} />,
+        (props) => <Selfie blob={app.selfie} {...props} />,
         (selfie) => next({ selfie }),
       ];
       case 'Sending': return (app, next) => [

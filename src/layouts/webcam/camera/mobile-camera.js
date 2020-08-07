@@ -8,20 +8,80 @@ class MobileCamera extends CameraBase {
   }
 
   render() {
-    const { Overlay } = this.props;
-    const { width, height } = this.state;
+    const { Overlay, next, back } = this.props;
+    const { width, height, mode } = this.state;
     return (
-      <div style={{ position: 'relative', transform: 'scale(-1, 1)' }}>
-        <video
-          width="100%"
-          playsInline
-          ref={this.setSrc}
-          muted
-          autoPlay
+      <div style={{
+
+        display: 'flex',
+        alignItems: 'center',
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'black',
+
+      }}
+      >
+        <div style={{
+          position: 'relative',
+          minHeight: window.innerHeight, // ;// '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          width: '100%',
+        }}
         >
-          <track kind="captions" />
-        </video>
-        {Overlay && <Overlay width={width} height={height} />}
+          <div style={{ flexGrow: 1 }} />
+          <div style={{ position: 'relative' }}>
+            <video
+              style={{
+                transform: mode === 'user' ? 'scale(-1, 1)' : 'scale(1, 1)',
+                maxHeight: '80vh',
+              }}
+              width="100%"
+              playsInline
+              ref={this.setSrc}
+              muted
+              autoPlay
+            >
+              <track kind="captions" />
+            </video>
+            {Overlay && (
+            <Overlay
+              width={width}
+              height={height}
+              style={{ maxHeight: '80vh' }}
+            />
+            )}
+          </div>
+          <div style={{ flexGrow: 1 }} />
+          <div
+            className="getid-footer__container"
+            style={{
+              bottom: 0, left: 0, right: 0, background: 'balck', padding: '30px',
+            }}
+          >
+            <div className="getid-button__wrapper">
+              <button
+                type="button"
+                className="getid-button__main getid-violet"
+                style={{
+                  width: '100%',
+                  padding: '21px',
+                  fontSize: '16px',
+                  height: 'inherit',
+                }}
+                onClick={next.onClick}
+              >
+                take photo
+              </button>
+            </div>
+            <a onClick={back.onClick} className="getid-btn__back" style={{ marginTop: '20px' }}>cancel</a>
+          </div>
+
+        </div>
       </div>
     );
   }

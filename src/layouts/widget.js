@@ -5,7 +5,6 @@ import ThankYou from './thank-you';
 import CountryAndDocument from './country-doc';
 import Sending from './sending';
 import {
-  Selfie,
   CaptureBack,
   DocumentPhoto,
 } from './webcam';
@@ -43,7 +42,10 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     back: app.back,
     selfie: app.selfie,
   };
+  await api.trySendEvent('loading', 'started');
   const result = await api.submitData(data, files);
+  await api.trySendEvent('loading', 'completed');
+  await api.trySendEvent('thank-you', 'completed');
   return result;
 };
 
@@ -87,7 +89,6 @@ class Widget extends Component {
     const [flow, app] = normaliseFlow(props.flow);
     app.additionalData = props.additionalData;
     app.extractedData = [];
-
     this.state = {
       step: 0,
       direction: 'forward',
@@ -141,16 +142,20 @@ class Widget extends Component {
     }
   };
 
-  nextStep = (delta) => {
+  nextStep = async (delta, stepName) => {
     const app = {
       ...this.state.app,
       ...delta,
     };
 
     if (delta.documentType) {
-      this.checkDocumentType(delta.documentType);
+      await this.checkDocumentType(delta.documentType);
     }
-    // await api.trySendEvent(stepName, 'completed');completed
+
+    if (stepName) {
+      await this.props.api.trySendEvent(stepName, 'completed');
+    }
+
     const { step } = this.state;
     this.setState({
       step: step + 1,
@@ -184,7 +189,7 @@ class Widget extends Component {
     switch (name) {
       case 'Form': return (app, next) => [
         (props) => <Form form={app.form} additionalData={app.additionalData} extractedData={app.extractedData} {...props} />,
-        (form) => next({ form }),
+        (form) => next({ form }, 'form'),
       ];
       case 'Rules': return (app, next) => [
         (props) => <Rules {...props} />,
@@ -200,7 +205,7 @@ class Widget extends Component {
             checkDocumentPhoto={(back) => this.checkDocumentPhoto(app.front, back)}
           />
         ),
-        (back) => next({ back }),
+        (back) => next({ back }, 'back'),
       ];
       case 'DocumentPhoto': return (app, next) => [
         (props) => (
@@ -211,17 +216,18 @@ class Widget extends Component {
             checkDocumentPhoto={(front) => this.checkDocumentPhoto(front)}
           />
         ),
-        (front) => {
-          next({ front });
-        },
+        (front) => next({ front }, 'front'),
       ];
       case 'Selfie': return (app, next) => [
-        (props) => <Selfie blob={app.selfie} {...props} />,
-        (selfie) => next({ selfie }),
+        (props) => <IdSelfie blob={app.selfie} {...props} />,
+        (selfie) => next({ selfie }, 'selfie'),
       ];
       case 'Sending': return (app, next) => [
         (props) => (
-          <Sending send={transformAppToApiModel(app, this.props.api, this.props.metadata)} {...props} />
+          <Sending
+            send={transformAppToApiModel(app, this.props.api, this.props.metadata)}
+            {...props}
+          />
         ),
         (result) => {
           this.setResult(result);
@@ -230,7 +236,7 @@ class Widget extends Component {
       ];
       case 'ThankYou': return (app, next) => [
         (props) => <ThankYou {...props} />,
-        () => next({}),
+        () => next({}, 'thank-you'),
       ];
       case 'CountryAndDocument': return (app, next) => [
         (props) => (
@@ -241,7 +247,7 @@ class Widget extends Component {
             {...props}
           />
         ),
-        ({ country, documentType }) => next({ country, documentType }),
+        ({ country, documentType }) => next({ country, documentType }, 'country-and-document'),
       ];
       default: throw new Error(`Unexpected step: '${name}'`);
     }
@@ -256,7 +262,6 @@ class Widget extends Component {
     }
     const { component: componentName, ...componentProps } = currentComponent;
     const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
-    console.log(app);
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 

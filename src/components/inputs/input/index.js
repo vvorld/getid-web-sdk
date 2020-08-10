@@ -14,7 +14,6 @@ const Input = ({
   const placeholder = label + (required ? '*' : '');
   const [currValue, setValue] = useState(value);
   const [error, setError] = useState(null);
-  console.log(value)
 
   const validate = (checkValue) => {
     if (validation && typeof validation === 'function') {

@@ -2,6 +2,9 @@ import React from 'react';
 
 const createOverlay = (figure, containerRation) => ({ width, height, style }) => {
   const Path = (function () {
+    if (figure === 'none') {
+      return () => null;
+    }
     const streamRatio = width / height;
     const [fwidth, fheight] = streamRatio < containerRation
       ? [width * 0.9, width * 0.9 / containerRation]

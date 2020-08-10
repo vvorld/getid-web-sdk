@@ -78,6 +78,19 @@ const Passport = (props) => (
   />
 );
 
+const Video = (props) => (
+  <CameraSteps
+    {...props}
+    Camera={camera('none', 1)}
+    componentName="Video"
+    isMobile={isMobile()}
+
+    // 'https://cdn.getid.cloud/assets/mobile/passport.svg',
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/passport.svg')}
+    facingMode={{ exact: 'environment' }}
+  />
+);
+
 export {
-  Selfie, CaptureBack, CaptureFront, Passport, DocumentPhoto,
+  Selfie, CaptureBack, CaptureFront, Passport, DocumentPhoto, Video,
 };

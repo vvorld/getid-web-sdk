@@ -7,6 +7,8 @@ import Sending from './sending';
 import {
   CaptureBack,
   DocumentPhoto,
+  Video,
+  Selfie,
 } from './webcam';
 
 import Rules from './rules';
@@ -219,8 +221,12 @@ class Widget extends Component {
         (front) => next({ front }, 'front'),
       ];
       case 'Selfie': return (app, next) => [
-        (props) => <IdSelfie blob={app.selfie} {...props} />,
+        (props) => <Selfie blob={app.selfie} {...props} />,
         (selfie) => next({ selfie }, 'selfie'),
+      ];
+      case 'Video': return (app, next) => [
+        (props) => <Video {...props} />,
+        (selfie) => next({ selfie }, 'video'),
       ];
       case 'Sending': return (app, next) => [
         (props) => (

@@ -6,6 +6,11 @@ export default {
   metadata: {
     externalId: 121212,
   },
+  styles: {
+    'txt-color': 'red',
+    'txt-color-secondary': 'green',
+    'font-family': 'Helvetica',
+  },
   additionalData: [
     {
       name: 'Test',

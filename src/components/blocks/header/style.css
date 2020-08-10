@@ -6,12 +6,12 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    font-size: 1.7em;
+    font-size: var(--main-header-size);
     min-height: 3em;
 }
 .header__small {
     margin: auto;
-    font-size: 16px;
+    font-size: var(--main-subheader-size);
     margin-top: 10px;
     color:var(--main-txt-color);
     opacity: 0.8;
@@ -19,6 +19,5 @@
     text-align: center;
     min-height: 3em;
     max-width: 400px;
-   
 }
 

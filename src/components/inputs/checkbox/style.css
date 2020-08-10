@@ -26,7 +26,7 @@ input[type="checkbox"] {
     background-color: var(--main-white);
     border: 1px solid #CED3DD;
     box-sizing: border-box;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
 }
 
 .checkbox__label:hover input ~ .checkbox__input {

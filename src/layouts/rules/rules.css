@@ -3,6 +3,7 @@
     margin: 0 auto;
     margin-bottom: 20px;
     text-align: left;
+    color: var(--main-txt-color);
 }
 
 .rule-list ul {

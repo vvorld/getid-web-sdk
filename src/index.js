@@ -12,6 +12,7 @@ import { createPublicTokenProvider } from './helpers/token-provider';
 import {
   convertAnswer,
   addDefaultValues,
+  setCss,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -38,6 +39,8 @@ const init = (options, tokenProvider) => {
   if (!options.containerId) {
     throw new Error('Please provide container id.');
   }
+
+  setCss(options);
 
   if (cameraNotAchievable(options)) {
     if (options.onFail && typeof options.onFail === 'function') {

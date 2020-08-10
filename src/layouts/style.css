@@ -1,27 +1,36 @@
 :root {
     --main-txt-color: #1B3361;
-    --main-txt-color-grey: #999;
+    --main-txt-color-secondary: #999;
     --main-input-bg: #FBFBFB;
+    --main-input-active-text: #1B3361;
     --main-accent-color: #9C77E0;
     --main-input-border-color: #eee;
     --main-input-hover-border: #CED3DD;
+    --main-input-active-border: #9C77E0;
     --main-white: #FFFFFF;
     --main-error-color: red;
     --button-grey-bg: #F8F7FA;
     --main-font-size: 14px;
-    --main-button-border-radius: 4px;
+    --main-border-radius: 4px;
     --main-font-weight: 400;
     --main-font-weight-bold: 700;
     --main-input-width: 100%;
     --main-transition: all .3s;
+    --main-font-family: Roboto, Arial, serif;
+    --main-background-color: white;
+    --main-header-size: 17px;
+    --main-subheader-size: 16px;
 }
 
+/*//header, subheader sizes*/
+
 main, #getid {
-    font-family: Roboto, Arial, serif;
+    font-family: var(--main-font-family);
     padding: 20px;
     transition: var(--main-transition);
     font-size: var(--main-font-size);
     font-weight: var(--main-font-weight);
+    background-color: var(--main-background-color);
     margin: 0;
 }
 
@@ -77,7 +86,7 @@ input[type='text'], select, .doc-pick {
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     color: var(--main-txt-color);
@@ -105,22 +114,22 @@ input:hover, select:hover {
 }
 
 input:focus, select:focus, input:active, select:focus, button:active {
-    border: 1px solid var(--main-accent-color);
+    border: 1px solid var(--main-input-active-border);
     box-shadow: none;
     outline: none;
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--main-txt-color-grey);
+    color: var(--main-txt-color-secondary);
     opacity: 1; /* Firefox */
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: var(--main-txt-color-grey);
+    color: var(--main-txt-color-secondary);
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-    color: var(--main-txt-color-grey);
+    color: var(--main-txt-color-secondary);
 }
 
 [type=button], [type=reset], [type=submit], button {
@@ -130,7 +139,7 @@ input:focus, select:focus, input:active, select:focus, button:active {
 .doc-type label {
     margin: 0 auto;
     display: grid;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     width: 100%;
@@ -177,7 +186,7 @@ div#animation {
 #videoElement {
     width: 500px;
     height: 375px;
-    background-color: var(--main-txt-color-grey);
+    background-color: var(--main-txt-color-secondary);
     transform: scale(-1, 1);
 }
 

@@ -3,7 +3,7 @@
     margin: 10px auto 0 auto;
     display: block;
     text-align: center;
-    color: var(--main-txt-color-grey);
+    color: var(--main-txt-color-secondary);
     text-decoration-line: underline;
     font-size: var(--main-font-size);
 }

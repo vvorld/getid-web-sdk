@@ -4,7 +4,7 @@
     cursor: pointer;
     position: relative;
     margin: 0 auto;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     transition: var(--main-transition);
@@ -20,7 +20,7 @@
 }
 
 .radio-button__label:active{
-    border: 1px solid var(--main-accent-color);
+    border: 1px solid var(--main-input-active-border);
 }
 
 input[type="radio"] {

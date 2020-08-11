@@ -22,10 +22,10 @@ if (!supportedBrowsers.test(navigator.userAgent)) {
   console.log('Your browser is not supported.');
 }
 
-const cameraNotAchievable = (options) => {
-  const enableCamera = options.flow.some((view) => cameraViews.includes(view.component));
+const cameraAchievable = (options) => {
+  const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
   const isIOSChrome = navigator.userAgent.match('CriOS');
-  if (!enableCamera) {
+  if (!isCameraComponent) {
     return true;
   }
   return ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
@@ -40,9 +40,11 @@ const init = (options, tokenProvider) => {
     throw new Error('Please provide container id.');
   }
 
-  setCss(options);
+  if (options.styles) {
+    setCss(options.styles);
+  }
 
-  if (cameraNotAchievable(options)) {
+  if (!cameraAchievable(options)) {
     if (options.onFail && typeof options.onFail === 'function') {
       const error = new Error('mediaDevices_no_supported');
       options.onFail(error);

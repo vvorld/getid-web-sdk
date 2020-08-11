@@ -6,11 +6,11 @@ export default {
   metadata: {
     externalId: 121212,
   },
-  styles: {
-    'txt-color': 'red',
-    'txt-color-secondary': 'green',
-    'font-family': 'Helvetica',
-  },
+  // styles: {
+  //   'txt-color': 'red',
+  //   'txt-color-secondary': 'green',
+  //   'font-family': 'Helvetica',
+  // },
   additionalData: [
     {
       name: 'Test',
@@ -63,15 +63,15 @@ export default {
       component: 'CountryAndDocument',
 
     }, */
-    {
-      component: 'DocumentPhoto',
-      showRules: true,
-      interactive: false,
-      enableCheckPhoto: true,
-      country: 'ee',
-      documentType: 'residence-permit',
-    },
-    { component: 'Selfie' },
+    // {
+    //   component: 'DocumentPhoto',
+    //   showRules: true,
+    //   interactive: false,
+    //   enableCheckPhoto: true,
+    //   country: 'ee',
+    //   documentType: 'residence-permit',
+    // },
+    // { component: 'Selfie' },
     {
       component: 'Form',
       fields: [
@@ -91,6 +91,7 @@ export default {
           label: 'Date Of Birth',
           type: 'date',
           name: 'Date of birth',
+          min: 'now',
         },
         {
           label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import FileGrey from '../../../assets/icons/file-grey.svg';
 import './file-input.css';
 
 /*

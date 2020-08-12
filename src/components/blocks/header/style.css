@@ -1,8 +1,8 @@
 .header__big {
     text-align: center;
     color:var(--main-txt-color);
-    width: 80%;
     margin: 0 auto;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -12,7 +12,7 @@
 .header__small {
     margin: auto;
     font-size: var(--main-subheader-size);
-    margin-top: 10px;
+    margin-top: 20px;
     color:var(--main-txt-color);
     opacity: 0.8;
     font-weight: var(--main-font-weight);

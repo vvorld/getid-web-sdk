@@ -16,7 +16,6 @@ const MainModule = (widgetOptions) => (
       <Widget {...widgetOptions} />
     </TranslationsContext.Provider>
   </div>
-
 );
 
 /**

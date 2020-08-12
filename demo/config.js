@@ -2,7 +2,7 @@ export default {
   apiUrl: '',
   apiKey: '',
   containerId: 'getid-component',
-  dictionary: 'amas::u-RU',
+  dictionary: 'en',
   metadata: {
     externalId: 121212,
   },

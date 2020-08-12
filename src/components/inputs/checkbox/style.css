@@ -5,7 +5,7 @@
     margin: 0;
     font-size: 12px;
     text-align: left;
-    color: #0E2846;
+    color: var(--main-dark-blue-text);
     line-height: 22px;
 }
 

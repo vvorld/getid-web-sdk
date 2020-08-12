@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '../../context/TranslationsContext';
+import ErrorIcon from '../../assets/icons/views/error-icon.svg';
+import PoweredBy from '../../components/blocks/powered-by';
+import Browsers from './browsers';
 
 const createErrorView = (config) => (props) => {
   const {
@@ -9,29 +12,35 @@ const createErrorView = (config) => (props) => {
 
   const { translations: dictionary } = useContext(TranslationsContext);
 
-  const { buttons } = config;
+  const { buttons, extra } = config;
   if (submitAttempts < 0) { delete buttons.retry; }
 
   return (
     <div>
-      <h1>
-        {config.header(dictionary, responseCode)}
-      </h1>
-      <h2>
-        {config.subHeader(dictionary, responseCode)}
-      </h2>
-      <hr />
+      <img alt="error" src={ErrorIcon} />
+      <div style={{ margin: '50px auto' }} className="getid-header__container">
+        <div className="getid-header__big">
+          {config.header(dictionary, responseCode)}
+        </div>
+        <div className="getid-header__small">
+          {config.subHeader(dictionary, responseCode)}
+        </div>
+      </div>
       {buttons && (
         <div>
           {Object.entries(buttons).map(([key, button]) => (
-            <div>
-              <button onClick={button.action(callbacks)}>
+            <div key={key}>
+              <button className={`getid-button__main getid-${button.className}`} type="button" onClick={button.action(callbacks)}>
                 {button.name(dictionary)}
               </button>
             </div>
           ))}
         </div>
       )}
+      {extra && <Browsers config={extra} dictionary={dictionary} />}
+      {buttons && <footer className="getid-footer">
+        <PoweredBy/>
+      </footer>}
     </div>
   );
 };
@@ -49,7 +58,7 @@ export const AppExistsView = createErrorView({
     done: {
       name: (dictionary) => dictionary.done_button,
       action: (callbacks) => callbacks.onExists,
-      variant: 'contained',
+      className: 'violet',
     },
   },
 });
@@ -61,7 +70,7 @@ export const ErrorView = createErrorView({
     done: {
       name: (dictionary) => dictionary.done_button,
       action: (callbacks) => callbacks.onFail,
-      variant: 'contained',
+      className: 'violet',
     },
   },
 });
@@ -69,6 +78,23 @@ export const ErrorView = createErrorView({
 export const CameraErrorView = createErrorView({
   header: (dictionary) => dictionary.camera_error_header,
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
+  extra: {
+    text: (dictionary) => dictionary.camera_error_another_browser,
+    buttons: {
+      safari: {
+        name: 'Safari',
+        link: 'https://support.apple.com/downloads/safari',
+      },
+      chrome: {
+        name: 'Chrome',
+        link: 'https://www.google.com/chrome/',
+      },
+      firefox: {
+        name: 'Firefox',
+        link: 'https://www.mozilla.org/en-US/firefox/new/',
+      },
+    },
+  },
 });
 
 export const FailError = createErrorView({
@@ -78,12 +104,12 @@ export const FailError = createErrorView({
     cancel: {
       name: (dictionary) => dictionary.cancel_button,
       action: (callbacks) => callbacks.onFail,
-      variant: 'outlined',
+      className: 'grey',
     },
     retry: {
       name: (dictionary) => dictionary.retry_button,
       action: (callbacks) => callbacks.onSubmit,
-      variant: 'contained',
+      className: 'violet',
     },
   },
 });

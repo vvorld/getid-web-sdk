@@ -3,6 +3,7 @@
     --main-txt-color-secondary: #999;
     --main-input-bg: #FBFBFB;
     --main-input-active-text: #1B3361;
+    --main-dark-blue-text: #0E2846;
     --main-accent-color: #9C77E0;
     --main-input-border-color: #eee;
     --main-input-hover-border: #CED3DD;
@@ -18,11 +19,9 @@
     --main-transition: all .3s;
     --main-font-family: Roboto, Arial, serif;
     --main-background-color: white;
-    --main-header-size: 17px;
+    --main-header-size: 24px;
     --main-subheader-size: 16px;
 }
-
-/*//header, subheader sizes*/
 
 main, #getid {
     font-family: var(--main-font-family);
@@ -204,3 +203,29 @@ div#container:before {
 }
 
 /*-----------VIDEO END---------*/
+
+/*-----------FOOTER---------*/
+.browsers button {
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+}
+
+.browsers > button:nth-child(2) {
+    margin-right: 20px;
+}
+.browsers > button:nth-child(3) {
+    margin-right: 20px;
+}
+
+.browsers p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: center;
+    color: var(--main-dark-blue-text);
+    opacity: 0.7;
+}
+

@@ -71,7 +71,7 @@ export default {
     //   country: 'ee',
     //   documentType: 'residence-permit',
     // },
-    // { component: 'Selfie' },
+    { component: 'Selfie' },
     {
       component: 'Form',
       fields: [

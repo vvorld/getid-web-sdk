@@ -29,6 +29,7 @@ export const createApi = (url, jwt) => {
       userData,
       jwt,
     }));
+    console.log(files);
     Object.entries(files).forEach(([name, blob]) => blob && form.append(name, blob));
     return postFormData(`${url}/sdk/v1/verify-data`, form);
   };

@@ -4,8 +4,7 @@ import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { renderMainComponent } from './main-module';
+import { renderMainComponent, renderComponent } from './main-module';
 import { createApi } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
@@ -18,13 +17,6 @@ import {
   setCss,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
-import TranslationsContext from './context/TranslationsContext';
-
-const supportedBrowsers = require('../supportedBrowsers');
-
-if (!supportedBrowsers.test(navigator.userAgent)) {
-  console.log('Your browser is not supported.');
-}
 
 const cameraAchievable = (options) => {
   const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
@@ -33,22 +25,6 @@ const cameraAchievable = (options) => {
     return true;
   }
   return ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
-};
-
-const renderComponent = (widgetOptions, component, translations) => {
-  const container = document.getElementById(widgetOptions.containerId);
-  const componentView = (
-    <TranslationsContext.Provider
-      value={{ translations }}
-    >
-      <main id="getid" data-role="container">
-        <div className="getid-grid__main">
-          {component}
-        </div>
-      </main>
-    </TranslationsContext.Provider>
-  );
-  ReactDOM.render(componentView, container);
 };
 
 /**
@@ -96,23 +72,29 @@ const init = (options, tokenProvider) => {
         options.onFail(error);
         return;
       }
-      renderComponent(options,
-        <CameraErrorView />,
-        translations);
+      renderComponent({
+        ...options,
+        translations,
+      },
+        <CameraErrorView />);
       return;
     }
 
     if (responseCode !== 200 && errorMessage) {
-      renderComponent(options,
-        <ErrorView callbacks={{ onFail: options.onFail }} />,
-        translations);
+      renderComponent({
+        ...options,
+        translations,
+      },
+        <ErrorView callbacks={{ onFail: options.onFail }} />);
       return;
     }
 
     if (responseCode !== 200 || exists) {
-      renderComponent(options,
-        <AppExistsView callbacks={{ onExists: options.onExists }} />,
-        translations);
+      renderComponent({
+        ...options,
+        translations,
+      },
+        <AppExistsView callbacks={{ onExists: options.onExists }} />);
       return;
     }
 

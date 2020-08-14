@@ -9,6 +9,7 @@
     font-size: var(--main-header-size);
     min-height: 3em;
 }
+
 #getid-main .header__small {
     margin: auto;
     font-size: var(--main-subheader-size);

@@ -5,6 +5,8 @@ import ErrorIcon from '../../assets/icons/views/error-icon.svg';
 import PoweredBy from '../../components/blocks/powered-by';
 import Browsers from './browsers';
 
+import '../style.css';
+
 const createErrorView = (config) => (props) => {
   const {
     callbacks, responseCode, submitAttempts,
@@ -16,32 +18,36 @@ const createErrorView = (config) => (props) => {
   if (submitAttempts < 0) { delete buttons.retry; }
 
   return (
-    <div>
-      <img alt="error" src={ErrorIcon} />
-      <div style={{ margin: '50px auto' }} className="getid-header__container">
-        <div className="getid-header__big">
-          {config.header(dictionary, responseCode)}
+    <main id="getid-main" data-role="container">
+      <div className="getid-grid__main">
+        <div><img alt="error" src={ErrorIcon} /></div>
+        <div style={{ margin: '50px auto' }} className="getid-header__container">
+          <div className="getid-header__big">
+            {config.header(dictionary, responseCode)}
+          </div>
+          <div className="getid-header__small">
+            {config.subHeader(dictionary, responseCode)}
+          </div>
         </div>
-        <div className="getid-header__small">
-          {config.subHeader(dictionary, responseCode)}
-        </div>
+        {buttons && (
+          <div>
+            {Object.entries(buttons).map(([key, button]) => (
+              <div key={key}>
+                <button className={`getid-button__main getid-${button.className}`} type="button" onClick={button.action(callbacks)}>
+                  {button.name(dictionary)}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {extra && <Browsers config={extra} dictionary={dictionary} />}
+        {buttons && (
+          <footer className="getid-footer">
+            <PoweredBy />
+          </footer>
+        )}
       </div>
-      {buttons && (
-        <div>
-          {Object.entries(buttons).map(([key, button]) => (
-            <div key={key}>
-              <button className={`getid-button__main getid-${button.className}`} type="button" onClick={button.action(callbacks)}>
-                {button.name(dictionary)}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-      {extra && <Browsers config={extra} dictionary={dictionary} />}
-      {buttons && <footer className="getid-footer">
-        <PoweredBy/>
-      </footer>}
-    </div>
+    </main>
   );
 };
 

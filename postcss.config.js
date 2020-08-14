@@ -4,7 +4,7 @@ module.exports = {
   plugins: [
     autoprefixer({
       prefix: 'getid-',
-      ignore: ['#getid'],
+      ignore: ['#getid-main'],
     }),
   ],
 };

@@ -3,33 +3,6 @@ import PropTypes from 'prop-types';
 import './file-input.css';
 import TranslationsContext from '../../../context/TranslationsContext';
 
-/*
-setErrorState = (isError, name, errorText) => {
-    this.setState((prevState) => ({
-      isError: {
-        ...prevState.isError,
-        [name]: isError,
-      },
-      errorText: {
-        ...prevState.errorText,
-        [name]: errorText,
-      },
-    }));
-  }
-
-  handleFiles = async (event) => {
-    const eventTarget = event.target;
-    const file = [...event.target.files][0];
-    if (file && file.size / 1024 / 1024 > 6) {
-      this.changeFileData(eventTarget, null);
-      this.setErrorState(true, eventTarget.name, 'File size exceeded (max 6mb)');
-      return;
-    }
-    this.changeFileData(eventTarget, file);
-    this.setErrorState(false, eventTarget.name, '');
-  };
-
-*/
 const FileInput = (props) => {
   const {
     onChange, label, value, name, required, placeholder,
@@ -43,8 +16,11 @@ const FileInput = (props) => {
     if (file && file.size / 1024 / 1024 > 6) {
       setError('File size exceeded (max 6mb)');
       setValue(null);
+      return;
     }
+    setError(null);
   };
+
   return (
     <>
       {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}

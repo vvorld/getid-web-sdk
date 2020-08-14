@@ -6,7 +6,7 @@ export default { title: 'Webcam|Overlay' };
 const Overlay = createOverlay('rectangle', 3 / 2);
 const Ellips = createOverlay('ellips', 2 / 3);
 
-export const Rectangle_480x240 = () => (
+export const Rectangle480x240 = () => (
   <div style={{
     width: '480px', height: '240px', background: 'red', position: 'relative',
   }}
@@ -15,7 +15,7 @@ export const Rectangle_480x240 = () => (
   </div>
 );
 
-export const Rectangle_320x240 = () => (
+export const Rectangle320x240 = () => (
   <div style={{
     width: '320px', height: '240px', background: 'red', position: 'relative',
   }}
@@ -24,7 +24,7 @@ export const Rectangle_320x240 = () => (
   </div>
 );
 
-export const Rectangle_240x320 = () => (
+export const Rectangle240x320 = () => (
   <div style={{
     width: '240px', height: '320px', background: 'red', position: 'relative',
   }}
@@ -33,7 +33,7 @@ export const Rectangle_240x320 = () => (
   </div>
 );
 
-export const Rectangle_320x420 = () => (
+export const Rectangle320x420 = () => (
   <div style={{
     width: '320px', height: '420px', background: 'red', position: 'relative',
   }}
@@ -42,7 +42,7 @@ export const Rectangle_320x420 = () => (
   </div>
 );
 
-export const Ellips_320x240 = () => (
+export const Ellips320x240 = () => (
   <div style={{
     width: '320px', height: '240px', background: 'red', position: 'relative',
   }}
@@ -51,7 +51,7 @@ export const Ellips_320x240 = () => (
   </div>
 );
 
-export const Ellips_240x320 = () => (
+export const Ellips240x320 = () => (
   <div style={{
     width: '240px', height: '320px', background: 'red', position: 'relative',
   }}
@@ -60,7 +60,7 @@ export const Ellips_240x320 = () => (
   </div>
 );
 
-export const Ellips_1x2 = () => (
+export const Ellips1x2 = () => (
   <div style={{
     width: '240px', height: '480px', background: 'red', position: 'relative',
   }}

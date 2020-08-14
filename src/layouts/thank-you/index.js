@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ThankYouIcon from '../../assets/icons/thank-you-logo.svg';
 import Header from '../../components/blocks/header/header';
 import Footer from '../../components/blocks/footer/footer';
@@ -13,5 +14,12 @@ const ThankYou = (props) => (
     <Footer next={{ onClick: props.finishStep }} />
   </>
 );
+
+ThankYou.propTypes = {
+  finishStep: PropTypes.func,
+};
+ThankYou.defaultProps = {
+  finishStep: null,
+};
 
 export default ThankYou;

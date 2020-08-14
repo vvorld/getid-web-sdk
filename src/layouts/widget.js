@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Form from './form';
 import ThankYou from './thank-you';
@@ -50,10 +51,9 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   await api.trySendEvent('thank-you', 'completed');
   return result;
 };
+// warning CountryAndDocument
 
-const validateFlow = (flow) =>
-  // warning CountryAndDocument
-  true;
+const validateFlow = (flow) => true;
 
 const enableThankYou = (flow) => true;
 
@@ -190,7 +190,14 @@ class Widget extends Component {
   getComponent = (name) => {
     switch (name) {
       case 'Form': return (app, next) => [
-        (props) => <Form form={app.form} additionalData={app.additionalData} extractedData={app.extractedData} {...props} />,
+        (props) => (
+          <Form
+            form={app.form}
+            additionalData={app.additionalData}
+            extractedData={app.extractedData}
+            {...props}
+          />
+        ),
         (form) => next({ form }, 'form'),
       ];
       case 'Rules': return (app, next) => [
@@ -284,5 +291,23 @@ class Widget extends Component {
     );
   }
 }
+
+Widget.propTypes = {
+  onBack: PropTypes.func,
+  onComplete: PropTypes.func,
+  countryDocuments: PropTypes.shape({}).isRequired,
+  api: PropTypes.shape({
+    trySendEvent: PropTypes.func.isRequired,
+    checkSide: PropTypes.func.isRequired,
+  }).isRequired,
+  metadata: PropTypes.shape({}).isRequired,
+  flow: PropTypes.array.isRequired,
+  additionalData: PropTypes.shape({}),
+};
+Widget.defaultProps = {
+  onBack: null,
+  onComplete: null,
+  additionalData: {},
+};
 
 export default Widget;

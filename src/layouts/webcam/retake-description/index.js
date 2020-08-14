@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { RulesList } from '../../rules';
 import TranslationsContext from '../../../context/TranslationsContext';
+
 import './retake.css';
 
 const RetakeDescription = ({ message }) => {
@@ -14,6 +16,10 @@ const RetakeDescription = ({ message }) => {
       </RulesList>
     </div>
   );
+};
+
+RetakeDescription.propTypes = {
+  message: PropTypes.string.isRequired,
 };
 
 export default RetakeDescription;

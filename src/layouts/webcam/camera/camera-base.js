@@ -73,5 +73,6 @@ class CameraBase extends Component {
 CameraBase.propTypes = {
   onError: PropTypes.func.isRequired,
   onReady: PropTypes.func.isRequired,
+  facingMode: PropTypes.any.isRequired,
 };
 export default CameraBase;

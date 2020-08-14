@@ -5,6 +5,7 @@ import Content from '../../components/blocks/content';
 import TranslationsContext from '../../context/TranslationsContext';
 
 import './rules.css';
+import PropTypes from 'prop-types';
 
 export const RulesList = ({ children }) => {
   const { translations } = useContext(TranslationsContext);
@@ -37,5 +38,10 @@ const Rules = ({ finishStep, prevStep }) => (
     />
   </>
 );
+
+Rules.propTypes = {
+  finishStep: PropTypes.func.isRequired,
+  prevStep: PropTypes.func.isRequired,
+};
 
 export default Rules;

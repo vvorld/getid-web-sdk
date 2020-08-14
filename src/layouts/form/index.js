@@ -28,14 +28,13 @@ class Form extends Component {
 
   handleChange = (name, type, value, required) => {
     this.form[name] = { value, required };
-    console.log(this.form)
     this.setState({ disabled: this.isDisabled() });
   };
 
   isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
 
   getExtractedValue = (name) => {
-    const extractedData = this.props.extractedData || [];
+    const { extractedData } = this.props;
     const extractedField = extractedData.find((el) => el.category === name);
     return extractedField && extractedField.content;
   }
@@ -74,6 +73,7 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
+  extractedData: PropTypes.array,
   componentName: PropTypes.string.isRequired,
   translations: PropTypes.object.isRequired,
   finishStep: PropTypes.func,
@@ -84,6 +84,7 @@ Form.defaultProps = {
   finishStep: null,
   prevStep: null,
   additionalData: [],
+  extractedData: [],
 };
 
 export default Form;

@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 
-
 const MainModule = (widgetOptions, component) => (
   <div>
     <TranslationsContext.Provider

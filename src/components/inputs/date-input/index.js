@@ -23,7 +23,7 @@ const getDate = (val) => {
   switch (val) {
     case 'now': return new Date();
     case '100yearsFromNow': {
-      return new Date(new Date().setFullYear(new Date().getFullYear() - 100))
+      return new Date(new Date().setFullYear(new Date().getFullYear() - 100));
     }
     default: return new Date(val);
   }
@@ -33,7 +33,7 @@ const parseDate = (date) => {
   const parts = (date || '').split('-');
   const [y, m, d] = parts;
   const timestamp = Date.parse(`${y}-${m}-${d}`);
-  if (isNaN(timestamp) === false) {
+  if (Number.isNaN(timestamp) === false) {
     return [+y, +m, +d];
   }
   return [0, 1, 0];

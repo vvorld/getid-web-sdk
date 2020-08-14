@@ -8,11 +8,10 @@ export default { title: 'Layouts|Rules' };
 
 setCss(darkTheme);
 
-
 export const RulesView = () => (
-    <main id="getid" data-role="container">
-        <div className="getid-grid__main">
-            <Rules className="getid-button__wrapper" />
-        </div>
-    </main>
+  <main id="getid" data-role="container">
+    <div className="getid-grid__main">
+      <Rules className="getid-button__wrapper" />
+    </div>
+  </main>
 );

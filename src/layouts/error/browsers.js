@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
 import chrome from '../../assets/icons/chrome.svg';
 import safari from '../../assets/icons/safari.svg';
 import firefox from '../../assets/icons/ff.svg';
@@ -14,13 +15,12 @@ const Browsers = ({ config, dictionary }) => (
   <div className="getid-browsers">
     <div style={{ fontWeight: 'bold' }} className="getid-header__small">{config.text(dictionary)}</div>
     {
-            // eslint-disable-next-line no-return-assign
             Object.entries(config.buttons).map(([key, button]) => (
               <button
                 type="button"
                 key={key}
                 className={`getid-${button.name}`}
-                onClick={() => window.location.href = button.link}
+                onClick={function () { window.location.href = button.link; }}
               >
                 <img alt={key} src={icons[key]} />
                 <p>
@@ -31,5 +31,13 @@ const Browsers = ({ config, dictionary }) => (
         }
   </div>
 );
+
+Browsers.propTypes = {
+  config: PropTypes.shape({
+    buttons: PropTypes.shape({}).isRequired,
+    text: PropTypes.func.isRequired,
+  }).isRequired,
+  dictionary: PropTypes.shape({}).isRequired,
+};
 
 export default Browsers;

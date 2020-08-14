@@ -1,4 +1,4 @@
-.btn__back {
+#getid-main .btn__back {
     cursor: pointer;
     margin: 10px auto 0 auto;
     display: block;
@@ -7,38 +7,38 @@
     text-decoration-line: underline;
     font-size: var(--main-font-size);
 }
-.button__wrapper {
+#getid-main .button__wrapper {
     margin: auto;
     display: block;
 }
 
-.btn__back:hover {
+#getid-main .btn__back:hover {
     color: var(--main-accent-color);
 }
 
-.button__main.violet:focus {
+#getid-main .button__main.violet:focus {
     border: 1px solid var(--main-accent-color);
     box-shadow: none;
 }
 
-.button__main.violet:hover {
+#getid-main .button__main.violet:hover {
     background: var(--main-accent-color);
     filter: drop-shadow(0px 15px 18px rgba(14, 51, 123, 0.15));
     /*box-shadow: 0px 2px 5px #150f3830;*/
 }
 
-.button__main:disabled {
+#getid-main .button__main:disabled {
     opacity: 0.38;
 }
 
-.button__main:active, .button__main:focus {
+#getid-main .button__main:active, .button__main:focus {
     outline: none;
     box-shadow: none;
     border: none;
     top: 2px;
 }
 
-button.button__main {
+#getid-main button.button__main {
     font-weight: var(--main-font-weight-bold);
     text-transform: uppercase;
     font-size: 12px;
@@ -58,19 +58,19 @@ button.button__main {
     border: none;
 }
 
-.button__main.violet {
+#getid-main .button__main.violet {
     background: var(--main-accent-color);
     color: var(--main-white);
 }
 
-.button__main.grey {
+#getid-main .button__main.grey {
     background: var(--button-grey-bg);
     color: var(--main-txt-color);
     filter: none;
 }
-.button__main.grey:hover {
+#getid-main .button__main.grey:hover {
     filter: drop-shadow(0px 15px 18px rgba(14, 51, 123, 0.15));
 }
-.hidden{
+#getid-main .hidden{
     visibility: hidden;
 }

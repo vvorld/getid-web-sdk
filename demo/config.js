@@ -82,6 +82,12 @@ export default {
           required: true,
         },
         {
+          placeholder: 'Document front side',
+          type: 'file',
+          name: 'front',
+          required: true,
+        },
+        {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',

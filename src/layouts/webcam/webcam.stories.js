@@ -17,17 +17,17 @@ export const SelfieView = () => (
 );
 
 export const CaptureBackView = () => (
-    <main id="getid" data-role="container">
-        <div className="getid-grid__main">
-            <CaptureBack className="getid-button__wrapper" />
-        </div>
-    </main>
+  <main id="getid" data-role="container">
+    <div className="getid-grid__main">
+      <CaptureBack className="getid-button__wrapper" />
+    </div>
+  </main>
 );
 
 export const CaptureFrontView = () => (
-    <main id="getid" data-role="container">
-        <div className="getid-grid__main">
-            <CaptureFront className="getid-button__wrapper" />
-        </div>
-    </main>
+  <main id="getid" data-role="container">
+    <div className="getid-grid__main">
+      <CaptureFront className="getid-button__wrapper" />
+    </div>
+  </main>
 );

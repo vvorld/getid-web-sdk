@@ -1,4 +1,4 @@
-.footer {
+#getid-main .footer {
     display: flex;
     min-width: 320px;
     max-width: 500px;
@@ -6,28 +6,28 @@
     opacity: 0.3; 
     margin-top: 40px;
 }
-.footer__container {
+#getid-main .footer__container {
     margin: 10px;
 }
-.footer_additional {
+#getid-main .footer_additional {
     background-color: #F8F7FA;
     color: black;
     box-shadow: none;   
 }
 
-.footer_button {
+#getid-main .footer_button {
     margin: 20px auto;
     width: 50%;
     max-width: 250px;
     padding: 14px;
 }
-.placeholder{
+#getid-main .placeholder{
     margin: 20px auto;
     width: 50%;
     max-width: 250px;
     padding: 14px;
 }
 
-.footer img {
+#getid-main .footer img {
     margin: 0 auto;
 }

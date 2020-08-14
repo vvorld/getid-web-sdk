@@ -28,6 +28,7 @@ class Form extends Component {
 
   handleChange = (name, type, value, required) => {
     this.form[name] = { value, required };
+    console.log(this.form)
     this.setState({ disabled: this.isDisabled() });
   };
 

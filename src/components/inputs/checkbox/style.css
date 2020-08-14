@@ -1,4 +1,4 @@
-.checkbox__label {
+#getid-main .checkbox__label {
     position: relative;
     display: flex;
     cursor: pointer;
@@ -9,17 +9,17 @@
     line-height: 22px;
 }
 
-input[type="checkbox"] {
+#getid-main input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
 
-.checkbox__input {
+#getid-main .checkbox__input {
     margin-right: 12px;
 }
 
-.checkbox__input {
+#getid-main .checkbox__input {
     cursor: pointer;
     height: 20px;
     width: 20px;
@@ -29,22 +29,22 @@ input[type="checkbox"] {
     border-radius: var(--main-border-radius);
 }
 
-.checkbox__label:hover input ~ .checkbox__input {
+#getid-main .checkbox__label:hover input ~ .checkbox__input {
     background-color: var(--main-input-bg);
 }
 
-.checkbox__label input:checked ~ .checkbox__input {
+#getid-main .checkbox__label input:checked ~ .checkbox__input {
     border: 1px solid var(--main-accent-color);
     background-color: var(--main-accent-color);
 }
 
-.checkbox__input:after {
+#getid-main .checkbox__input:after {
     content: url(../../../assets/icons/checkbox-checkmax.svg);
     padding-left: 2px;
     display: none;
 }
 
-.checkbox__label input:checked ~ .checkbox__input:after {
+#getid-main .checkbox__label input:checked ~ .checkbox__input:after {
     display: block;
 }
 

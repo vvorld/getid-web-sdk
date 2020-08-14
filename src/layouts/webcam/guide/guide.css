@@ -1,6 +1,6 @@
-.guide__container {
+#getid-main .guide__container {
     position: relative;
 }
-.guide__img {
+#getid-main .guide__img {
     width: 100%;
 }

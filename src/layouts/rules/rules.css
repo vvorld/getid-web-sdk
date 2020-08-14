@@ -1,4 +1,4 @@
-.rule-list {
+#getid-main .rule-list {
     max-width: 80%;
     margin: 0 auto;
     margin-bottom: 20px;
@@ -6,10 +6,10 @@
     color: var(--main-txt-color);
 }
 
-.rule-list ul {
+#getid-main .rule-list ul {
     list-style-image: url(../../assets/icons/checkmark.svg);
 }
 
-.rule-list ul li {
+#getid-main .rule-list ul li {
     margin-bottom: 20px;
 }

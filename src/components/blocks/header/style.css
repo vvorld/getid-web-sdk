@@ -1,4 +1,4 @@
-.header__big {
+#getid-main .header__big {
     text-align: center;
     color:var(--main-txt-color);
     margin: 0 auto;
@@ -9,7 +9,7 @@
     font-size: var(--main-header-size);
     min-height: 3em;
 }
-.header__small {
+#getid-main .header__small {
     margin: auto;
     font-size: var(--main-subheader-size);
     margin-top: 20px;

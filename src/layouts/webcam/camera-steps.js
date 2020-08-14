@@ -10,7 +10,6 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Checking from './checking';
 import RetakeDescription from './retake-description';
-import {stepNames} from "../../constants/step-names";
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }

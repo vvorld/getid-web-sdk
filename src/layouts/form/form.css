@@ -1,13 +1,13 @@
-.form__body {
+#getid-main .form__body {
     width: 300px;
     margin:0 auto;
 }
 
-.form__input-wrapper {
+#getid-main .form__input-wrapper {
     margin-bottom: 15px;
 }
 
-.form__input-label {
+#getid-main .form__input-label {
     font-style: normal;
     font-weight: var(--main-font-weight-bold);
     font-size: 12px;

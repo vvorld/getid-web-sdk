@@ -1,7 +1,7 @@
-.cell {
+#getid-main .cell {
     width: 100%;
 }
-.wrapper{
+#getid-main .wrapper{
     position: relative;
     display: flex;
     justify-content: center;
@@ -11,7 +11,7 @@
     background: transparent;
 }
 
-.wrapper:after{
+#getid-main .wrapper:after{
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -20,12 +20,12 @@
     background: white;
 }
 
-.spinner{
+#getid-main .spinner{
     width: 2rem;
     height: 2rem;
 }
 
-.spinner.spinner3{
+#getid-main .spinner.spinner3{
      border-top: 3px solid var(--main-accent-color);
      border-right: 3px solid transparent;
      border-radius: 50%;

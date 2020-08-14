@@ -272,7 +272,7 @@ class Widget extends Component {
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 
     return (
-      <main id="getid" data-role="container">
+      <main id="getid-main" data-role="container">
         <div className="getid-grid__main">
           <CurrentComponent
             finishStep={finishStep}

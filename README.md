@@ -87,7 +87,7 @@ include sdk as regular script tag. (please contact technical support for CDN lin
 <script src='getid-web-sdk-vx.x.x.min.js'></script>
 ```
 
-In case you want to automatically keep up with latest version of sdk cdn script, we advice to use our `launcher.js`
+In case you want to automatically keep up with latest version of sdk cdn script, we advice to use our [`launcher.js`](src/launcher.js)
 Just include the script in your html page, it will insert the latest script into the <head> tag of your page.
 Example:
 ``` html
@@ -167,6 +167,7 @@ import { init } from 'getid-web-sdk'
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
+  [{ component: ['ThankYou'] }],
 }; 
 
 const token = _your_jwt_here_;
@@ -185,24 +186,29 @@ const config = {
   fields: [
       {
         type: 'text',
-        title: 'First Name',
+        label: 'First Name',
+        name: 'First Name',
         value: 'John',
         required: false
       },
       { 
         type: 'text',
-        title: 'Last Name',
+        label: 'Last Name',
+        name: 'Last Name',
         value: 'Doe',
+        required: false
       },
       { 
         type: 'text',
-        title: 'Email',
+        label: 'Email',
+        name: 'Email',
+        required: false
       },
   ],
   onComplete: function(data) {
     console.log("everything is complete" + data)
   },
-   onFail: function(error) {
+  onFail: function(error) {
    console.log("something went wrong" + error)
   }
 }; 
@@ -213,32 +219,8 @@ init(config, token);
 
 ## Customization
 
-### Callbacks
-All callbacks are optional, you can specify yours on `init` call. 
-getId web SDK allows several callbacks:
-- **onComplete** function - callback executed on Success event (client has been successfully verified)
-- **onError** function - callback executed on fail event (client has not been successfully verified) - we will tell you why in `error.message` - now it's up to you to handle this accordingly
-- **OnExists** function - callback executed when we detect existing application with id that was passed on init
-
-Example:
-``` js
-import { init } from 'getid-web-sdk'
-const config = {
-  apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
-  onComplete: function(data) {
-    console.log("everything is complete" + data)
-  },
-   onFail: function(error) {
-   console.log("something went wrong" + error)
-  }
-}; 
-
-const token = _your_jwt_here_;
-init(config, token);
-```
 ### Flow
-You can customize which steps that will be present in your getId widget.
+Flow is required parameter. You can customize which steps that will be present in your getId widget.
 Available: 
 - _Consent_ - Client gives their consent to their Personal data processing.
 - _Form_ - Form with basic personal data fields (first name, last name, email, gender etc)
@@ -265,7 +247,7 @@ init(config, token);
 ```
 
 ### Fields
-On form view, you can choose which fields to show to client.
+Fields are required in case `Form` step is active. On form view, you can choose which fields to show to client.
 
 Currently, we support 4 input types:
 - text: plain `string`
@@ -324,6 +306,31 @@ const token = _your_jwt_here_;
 init(config, token);
 ```
 
+### Callbacks
+All callbacks are optional, you can specify yours on `init` call. 
+getId web SDK allows several callbacks:
+- **onComplete** function - callback executed on Success event (client has been successfully verified)
+- **onError** function - callback executed on fail event (client has not been successfully verified) - we will tell you why in `error.message` - now it's up to you to handle this accordingly
+- **OnExists** function - callback executed when we detect existing application with id that was passed on init
+
+Example:
+``` js
+import { init } from 'getid-web-sdk'
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  onComplete: function(data) {
+    console.log("everything is complete" + data)
+  },
+   onFail: function(error) {
+   console.log("something went wrong" + error)
+  }
+}; 
+
+const token = _your_jwt_here_;
+init(config, token);
+```
+
 ### Verification types
 You may also configure desirable types of verification by simple passing a
 ``` verificationTypes``` (array of strings) property in config. 
@@ -334,13 +341,13 @@ import { init } from 'getid-web-sdk'
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  verificationTypes: ['F', 'E'],
+  verificationTypes: ['F', 'E', 'W'],
 }; 
 
 const token = _your_jwt_here_;
 init(config, token);
 ```
-Where 'F' stands for 'face matching' and 'E' stands for 'extraction'.
+Where 'F' stands for 'face matching', 'E' stands for 'extraction' and 'W' stands for watchlists.
 
 ### Supported countries and types of documents
 In process of passing flow you have to choose one of the offered document types. Depending on country user is allowed to select one or other document type. 

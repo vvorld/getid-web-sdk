@@ -205,8 +205,8 @@ const config = {
         required: false
       },
   ],
-  onComplete: function() {
-    console.log("everything is complete")
+  onComplete: function(data) {
+    console.log("everything is complete" + data)
   },
   onFail: function(error) {
    console.log("something went wrong" + error)

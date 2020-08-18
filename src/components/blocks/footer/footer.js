@@ -6,12 +6,12 @@ import './footer.css';
 import './button.css';
 
 const Footer = ({ next = {}, back = {}, style }) => {
-  // if (!next) {
-  //   next = {};
-  // }
-  // if (!back) {
-  //   back = {};
-  // }
+  if (!next) {
+    next = {};
+  }
+  if (!back) {
+    back = {};
+  }
   const { translations } = useContext(TranslationsContext); // this.context;
   return (
     <div className="getid-footer__container" style={style}>

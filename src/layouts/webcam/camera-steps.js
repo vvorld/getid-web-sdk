@@ -73,7 +73,6 @@ class WebcamView extends React.Component {
       errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
     } = this.state;
 
-    console.log(blob);
     if (step === 'disabled') {
       return (
         <>
@@ -141,7 +140,6 @@ class WebcamView extends React.Component {
               onReady={this.cameraReady}
               onError={this.cameraError}
               facingMode={facingMode}
-
               next={{ onClick: this.makePhoto }}
               back={{ onClick: () => this.setStep('guide') }}
             />
@@ -181,13 +179,14 @@ WebcamView.propTypes = {
   direction: PropTypes.string,
   blob: PropTypes.any,
   componentName: PropTypes.string.isRequired,
-  onCheck: PropTypes.func.isRequired,
+  onCheck: PropTypes.func,
   enableCheckPhoto: PropTypes.bool,
   facingMode: PropTypes.string,
 };
 
 WebcamView.defaultProps = {
   prevStep: null,
+  onCheck: null,
   finishStep: null,
   direction: '',
   blob: null,

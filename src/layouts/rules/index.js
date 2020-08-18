@@ -13,16 +13,16 @@ export const RulesList = ({ children }) => {
   return (
     <>
 
-      <p className="getid-rule-list">
+      <li className="getid-rule-list">
         {children}
         <ul>
           { rules.map((el) => (
-            <li>
+            <li key={el}>
               { el }
             </li>
           ))}
         </ul>
-      </p>
+      </li>
     </>
   );
 };

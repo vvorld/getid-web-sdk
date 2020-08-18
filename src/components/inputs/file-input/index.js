@@ -61,7 +61,7 @@ const FileInput = (props) => {
 
 FileInput.propTypes = {
   onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
@@ -71,6 +71,7 @@ FileInput.propTypes = {
 FileInput.defaultProps = {
   required: false,
   name: '',
+  label: '',
   value: '',
   placeholder: '',
 };

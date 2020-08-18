@@ -63,15 +63,15 @@ export default {
       component: 'CountryAndDocument',
 
     }, */
-    {
-      component: 'DocumentPhoto',
-      showRules: true,
-      interactive: false,
-      enableCheckPhoto: true,
-      country: 'ee',
-      documentType: 'residence-permit',
-    },
-    { component: 'Selfie' },
+    // {
+    //   component: 'DocumentPhoto',
+    //   showRules: true,
+    //   interactive: false,
+    //   enableCheckPhoto: true,
+    //   country: 'ee',
+    //   documentType: 'residence-permit',
+    // },
+    // { component: 'Selfie' },
     {
       component: 'Form',
       fields: [

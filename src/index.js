@@ -21,7 +21,7 @@ import cameraViews from './constants/camera-views';
 const cameraAchievable = (options) => {
   const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
   const isIOSChrome = navigator.userAgent.match('CriOS');
-  if (isCameraComponent) {
+  if (!isCameraComponent) {
     return true;
   }
   return ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome);

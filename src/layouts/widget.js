@@ -20,9 +20,21 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   const data = {
     application: { metadata: metadata || {} },
   };
+  const files = {
+    front: app.front,
+    back: app.back,
+    selfie: app.selfie,
+  };
   if (app.form) {
     data.application.fields = Object.entries(app.form || {})
-      .map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
+      .map(([key, v]) => {
+        if (v.value && v.value.type) {
+          files[key] = v.value;
+          return null;
+        }
+        // console.log(v.value.type);
+        return { category: key, content: v.value, contentType: v.contentType };
+      });
   } else {
     data.application.fields = [];
   }
@@ -35,16 +47,14 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   } else {
     data.application.documents = [];
   }
+
   if (app.selfie) {
     data.application.faces = [{ category: 'selfie', content: [] }];
   } else {
     data.application.faces = [];
   }
-  const files = {
-    front: app.front,
-    back: app.back,
-    selfie: app.selfie,
-  };
+
+  console.log(files)
   await api.trySendEvent('loading', 'started');
   const result = await api.submitData(data, files);
   await api.trySendEvent('loading', 'completed');
@@ -120,7 +130,7 @@ class Widget extends Component {
 
   checkDocumentPhoto = async (front, back) => {
     const res = await this.props.api.checkSide(front, back);
-    this.checkDocumentType(res.documentType);
+    await this.checkDocumentType(res.documentType);
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
@@ -302,12 +312,12 @@ Widget.propTypes = {
   }).isRequired,
   metadata: PropTypes.shape({}).isRequired,
   flow: PropTypes.array.isRequired,
-  additionalData: PropTypes.shape({}),
+  additionalData: PropTypes.array,
 };
 Widget.defaultProps = {
   onBack: null,
   onComplete: null,
-  additionalData: {},
+  additionalData: [],
 };
 
 export default Widget;

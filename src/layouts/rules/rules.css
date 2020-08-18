@@ -3,6 +3,7 @@
     margin: 0 auto;
     margin-bottom: 20px;
     text-align: left;
+    list-style: none;
     color: var(--main-txt-color);
 }
 

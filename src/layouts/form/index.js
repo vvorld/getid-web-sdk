@@ -74,8 +74,6 @@ Form.propTypes = {
   fields: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
   extractedData: PropTypes.array,
-  componentName: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired,
   finishStep: PropTypes.func,
   prevStep: PropTypes.func,
 };

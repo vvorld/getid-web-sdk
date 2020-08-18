@@ -26,19 +26,17 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     selfie: app.selfie,
   };
   if (app.form) {
-    data.application.fields = Object.entries(app.form || {})
-      .map(([key, v]) => {
-        if (v.value && v.value.type) {
-          files[key] = v.value;
-          return null;
-        }
-        // console.log(v.value.type);
-        return { category: key, content: v.value, contentType: v.contentType };
-      });
+    data.application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
+      if (v.value && v.value.type) {
+        files[key] = v.value;
+        return false;
+      }
+      return true;
+    }).map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
   } else {
     data.application.fields = [];
   }
-  if (app.front) {
+  if (app.front || files.front) {
     data.application.documents = [{
       issuingCountry: app.country,
       documentType: app.documentType,
@@ -54,7 +52,6 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     data.application.faces = [];
   }
 
-  console.log(files)
   await api.trySendEvent('loading', 'started');
   const result = await api.submitData(data, files);
   await api.trySendEvent('loading', 'completed');

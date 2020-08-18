@@ -59,10 +59,10 @@ export default {
     //
     //   ],
     // },
-    /* {
+    {
       component: 'CountryAndDocument',
 
-    }, */
+    },
     // {
     //   component: 'DocumentPhoto',
     //   showRules: true,
@@ -84,7 +84,7 @@ export default {
         {
           placeholder: 'Document front side',
           type: 'file',
-          name: 'front',
+          name: 'test',
           required: true,
         },
         {

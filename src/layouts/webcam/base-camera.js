@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../context/TranslationsContext';
 
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
@@ -17,7 +16,7 @@ const getErrorText = (name, translations) => {
   return translations.camera_error_generic;
 };
 
-class WebcamView extends React.Component {
+class WebcamView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,10 +35,6 @@ class WebcamView extends React.Component {
       this.state.stream.getTracks().forEach((track) => track.stop());
     }
   }
-
-  makePhoto = () => {
-    this.state.frameRenderer(this.showPreviewStep);
-  };
 
   startRecordStep = () => {
     this.setState({ step: 'record' });
@@ -77,12 +72,40 @@ class WebcamView extends React.Component {
     this.setState(() => ({ step: 'disabled', errorMessage }));
   }
 
+  finishRecord = () => {
+    throw new Error('Please impolement');
+  }
+
+  layout = () => {
+    const { cameraStepIsAllowed } = this.state;
+    const { prevStep, componentName, isMobile } = this.props;
+    switch (step) {
+      case 'guide': return {
+        header: <Header componentName={`${componentName}_guide`} />,
+        footer: <Footer
+          next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
+          back={{ onClick: prevStep }}
+        />,
+      };
+      case 'record': return {
+        header: <Header componentName={componentName} />,
+        footer: !isMobile && (
+          <Footer
+            next={{ onClick: this.finishRecord }}
+            back={{ onClick: this.showGuideStep }}
+          />
+        ),
+      };
+      default: return null;
+    }
+  }
+
   render() {
     const {
-      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto, facingMode,
+      Camera, Guide, finishStep, facingMode,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
+      errorMessage, step, blob, result, retakeMessage, componentName,
     } = this.state;
 
     if (step === 'disabled') {
@@ -96,48 +119,7 @@ class WebcamView extends React.Component {
         </>
       );
     }
-    const layout = (() => {
-      switch (step) {
-        case 'guide': return {
-          header: <Header componentName={`${componentName}_guide`} />,
-          footer: <Footer
-            next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
-            back={{ onClick: prevStep }}
-          />,
-        };
-        case 'record': return {
-          header: <Header componentName={componentName} />,
-          footer: !this.props.isMobile && (
-          <Footer
-            next={{ onClick: this.makePhoto }}
-            back={{ onClick: this.showGuideStep }}
-          />
-          ),
-        };
-        case 'preview': return {
-          header: <Header componentName={`${componentName}_preview`} />,
-          footer: <Footer
-            back={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={{ onClick: this.showCheckStep }}
-          />,
-        };
-        case 'checking': return {
-          header: <Header componentName={componentName} />,
-          footer: <Footer
-            back={{ onClick: () => this.showPreviewStep(blob) }}
-          />,
-        };
-
-        case 'retake-description': return {
-          header: <Header componentName={componentName} />,
-          footer: <Footer
-            next={{ text: 'Retake', onClick: this.startRecordStep }}
-            back={{ text: 'Continue', onClick: () => finishStep(blob) }}
-          />,
-        };
-        default: throw new Error(`Bad step ${step}`);
-      }
-    })();
+    const layout = this.layout();
 
     return (
       <>
@@ -153,7 +135,7 @@ class WebcamView extends React.Component {
               onError={this.cameraError}
               facingMode={facingMode}
 
-              next={{ onClick: this.makePhoto }}
+              next={{ onClick: this.finishRecord }}
               back={{ onClick: this.showGuideStep }}
             />
           </div>
@@ -180,8 +162,6 @@ class WebcamView extends React.Component {
     );
   }
 }
-
-WebcamView.contextType = TranslationsContext;
 
 WebcamView.propTypes = {
   Camera: PropTypes.func.isRequired,

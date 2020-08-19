@@ -6,63 +6,18 @@ export default {
   metadata: {
     externalId: 121212,
   },
-  additionalData: [
-    {
-      name: 'Test',
-      value: 'test',
-    },
-  ],
+  additionalData: [],
   flow: [
-    // {
-    //   component: 'Form',
-    //   fields: [
-    //
-    //     {
-    //       label: 'Document front side',
-    //       type: 'file',
-    //       name: 'front',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'Document back side',
-    //       type: 'file',
-    //       name: 'back',
-    //       required: false,
-    //     },
-    //     {
-    //       label: 'Country',
-    //       type: 'select',
-    //       placeholder: 'sum placeholder',
-    //       options: [
-    //         { name: 'Estonia', value: 'Estonia' },
-    //         { name: 'Russia', value: 'Russia' },
-    //         { name: 'United Kingdom', value: 'uk' },
-    //       ],
-    //       name: 'Country of user',
-    //       required: true,
-    //     },
-    //
-    //     {
-    //       label: 'Date of expiry',
-    //       type: 'date',
-    //       value: '1991-08-15',
-    //       name: 'Date of expiry',
-    //       required: true,
-    //       hidden: true,
-    //
-    //     },
-    //
-    //   ],
-    // },
-    /* {
-      component: 'CountryAndDocument',
-
-    }, */
+    {
+      component: 'Record',
+      server: 'http://164.90.223.220:8080',
+      phrases: ['I would like to get a setificate from Company Z'],
+    },
     {
       component: 'DocumentPhoto',
       showRules: true,
       interactive: false,
-      enableCheckPhoto: true,
+      enableCheckPhoto: false,
       country: 'ee',
       documentType: 'residence-permit',
     },

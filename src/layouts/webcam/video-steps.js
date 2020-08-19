@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../context/TranslationsContext';
 
 import Footer from '../../components/blocks/footer/footer';
 import Header from '../../components/blocks/header/header';
 import Content from '../../components/blocks/content';
-
+import createRecordCamera from './video';
 import CameraDisabled from './cam-disabled';
-import PreviewForm from './photo-preview';
-import Checking from './checking';
-import RetakeDescription from './retake-description';
+import PreviewVideo from './video-preview';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -17,7 +14,7 @@ const getErrorText = (name, translations) => {
   return translations.camera_error_generic;
 };
 
-class WebcamView extends React.Component {
+class RecordView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +26,20 @@ class WebcamView extends React.Component {
       result: {},
       retakeMessage: '',
     };
+
+    const { Camera, CameraFooter } = createRecordCamera({
+      server: props.server,
+      phrases: props.phrases,
+      stream: this.state.stream,
+      onReady: this.cameraReady,
+      onError: this.cameraError,
+      facingMode: props.facingMode,
+
+      next: { onClick: this.showPreviewStep, text: 'Show preview' },
+      back: { onClick: this.showGuideStep },
+    });
+    this.Camera = Camera;
+    this.CameraFooter = CameraFooter;
   }
 
   componentWillUnmount() {
@@ -37,30 +48,26 @@ class WebcamView extends React.Component {
     }
   }
 
-  makePhoto = () => {
-    this.state.frameRenderer(this.showPreviewStep);
+  makeVideo = () => {
+    this.state.stopRecord(this.showPreviewStep);
   };
 
   startRecordStep = () => {
     this.setState({ step: 'record' });
   }
 
-  showPreviewStep = (blob) => {
-    this.setState({ step: 'preview', blob });
+  showPreviewStep = (loadRecord) => {
+    this.setState({ step: 'preview', loadRecord });
   }
 
   showGuideStep = () => {
     this.setState({ step: 'guide' });
   }
 
-  showCheckStep = () => {
-    this.setState({ step: 'checking' });
-  }
-
-  cameraReady = (frameRenderer) => {
+  cameraReady = (stopRecord) => {
     this.setState({
       cameraStepIsAllowed: true,
-      frameRenderer,
+      stopRecord,
     });
   }
 
@@ -79,16 +86,16 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto, facingMode,
+      Guide, prevStep,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
+      errorMessage, step, loadRecord, cameraStepIsAllowed, blob,
     } = this.state;
 
     if (step === 'disabled') {
       return (
         <>
-          <Header componentName={componentName} />
+          <Header componentName="record" />
           <Content>
             <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
           </Content>
@@ -96,49 +103,35 @@ class WebcamView extends React.Component {
         </>
       );
     }
+
     const layout = (() => {
       switch (step) {
         case 'guide': return {
-          header: <Header componentName={`${componentName}_guide`} />,
+          header: <Header componentName="record_guide" />,
           footer: <Footer
             next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
             back={{ onClick: prevStep }}
           />,
         };
-        case 'record': return {
-          header: <Header componentName={componentName} />,
-          footer: !this.props.isMobile && (
-          <Footer
-            next={{ onClick: this.makePhoto }}
-            back={{ onClick: this.showGuideStep }}
-          />
-          ),
-        };
-        case 'preview': return {
-          header: <Header componentName={`${componentName}_preview`} />,
-          footer: <Footer
-            back={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={{ onClick: this.showCheckStep }}
-          />,
-        };
-        case 'checking': return {
-          header: <Header componentName={componentName} />,
-          footer: <Footer
-            back={{ onClick: () => this.showPreviewStep(blob) }}
-          />,
-        };
 
-        case 'retake-description': return {
-          header: <Header componentName={componentName} />,
+        case 'record': {
+          const { CameraFooter } = this;
+          return {
+            header: <Header componentName="record" />,
+            footer: <CameraFooter />,
+          };
+        }
+        case 'preview': return {
+          header: <Header componentName="record_preview" />,
           footer: <Footer
-            next={{ text: 'Retake', onClick: this.startRecordStep }}
-            back={{ text: 'Continue', onClick: () => finishStep(blob) }}
+            next={{ onClick: () => this.props.finishStep(blob) }}
+            back={{ text: 'No, retake', onClick: this.startRecordStep }}
           />,
         };
         default: throw new Error(`Bad step ${step}`);
       }
     })();
-
+    const { Camera } = this;
     return (
       <>
         {layout.header}
@@ -147,33 +140,15 @@ class WebcamView extends React.Component {
             <Guide />
           </div>
           <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera
-              stream={this.state.stream}
-              onReady={this.cameraReady}
-              onError={this.cameraError}
-              facingMode={facingMode}
-
-              next={{ onClick: this.makePhoto }}
-              back={{ onClick: this.showGuideStep }}
-            />
+            <Camera />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-            <PreviewForm blob={blob} result={result} />
+            <PreviewVideo
+              onLoad={(b) => this.setState({ blob: b })}
+              load={loadRecord}
+              blob={blob}
+            />
           </div>
-          <div style={{ display: step === 'retake-description' ? 'block' : 'none' }}>
-            <RetakeDescription message={retakeMessage} />
-          </div>
-          {step === 'checking'
-            ? (
-              <Checking
-                enable={enableCheckPhoto}
-                onCheck={onCheck}
-                blob={blob}
-                onSuccess={() => finishStep(blob)}
-                onFail={this.retakeDescription}
-              />
-            )
-            : null}
         </Content>
         {layout.footer}
       </>
@@ -181,9 +156,7 @@ class WebcamView extends React.Component {
   }
 }
 
-WebcamView.contextType = TranslationsContext;
-
-WebcamView.propTypes = {
+RecordView.propTypes = {
   Camera: PropTypes.func.isRequired,
   Guide: PropTypes.func.isRequired,
   Placeholder: PropTypes.func.isRequired,
@@ -193,11 +166,11 @@ WebcamView.propTypes = {
   blob: PropTypes.any,
 };
 
-WebcamView.defaultProps = {
+RecordView.defaultProps = {
   prevStep: null,
   finishStep: null,
   direction: '',
   blob: null,
 };
 
-export default WebcamView;
+export default RecordView;

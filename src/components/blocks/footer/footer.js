@@ -18,8 +18,11 @@ const Footer = ({ next = {}, back = {}, style }) => {
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
-            <button autoFocus type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
-              {next.text || translations.button_next}
+            <button autoFocus type="button" className={`getid-button__main ${next.mod ? `getid-${next.mod}` : 'getid-violet'}`} disabled={next.disable} onClick={next.onClick}>
+              {next.icon}
+              {typeof next.text === 'function'
+                ? next.text()
+                : (next.text || translations.button_next)}
             </button>
           )
           : (

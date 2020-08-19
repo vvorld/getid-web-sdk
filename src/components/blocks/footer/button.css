@@ -63,6 +63,18 @@ button.button__main {
     color: var(--main-white);
 }
 
+/* TODO */
+.button__main.record {
+    background:red;
+    color: var(--main-white);
+    padding: 0 20px;
+}
+/* OK */
+.button__main.ok {
+    background:green;
+    color: var(--main-white);
+}
+
 .button__main.grey {
     background: var(--button-grey-bg);
     color: var(--main-txt-color);

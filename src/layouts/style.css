@@ -25,9 +25,8 @@
 
 
 
-main, #main {
+main, #getid-main {
     font-family: var(--main-font-family);
-    padding: 20px;
     transition: var(--main-transition);
     font-size: var(--main-font-size);
     font-weight: var(--main-font-weight);
@@ -63,13 +62,6 @@ main a {
 }
 
 /*-----------FORM---------*/
-
-
-#getid-main input,#getid-main select,#getid-main textarea,#getid-main button:active {
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-}
 
 #getid-main .input-error {
     border: 1px solid var(--main-error-color)!important;

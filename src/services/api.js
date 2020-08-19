@@ -43,7 +43,6 @@ export const createApi = (url, jwt) => {
 
   const checkSide = async (front, back) => {
     const form = new FormData();
-
     if (front) {
       form.append('front', front, 'front');
     }

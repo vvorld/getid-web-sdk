@@ -27,9 +27,9 @@
 }
 #getid-main .file-input {
     font-size: var(--main-font-size);
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
+    /*-webkit-user-select: none; !* Chrome/Safari *!*/
+    /*-moz-user-select: none; !* Firefox *!*/
+    /*-ms-user-select: none; !* IE10+ *!*/
     margin: 0 auto;
     border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);

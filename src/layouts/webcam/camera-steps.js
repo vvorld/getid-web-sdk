@@ -42,7 +42,11 @@ class WebcamView extends React.Component {
   };
 
   setStep = (step, blob) => {
-    this.setState({ step, blob });
+    if (blob) {
+      this.setState({ step, blob });
+      return;
+    }
+    this.setState({ step });
   }
 
   cameraReady = (frameRenderer) => {

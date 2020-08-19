@@ -24,7 +24,7 @@ const Input = ({
     setError(errorMessage);
   };
 
-  const fillAndValidate = (e) => {
+  const changeVal = (e) => {
     const newValue = e.target.value;
     onChange(newValue);
     setValue(newValue);
@@ -40,7 +40,7 @@ const Input = ({
         required={required}
         className={error && 'getid-input-error'}
         value={currValue}
-        onChange={fillAndValidate}
+        onChange={changeVal}
         key={`input-${label}`}
       />
       {error && <span className="getid-error__message">{error }</span>}

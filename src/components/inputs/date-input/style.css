@@ -1,17 +1,17 @@
-.form__date-input select {
+#getid-main .form__date-input select {
     display: inline-block;
     margin-right: 10px;
 }
 
-.form__date-input>select:first-child {
+#getid-main .form__date-input>select:first-child {
     width: 26%;
 }
 
-.form__date-input>select:nth-child(2) {
+#getid-main .form__date-input>select:nth-child(2) {
     width: 40%;
 }
 
-.form__date-input>select:last-child {
+#getid-main .form__date-input>select:last-child {
     margin-right: 0;
     width: 27%;
 }

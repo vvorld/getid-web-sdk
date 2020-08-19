@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import Loader from '../../../components/loader/loader';
 
 const Check = ({
@@ -16,7 +18,7 @@ const Check = ({
         } else {
           onFail({ message });
         }
-      }).catch((e) => onSuccess());
+      }).catch((e) => onFail(e));
   }, []);
 
   return (
@@ -24,6 +26,22 @@ const Check = ({
       <Loader />
     </div>
   );
+};
+
+Check.propTypes = {
+  onSuccess: PropTypes.func,
+  onFail: PropTypes.func,
+  onCheck: PropTypes.func,
+  blob: PropTypes.any,
+  enable: PropTypes.bool,
+};
+
+Check.defaultProps = {
+  onSuccess: null,
+  onFail: null,
+  onCheck: null,
+  blob: null,
+  enable: false,
 };
 
 export default Check;

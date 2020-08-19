@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Form from './form';
 import ThankYou from './thank-you';
@@ -19,13 +20,24 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   const data = {
     application: { metadata: metadata || {} },
   };
+  const files = {
+    front: app.front,
+    back: app.back,
+    selfie: app.selfie,
+    'selfie-video': app.selfieVideo,
+  };
   if (app.form) {
-    data.application.fields = Object.entries(app.form || {})
-      .map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
+    data.application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
+      if (v.value && v.value.type) {
+        files[key] = v.value;
+        return false;
+      }
+      return true;
+    }).map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
   } else {
     data.application.fields = [];
   }
-  if (app.front) {
+  if (app.front || files.front) {
     data.application.documents = [{
       issuingCountry: app.country,
       documentType: app.documentType,
@@ -41,22 +53,16 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   if (app.selfieVideo) {
     data.application.faces.push({ category: 'selfie-video', content: [] });
   }
-  const files = {
-    front: app.front,
-    back: app.back,
-    selfie: app.selfie,
-    'selfie-video': app.selfieVideo,
-  };
+
   await api.trySendEvent('loading', 'started');
   const result = await api.submitData(data, files);
   await api.trySendEvent('loading', 'completed');
   await api.trySendEvent('thank-you', 'completed');
   return result;
 };
+// warning CountryAndDocument
 
-const validateFlow = (flow) =>
-  // warning CountryAndDocument
-  true;
+const validateFlow = (flow) => true;
 
 const enableThankYou = (flow) => true;
 
@@ -123,7 +129,7 @@ class Widget extends Component {
 
   checkDocumentPhoto = async (front, back) => {
     const res = await this.props.api.checkSide(front, back);
-    this.checkDocumentType(res.documentType);
+    await this.checkDocumentType(res.documentType);
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
@@ -193,7 +199,14 @@ class Widget extends Component {
   getComponent = (name) => {
     switch (name) {
       case 'Form': return (app, next) => [
-        (props) => <Form form={app.form} additionalData={app.additionalData} extractedData={app.extractedData} {...props} />,
+        (props) => (
+          <Form
+            form={app.form}
+            additionalData={app.additionalData}
+            extractedData={app.extractedData}
+            {...props}
+          />
+        ),
         (form) => next({ form }, 'form'),
       ];
       case 'Rules': return (app, next) => [
@@ -275,7 +288,7 @@ class Widget extends Component {
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 
     return (
-      <main id="getid" data-role="container">
+      <main id="getid-main" data-role="container">
         <div className="getid-grid__main">
           <CurrentComponent
             finishStep={finishStep}
@@ -287,5 +300,23 @@ class Widget extends Component {
     );
   }
 }
+
+Widget.propTypes = {
+  onBack: PropTypes.func,
+  onComplete: PropTypes.func,
+  countryDocuments: PropTypes.shape({}).isRequired,
+  api: PropTypes.shape({
+    trySendEvent: PropTypes.func.isRequired,
+    checkSide: PropTypes.func.isRequired,
+  }).isRequired,
+  metadata: PropTypes.shape({}).isRequired,
+  flow: PropTypes.array.isRequired,
+  additionalData: PropTypes.array,
+};
+Widget.defaultProps = {
+  onBack: null,
+  onComplete: null,
+  additionalData: [],
+};
 
 export default Widget;

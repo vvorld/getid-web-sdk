@@ -1,22 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// TODO import root from 'react-shadow';
 
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 
-/* </root.div>
-<root.div>
- */
-const MainModule = (widgetOptions) => (
+const MainModule = (widgetOptions, component) => (
   <div>
     <TranslationsContext.Provider
       value={{ translations: widgetOptions.translations }}
     >
-      <Widget {...widgetOptions} />
+      {component}
     </TranslationsContext.Provider>
   </div>
-
 );
 
 /**
@@ -25,10 +20,21 @@ const MainModule = (widgetOptions) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const component = MainModule(widgetOptions);
+  const component = MainModule(widgetOptions, <Widget {...widgetOptions} />);
   if (container.hasChildNodes()) {
     ReactDOM.unmountComponentAtNode(container);
   }
 
   ReactDOM.render(component, container);
+};
+
+/**
+ * Renders additional components
+ * @param widgetOptions
+ * @param component
+ */
+export const renderComponent = (widgetOptions, component) => {
+  const container = document.getElementById(widgetOptions.containerId);
+  const componentView = MainModule(widgetOptions, component);
+  ReactDOM.render(componentView, container);
 };

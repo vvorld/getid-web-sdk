@@ -12,7 +12,6 @@ class MobileCamera extends CameraBase {
     const { width, height, mode } = this.state;
     return (
       <div style={{
-
         display: 'flex',
         alignItems: 'center',
         position: 'fixed',
@@ -21,7 +20,6 @@ class MobileCamera extends CameraBase {
         left: 0,
         right: 0,
         background: 'black',
-
       }}
       >
         <div style={{
@@ -78,9 +76,8 @@ class MobileCamera extends CameraBase {
                 take photo
               </button>
             </div>
-            <a onClick={back.onClick} className="getid-btn__back" style={{ marginTop: '20px' }}>cancel</a>
+            <button type="button" onClick={back.onClick} className="getid-btn__back" style={{ marginTop: '20px' }}>cancel</button>
           </div>
-
         </div>
       </div>
     );

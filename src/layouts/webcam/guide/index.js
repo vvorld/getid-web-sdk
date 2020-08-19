@@ -4,7 +4,7 @@ import './guide.css';
 
 const Guide = ({ src }) => (
   <div className="getid-guide__container">
-    <img className="getid-guide__img" src={src} />
+    <img alt="guide-img" className="getid-guide__img" src={src} />
   </div>
 );
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const defaultValidation = (value, isRequired) => {
@@ -24,7 +24,7 @@ const Input = ({
     setError(errorMessage);
   };
 
-  const fillAndValidate = (e) => {
+  const changeVal = (e) => {
     const newValue = e.target.value;
     onChange(newValue);
     setValue(newValue);
@@ -38,9 +38,9 @@ const Input = ({
         name={name}
         placeholder={placeholder}
         required={required}
-        className={error && 'getid-error'}
+        className={error && 'getid-input-error'}
         value={currValue}
-        onChange={fillAndValidate}
+        onChange={changeVal}
         key={`input-${label}`}
       />
       {error && <span className="getid-error__message">{error }</span>}

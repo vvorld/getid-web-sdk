@@ -19,17 +19,28 @@ const months = [
 const days = ([...new Array(31)]).map((_, n) => n + 1);
 const years = ([...new Array(200)]).map((_, n) => n + 1900);
 
+const getDate = (val) => {
+  switch (val) {
+    case 'now': return new Date();
+    case '100yearsFromNow': {
+      return new Date(new Date().setFullYear(new Date().getFullYear() - 100));
+    }
+    default: return new Date(val);
+  }
+};
+
 const parseDate = (date) => {
   const parts = (date || '').split('-');
   const [y, m, d] = parts;
   const timestamp = Date.parse(`${y}-${m}-${d}`);
-  if (isNaN(timestamp) === false) {
+  if (Number.isNaN(timestamp) === false) {
     return [+y, +m, +d];
   }
   return [0, 1, 0];
 };
+
 function DateInput({
-  required, value, onChange, label,
+  required, value, onChange, label, min, max,
 }) {
   const [y, m, d] = parseDate(value);
   const [monthDays, setDays] = useState(days);
@@ -37,12 +48,19 @@ function DateInput({
   const [year, setYear] = useState(y);
   const [month, setMonth] = useState(m);
   const [day, setDay] = useState(d);
+
+  const formatYears = () => years
+    .filter((el) => el >= getDate(min || '100yearsFromNow')
+      .getFullYear() && el <= getDate(max || 'now')
+      .getFullYear());
+
   const changeDate = (yr, mth, dy) => {
     if (yr && mth && dy) {
       const date = `${yr}-${mth}-${dy}`;
       onChange(date);
     }
   };
+
   const normaliseDays = (yr, mth) => {
     if (mth !== 0) {
       if (mth === 2 && yr && yr % 4 !== 0) {
@@ -52,7 +70,7 @@ function DateInput({
         }
         return;
       }
-      const daysInMonth = months[ (m || 1) - 1].days;
+      const daysInMonth = months[(m || 1) - 1].days;
       if (day > daysInMonth) {
         setDay(0);
       }
@@ -92,7 +110,7 @@ function DateInput({
         </select>
         <select value={year} onChange={(e) => change(+e.target.value, undefined, undefined)}>
           <option value="0">{yearLabel}</option>
-          {years.map((x) => <option key={x} value={x}>{x}</option>)}
+          {formatYears().map((x) => <option key={x} value={x}>{x}</option>)}
         </select>
       </div>
     </>
@@ -104,6 +122,8 @@ DateInput.propTypes = {
   required: PropTypes.bool,
   onChange: PropTypes.func,
   label: PropTypes.string,
+  min: PropTypes.any,
+  max: PropTypes.any,
 };
 
 DateInput.defaultProps = {
@@ -111,6 +131,8 @@ DateInput.defaultProps = {
   required: false,
   onChange: null,
   label: '',
+  min: null,
+  max: null,
 };
 
 export default DateInput;

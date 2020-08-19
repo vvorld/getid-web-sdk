@@ -1,10 +1,10 @@
-.radio-button__label {
+#getid-main .radio-button__label {
     font-size: var(--main-font-size);
     color: var(--main-txt-color);
     cursor: pointer;
     position: relative;
     margin: 0 auto;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     transition: var(--main-transition);
@@ -15,21 +15,21 @@
     align-items: center;
 }
 
-.radio-button__label:hover{
+#getid-main .radio-button__label:hover{
     border: 1px solid var(--main-input-hover-border);
 }
 
-.radio-button__label:active{
-    border: 1px solid var(--main-accent-color);
+#getid-main .radio-button__label:active{
+    border: 1px solid var(--main-input-active-border);
 }
 
-input[type="radio"] {
+#getid-main input[type="radio"] {
     position: absolute;
     opacity: 0;
     cursor: pointer;
 }
 
-.radio-button__input {
+#getid-main .radio-button__input {
     margin-right: 10px;
     height: 20px;
     width: 20px;
@@ -39,16 +39,16 @@ input[type="radio"] {
     border-radius: 24px;
 }
 
-.radio-button__label:hover input ~ .radio-button__input {
+#getid-main .radio-button__label:hover input ~ .radio-button__input {
     background-color: var(--main-input-bg);
 }
 
-.radio-button__label input:checked ~ .radio-button__input {
+#getid-main .radio-button__label input:checked ~ .radio-button__input {
     border: 1px solid var(--main-accent-color);
     background-color: var(--main-input-bg);
 }
 
-.radio-button__input:after {
+#getid-main .radio-button__input:after {
     content: "";
     position: absolute;
     display: none;
@@ -60,6 +60,6 @@ input[type="radio"] {
     background: var(--main-accent-color);
 }
 
-.radio-button__label input:checked ~ .radio-button__input:after {
+#getid-main .radio-button__label input:checked ~ .radio-button__input:after {
     display: block;
 }

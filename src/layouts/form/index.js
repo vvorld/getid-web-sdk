@@ -34,7 +34,7 @@ class Form extends Component {
   isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)
 
   getExtractedValue = (name) => {
-    const extractedData = this.props.extractedData || [];
+    const { extractedData } = this.props;
     const extractedField = extractedData.find((el) => el.category === name);
     return extractedField && extractedField.content;
   }
@@ -73,8 +73,7 @@ class Form extends Component {
 Form.propTypes = {
   fields: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
-  componentName: PropTypes.string.isRequired,
-  translations: PropTypes.object.isRequired,
+  extractedData: PropTypes.array,
   finishStep: PropTypes.func,
   prevStep: PropTypes.func,
 };
@@ -83,6 +82,7 @@ Form.defaultProps = {
   finishStep: null,
   prevStep: null,
   additionalData: [],
+  extractedData: [],
 };
 
 export default Form;

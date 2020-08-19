@@ -1,4 +1,4 @@
-.file-input__label{
+#getid-main .file-input__label{
     flex-grow: 1;
     padding-right: 10px;
     text-overflow: ellipsis;
@@ -7,26 +7,31 @@
     font-size: var(--main-font-size);
     color: var(--main-txt-color);
 }
-.file-input__icon {
-    background-image: url("../../../assets/icons/file-grey.svg");
-    background-repeat: no-repeat;
-    background-size: 100%;
-    background-position: center;
+
+#getid-main .form__input-tooltip{
+    color: #8D99B0;
+    opacity: 0.7;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: left;
+}
+#getid-main .file-input__icon {
+    cursor: pointer;
     width: 18px;
     min-width: 18px;
 }
 
-.file-input__placeholder {
-    color: var(--main-txt-color-grey);
+#getid-main .file-input__placeholder {
+    color: var(--main-txt-color-secondary);
     opacity: 1;
 }
-.file-input {
+#getid-main .file-input {
     font-size: var(--main-font-size);
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
+    /*-webkit-user-select: none; !* Chrome/Safari *!*/
+    /*-moz-user-select: none; !* Firefox *!*/
+    /*-ms-user-select: none; !* IE10+ *!*/
     margin: 0 auto;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     transition: var(--main-transition);
@@ -39,17 +44,21 @@
     box-sizing: border-box;
     text-overflow: ellipsis;
 }
-.file-input:hover { border: 1px solid var(--main-input-hover-border); }
-.file-input:hover .file-input__icon {
-    background-image: url("../../../assets/icons/file.svg");
+#getid-main .file-input:hover { border: 1px solid var(--main-input-hover-border); }
+#getid-main .file-input:hover .file-input__icon path {
+    stroke: var(--main-accent-color)!important;
 }
-.file-input:focus, .file-input:active {
-    border: 1px solid var(--main-accent-color);
+
+#getid-main .file-input:hover .file-input__icon line {
+    stroke: var(--main-accent-color)!important;
+}
+#getid-main .file-input:focus, .file-input:active {
+    border: 1px solid var(--main-input-active-border);
     box-shadow: none;
     outline: none;
 }
 
-.file-input__generic{
+#getid-main .file-input__generic{
     width: 0.1px;
     height: 0.1px;
     opacity: 0;

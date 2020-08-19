@@ -2,53 +2,124 @@ export default {
   apiUrl: '',
   apiKey: '',
   containerId: 'getid-component',
-  dictionary: 'amas::u-RU',
+  dictionary: 'en',
   metadata: {
     externalId: 121212,
   },
-  additionalData: [],
+  // styles: {
+  //   'txt-color': 'red',
+  //   'txt-color-secondary': 'green',
+  //   'font-family': 'Helvetica',
+  // },
+  additionalData: [
+    {
+      component: 'Record',
+      server: 'http://164.90.223.220:8080',
+      phrases: ['I would like to get a setificate from Company Z'],
+    },
+  ],
   flow: [
     {
       component: 'Record',
       server: 'http://164.90.223.220:8080',
       phrases: ['I would like to get a setificate from Company Z'],
     },
+    // {
+    //   component: 'Form',
+    //   fields: [
+    //
+    //     {
+    //       label: 'Document front side',
+    //       type: 'file',
+    //       name: 'front',
+    //       required: true,
+    //     },
+    //     {
+    //       label: 'Document back side',
+    //       type: 'file',
+    //       name: 'back',
+    //       required: false,
+    //     },
+    //     {
+    //       label: 'Country',
+    //       type: 'select',
+    //       placeholder: 'sum placeholder',
+    //       options: [
+    //         { name: 'Estonia', value: 'Estonia' },
+    //         { name: 'Russia', value: 'Russia' },
+    //         { name: 'United Kingdom', value: 'uk' },
+    //       ],
+    //       name: 'Country of user',
+    //       required: true,
+    //     },
+    //
+    //     {
+    //       label: 'Date of expiry',
+    //       type: 'date',
+    //       value: '1991-08-15',
+    //       name: 'Date of expiry',
+    //       required: true,
+    //       hidden: true,
+    //
+    //     },
+    //
+    //   ],
+    // },
     {
-      component: 'DocumentPhoto',
-      showRules: true,
-      interactive: false,
-      enableCheckPhoto: false,
-      country: 'ee',
-      documentType: 'residence-permit',
+      component: 'CountryAndDocument',
     },
-    { component: 'Selfie' },
-    {
-      component: 'Form',
-      fields: [
-        {
-          label: 'First Name',
-          type: 'text',
-          name: 'First name',
-          required: true,
-        },
-        {
-          label: 'Last Name',
-          type: 'text',
-          name: 'Last name',
-          required: true,
-        },
-        {
-          label: 'Date Of Birth',
-          type: 'date',
-          name: 'Date of birth',
-        },
-        {
-          label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
-          type: 'consent',
-          name: 'privacy',
-        },
-      ],
-    },
+    // {
+    //   component: 'DocumentPhoto',
+    //   showRules: true,
+    //   interactive: false,
+    //   enableCheckPhoto: true,
+    //   country: 'ee',
+    //   documentType: 'residence-permit',
+    // },
+    // {
+    //   component: 'CaptureBack',
+    //   showRules: true,
+    //   interactive: false,
+    //   enableCheckPhoto: true,
+    //   country: 'ee',
+    //   documentType: 'residence-permit',
+    // },
+    // { component: 'Selfie' },
+    // {
+    //   component: 'Form',
+    //   fields: [
+    //     {
+    //       label: 'First Name',
+    //       type: 'text',
+    //       value: 'text',
+    //       name: 'First name',
+    //       required: true,
+    //     },
+    //     {
+    //       placeholder: 'Document front side',
+    //       type: 'file',
+    //       name: 'test',
+    //       required: true,
+    //     },
+    //     {
+    //       label: 'Last Name',
+    //       type: 'text',
+    //       name: 'Last name',
+    //       required: true,
+    //     },
+    //     {
+    //       label: 'Date Of Birth',
+    //       type: 'date',
+    //       name: 'Date of birth',
+    //       min: 'now',
+    //     },
+    //     {
+    //       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
+    //       type: 'consent',
+    //       name: 'privacy',
+    //     },
+    //   ],
+    // },
     { component: 'ThankYou' }],
   onComplete({ id }) {
     alert(id);

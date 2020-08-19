@@ -21,7 +21,11 @@ const PreviewForm = ({ blob }) => {
 };
 
 PreviewForm.propTypes = {
-  blob: PropTypes.any.isRequired,
+  blob: PropTypes.any,
+};
+
+PreviewForm.defaultProps = {
+  blob: null,
 };
 
 export default PreviewForm;

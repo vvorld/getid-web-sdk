@@ -1,28 +1,37 @@
 :root {
     --main-txt-color: #1B3361;
-    --main-txt-color-grey: #999;
+    --main-txt-color-secondary: #999;
     --main-input-bg: #FBFBFB;
+    --main-input-active-text: #1B3361;
+    --main-dark-blue-text: #0E2846;
     --main-accent-color: #9C77E0;
     --main-input-border-color: #eee;
     --main-input-hover-border: #CED3DD;
+    --main-input-active-border: #9C77E0;
     --main-white: #FFFFFF;
     --main-error-color: red;
     --button-grey-bg: #F8F7FA;
     --main-font-size: 14px;
-    --main-button-border-radius: 4px;
+    --main-border-radius: 4px;
     --main-font-weight: 400;
     --main-font-weight-bold: 700;
     --main-input-width: 100%;
     --main-transition: all .3s;
+    --main-font-family: Roboto, Arial, serif;
+    --main-background-color: white;
+    --main-header-size: 24px;
+    --main-subheader-size: 16px;
 }
 
-main, #getid {
-    font-family: Roboto, Arial, serif;
-    padding: 20px;
+
+
+main, #getid-main {
+    font-family: var(--main-font-family);
     transition: var(--main-transition);
     font-size: var(--main-font-size);
     font-weight: var(--main-font-weight);
-    margin: 0;
+    background-color: var(--main-background-color);
+    margin: 0 auto;
 }
 
 main {
@@ -36,11 +45,11 @@ main a {
     color: var(--main-accent-color);
 }
 
-.logo__top{
+#getid-main .logo__top{
     margin-bottom: 40px;
 }
 
-.grid__main {
+#getid-main .grid__main {
     width: 100%;
     display: grid;
     grid-row-gap: 16px;
@@ -54,30 +63,24 @@ main a {
 
 /*-----------FORM---------*/
 
-
-input, select, textarea, button:active {
-    -webkit-user-select: none; /* Chrome/Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+ */
-}
-
-input.error {
+#getid-main .input-error {
     border: 1px solid var(--main-error-color)!important;
 }
-.error__message {
+#getid-main .error__message {
     color: var(--main-error-color);
     font-size: 11px;
     font-weight: var(--main-font-weight);
-    text-align: left;
     display: flex;
     margin-top: 5px;
+    flex-direction: row-reverse;
+    opacity: 0.7;
 }
 
-input[type='text'], select, .doc-pick {
+#getid-main input[type='text'], #getid-main select, #getid-main .doc-pick {
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     color: var(--main-txt-color);
@@ -88,7 +91,7 @@ input[type='text'], select, .doc-pick {
     box-sizing: border-box;
 }
 
-select {
+#getid-main select {
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
@@ -100,37 +103,40 @@ select {
     color: var(--main-txt-color);
 }
 
-input:hover, select:hover {
+#getid-main input:hover, #getid-main select:hover {
     border: 1px solid var(--main-input-hover-border);
 }
 
-input:focus, select:focus, input:active, select:focus, button:active {
-    border: 1px solid var(--main-accent-color);
+#getid-main input:focus,
+#getid-main select:focus,
+#getid-main input:active,
+#getid-main button:active {
+    border: 1px solid var(--main-input-active-border);
     box-shadow: none;
     outline: none;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--main-txt-color-grey);
+#getid-main ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--main-txt-color-secondary);
     opacity: 1; /* Firefox */
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: var(--main-txt-color-grey);
+#getid-main :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--main-txt-color-secondary);
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
-    color: var(--main-txt-color-grey);
+#getid-main ::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--main-txt-color-secondary);
 }
 
-[type=button], [type=reset], [type=submit], button {
+#getid-main [type=button], [type=reset], [type=submit], button {
     -webkit-appearance: button;
 }
 
-.doc-type label {
+#getid-main .doc-type label {
     margin: 0 auto;
     display: grid;
-    border-radius: var(--main-button-border-radius);
+    border-radius: var(--main-border-radius);
     border: 1px solid var(--main-input-border-color);
     background: var(--main-input-bg);
     width: 100%;
@@ -142,31 +148,31 @@ input:focus, select:focus, input:active, select:focus, button:active {
     cursor: pointer;
 }
 
-.doc-type input#checkbox {
+#getid-main .doc-type input#checkbox {
     width: auto;
     margin: 0 10px;
 }
 
-.doc-type label + input[type=checkbox]:checked {
+#getid-main .doc-type label + input[type=checkbox]:checked {
     border: 1px solid var(--main-accent-color);
 }
 
 /*-----------FORM END---------*/
 
 
-div#animation {
+#getid-main div#animation {
     border: 1px solid var(--main-accent-color);
     border-radius: 8px;
     overflow: hidden;
     height: 270px;
 }
 
-.icon {
+#getid-main .icon {
     margin-top: 20%;
 }
 
 /*-----------VIDEO---------*/
-#container {
+#getid-main #container {
     margin: 0px auto;
     width: 500px;
     height: 375px;
@@ -174,14 +180,14 @@ div#animation {
     overflow: hidden;
 }
 
-#videoElement {
+#getid-main #videoElement {
     width: 500px;
     height: 375px;
-    background-color: var(--main-txt-color-grey);
+    background-color: var(--main-txt-color-secondary);
     transform: scale(-1, 1);
 }
 
-div#container:before {
+#getid-main div#container:before {
     content: "";
     display: block;
     /* background-image: url(./images/aim-id-card-front.svg);*/
@@ -195,3 +201,50 @@ div#container:before {
 }
 
 /*-----------VIDEO END---------*/
+
+/*-----------FOOTER---------*/
+#getid-main .browsers button {
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+}
+
+#getid-main .browsers > button:nth-child(2) {
+    margin-right: 20px;
+}
+#getid-main .browsers > button:nth-child(3) {
+    margin-right: 20px;
+}
+
+#getid-main .browsers p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: center;
+    color: var(--main-dark-blue-text);
+    opacity: 0.7;
+}
+/*-----------FOOTER END---------*/
+
+/*-----------CSS RESET---------*/
+#getid-main * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 1;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    outline: 0;
+    font-weight: inherit;
+    font-family: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    text-decoration: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: none;
+}
+/*-----------CSS RESET END---------*/
+

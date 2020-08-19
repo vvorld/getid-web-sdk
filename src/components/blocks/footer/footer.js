@@ -18,6 +18,7 @@ const Footer = ({ next = {}, back = {}, style }) => {
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
+        // eslint-disable-next-line jsx-a11y/no-autofocus
             <button autoFocus type="button" className={`getid-button__main ${next.mod ? `getid-${next.mod}` : 'getid-violet'}`} disabled={next.disable} onClick={next.onClick}>
               {next.icon}
               {typeof next.text === 'function'
@@ -33,8 +34,8 @@ const Footer = ({ next = {}, back = {}, style }) => {
       </div>
 
       {back.onClick
-        ? <a onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</a>
-        : <a className="getid-btn__back getid-hidden">-</a>}
+        ? <button type="button" onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</button>
+        : <button type="button" className="getid-btn__back getid-hidden">-</button>}
 
       <footer className="getid-footer">
         <PoweredBy />
@@ -53,11 +54,13 @@ Footer.propTypes = {
     onClick: PropTypes.func,
     text: PropTypes.string,
   }),
+  style: PropTypes.shape({}),
 };
 
 Footer.defaultProps = {
   next: null,
   back: null,
+  style: {},
 };
 
 export default Footer;

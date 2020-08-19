@@ -66,6 +66,11 @@ export const promiseTimeout = (ms, promise) => {
     ]);
 }
 
+export const setCss = (styles) => {
+    Object.entries(styles).forEach((style) => {
+        document.documentElement.style.setProperty(`--main-${style[0]}`, style[1]);
+    });
+};
 
 
 const isPage = (pageName, componentName) => componentName.includes(pageName);

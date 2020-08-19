@@ -38,23 +38,15 @@ class WebcamView extends React.Component {
   }
 
   makePhoto = () => {
-    this.state.frameRenderer(this.showPreviewStep);
+    this.state.frameRenderer((blob) => this.setStep('preview', blob));
   };
 
-  startRecordStep = () => {
-    this.setState({ step: 'record' });
-  }
-
-  showPreviewStep = (blob) => {
-    this.setState({ step: 'preview', blob });
-  }
-
-  showGuideStep = () => {
-    this.setState({ step: 'guide' });
-  }
-
-  showCheckStep = () => {
-    this.setState({ step: 'checking' });
+  setStep = (step, blob) => {
+    if (blob) {
+      this.setState({ step, blob });
+      return;
+    }
+    this.setState({ step });
   }
 
   cameraReady = (frameRenderer) => {
@@ -90,7 +82,7 @@ class WebcamView extends React.Component {
         <>
           <Header componentName={componentName} />
           <Content>
-            <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
+            <CameraDisabled requestCamera={() => this.setStep('record')} errorMessage={errorMessage} />
           </Content>
           <Footer />
         </>
@@ -101,7 +93,7 @@ class WebcamView extends React.Component {
         case 'guide': return {
           header: <Header componentName={`${componentName}_guide`} />,
           footer: <Footer
-            next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
+            next={{ onClick: () => this.setStep('record'), disable: !cameraStepIsAllowed }}
             back={{ onClick: prevStep }}
           />,
         };
@@ -110,28 +102,28 @@ class WebcamView extends React.Component {
           footer: !this.props.isMobile && (
           <Footer
             next={{ onClick: this.makePhoto }}
-            back={{ onClick: this.showGuideStep }}
+            back={{ onClick: () => this.setStep('guide') }}
           />
           ),
         };
         case 'preview': return {
           header: <Header componentName={`${componentName}_preview`} />,
           footer: <Footer
-            back={{ text: 'No, retake', onClick: this.startRecordStep }}
-            next={{ onClick: this.showCheckStep }}
+            back={{ text: 'No, retake', onClick: () => this.setStep('record') }}
+            next={{ onClick: () => this.setStep('checking') }}
           />,
         };
         case 'checking': return {
           header: <Header componentName={componentName} />,
           footer: <Footer
-            back={{ onClick: () => this.showPreviewStep(blob) }}
+            back={{ onClick: () => this.setStep('preview', blob) }}
           />,
         };
 
         case 'retake-description': return {
           header: <Header componentName={componentName} />,
           footer: <Footer
-            next={{ text: 'Retake', onClick: this.startRecordStep }}
+            next={{ text: 'Retake', onClick: () => this.setStep('record') }}
             back={{ text: 'Continue', onClick: () => finishStep(blob) }}
           />,
         };
@@ -152,9 +144,8 @@ class WebcamView extends React.Component {
               onReady={this.cameraReady}
               onError={this.cameraError}
               facingMode={facingMode}
-
               next={{ onClick: this.makePhoto }}
-              back={{ onClick: this.showGuideStep }}
+              back={{ onClick: () => this.setStep('guide') }}
             />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
@@ -185,19 +176,26 @@ WebcamView.contextType = TranslationsContext;
 
 WebcamView.propTypes = {
   Camera: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool.isRequired,
   Guide: PropTypes.func.isRequired,
-  Placeholder: PropTypes.func.isRequired,
   prevStep: PropTypes.func,
   finishStep: PropTypes.func,
   direction: PropTypes.string,
   blob: PropTypes.any,
+  componentName: PropTypes.string.isRequired,
+  onCheck: PropTypes.func,
+  enableCheckPhoto: PropTypes.bool,
+  facingMode: PropTypes.string,
 };
 
 WebcamView.defaultProps = {
   prevStep: null,
+  onCheck: null,
   finishStep: null,
   direction: '',
   blob: null,
+  enableCheckPhoto: false,
+  facingMode: '',
 };
 
 export default WebcamView;

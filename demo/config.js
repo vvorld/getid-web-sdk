@@ -11,13 +11,6 @@ export default {
   //   'txt-color-secondary': 'green',
   //   'font-family': 'Helvetica',
   // },
-  additionalData: [
-    {
-      component: 'Record',
-      server: 'http://164.90.223.220:8080',
-      phrases: ['I would like to get a setificate from Company Z'],
-    },
-  ],
   flow: [
     {
       component: 'Record',

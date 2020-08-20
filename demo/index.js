@@ -1,5 +1,6 @@
 import { init, createPublicTokenProvider } from '../src/index';
 import config from './config';
+import renderConfigPanel from './config-panel';
 
 try {
   // You can use custom.js for customising config object
@@ -18,6 +19,7 @@ try {
 }
 
 try {
+  renderConfigPanel('controls');
   const customerId = Math.floor(Math.random() * 1000000);
   const tokenProvider = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
   init(config, tokenProvider);

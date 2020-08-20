@@ -9,37 +9,40 @@
   <title>React App</title>
 </head>
 
-<body>
+<body style="display: flex;justify-content: center;">
   <noscript>You need to enable JavaScript to run this app.</noscript>
 
-  <div id="root"></div>
+  <div id="controls"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
-  <script type="text/babel">
-    class Greeting extends React.Component {
-      render() {
-        return (<div>
-          <h3>Steps</h3>
-          <label>
-            <input type="checkbox" />
-            Form
-          </label>
-          Hello world
-
-        </div>);
-      }
-    }
-    ReactDOM.render(
-      <Greeting />,
-      document.getElementById('root')
-    );
-  </script>
   <style>
+    .subsettings {
+      margin-left: 10px;
+    }
+
+    label {
+
+      display: inline-block;
+    }
+
+    .step {
+      margin-top: 15px;
+    }
+
+    #controls {
+      background: aliceblue;
+      width: 300px;
+      padding: 10px;
+      border: solid 1px gray;
+      border-radius: 10px;
+    }
+
     #getid-component {
       display: flex;
       justify-content: center;
       flex-flow: column;
+      flex-grow: 1;
     }
   </style>
   <div id="getid-component"></div>

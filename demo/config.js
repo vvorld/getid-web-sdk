@@ -93,36 +93,11 @@ export default {
     const drivingPassportIdCountries = ['lu'];
     const drivingIdPassportCountries = ['au'];
 
-    const idPassportDrivingDocuments = [
-      { name: 'id-card', composition: 'front-back' },
-      { name: 'passport', composition: 'single' },
-      { name: 'driving-licence', composition: 'front-back' },
-      { name: 'residence-permit', composition: 'front-back' },
-    ];
-    const passportIdDrivingDocuments = [
-      { name: 'passport', composition: 'single' },
-      { name: 'id-card', composition: 'front-back' },
-      { name: 'driving-licence', composition: 'front-back' },
-      { name: 'residence-permit', composition: 'front-back' },
-    ];
-    const idDrivingPassportDocuments = [
-      { name: 'id-card', composition: 'front-back' },
-      { name: 'driving-licence', composition: 'front-back' },
-      { name: 'passport', composition: 'single' },
-      { name: 'residence-permit', composition: 'front-back' },
-    ];
-    const drivingPassportIdDocuments = [
-      { name: 'driving-licence', composition: 'front-back' },
-      { name: 'passport', composition: 'single' },
-      { name: 'id-card', composition: 'front-back' },
-      { name: 'residence-permit', composition: 'front-back' },
-    ];
-    const drivingIdPassportDocuments = [
-      { name: 'driving-licence', composition: 'front-back' },
-      { name: 'id-card', composition: 'front-back' },
-      { name: 'passport', composition: 'single' },
-      { name: 'residence-permit', composition: 'front-back' },
-    ];
+    const idPassportDrivingDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
+    const passportIdDrivingDocuments = ['passport', 'id-card', 'driving-licence', 'residence-permit'];
+    const idDrivingPassportDocuments = ['id-card', 'driving-licence', 'passport', 'residence-permit'];
+    const drivingPassportIdDocuments = ['driving-licence', 'passport', 'id-card', 'residence-permit'];
+    const drivingIdPassportDocuments = ['driving-licence', 'id-card', 'passport', 'residence-permit'];
 
     if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
     if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;

@@ -108,18 +108,25 @@ export const checkApiVersionSupport = (response) => {
 }
 
 const validateSortedDocs = (country, documentsToValidate, mainCounriesList) => {
-    const supportedDocuments = mainCounriesList[country] && mainCounriesList[country].documents.map(({ name }) => name);
+    const supportedDocuments = mainCounriesList[country] && mainCounriesList[country].documents;
     if (!supportedDocuments) return [];
 
-    return documentsToValidate.filter((document) => supportedDocuments.includes(document.name));
+    return documentsToValidate.reduce((result, doc) => {
+        supportedDocuments.forEach(supDoc => {
+            if(doc === supDoc.name) result.push(supDoc)
+        })
+
+        return result
+    }, [])
 }
 
 export const sortCountryDocuments = (countriesAndDocs, sortFunction) => {
     const countriesList = Object.keys(countriesAndDocs);
-
+    
     return countriesList.reduce((newCountriesList, country) => {
         const { name, documents } = countriesAndDocs[country];
-        const sortedDocuments = sortFunction(country, documents);
+        const documentNames = documents.map(({name}) => name);
+        const sortedDocuments = sortFunction(country, documentNames);
         const validatedDocuments = validateSortedDocs(country, sortedDocuments, countriesAndDocs);
 
         // eslint-disable-next-line no-param-reassign, max-len

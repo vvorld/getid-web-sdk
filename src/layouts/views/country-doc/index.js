@@ -9,7 +9,7 @@ import {
   getIdCaptureBackIndex,
 } from '../../../store/selectors';
 import actions from '../../../store/actions';
-import { mapCountryValues } from '../../../helpers/generic';
+import { mapCountryValues, validateSortedDocs } from '../../../helpers/generic';
 import { docTypeMapping } from '../../../constants/document-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 
@@ -71,19 +71,13 @@ class CountryAndDocument extends React.Component {
     return countriesList.reduce((newCountriesList, country) => {
       const { name, documents } = countriesAndDocs[country];
       const sortedDocuments = onSortDocuments(country, documents);
-      const validatedDocuments = this.validateDocuments(country, sortedDocuments, countriesAndDocs);
+      const validatedDocuments = validateSortedDocs(country, sortedDocuments, countriesAndDocs);
 
+      // eslint-disable-next-line no-param-reassign, max-len
       if (validatedDocuments.length) newCountriesList[country] = { name, documents: validatedDocuments };
 
       return newCountriesList;
     }, {});
-  }
-  // eslint-disable-next-line
-  validateDocuments(country, documentsToValidate, mainCounriesList) {
-    const supportedDocuments = mainCounriesList[country] && mainCounriesList[country].documents.map(({ name }) => name);
-    if (!supportedDocuments) return [];
-
-    return documentsToValidate.filter((document) => supportedDocuments.includes(document.name));
   }
 
   setBackStepIndexAndStep = () => {

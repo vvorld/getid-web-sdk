@@ -1,4 +1,4 @@
 <svg width="320" height="500" viewBox="0 0 320 500" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M320 0H0V500H320V0ZM36 142C31.5817 142 28 145.582 28 150V302C28 306.418 31.5817 310 36 310H283C287.418 310 291 306.418 291 302V150C291 145.582 287.418 142 283 142H36Z" fill="#1B3361"/>
-<rect x="29.5" y="143.5" width="260" height="165" rx="6.5" stroke="#9C77E0" stroke-width="3"/>
+<rect x="29.5" y="143.5" width="260" height="165" rx="6.5" stroke="#105EF6" stroke-width="3"/>
 </svg>

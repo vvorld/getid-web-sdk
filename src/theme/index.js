@@ -15,11 +15,6 @@ const mainTheme = (container) => createMuiTheme({
   typography,
   overrides,
   breakpoints,
-  stepperShape: {
-    width: 20,
-    height: 20,
-    borderRadius: '50%',
-  },
   inputBorder: {
     borderRadius: '8px',
     border: `1px solid ${palette.gray.main}`,

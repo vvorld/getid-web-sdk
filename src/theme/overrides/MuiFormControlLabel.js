@@ -2,7 +2,7 @@ import palette from '../palette';
 
 export default {
   label: {
-    color: palette.blue.dark,
+    color: '#1B3361',
     textAlign: 'left',
     fontSize: '15px',
     fontStyle: 'normal',

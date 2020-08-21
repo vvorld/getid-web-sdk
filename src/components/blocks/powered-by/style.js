@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core';
 const poweredByStyles = makeStyles((theme) => ({
   block: {
     opacity: 0.3,
-    display: 'inline-flex',
+    display: 'flex',
+    justifyContent: 'center',
     alignContent: 'center',
     margin: '30px auto 0',
   },

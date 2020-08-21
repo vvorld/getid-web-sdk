@@ -23,7 +23,8 @@ const FooterStyles = makeStyles(({ palette }) => ({
   },
   retake: {
     order: 1,
-    background: palette.violet.light,
+    background: palette.violet.main,
+    opacity: 0.7,
     color: palette.blueShadow,
   },
   next: {

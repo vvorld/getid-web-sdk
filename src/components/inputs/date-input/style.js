@@ -12,6 +12,11 @@ const datePickerStyles = makeStyles((theme) => ({
       },
     },
   },
+  icon: {
+    '& path, line': {
+      stroke: '#173D69',
+    },
+  },
   labelRoot: {
     ...theme.typography.label,
   },

@@ -4,7 +4,7 @@ export default {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
   mainHeaderSize: '26px',
   h1: {
-    color: palette.blue.main,
+    color: 'rgba(0, 0, 0, 0.6)',
     fontSize: '26px',
     letterSpacing: '0.192941px',
     lineHeight: '41px',
@@ -17,7 +17,7 @@ export default {
     fontStyle: 'normal',
     fontWeight: 'normal',
     lineHeight: '22px',
-    color: palette.blue.dark,
+    color: 'rgba(0, 0, 0, 0.6)',
     opacity: '0.7',
     marginTop: 0,
     marginBottom: 10,
@@ -34,14 +34,13 @@ export default {
     width: '100%',
     fontSize: '16px',
     lineHeight: '16px',
-    color: palette.blue.deep,
+    color: 'rgba(0, 0, 0, 0.87)',
     backgroundColor: palette.white,
     textAlign: 'left',
   },
   label: {
     wordWrap: 'break-word',
     wordBreak: 'break-all',
-    opacity: 0.5,
     color: palette.blue.deep,
     '&.MuiInputLabel-outlined.MuiInputLabel-shrink': {
       backgroundColor: 'white',

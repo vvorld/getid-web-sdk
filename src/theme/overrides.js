@@ -37,7 +37,7 @@ export default {
     day: {
       '&:hover': {
         backgroundColor: '#F8F7FA',
-        border: '1px solid #7861a2',
+        border: '1px solid #105EF6',
       },
     },
     daySelected: {
@@ -45,7 +45,7 @@ export default {
       color: '#0e1c2c',
       '&:hover': {
         backgroundColor: '#F8F7FA',
-        border: '1px solid #7861a2',
+        border: '1px solid #105EF6',
       },
     },
   },

@@ -14,10 +14,10 @@ export default {
         padding: '27px 14px',
       },
       '& .MuiOutlinedInput-notchedOutline': {
-        border: `1px solid ${palette.gray.main}`,
+        border: '1px solid rgba(0, 0, 0, 0.6)',
       },
       '&.filled fieldset': {
-        borderColor: palette.violet.main,
+        borderColor: 'rgba(0, 0, 0, 0.6)',
       },
       '&:hover fieldset': {
         borderColor: palette.violet.main,

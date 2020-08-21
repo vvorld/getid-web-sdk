@@ -7,15 +7,16 @@ export default {
     deep: '#0e1c2c',
   },
   gray: {
-    main: '#CED3DD',
+    main: 'rgba(0, 0, 0, 0.6)',
     light: '#F7F6FB',
     semiLight: '#8D99B0',
   },
   violet: {
     dark: '#7861a2',
-    main: '#9C77E0',
+    main: '#105EF6',
     light: '#F8F7FA',
   },
+  disabled: 'rgba(0, 0, 0, 0.38)',
   black: '#000',
   white: '#fff',
   blueDark: '#0e2846',

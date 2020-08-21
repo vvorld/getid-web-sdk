@@ -9,7 +9,7 @@ import {
   getIdCaptureBackIndex,
 } from '../../../store/selectors';
 import actions from '../../../store/actions';
-import { mapCountryValues, validateSortedDocs } from '../../../helpers/generic';
+import { mapCountryValues } from '../../../helpers/generic';
 import { docTypeMapping } from '../../../constants/document-types';
 import TranslationsContext from '../../../context/TranslationsContext';
 
@@ -25,22 +25,10 @@ class CountryAndDocument extends React.Component {
 
   componentDidMount() {
     const {
-      countriesAndDocs, api, addCountriesAndDocs, onSortDocuments,
+      addCountriesAndDocs, countriesAndDocsList,
     } = this.props;
 
-    if (!countriesAndDocs || !Object.entries(countriesAndDocs).length) {
-      api.getCountryAndDocList().then((data) => {
-        const countries = onSortDocuments
-          ? this.setFilteredCountriesAndSortedDocs(data.countries)
-          : data.countries;
-
-        addCountriesAndDocs(countries);
-        this.setState({ loading: false });
-      });
-    } else {
-      this.setState({ loading: false });
-    }
-
+    addCountriesAndDocs(countriesAndDocsList);
     this.setFieldsValues();
   }
 
@@ -62,22 +50,6 @@ class CountryAndDocument extends React.Component {
 
       this.checkForSupportedValues(currentValues, countryList);
     }
-  }
-
-  setFilteredCountriesAndSortedDocs = (countriesAndDocs) => {
-    const { onSortDocuments } = this.props;
-    const countriesList = Object.keys(countriesAndDocs);
-
-    return countriesList.reduce((newCountriesList, country) => {
-      const { name, documents } = countriesAndDocs[country];
-      const sortedDocuments = onSortDocuments(country, documents);
-      const validatedDocuments = validateSortedDocs(country, sortedDocuments, countriesAndDocs);
-
-      // eslint-disable-next-line no-param-reassign, max-len
-      if (validatedDocuments.length) newCountriesList[country] = { name, documents: validatedDocuments };
-
-      return newCountriesList;
-    }, {});
   }
 
   setBackStepIndexAndStep = () => {
@@ -239,7 +211,6 @@ class CountryAndDocument extends React.Component {
 }
 
 CountryAndDocument.propTypes = {
-  api: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addCountriesAndDocs: PropTypes.func.isRequired,
   setIdCaptureBack: PropTypes.func.isRequired,
@@ -253,14 +224,13 @@ CountryAndDocument.propTypes = {
   flow: PropTypes.array.isRequired,
   documentData: PropTypes.array,
   currentComponent: PropTypes.object.isRequired,
-  onSortDocuments: PropTypes.func,
+  countriesAndDocsList: PropTypes.object.isRequired,
 };
 
 CountryAndDocument.defaultProps = {
   countriesAndDocs: {},
   fieldValues: {},
   documentData: [],
-  onSortDocuments: null,
 };
 
 CountryAndDocument.contextType = TranslationsContext;

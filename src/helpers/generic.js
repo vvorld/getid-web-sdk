@@ -107,9 +107,24 @@ export const checkApiVersionSupport = (response) => {
     return majorVersions.includes(SUPPORTED_API_SCHEMA.split('.')[0]);
 }
 
-export const validateSortedDocs = (country, documentsToValidate, mainCounriesList) => {
+const validateSortedDocs = (country, documentsToValidate, mainCounriesList) => {
     const supportedDocuments = mainCounriesList[country] && mainCounriesList[country].documents.map(({ name }) => name);
     if (!supportedDocuments) return [];
 
     return documentsToValidate.filter((document) => supportedDocuments.includes(document.name));
+}
+
+export const sortCountryDocuments = (countriesAndDocs, sortFunction) => {
+    const countriesList = Object.keys(countriesAndDocs);
+
+    return countriesList.reduce((newCountriesList, country) => {
+        const { name, documents } = countriesAndDocs[country];
+        const sortedDocuments = sortFunction(country, documents);
+        const validatedDocuments = validateSortedDocs(country, sortedDocuments, countriesAndDocs);
+
+        // eslint-disable-next-line no-param-reassign, max-len
+        if (validatedDocuments.length) newCountriesList[country] = { name, documents: validatedDocuments };
+
+        return newCountriesList;
+    }, {});
 }

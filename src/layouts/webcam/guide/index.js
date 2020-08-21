@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './guide.css';
 
+// import { RulesList } from '../../rules';
+
 const Guide = ({ src }) => (
   <div className="getid-guide__container">
     <img alt="guide-img" className="getid-guide__img" src={src} />

@@ -46,8 +46,8 @@ class Form extends Component {
 
     return (
       <>
-        <Header componentName="Form" />
-        <Content>
+        <Header step="Form" />
+        <Content step="Form">
           <form className="getid-form__body " data-role="blockForm">
             {fields.map((field) => (
               <div key={field.name} className="getid-form__input-wrapper">
@@ -62,6 +62,7 @@ class Form extends Component {
           </form>
         </Content>
         <Footer
+          step="Form"
           next={{ onClick: () => finishStep(this.form), disable: this.state.disabled }}
           back={{ onClick: prevStep }}
         />

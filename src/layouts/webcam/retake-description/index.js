@@ -1,22 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { RulesList } from '../../rules';
-import TranslationsContext from '../../../context/TranslationsContext';
-
+import Translate from '../../../components/blocks/translations';
 import './retake.css';
 
-const RetakeDescription = ({ message }) => {
-  const { translations } = useContext(TranslationsContext);
-
-  return (
-    <div>
-      <RulesList translations={translations}>
-        <div className="getid-retake_message">{message}</div>
-        <div>Please, check next rules:</div>
-      </RulesList>
+const RetakeDescription = ({ code, step }) => (
+  <div>
+    <div className="getid-retake_message">
+      <Translate step={step} element={code} />
     </div>
-  );
-};
+
+    <RulesList />
+  </div>
+);
 
 RetakeDescription.propTypes = {
   message: PropTypes.string.isRequired,

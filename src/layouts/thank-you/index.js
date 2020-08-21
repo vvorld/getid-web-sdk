@@ -7,11 +7,11 @@ import Content from '../../components/blocks/content';
 
 const ThankYou = (props) => (
   <>
-      <div>
-          <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
-      </div>
-    <Header componentName="ThankYou" />
-    <Footer next={{ onClick: props.finishStep }} />
+    <div>
+      <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
+    </div>
+    <Header step="ThankYou" />
+    <Footer step="ThankYou" next={{ onClick: props.finishStep }} />
   </>
 );
 

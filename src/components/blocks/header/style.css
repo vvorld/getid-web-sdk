@@ -8,6 +8,7 @@
     justify-content: flex-end;
     font-size: var(--main-header-size);
     min-height: 3em;
+    max-width: 350px;
 }
 
 #getid-main .header__small {
@@ -20,5 +21,33 @@
     text-align: center;
     min-height: 3em;
     max-width: 400px;
+}
+
+
+#getid-main .animation {
+    opacity: 0;
+}
+#getid-main .invisible {
+    opacity: 0;
+    transition: .55s opacity;
+
+}
+#getid-main .visible_1 {
+    opacity: 1;
+}
+#getid-main .visible_1 {
+    opacity: 1;
+    transition: .55s opacity;
+}
+#getid-main .visible_2 {
+    opacity: 1;
+    transition: .55s opacity;
+    transition-delay: .55s;
+}
+
+#getid-main .visible_3 {
+    opacity: 1;
+    transition: .55s opacity;
+    transition-delay: 1.10s;
 }
 

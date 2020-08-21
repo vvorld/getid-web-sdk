@@ -132,7 +132,7 @@ class Widget extends Component {
       this.state.app.extractedData = res.extractedData;
     }
     if (res.documentType === 'unknown') {
-      return { result: false, message: 'Document was not readed' };
+      return { result: false, code: 'unknown' };
     }
     return { result: true };
   };

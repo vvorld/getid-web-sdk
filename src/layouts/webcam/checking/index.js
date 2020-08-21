@@ -12,11 +12,11 @@ const Check = ({
   }
   useEffect(() => {
     onCheck(blob)
-      .then(({ result, message }) => {
+      .then(({ result, code }) => {
         if (result) {
           onSuccess();
         } else {
-          onFail({ message });
+          onFail({ code });
         }
       }).catch((e) => onFail(e));
   }, []);

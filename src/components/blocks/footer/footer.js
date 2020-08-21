@@ -1,26 +1,41 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PoweredBy from '../powered-by/index';
-import TranslationsContext from '../../../context/TranslationsContext';
 import './footer.css';
 import './button.css';
+import Translate from '../translations';
 
-const Footer = ({ next = {}, back = {}, style }) => {
+const Footer = ({ next = {}, back = {}, step }) => {
   if (!next) {
     next = {};
   }
   if (!back) {
     back = {};
   }
-  const { translations } = useContext(TranslationsContext); // this.context;
+  const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
+  const enableAnimation = !visible || step !== st;
+  if (enableAnimation) {
+    setTimeout(() => {
+      setVisible({ visible: true, step });
+    }, 50);
+  }
   return (
-    <div className="getid-footer__container" style={style}>
+    <div className={`getid-footer__container getid-animation${visible ? ' getid-visible_3' : ''}`}>
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
         // eslint-disable-next-line jsx-a11y/no-autofocus
-            <button autoFocus type="button" className="getid-button__main getid-violet" disabled={next.disable} onClick={next.onClick}>
-              {next.text || translations.button_next}
+            <button
+              autoFocus
+              type="button"
+              className="getid-button__main getid-violet"
+              disabled={next.disable}
+              onClick={() => {
+                setVisible(false);
+                next.onClick();
+              }}
+            >
+              <Translate step={step} element="next" />
             </button>
           )
           : (
@@ -31,7 +46,18 @@ const Footer = ({ next = {}, back = {}, style }) => {
       </div>
 
       {back.onClick
-        ? <button type="button" onClick={back.onClick} className="getid-btn__back">{back.text || translations.button_back}</button>
+        ? (
+          <button
+            type="button"
+            onClick={() => {
+              setVisible(false);
+              back.onClick();
+            }}
+            className="getid-btn__back"
+          >
+            <Translate step={step} element="back" />
+          </button>
+        )
         : <button type="button" className="getid-btn__back getid-hidden">-</button>}
 
       <footer className="getid-footer">

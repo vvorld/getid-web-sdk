@@ -18,66 +18,40 @@ export default {
     },
   ],
   flow: [
-    // {
-    //   component: 'Form',
-    //   fields: [
-    //
-    //     {
-    //       label: 'Document front side',
-    //       type: 'file',
-    //       name: 'front',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'Document back side',
-    //       type: 'file',
-    //       name: 'back',
-    //       required: false,
-    //     },
-    //     {
-    //       label: 'Country',
-    //       type: 'select',
-    //       placeholder: 'sum placeholder',
-    //       options: [
-    //         { name: 'Estonia', value: 'Estonia' },
-    //         { name: 'Russia', value: 'Russia' },
-    //         { name: 'United Kingdom', value: 'uk' },
-    //       ],
-    //       name: 'Country of user',
-    //       required: true,
-    //     },
-    //
-    //     {
-    //       label: 'Date of expiry',
-    //       type: 'date',
-    //       value: '1991-08-15',
-    //       name: 'Date of expiry',
-    //       required: true,
-    //       hidden: true,
-    //
-    //     },
-    //
-    //   ],
-    // },
     {
-      component: 'CountryAndDocument',
+      component: 'DocumentPhoto',
+      showRules: true,
+      interactive: true,
+      enableCheckPhoto: true,
     },
-    // {
-    //   component: 'DocumentPhoto',
-    //   showRules: true,
-    //   interactive: false,
-    //   enableCheckPhoto: true,
-    //   country: 'ee',
-    //   documentType: 'residence-permit',
-    // },
-    // {
-    //   component: 'CaptureBack',
-    //   showRules: true,
-    //   interactive: false,
-    //   enableCheckPhoto: true,
-    //   country: 'ee',
-    //   documentType: 'residence-permit',
-    // },
+    { component: 'Selfie' },
+    {
+      component: 'Form',
+      fields: [
+        {
+          label: 'First Name',
+          type: 'text',
+          name: 'First name',
+          required: true,
+        },
+        {
+          label: 'Last Name',
+          type: 'text',
+          name: 'Last name',
+          required: true,
+        },
+
+        {
+          label: 'Date Of Birth',
+          type: 'date',
+          value: '1991-08-15',
+          name: 'Date of birth',
+          required: true,
+        },
+
+      ],
+    },
+
     // { component: 'Selfie' },
     // {
     //   component: 'Form',

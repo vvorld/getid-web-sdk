@@ -6,7 +6,7 @@ import './polyfills/toBlob.polyfill';
 import React from 'react';
 import { renderMainComponent, renderComponent } from './main-module';
 import { createApi } from './services/api';
-import defaultTranslations from './translations/default.json';
+import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 import { CameraErrorView, ErrorView, AppExistsView } from './layouts/error/index';
@@ -24,7 +24,7 @@ const cameraAchievable = (options) => {
   if (!isCameraComponent) {
     return true;
   }
-  return ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
+  return ((navigator.mediaDevices || navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
 };
 
 /**

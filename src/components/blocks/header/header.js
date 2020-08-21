@@ -1,37 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../../context/TranslationsContext';
-import { isMobile } from '../../../helpers/generic';
 import './style.css';
+import Translate from '../translations';
 
-function Header(props) {
-  const { componentName } = props;
-
-  const { translations } = useContext(TranslationsContext);
-  const headerText = translations[`${componentName}_header`];
-  let subHeaderText = translations[`${componentName}_subHeader`];
-
-  if (isMobile()) {
-    subHeaderText = translations[`${componentName}_subHeader_mobile`] || translations[`${componentName}_subHeader`];
+function Header({ step }) {
+  const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
+  const enableAnimation = !visible || step !== st;
+  if (enableAnimation) {
+    setTimeout(() => {
+      setVisible({ visible: true, step });
+    }, 50);
   }
-
   return (
-    <div className="getid-header__container">
-      { headerText && (
+    <div className={`getid-header__container getid-animation${!enableAnimation ? ' getid-visible_1' : ''}`}>
       <div className="getid-header__big" data-role="componentTitle">
-        { headerText }
+        <Translate step={step} element="header" />
       </div>
-      )}
-
       <div className="getid-header__small">
-        {subHeaderText || '-'}
+        <Translate step={step} element="subHeader" />
       </div>
     </div>
   );
 }
 
 Header.propTypes = {
-  componentName: PropTypes.string.isRequired,
+  step: PropTypes.string.isRequired,
 };
 
 export default Header;

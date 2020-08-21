@@ -27,7 +27,7 @@ class WebcamView extends React.Component {
       cameraStepIsAllowed: false,
       blob: props.blob,
       result: {},
-      retakeMessage: '',
+      retakeCode: '',
     };
   }
 
@@ -56,10 +56,10 @@ class WebcamView extends React.Component {
     });
   }
 
-  retakeDescription= ({ message }) => {
+  retakeDescription= ({ code }) => {
     this.setState({
-      retakeMessage: message,
-      step: 'retake-description',
+      retakeCode: code,
+      step: 'retake_description',
     });
   }
 
@@ -74,55 +74,62 @@ class WebcamView extends React.Component {
       Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto, facingMode,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed, result, retakeMessage,
+      errorMessage, step, blob, cameraStepIsAllowed, result, retakeCode,
     } = this.state;
 
+    const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {
       return (
         <>
-          <Header componentName={componentName} />
-          <Content>
+          <Header step={stepName} />
+          <Content step={stepName}>
             <CameraDisabled requestCamera={() => this.setStep('record')} errorMessage={errorMessage} />
           </Content>
-          <Footer />
+          <Footer step={stepName} />
         </>
       );
     }
+
     const layout = (() => {
       switch (step) {
         case 'guide': return {
-          header: <Header componentName={`${componentName}_guide`} />,
+          header: <Header step={stepName} />,
           footer: <Footer
+            step={stepName}
             next={{ onClick: () => this.setStep('record'), disable: !cameraStepIsAllowed }}
             back={{ onClick: prevStep }}
           />,
         };
         case 'record': return {
-          header: <Header componentName={componentName} />,
+          header: <Header step={stepName} />,
           footer: !this.props.isMobile && (
           <Footer
+            step={stepName}
             next={{ onClick: this.makePhoto }}
             back={{ onClick: () => this.setStep('guide') }}
           />
           ),
         };
         case 'preview': return {
-          header: <Header componentName={`${componentName}_preview`} />,
+          header: <Header step={stepName} />,
           footer: <Footer
+            step={stepName}
             back={{ text: 'No, retake', onClick: () => this.setStep('record') }}
             next={{ onClick: () => this.setStep('checking') }}
           />,
         };
         case 'checking': return {
-          header: <Header componentName={componentName} />,
+          header: <Header step={stepName} />,
           footer: <Footer
+            step={stepName}
             back={{ onClick: () => this.setStep('preview', blob) }}
           />,
         };
 
-        case 'retake-description': return {
-          header: <Header componentName={componentName} />,
+        case 'retake_description': return {
+          header: <Header step={stepName} />,
           footer: <Footer
+            step={stepName}
             next={{ text: 'Retake', onClick: () => this.setStep('record') }}
             back={{ text: 'Continue', onClick: () => finishStep(blob) }}
           />,
@@ -134,7 +141,7 @@ class WebcamView extends React.Component {
     return (
       <>
         {layout.header}
-        <Content>
+        <Content step={stepName}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
             <Guide />
           </div>
@@ -151,8 +158,8 @@ class WebcamView extends React.Component {
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewForm blob={blob} result={result} />
           </div>
-          <div style={{ display: step === 'retake-description' ? 'block' : 'none' }}>
-            <RetakeDescription message={retakeMessage} />
+          <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
+            <RetakeDescription step={step} code={retakeCode} />
           </div>
           {step === 'checking'
             ? (

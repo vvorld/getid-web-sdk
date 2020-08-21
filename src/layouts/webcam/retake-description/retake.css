@@ -1,8 +1,9 @@
 #getid-main .retake_message {
-    text-align: start;
-    padding: 4% 5%;
-    background: #b7485b;
+    text-align: center;
+    width: 100%;
+    color: #F05A7E;
+    border: solid 1px #F05A7E;
+    padding: 20px;
     border-radius: 10px;
-    color: white;
     margin-bottom: 40px;
 }

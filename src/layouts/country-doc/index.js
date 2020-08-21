@@ -40,8 +40,8 @@ const CountryAndDocument = ({
   const plArr = iterArr.slice(documents.length);
   return (
     <>
-      <Header componentName="CountryAndDocument" />
-      <Content>
+      <Header step="CountryAndDocument" />
+      <Content step="CountryAndDocument">
         <form className="getid-form__body">
           <div>
             <select
@@ -76,6 +76,7 @@ const CountryAndDocument = ({
         </form>
       </Content>
       <Footer
+        step="CountryAndDocument"
         next={{
           onClick: () => finishStep({
             country: currCountry,

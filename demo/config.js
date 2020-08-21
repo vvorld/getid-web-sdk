@@ -86,4 +86,50 @@ export default {
   onExists() {
     console.log('exists');
   },
+  onSortDocuments(country, documents) {
+    const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'ci'];
+    const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl', 'sk'];
+    const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl'];
+    const drivingPassportIdCountries = ['lu'];
+    const drivingIdPassportCountries = ['au'];
+
+    const idPassportDrivingDocuments = [
+      { name: 'id-card', composition: 'front-back' },
+      { name: 'passport', composition: 'single' },
+      { name: 'driving-licence', composition: 'front-back' },
+      { name: 'residence-permit', composition: 'front-back' },
+    ];
+    const passportIdDrivingDocuments = [
+      { name: 'passport', composition: 'single' },
+      { name: 'id-card', composition: 'front-back' },
+      { name: 'driving-licence', composition: 'front-back' },
+      { name: 'residence-permit', composition: 'front-back' },
+    ];
+    const idDrivingPassportDocuments = [
+      { name: 'id-card', composition: 'front-back' },
+      { name: 'driving-licence', composition: 'front-back' },
+      { name: 'passport', composition: 'single' },
+      { name: 'residence-permit', composition: 'front-back' },
+    ];
+    const drivingPassportIdDocuments = [
+      { name: 'driving-licence', composition: 'front-back' },
+      { name: 'passport', composition: 'single' },
+      { name: 'id-card', composition: 'front-back' },
+      { name: 'residence-permit', composition: 'front-back' },
+    ];
+    const drivingIdPassportDocuments = [
+      { name: 'driving-licence', composition: 'front-back' },
+      { name: 'id-card', composition: 'front-back' },
+      { name: 'passport', composition: 'single' },
+      { name: 'residence-permit', composition: 'front-back' },
+    ];
+
+    if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
+    if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;
+    if (passportIdDrivingCountries.includes(country)) return passportIdDrivingDocuments;
+    if (idDrivingPassportCountries.includes(country)) return idDrivingPassportDocuments;
+    if (idPassportDrivingCountries.includes(country)) return idPassportDrivingDocuments;
+
+    return passportIdDrivingDocuments;
+  },
 };

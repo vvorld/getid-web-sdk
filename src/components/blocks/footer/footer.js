@@ -28,14 +28,16 @@ const Footer = ({ next = {}, back = {}, step }) => {
             <button
               autoFocus
               type="button"
-              className="getid-button__main getid-violet"
+              className={`getid-button__main ${next.mod ? `getid-${next.mod}` : 'getid-violet'}`}
               disabled={next.disable}
               onClick={() => {
                 setVisible(false);
                 next.onClick();
               }}
             >
+              {next.icon}
               <Translate step={step} element="next" />
+
             </button>
           )
           : (

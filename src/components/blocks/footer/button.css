@@ -6,6 +6,11 @@
     color: var(--main-txt-color-secondary);
     text-decoration-line: underline;
     font-size: var(--main-font-size);
+    
+}
+#getid-main .btn__back:focus, #getid-main .btn__back:active {
+    outline: none;
+    border: none;
 }
 #getid-main .button__wrapper {
     margin: auto;
@@ -60,6 +65,18 @@
 
 #getid-main .button__main.violet {
     background: var(--main-accent-color);
+    color: var(--main-white);
+}
+
+/* TODO */
+#getid-main .button__main.record {
+    background:red;
+    color: var(--main-white);
+    padding: 0 20px;
+}
+/* OK */
+#getid-main .button__main.ok {
+    background:green;
     color: var(--main-white);
 }
 

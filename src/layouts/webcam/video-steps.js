@@ -24,7 +24,6 @@ class RecordView extends React.Component {
       cameraStepIsAllowed: false,
       blob: props.blob,
       result: {},
-      retakeCode: '',
     };
 
     const { Camera, CameraFooter } = createRecordCamera({
@@ -71,13 +70,6 @@ class RecordView extends React.Component {
     });
   }
 
-  retakeDescription= ({ code }) => {
-    this.setState({
-      retakeCode: code,
-      step: 'retake_description',
-    });
-  }
-
   cameraError = (error) => {
     const { translations } = this.context;
     const errorMessage = getErrorText(error.name, translations);
@@ -91,15 +83,16 @@ class RecordView extends React.Component {
     const {
       errorMessage, step, loadRecord, cameraStepIsAllowed, blob,
     } = this.state;
+    const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
       return (
         <>
-          <Header step="record" />
-          <Content step="record">
+          <Header step={stepName} />
+          <Content step={stepName}>
             <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
           </Content>
-          <Footer step="record" />
+          <Footer step={stepName} />
         </>
       );
     }
@@ -107,9 +100,9 @@ class RecordView extends React.Component {
     const layout = (() => {
       switch (step) {
         case 'guide': return {
-          header: <Header step="record_guide" />,
+          header: <Header step={stepName} />,
           footer: <Footer
-            step="record_preview"
+            step={stepName}
             next={{ onClick: this.startRecordStep, disable: !cameraStepIsAllowed }}
             back={{ onClick: prevStep }}
           />,
@@ -118,14 +111,14 @@ class RecordView extends React.Component {
         case 'record': {
           const { CameraFooter } = this;
           return {
-            header: <Header step="record" />,
-            footer: <CameraFooter />,
+            header: <Header step={stepName} />,
+            footer: <CameraFooter step={stepName} />,
           };
         }
         case 'preview': return {
-          header: <Header step="record_preview" />,
+          header: <Header step={stepName} />,
           footer: <Footer
-            step="record_preview"
+            step={stepName}
             next={{ onClick: () => this.props.finishStep(blob) }}
             back={{ text: 'No, retake', onClick: this.startRecordStep }}
           />,
@@ -137,7 +130,7 @@ class RecordView extends React.Component {
     return (
       <>
         {layout.header}
-        <Content step={step}>
+        <Content step={stepName}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
             <Guide />
           </div>

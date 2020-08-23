@@ -65,8 +65,24 @@ export default {
 
   Form_header: 'Profile data',
   Form_subHeader: 'Please provide personal details same as on your ID Document',
-  Form_preview_next: 'Go next',
-  Form_preview_back: 'Go back',
+  Form_next: 'Go next',
+  Form_back: 'Go back',
+
+  Const_day: 'Day',
+  Const_year: 'Year',
+  Const_month: 'Month',
+  Const_january: 'January',
+  Const_february: 'February',
+  Const_march: 'March',
+  Const_april: 'April',
+  Const_may: 'May',
+  Const_june: 'June',
+  Const_july: 'July',
+  Const_august: 'August',
+  Const_september: 'September',
+  Const_october: 'October',
+  Const_november: 'November',
+  Const_december: 'December',
 
   IdSelfie_record_header: 'Take a selfie',
   IdSelfie_record_subHeader: ' ',
@@ -82,6 +98,16 @@ export default {
   IdSelfie_preview_subHeader: ' ',
   IdSelfie_preview_next: 'Yes, continue',
   IdSelfie_preview_back: 'No, retake',
+
+  Recording_guide_header: 'Record video',
+  Recording_guide_subHeader: ' ',
+  Recording_guide_next: 'ok, i got it',
+  Recording_guide_back: 'Go back',
+
+  Recording_record_header: 'Are you ready?',
+  Recording_record_subHeader: ' ',
+  Recording_record_next: 'Start record',
+  Recording_record_back: 'Go back',
 
   ThankYou_header: 'Thank you',
   ThankYou_subHeader: 'The identity verification process is complete',

@@ -11,20 +11,7 @@ export default {
   //   'txt-color-secondary': 'green',
   //   'font-family': 'Helvetica',
   // },
-  additionalData: [
-    {
-      name: 'Test',
-      value: 'test',
-    },
-  ],
   flow: [
-    {
-      component: 'DocumentPhoto',
-      showRules: true,
-      interactive: true,
-      enableCheckPhoto: true,
-    },
-    { component: 'Selfie' },
     {
       component: 'Form',
       fields: [
@@ -32,25 +19,36 @@ export default {
           label: 'First Name',
           type: 'text',
           name: 'First name',
-          required: true,
+          required: false,
         },
         {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',
-          required: true,
+          required: false,
         },
 
         {
           label: 'Date Of Birth',
           type: 'date',
-          value: '1991-08-15',
           name: 'Date of birth',
-          required: true,
+          required: false,
         },
 
       ],
     },
+    {
+      component: 'Record',
+      server: 'http://164.90.223.220:8080',
+      phrases: ['I would like to get a setificate from Company Z'],
+    },
+    {
+      component: 'DocumentPhoto',
+      showRules: true,
+      interactive: true,
+      enableCheckPhoto: true,
+    },
+    { component: 'Selfie' },
 
     // { component: 'Selfie' },
     // {

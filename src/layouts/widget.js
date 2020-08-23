@@ -8,7 +8,7 @@ import Sending from './sending';
 import {
   CaptureBack,
   DocumentPhoto,
-  Video,
+  Record,
   Selfie,
 } from './webcam';
 
@@ -24,6 +24,7 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     front: app.front,
     back: app.back,
     selfie: app.selfie,
+    'selfie-video': app.selfieVideo,
   };
   if (app.form) {
     data.application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
@@ -45,11 +46,12 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
   } else {
     data.application.documents = [];
   }
-
+  data.application.faces = [];
   if (app.selfie) {
-    data.application.faces = [{ category: 'selfie', content: [] }];
-  } else {
-    data.application.faces = [];
+    data.application.faces.push({ category: 'selfie', content: [] });
+  }
+  if (app.selfieVideo) {
+    data.application.faces.push({ category: 'selfie-video', content: [] });
   }
 
   await api.trySendEvent('loading', 'started');
@@ -238,9 +240,9 @@ class Widget extends Component {
         (props) => <Selfie blob={app.selfie} {...props} />,
         (selfie) => next({ selfie }, 'selfie'),
       ];
-      case 'Video': return (app, next) => [
-        (props) => <Video {...props} />,
-        (selfie) => next({ selfie }, 'video'),
+      case 'Record': return (app, next) => [
+        (props) => <Record {...props} />,
+        (selfieVideo) => next({ selfieVideo }, 'record'),
       ];
       case 'Sending': return (app, next) => [
         (props) => (

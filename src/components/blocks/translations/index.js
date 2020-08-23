@@ -12,4 +12,8 @@ const translate = (step, element) => {
   return translations[`${step}_${element}`] || `${step}_${element}`;
 };
 
+export const getConst = (name) => {
+  const { translations } = useContext(TranslationsContext);
+  return translations[`Const_${name}`] || name;
+};
 export default ({ step, element }) => <span dangerouslySetInnerHTML={{ __html: translate(step, element) }} />;

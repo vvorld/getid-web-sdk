@@ -26,7 +26,9 @@ const Timer = () => {
   );
 };
 
-export const TextLinesFooter = ({ next, back, phrases }) => {
+export const TextLinesFooter = ({
+  next, back, phrases, step,
+}) => {
   const [activeLine, setActiveLine] = useState(0);
   const [textMod, setTextMod] = useState('show');
   const changeLine = (newValue) => {
@@ -84,6 +86,7 @@ export const TextLinesFooter = ({ next, back, phrases }) => {
         </>
       )}
       <Footer
+        step={step}
         next={nextInfo}
         back={backInfo}
       />
@@ -162,6 +165,7 @@ export default (pr) => {
       if (recording) {
         return (
           <TextLinesFooter
+            step={this.props.step}
             phrases={phrases}
             next={{
               onClick: () => change(false, true),
@@ -174,6 +178,7 @@ export default (pr) => {
       if (finish) {
         return (
           <Footer
+            step={this.props.step}
             next={{
               onClick: async () => {
                 this.stop();
@@ -187,6 +192,7 @@ export default (pr) => {
       }
       return (
         <Footer
+          step={this.props.step}
           next={{ onClick: () => change(true, false), text: 'Start record' }}
           back={back}
         />
@@ -195,7 +201,7 @@ export default (pr) => {
   }
   return {
     Camera: () => <WebRTCCamera {...pr} />,
-    CameraFooter: () => <CameraFooter />,
+    CameraFooter: (props) => <CameraFooter {...props} />,
   };
 };
 

@@ -6,6 +6,7 @@ import Camera from './camera';
 import overlay from './overlay';
 
 import { isMobile } from '../../helpers/generic';
+import RecordStep from './video-steps';
 
 const guide = (src) => () => <Guide src={src} />;
 
@@ -78,17 +79,17 @@ const Passport = (props) => (
   />
 );
 
-const Video = (props) => (
-  <CameraSteps
+const Record = (props) => (
+  <RecordStep
     {...props}
-    Camera={camera('none', 1)}
     componentName="Video"
     isMobile={isMobile()}
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/passport.svg' : 'https://cdn.getid.cloud/assets/desktop/passport.svg')}
+    // 'https://cdn.getid.cloud/assets/mobile/passport.svg',
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/recording.svg')}
     facingMode={{ exact: 'environment' }}
   />
 );
 
 export {
-  Selfie, CaptureBack, CaptureFront, Passport, DocumentPhoto, Video,
+  Selfie, CaptureBack, CaptureFront, Passport, DocumentPhoto, Record,
 };

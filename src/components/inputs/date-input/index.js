@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import './style.css';
 import PropTypes from 'prop-types';
+import { getConst } from '../../blocks/translations';
 
-const months = [
-  { name: 'January', days: 31 },
-  { name: 'February', days: 29 },
-  { name: 'March', days: 31 },
-  { name: 'April', days: 30 },
-  { name: 'May', days: 31 },
-  { name: 'June', days: 30 },
-  { name: 'July', days: 31 },
-  { name: 'August', days: 31 },
-  { name: 'September', days: 30 },
-  { name: 'October', days: 31 },
-  { name: 'November', days: 30 },
-  { name: 'December', days: 31 },
+const getMonths = () => [
+  { name: getConst('january'), days: 31 },
+  { name: getConst('february'), days: 29 },
+  { name: getConst('march'), days: 31 },
+  { name: getConst('april'), days: 30 },
+  { name: getConst('may'), days: 31 },
+  { name: getConst('june'), days: 30 },
+  { name: getConst('july'), days: 31 },
+  { name: getConst('august'), days: 31 },
+  { name: getConst('september'), days: 30 },
+  { name: getConst('october'), days: 31 },
+  { name: getConst('november'), days: 30 },
+  { name: getConst('december'), days: 31 },
 ];
 const days = ([...new Array(31)]).map((_, n) => n + 1);
 const years = ([...new Array(200)]).map((_, n) => n + 1900);
@@ -42,6 +43,7 @@ const parseDate = (date) => {
 function DateInput({
   required, value, onChange, label, min, max,
 }) {
+  const months = getMonths();
   const [y, m, d] = parseDate(value);
   const [monthDays, setDays] = useState(days);
 
@@ -93,9 +95,9 @@ function DateInput({
       changeDate(year, month, dy);
     }
   };
-  const dayLabel = `Day${required ? '*' : ''}`;
-  const monthLabel = `Month${required ? '*' : ''}`;
-  const yearLabel = `Year${required ? '*' : ''}`;
+  const dayLabel = `${getConst('day')}${required ? '*' : ''}`;
+  const monthLabel = `${getConst('month')}${required ? '*' : ''}`;
+  const yearLabel = `${getConst('year')}${required ? '*' : ''}`;
   return (
     <>
       {label && <label className="getid-form__input-label">{label}</label>}

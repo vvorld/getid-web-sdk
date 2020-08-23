@@ -52,7 +52,7 @@ main a {
 #getid-main .grid__main {
     width: 100%;
     display: grid;
-    grid-row-gap: 16px;
+    grid-row-gap: 30px;
     grid-template-rows: auto auto auto 1fr;
     grid-template-columns: 1fr;
     min-height: 504px;
@@ -74,6 +74,7 @@ main a {
     margin-top: 5px;
     flex-direction: row-reverse;
     opacity: 0.7;
+    text-align: right;
 }
 
 #getid-main input[type='text'], #getid-main select, #getid-main .doc-pick {

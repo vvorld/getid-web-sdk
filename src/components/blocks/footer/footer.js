@@ -28,7 +28,7 @@ const Footer = ({ next = {}, back = {}, step }) => {
             <button
               autoFocus
               type="button"
-              className={`getid-button__main ${next.mod ? `getid-${next.mod}` : 'getid-violet'}`}
+              className={`getid-button__main ${next.mod ? `getid-${next.mod}` : ''}`}
               disabled={next.disable}
               onClick={() => {
                 setVisible(false);

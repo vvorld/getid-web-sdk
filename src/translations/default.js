@@ -26,7 +26,7 @@ export default {
 
   /**/
   IdCapture_preview_header: 'Captured ID document',
-  IdCapture_preview_subHeader: 'Is document fully visible?<br/>Is data clearly readable?',
+  IdCapture_preview_subHeader: 'Is document fully visible and data clearly readable?',
   IdCapture_preview_next: 'Yes, continue',
   IdCapture_preview_back: 'No, retake',
 
@@ -54,7 +54,7 @@ export default {
   IdCaptureBack_checking_back: 'Cancel',
 
   IdCaptureBack_preview_header: 'Captured ID document',
-  IdCaptureBack_preview_subHeader: 'Is document fully visible?<br/>Is data clearly readable?',
+  IdCaptureBack_preview_subHeader: 'Is document fully visible and data clearly readable?',
   IdCaptureBack_preview_next: 'Yes, continue',
   IdCaptureBack_preview_back: 'No, retake',
 

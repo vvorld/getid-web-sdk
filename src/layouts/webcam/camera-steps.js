@@ -142,36 +142,38 @@ class WebcamView extends React.Component {
       <>
         {layout.header}
         <Content step={stepName}>
-          <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide />
-          </div>
-          <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera
-              stream={this.state.stream}
-              onReady={this.cameraReady}
-              onError={this.cameraError}
-              facingMode={facingMode}
-              next={{ onClick: this.makePhoto }}
-              back={{ onClick: () => this.setStep('guide') }}
-            />
-          </div>
-          <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-            <PreviewForm blob={blob} result={result} />
-          </div>
-          <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
-            <RetakeDescription step={step} code={retakeCode} />
-          </div>
-          {step === 'checking'
-            ? (
-              <Checking
-                enable={enableCheckPhoto}
-                onCheck={onCheck}
-                blob={blob}
-                onSuccess={() => finishStep(blob)}
-                onFail={this.retakeDescription}
+          <div>
+            <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
+              <Guide />
+            </div>
+            <div style={{ display: step === 'record' ? 'block' : 'none', borderRadius: '10px', overflow: 'hidden' }}>
+              <Camera
+                stream={this.state.stream}
+                onReady={this.cameraReady}
+                onError={this.cameraError}
+                facingMode={facingMode}
+                next={{ onClick: this.makePhoto }}
+                back={{ onClick: () => this.setStep('guide') }}
               />
-            )
-            : null}
+            </div>
+            <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
+              <PreviewForm blob={blob} result={result} />
+            </div>
+            <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
+              <RetakeDescription step={step} code={retakeCode} />
+            </div>
+            {step === 'checking'
+              ? (
+                <Checking
+                  enable={enableCheckPhoto}
+                  onCheck={onCheck}
+                  blob={blob}
+                  onSuccess={() => finishStep(blob)}
+                  onFail={this.retakeDescription}
+                />
+              )
+              : null}
+          </div>
         </Content>
         {layout.footer}
       </>

@@ -17,6 +17,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
   <style>
+    body {
+      margin: 0;
+      background: lightgrey;
+    }
+
     .subsettings {
       margin-left: 10px;
     }
@@ -31,20 +36,63 @@
     }
 
     #controls {
-      background: aliceblue;
-      width: 300px;
-      padding: 10px;
-      border: solid 1px gray;
-      border-radius: 10px;
-      min-height: 100vh;
+      width: 400px;
       box-sizing: border-box;
+      min-height: calc(100vh - 40px);
+      margin: 20px;
+      display: flex;
+      flex-direction: row;
     }
+
+    .controls_container {
+      flex-grow: 1;
+      background: aliceblue;
+      padding: 20px;
+      border: solid 1px gray;
+      border-radius: 10px 0px 0px 10px;
+      box-sizing: border-box;
+      min-height: calc(100vh - 40px);
+      max-width: 100%;
+    }
+
+    .try_button {
+      padding: 10px;
+      height: 100%;
+      border: solid 1px gray;
+      border-radius: 0px 10px 10px 0px;
+      border-left: none;
+      background: #cdbbef;
+      color: white;
+      transition: background-color 0.5s ease;
+      outline: none;
+    }
+
+    .try_button:hover {
+      height: 100%;
+      border: solid 1px;
+      border-radius: 0px 10px 10px 0px;
+      border-left: none;
+      background: #9c77e0;
+      outline: none;
+      transition: background-color 0.5s ease;
+    }
+
+    code {
+      max-width: 100%;
+      white-space: break-spaces;
+      overflow: auto;
+      display: block;
+    }
+
+    #eb5c8s3r76tt6 {}
 
     #getid-component {
       display: flex;
       justify-content: center;
       flex-flow: column;
       flex-grow: 1;
+      padding: 20px;
+      background: white;
     }
   </style>
   <div id="getid-component"></div>

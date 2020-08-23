@@ -1,6 +1,6 @@
 #getid-main .btn__back {
     cursor: pointer;
-    margin: 10px auto 0 auto;
+    margin: 20px auto 0 auto;
     display: block;
     text-align: center;
     color: var(--main-txt-color-secondary);
@@ -26,11 +26,6 @@
     box-shadow: none;
 }
 
-#getid-main .button__main.violet:hover {
-    background: var(--main-accent-color);
-    filter: drop-shadow(0px 15px 18px rgba(14, 51, 123, 0.15));
-    /*box-shadow: 0px 2px 5px #150f3830;*/
-}
 
 #getid-main .button__main:disabled {
     opacity: 0.38;
@@ -55,18 +50,19 @@
     top:0;
     height: 42px;
     filter: drop-shadow(0px 5px 8px rgba(14, 51, 123, 0.15));
+    background: var(--main-accent-color);    
+    color: var(--main-white);
     /*box-shadow: 0 10px 16px #150f3830;*/
     align-self: end;
     padding: 14px 60px;
-    border-radius: 30px;
+    border-radius: 8px;
     border: none;
     min-width: 250px;
 }
-
-#getid-main .button__main.violet {
-    background: var(--main-accent-color);
-    color: var(--main-white);
+#getid-main button.button__main:hover{
+   box-shadow: inset 0px 0px 60px #ffffff40;
 }
+ 
 
 /* TODO */
 #getid-main .button__main.record {

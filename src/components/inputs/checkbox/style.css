@@ -6,7 +6,10 @@
     font-size: 12px;
     text-align: left;
     color: var(--main-dark-blue-text);
-    line-height: 22px;
+    
+}
+#getid-main .checkbox__label * {
+    line-height: 1.5;
 }
 
 #getid-main input[type="checkbox"] {

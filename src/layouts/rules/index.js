@@ -13,15 +13,13 @@ export const RulesList = () => {
 
   return (
     <div className="getid-rule-list_container">
-      <li className="getid-rule-list">
-        <ul>
-          { rules.map((el) => (
-            <li key={el}>
-              { el }
-            </li>
-          ))}
-        </ul>
-      </li>
+      <ul className="getid-rule-list">
+        { rules.map((el) => (
+          <li key={el}>
+            { el }
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

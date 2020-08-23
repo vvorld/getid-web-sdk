@@ -64,7 +64,7 @@ class MobileCamera extends CameraBase {
             <div className="getid-button__wrapper">
               <button
                 type="button"
-                className="getid-button__main getid-violet"
+                className="getid-button__main"
                 style={{
                   width: '100%',
                   padding: '21px',

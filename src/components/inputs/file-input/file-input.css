@@ -6,6 +6,7 @@
     text-align: justify;
     font-size: var(--main-font-size);
     color: var(--main-txt-color);
+    white-space: nowrap;
 }
 
 #getid-main .form__input-tooltip{
@@ -43,6 +44,7 @@
     padding: 10px;
     box-sizing: border-box;
     text-overflow: ellipsis;
+    align-items: center;
 }
 #getid-main .file-input:hover { border: 1px solid var(--main-input-hover-border); }
 #getid-main .file-input:hover .file-input__icon path {

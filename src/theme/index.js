@@ -21,7 +21,9 @@ const mainTheme = (container) => createMuiTheme({
     '&.selectedVal': {
       opacity: '1!important',
       borderColor: palette.violet.main,
-      color: palette.blue.deep,
+      '&.MuiFormControlLabel-root > .MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1': {
+        color: 'rgba(0, 0, 0, 0.87)!important',
+      },
     },
     '&.filled': {
       borderColor: palette.violet.main,

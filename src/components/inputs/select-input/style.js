@@ -16,6 +16,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
   },
   item: {
     ...theme.typography.mainInput,
+    color: 'rgba(0, 0, 0, 0.87)!important',
     paddingTop: '14px',
     paddingBottom: '14px',
     '&:hover': {
@@ -26,6 +27,7 @@ const CustomSelectStyles = makeStyles((theme) => ({
     paddingLeft: '5px',
     paddingRight: '5px',
     ...theme.typography.label,
+    color: 'rgba(0, 0, 0, 0.87)',
     opacity: '1!important',
   },
   itemSelected: {

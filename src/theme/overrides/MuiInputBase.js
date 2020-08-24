@@ -24,7 +24,6 @@ export default {
       },
       '&$focused fieldset': {
         borderColor: palette.violet.main,
-
       },
       '&.selected fieldset': {
         borderColor: palette.violet.main,
@@ -40,6 +39,7 @@ export default {
         alignItems: 'center',
       },
       backgroundColor: 'transparent',
+      color: 'rgba(0, 0, 0, 0.6)!important',
       '& .MuiOutlinedInput-notchedOutline': {
         borderWidth: 1,
       },

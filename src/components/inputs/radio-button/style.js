@@ -17,6 +17,7 @@ const RadioButtonStyles = makeStyles((theme) => ({
   },
   checkedIcon: {
     background: theme.palette.violet.main,
+    border: `1px solid ${theme.palette.violet.main}`,
     '&:before': {
       display: 'block',
       backgroundRepeat: 'no-repeat',

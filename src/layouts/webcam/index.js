@@ -10,18 +10,18 @@ import RecordStep from './video-steps';
 
 const guide = (src) => () => <Guide src={src} />;
 
-const camera = (figure, ratio) => (props) => (
+const camera = (figure) => (props) => (
   <Camera
     {...props}
-    ratio={ratio}
-    Overlay={overlay(figure, ratio)}
+    Overlay={overlay(figure)}
   />
 );
 
 const CaptureFront = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle', 3 / 2)}
+    Camera={camera('rectangle')}
+    ratio={3 / 2}
     componentName="IdCapture"
     Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/default_front.svg' : 'https://cdn.getid.cloud/assets/desktop/default_front.svg')}
     facingMode="environment"
@@ -31,7 +31,8 @@ const CaptureFront = (props) => (
 const CaptureBack = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle', 3 / 2)}
+    Camera={camera('rectangle')}
+    ratio={3 / 2}
     componentName="IdCaptureBack"
     onCheck={props.checkDocumentPhoto}
     isMobile={isMobile()}
@@ -47,7 +48,8 @@ CaptureBack.propTypes = {
 const DocumentPhoto = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle', 3 / 2)}
+    Camera={camera('rectangle')}
+    ratio={3 / 2}
     onCheck={props.checkDocumentPhoto}
     componentName="IdCapture"
     isMobile={isMobile()}
@@ -61,22 +63,12 @@ DocumentPhoto.propTypes = {
 const Selfie = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('ellips', 3 / 4)}
+    Camera={camera('ellips')}
+    ratio={3 / 4}
     componentName="IdSelfie"
     isMobile={isMobile()}
     Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/selfie.svg' : 'https://cdn.getid.cloud/assets/desktop/selfie.svg')}
     facingMode="user"
-  />
-);
-
-const Passport = (props) => (
-  <CameraSteps
-    {...props}
-    Camera={camera('rectangle', 1)}
-    componentName="IdCapture"
-    isMobile={isMobile()}
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/passport.svg' : 'https://cdn.getid.cloud/assets/desktop/passport.svg')}
-    facingMode={{ exact: 'environment' }}
   />
 );
 
@@ -92,5 +84,5 @@ const Record = (props) => (
 );
 
 export {
-  Selfie, CaptureBack, CaptureFront, Passport, DocumentPhoto, Record,
+  Selfie, CaptureBack, CaptureFront, DocumentPhoto, Record,
 };

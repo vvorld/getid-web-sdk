@@ -5,7 +5,9 @@ import './footer.css';
 import './button.css';
 import Translate from '../translations';
 
-const Footer = ({ next = {}, back = {}, step }) => {
+const Footer = ({
+  next = {}, back = {}, step,
+}) => {
   if (!next) {
     next = {};
   }

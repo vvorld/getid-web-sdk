@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import Loader from '../../../components/loader/loader';
 
 const Check = ({
-  onSuccess, onFail, onCheck, blob, enable,
+  onSuccess, onFail, onCheck, blob, enable, tryNumber,
 }) => {
   if (!onCheck || !enable) {
     onSuccess();
     return null;
   }
   useEffect(() => {
-    onCheck(blob)
+    onCheck(blob, tryNumber)
       .then(({ result, code }) => {
         if (result) {
           onSuccess();
@@ -34,6 +34,7 @@ Check.propTypes = {
   onCheck: PropTypes.func,
   blob: PropTypes.any,
   enable: PropTypes.bool,
+  tryNumber: PropTypes.number.isRequired,
 };
 
 Check.defaultProps = {

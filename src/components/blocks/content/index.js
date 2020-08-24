@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './content.css';
 
-const Content = ({ children, step }) => {
+const Content = ({ children, step, disableAnmation }) => {
   const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
-  const enableAnimation = !visible || step !== st;
+  const enableAnimation = (!visible || step !== st) && !disableAnmation;
   if (enableAnimation) {
     setTimeout(() => {
       setVisible({ visible: true, step });

@@ -28,6 +28,7 @@ class WebcamView extends React.Component {
       blob: props.blob,
       result: {},
       retakeCode: '',
+      tryNumber: 1,
     };
   }
 
@@ -38,15 +39,11 @@ class WebcamView extends React.Component {
   }
 
   makePhoto = () => {
-    this.state.frameRenderer((blob) => this.setStep('preview', blob));
+    this.state.frameRenderer((blob) => this.setStep('preview', { blob }));
   };
 
-  setStep = (step, blob) => {
-    if (blob) {
-      this.setState({ step, blob });
-      return;
-    }
-    this.setState({ step });
+  setStep = (step, delata = {}) => {
+    this.setState({ step, ...delata });
   }
 
   cameraReady = (frameRenderer) => {
@@ -71,10 +68,13 @@ class WebcamView extends React.Component {
 
   render() {
     const {
-      Camera, Guide, prevStep, finishStep, componentName, onCheck, enableCheckPhoto, facingMode,
+      Camera, Guide, prevStep, finishStep, componentName,
+      onCheck, enableCheckPhoto, facingMode,
+      ratio,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed, result, retakeCode,
+      errorMessage, step, blob, cameraStepIsAllowed,
+      result, retakeCode, tryNumber,
     } = this.state;
 
     const stepName = `${componentName}_${step}`;
@@ -122,18 +122,20 @@ class WebcamView extends React.Component {
           header: <Header step={stepName} />,
           footer: <Footer
             step={stepName}
-            back={{ onClick: () => this.setStep('preview', blob) }}
+            back={{ onClick: () => this.setStep('preview', { blob }) }}
           />,
         };
 
-        case 'retake_description': return {
-          header: <Header step={stepName} />,
-          footer: <Footer
-            step={stepName}
-            next={{ text: 'Retake', onClick: () => this.setStep('record') }}
-            back={{ text: 'Continue', onClick: () => finishStep(blob) }}
-          />,
-        };
+        case 'retake_description': {
+          return {
+            header: <Header step={stepName} />,
+            footer: <Footer
+              step={stepName}
+              next={{ onClick: () => this.setStep('record', { tryNumber: tryNumber + 1 }) }}
+              back={{ onClick: () => finishStep(blob) }}
+            />,
+          };
+        }
         default: throw new Error(`Bad step ${step}`);
       }
     })();
@@ -141,13 +143,15 @@ class WebcamView extends React.Component {
     return (
       <>
         {layout.header}
-        <Content step={stepName}>
+        <Content step={stepName} disableAnmation={step === 'record'}>
           <div>
             <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
               <Guide />
             </div>
             <div style={{ display: step === 'record' ? 'block' : 'none', borderRadius: '10px', overflow: 'hidden' }}>
               <Camera
+                ratio={ratio}
+                visible={step === 'record'}
                 stream={this.state.stream}
                 onReady={this.cameraReady}
                 onError={this.cameraError}
@@ -157,7 +161,7 @@ class WebcamView extends React.Component {
               />
             </div>
             <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-              <PreviewForm blob={blob} result={result} />
+              <PreviewForm blob={blob} result={result} ratio={ratio} />
             </div>
             <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
               <RetakeDescription step={step} code={retakeCode} />
@@ -165,6 +169,7 @@ class WebcamView extends React.Component {
             {step === 'checking'
               ? (
                 <Checking
+                  tryNumber={tryNumber}
                   enable={enableCheckPhoto}
                   onCheck={onCheck}
                   blob={blob}
@@ -180,31 +185,5 @@ class WebcamView extends React.Component {
     );
   }
 }
-
-WebcamView.contextType = TranslationsContext;
-
-WebcamView.propTypes = {
-  Camera: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool.isRequired,
-  Guide: PropTypes.func.isRequired,
-  prevStep: PropTypes.func,
-  finishStep: PropTypes.func,
-  direction: PropTypes.string,
-  blob: PropTypes.any,
-  componentName: PropTypes.string.isRequired,
-  onCheck: PropTypes.func,
-  enableCheckPhoto: PropTypes.bool,
-  facingMode: PropTypes.string,
-};
-
-WebcamView.defaultProps = {
-  prevStep: null,
-  onCheck: null,
-  finishStep: null,
-  direction: '',
-  blob: null,
-  enableCheckPhoto: false,
-  facingMode: '',
-};
 
 export default WebcamView;

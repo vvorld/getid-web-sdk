@@ -96,20 +96,22 @@ export const TextLinesFooter = ({
 
 export default (pr) => {
   let recording = false;
-  let finish = false;
   const { next, back, phrases } = pr;
+  const api = new Api(pr.server);
+  const client = new VideoClient(api);
 
   const rerenders = [];
   const change = (rec, fin) => {
-    console.log(rec, fin);
     recording = rec;
-    finish = fin;
+    if (fin) {
+      client.stop();
+      pr.next.onClick(api.loadRecord);
+      return;
+    }
     for (const r of rerenders) {
       r();
     }
   };
-  const api = new Api(pr.server);
-  const client = new VideoClient(api);
 
   class WebRTCCamera extends Component {
     componentWillMount() {
@@ -175,21 +177,7 @@ export default (pr) => {
           />
         );
       }
-      if (finish) {
-        return (
-          <Footer
-            step={this.props.step}
-            next={{
-              onClick: async () => {
-                this.stop();
-                next.onClick(this.api.loadRecord);
-              },
-              text: next.text,
-            }}
-            back={{ onClick: () => change(recording, false) }}
-          />
-        );
-      }
+
       return (
         <Footer
           step={this.props.step}

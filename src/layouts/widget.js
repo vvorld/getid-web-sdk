@@ -117,9 +117,10 @@ class Widget extends Component {
       }
       const documentIndex = flow.findIndex((x) => x.component === 'DocumentPhoto');
       if (documentIndex !== -1) {
-        const docPhoto = flow[documentIndex];
+        const nn = documentIndex > this.state.step ? documentIndex : this.state.step;
+        const docPhoto = flow[nn];
         const newFlow = [...flow];
-        newFlow.splice(documentIndex + 1, 0, { ...docPhoto, component: 'CaptureBack' });
+        newFlow.splice(nn + 1, 0, { ...docPhoto, component: 'CaptureBack' });
         this.flow = newFlow;
       }
     } else {
@@ -127,13 +128,21 @@ class Widget extends Component {
     }
   }
 
-  checkDocumentPhoto = async (front, back) => {
+  checkDocumentPhoto = async ({ front, back }, tryNumber, limit) => {
     const res = await this.props.api.checkSide(front, back);
     await this.checkDocumentType(res.documentType);
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
     if (res.documentType === 'unknown') {
+      if (tryNumber >= limit) {
+        if (!this.state.app.documentType) {
+          this.flow.splice(this.state.step + 1, 0, {
+            component: 'CountryAndDocument',
+          });
+        }
+        return { result: true, code: 'unknown' };
+      }
       return { result: false, code: 'unknown' };
     }
     return { result: true };
@@ -154,6 +163,11 @@ class Widget extends Component {
   };
 
   nextStep = async (delta, stepName) => {
+    console.log(this.flow, this.state);
+    if (this.step >= this.flow.length - 1) {
+      this.finish();
+      return;
+    }
     const app = {
       ...this.state.app,
       ...delta,
@@ -183,7 +197,7 @@ class Widget extends Component {
     });
   }
 
-  finish = (delta) => {
+  finish = () => {
     if (this.onComplete) {
       // TODO add data from server
       this.onComplete();
@@ -220,7 +234,7 @@ class Widget extends Component {
             blob={app.back}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={(back) => this.checkDocumentPhoto(app.front, back)}
+            checkDocumentPhoto={(back, tryNumber) => this.checkDocumentPhoto({ front: app.front, back }, tryNumber, 3)}
           />
         ),
         (back) => next({ back }, 'back'),
@@ -231,7 +245,7 @@ class Widget extends Component {
             blob={app.front}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={(front) => this.checkDocumentPhoto(front)}
+            checkDocumentPhoto={(front, tryNumber) => this.checkDocumentPhoto({ front }, tryNumber, 3)}
           />
         ),
         (front) => next({ front }, 'front'),
@@ -283,7 +297,7 @@ class Widget extends Component {
       return null;
     }
     const { component: componentName, ...componentProps } = currentComponent;
-    const nextStep = step < flow.length - 1 ? this.nextStep : this.finish;
+    const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 

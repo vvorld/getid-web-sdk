@@ -135,7 +135,7 @@ class RecordView extends React.Component {
             <Guide />
           </div>
           <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera />
+            <Camera visible={step === 'record'} />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewVideo

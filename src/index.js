@@ -61,8 +61,14 @@ const init = (options, tokenProvider) => {
       token, exists, errorMessage, responseCode,
     } = result;
 
-    const { metadata, verificationTypes, apiUrl } = options;
-    const api = createApi(apiUrl, token, verificationTypes, metadata);
+    const { verificationTypes, apiUrl } = options;
+    if (verificationTypes) {
+      if (!options.metadata) {
+        options.metadata = {};
+      }
+      options.metadata.verificationTypes = verificationTypes;
+    }
+    const api = createApi(apiUrl, token);
     const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
     const translations = { ...defaultTranslations, ...responseTranslations };
 

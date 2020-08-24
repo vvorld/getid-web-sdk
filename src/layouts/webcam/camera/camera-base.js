@@ -43,7 +43,7 @@ class CameraBase extends Component {
     const params = {
       audio: false,
       video: {
-        facingMode: { exact: this.props.facingMode },
+        facingMode: { exact: this.props.facingMode, width: 2048, ratio: 0.2 },
       },
     };
     try {

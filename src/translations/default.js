@@ -147,4 +147,5 @@ export default {
   camera_error_not_found: 'No available devices were found',
   camera_error_generic: 'To make a photo you need to give access for webcam',
   camera_error_another_browser: 'Use another browser',
+  mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
 };

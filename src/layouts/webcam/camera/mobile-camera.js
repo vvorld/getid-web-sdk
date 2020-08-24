@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CameraBase from './camera-base';
+import Landscape from '../../../assets/icons/views/landscape.svg';
+import Translate from '../../../components/blocks/translations';
 
 class MobileCamera extends CameraBase {
   componentWillUnmount() {
@@ -45,14 +47,37 @@ class MobileCamera extends CameraBase {
     }
   }
 
+  componentDidMount() {
+    window.addEventListener('orientationchange', () => {
+      this.setState({ orientation: window.orientation !== 0 });
+    }, false);
+  }
+
   render() {
     const { Overlay, next, back } = this.props;
     const {
+      orientation,
       mode, width, height, left,
       top,
       bottom,
       right,
     } = this.state;
+
+    if (orientation) {
+      return (
+        <div>
+          <img
+            src={Landscape}
+            alt="mobile landscape"
+            data-role="mobile-landscape"
+          />
+          <div className="getid-header__small">
+            <Translate step="mobileCamera" element="landscape" />
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div style={{
         display: 'flex',
@@ -98,7 +123,6 @@ class MobileCamera extends CameraBase {
                 right={right}
                 style={{ maxHeight: '70vh' }}
               />
-
             )}
           </div>
           <div

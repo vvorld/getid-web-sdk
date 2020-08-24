@@ -9,7 +9,12 @@ class MobileCamera extends CameraBase {
 
   render() {
     const { Overlay, next, back } = this.props;
-    const { width, height, mode } = this.state;
+    const {
+      mode, width, height, left,
+      top,
+      bottom,
+      right,
+    } = this.state;
     return (
       <div style={{
         display: 'flex',
@@ -47,11 +52,16 @@ class MobileCamera extends CameraBase {
               <track kind="captions" />
             </video>
             {Overlay && (
-            <Overlay
-              width={width}
-              height={height}
-              style={{ maxHeight: '80vh' }}
-            />
+              <Overlay
+                width={width}
+                height={height}
+                left={left}
+                top={top}
+                bottom={bottom}
+                right={right}
+                style={{ maxHeight: '80vh' }}
+              />
+
             )}
           </div>
           <div style={{ flexGrow: 1 }} />

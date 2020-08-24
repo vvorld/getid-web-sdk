@@ -24,7 +24,7 @@ const cameraAchievable = (options) => {
   if (!isCameraComponent) {
     return true;
   }
-  return ((navigator.mediaDevices || navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
+  return ((navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
 };
 
 /**

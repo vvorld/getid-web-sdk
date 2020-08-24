@@ -4,6 +4,21 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import frameRenderer from './helpers';
 
+const calculateMaskPoition = (width, height, ratio, zoom) => {
+  const streamRatio = width / height;
+  const [fwidth, fheight] = streamRatio < ratio
+    ? [width * zoom, ((width * zoom) / ratio)]
+    : [(height * zoom) * ratio, height * zoom];
+
+  const left = (width - fwidth) / 2;
+  const top = (height - fheight) / 2;
+  return {
+    left,
+    top,
+    bottom: height - top,
+    right: width - left,
+  };
+};
 class CameraBase extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +43,6 @@ class CameraBase extends Component {
     const params = {
       audio: false,
       video: {
-        width: 2048,
         facingMode: { exact: this.props.facingMode },
       },
     };
@@ -52,18 +66,27 @@ class CameraBase extends Component {
       return;
     }
     try {
-      navigator.mediaDevices.enumerateDevices().then(console.log);
       const [stream, mode] = await this.getStream();
-      const settings = stream.getVideoTracks()[0].getSettings();
-      const { width, height } = settings;
-      this.setState({ width, height, mode });
-      this.ref.srcObject = stream;
-      const intervalId = setInterval(() => {
-        if (ref.readyState === 4) {
-          clearInterval(intervalId);
-          this.props.onReady(frameRenderer(ref, width, height));
-        }
-      }, 100);
+
+      setTimeout(() => {
+        const settings = stream.getVideoTracks()[0].getSettings();
+        const { width, height } = settings;
+        const {
+          left, right, top, bottom,
+        } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
+        this.setState({
+          width, height, left, right, top, bottom, mode,
+        });
+        this.ref.srcObject = stream;
+        const intervalId = setInterval(() => {
+          if (ref.readyState === 4 || ref.readyState > 0) {
+            clearInterval(intervalId);
+            this.props.onReady(frameRenderer(ref, {
+              left, right, top, bottom,
+            }));
+          }
+        }, 100);
+      }, 1000);
     } catch (err) {
       this.props.onError(err);
     }
@@ -74,5 +97,6 @@ CameraBase.propTypes = {
   onError: PropTypes.func.isRequired,
   onReady: PropTypes.func.isRequired,
   facingMode: PropTypes.any.isRequired,
+  ratio: PropTypes.number.isRequired,
 };
 export default CameraBase;

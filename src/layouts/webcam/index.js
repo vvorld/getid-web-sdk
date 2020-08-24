@@ -13,6 +13,7 @@ const guide = (src) => () => <Guide src={src} />;
 const camera = (figure, ratio) => (props) => (
   <Camera
     {...props}
+    ratio={ratio}
     Overlay={overlay(figure, ratio)}
   />
 );
@@ -60,7 +61,7 @@ DocumentPhoto.propTypes = {
 const Selfie = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('ellips', 2 / 3)}
+    Camera={camera('ellips', 3 / 4)}
     componentName="IdSelfie"
     isMobile={isMobile()}
     Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/selfie.svg' : 'https://cdn.getid.cloud/assets/desktop/selfie.svg')}

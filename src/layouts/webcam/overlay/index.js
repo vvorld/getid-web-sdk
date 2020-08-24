@@ -1,22 +1,19 @@
 import React from 'react';
 
-const createOverlay = (figure, containerRation) => ({ width, height, style }) => {
+const createOverlay = (figure) => ({
+  width, height, top, left, bottom, right, style,
+}) => {
   const Path = (function () {
     if (figure === 'none') {
       return () => null;
     }
-    const zoom = 0.8;
-    const streamRatio = width / height;
-    const [fwidth, fheight] = streamRatio < containerRation
-      ? [width * zoom, ((width * zoom) / containerRation)]
-      : [(height * zoom) * containerRation, height * zoom];
+
+    const fwidth = right - left;
+    const fheight = bottom - top;
+
     switch (figure) {
       case 'ellips': {
         const r = fwidth / 2;
-        const left = (width - fwidth) / 2;
-        const top = (height - fheight) / 2;
-        const bottom = height - top;
-        const right = width - left;
         return () => (
           <>
             <g fillRule="evenodd" fill="var(--main-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
@@ -57,10 +54,6 @@ const createOverlay = (figure, containerRation) => ({ width, height, style }) =>
       }
       default: {
         const r = 70;
-        const left = (width - fwidth) / 2;
-        const top = (height - fheight) / 2;
-        const bottom = height - top;
-        const right = width - left;
         return () => (
           <>
             <g fillRule="evenodd" fill="var(--main-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">

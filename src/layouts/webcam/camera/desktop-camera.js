@@ -9,7 +9,13 @@ class DesktopCamera extends CameraBase {
 
   render() {
     const { Overlay } = this.props;
-    const { width, height } = this.state;
+    const {
+      width, height, left,
+      top,
+      bottom,
+      right,
+    } = this.state;
+
     return (
       <div style={{ position: 'relative', transform: 'scale(-1, 1)' }}>
         <video
@@ -21,7 +27,16 @@ class DesktopCamera extends CameraBase {
         >
           <track kind="captions" />
         </video>
-        {Overlay && <Overlay width={width} height={height} />}
+        {Overlay && (
+        <Overlay
+          width={width}
+          height={height}
+          left={left}
+          top={top}
+          bottom={bottom}
+          right={right}
+        />
+        )}
       </div>
     );
   }

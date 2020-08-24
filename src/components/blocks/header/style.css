@@ -38,18 +38,18 @@
 }
 #getid-main .visible_1 {
     opacity: 1;
-    transition: .55s opacity;
-    transition-delay: .55s;
+    transition: .3s opacity;
+    transition-delay: .3s;
 }
 #getid-main .visible_2 {
     opacity: 1;
-    transition: .55s opacity;
-    transition-delay:  1.10s;
+    transition: .3s opacity;
+    transition-delay:  .6s;
 }
 
 #getid-main .visible_3 {
     opacity: 1;
-    transition: .55s opacity;
-    transition-delay:  1.65s;
+    transition: .3s opacity;
+    transition-delay:  .9s;
 }
 

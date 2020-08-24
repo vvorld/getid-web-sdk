@@ -40,9 +40,9 @@ class MobileCamera extends CameraBase {
               }}
               width="100%"
               playsInline
-              ref={this.setSrc}
-              muted
               autoPlay
+              muted
+              ref={this.setSrc}
             >
               <track kind="captions" />
             </video>

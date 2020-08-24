@@ -95,7 +95,7 @@ const init = (options, tokenProvider) => {
         return true;
       }),
       api.getCountryAndDocList()
-        .then(({ countries }) => (onSortDocuments
+        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
           ? sortCountryDocuments(countries, onSortDocuments)
           : countries)),
       api.verifyToken().then(convertAnswer()),

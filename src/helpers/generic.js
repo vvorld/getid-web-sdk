@@ -112,8 +112,10 @@ const validateSortedDocs = (country, documentsToValidate, mainCounriesList) => {
     if (!supportedDocuments) return [];
 
     return documentsToValidate.reduce((result, doc) => {
+        if(typeof doc !== 'string' || !doc) return result
+
         supportedDocuments.forEach(supDoc => {
-            if(doc === supDoc.name) result.push(supDoc)
+            if(doc.toLocaleLowerCase() === supDoc.name) result.push(supDoc)
         })
 
         return result
@@ -127,9 +129,11 @@ export const sortCountryDocuments = (countriesAndDocs, sortFunction) => {
         const { name, documents } = countriesAndDocs[country];
         const documentNames = documents.map(({name}) => name);
         const sortedDocuments = sortFunction(country, documentNames);
+        if(!Array.isArray(sortedDocuments)) return [];
+
         const validatedDocuments = validateSortedDocs(country, sortedDocuments, countriesAndDocs);
 
-        // eslint-disable-next-line no-param-reassign, max-len
+        // eslint-disable-next-line max-len
         if (validatedDocuments.length) newCountriesList[country] = { name, documents: validatedDocuments };
 
         return newCountriesList;

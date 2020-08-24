@@ -35,7 +35,7 @@ const createOverlay = (figure) => ({
             <path
               fill="none"
               stroke="var(--main-input-active-border)"
-              strokeWidth="10px"
+              strokeWidth={`${Math.round(width * 0.01)}px`}
               strokeLinecap="round"
               d={`M${left}, ${top + r}
                   v${fheight - (2 * r)}
@@ -53,7 +53,7 @@ const createOverlay = (figure) => ({
         );
       }
       default: {
-        const r = 70;
+        const r = Math.round(width * 0.02);
         return () => (
           <>
             <g fillRule="evenodd" fill="var(--main-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
@@ -75,7 +75,7 @@ const createOverlay = (figure) => ({
             <path
               fill="none"
               stroke="var(--main-input-active-border)"
-              strokeWidth="10px"
+              strokeWidth={`${`${Math.round(width * 0.01)}px`}`}
               strokeLinecap="round"
               d={`M${left}, ${top + r}
                   v${fheight - (2 * r)}

@@ -13,6 +13,7 @@ import {
   convertAnswer,
   addDefaultValues,
   checkApiVersionSupport,
+  sortCountryDocuments,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -73,6 +74,7 @@ const init = (options, tokenProvider) => {
     const config = {
       ...options, api, translations: defaultTranslations, errorMessage,
     };
+    const { onSortDocuments } = config;
 
     if (config.documentData) {
       config.documentData = config.documentData
@@ -92,8 +94,17 @@ const init = (options, tokenProvider) => {
         console.log(`Can't get supported api versions ${error}`);
         return true;
       }),
+      api.getCountryAndDocList()
+        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
+          ? sortCountryDocuments(countries, onSortDocuments)
+          : countries)),
       api.verifyToken().then(convertAnswer()),
-    ]).then(([filteredFields, info, responseTranslations, isSupportedApiVersion]) => {
+    ]).then(([
+      filteredFields,
+      info,
+      responseTranslations,
+      isSupportedApiVersion,
+      countriesAndDocsList]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
       const customTranslations = options.translations || {};
       const translations = {
@@ -102,8 +113,14 @@ const init = (options, tokenProvider) => {
         ...customTranslations,
       };
       config.fields = filteredFields;
+
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
+        ...config,
+        translations,
+        showOnfidoLogo,
+        sdkPermissions,
+        isSupportedApiVersion,
+        countriesAndDocsList,
       });
     }).catch((e) => {
       const translations = {

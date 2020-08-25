@@ -24,17 +24,11 @@ class CountryAndDocument extends React.Component {
   }
 
   componentDidMount() {
-    const { countriesAndDocs, api, addCountriesAndDocs } = this.props;
+    const {
+      addCountriesAndDocs, countriesAndDocsList,
+    } = this.props;
 
-    if (!countriesAndDocs || !Object.entries(countriesAndDocs).length) {
-      api.getCountryAndDocList().then((data) => {
-        addCountriesAndDocs(data.countries);
-        this.setState({ loading: false });
-      });
-    } else {
-      this.setState({ loading: false });
-    }
-
+    addCountriesAndDocs(countriesAndDocsList);
     this.setFieldsValues();
   }
 
@@ -58,163 +52,165 @@ class CountryAndDocument extends React.Component {
     }
   }
 
-    setBackStepIndexAndStep = () => {
-      const { flow, setIdCaptureBack } = this.props;
-      const stepWithIdCaptureBack = flow
-        .find((item) => item.component.includes('IdCaptureBack')) || {};
-      setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
-    };
+  setBackStepIndexAndStep = () => {
+    const { flow, setIdCaptureBack } = this.props;
+    const stepWithIdCaptureBack = flow
+      .find((item) => item.component.includes('IdCaptureBack')) || {};
+    setIdCaptureBack(flow.indexOf(stepWithIdCaptureBack) || -1);
+  };
 
-    checkForSupportedValues = (currentValues, countryList) => {
-      const { Country, DocumentType } = currentValues;
+  checkForSupportedValues = (currentValues, countryList) => {
+    const { Country, DocumentType } = currentValues;
 
-      if (Country.value && !countryList[Country.value]) {
-        this.setEmptyCountry();
-        console.error('This country is not supported.');
-      }
-
-      if (DocumentType.value && !docTypeMapping[DocumentType.value]) {
-        this.setEmptyDocumentType();
-        console.error('This document type is not supported.');
-      }
-    };
-
-    setFieldsValues = () => {
-      const {
-        documentData, currentStep, addField, fieldValues,
-      } = this.props;
-
-      if (!fieldValues[currentStep] && documentData.length) {
-        documentData.forEach((field) => {
-          addField(field.name, field.value, currentStep, true, 'text');
-        });
-        return;
-      }
-
-      if (!fieldValues[currentStep]) {
-        this.setEmptyCountry();
-        this.setEmptyDocumentType();
-      }
-    };
-
-    setEmptyCountry = () => {
-      const { currentStep, addField } = this.props;
-      addField('Country', undefined, currentStep, true);
-    };
-
-    setNewVal = (key) => (event) => {
-      const { currentStep } = this.props;
-      this.props.addField(key, event.target.value, currentStep, true, 'text');
+    if (Country.value && !countryList[Country.value]) {
+      this.setEmptyCountry();
+      console.error('This country is not supported.');
     }
 
-    setEmptyDocumentType = () => {
-      const { currentStep, addField } = this.props;
-      addField('DocumentType', '', currentStep, true, 'text');
-    };
+    if (DocumentType.value && !docTypeMapping[DocumentType.value]) {
+      this.setEmptyDocumentType();
+      console.error('This document type is not supported.');
+    }
+  };
 
-    getCurrentDocumentProperties = () => {
-      const {
-        fieldValues,
-        currentStep,
-        countriesAndDocs,
-      } = this.props;
+  setFieldsValues = () => {
+    const {
+      documentData, currentStep, addField, fieldValues,
+    } = this.props;
 
-      const docType = fieldValues[currentStep].DocumentType.value;
+    if (!fieldValues[currentStep] && documentData.length) {
+      documentData.forEach((field) => {
+        addField(field.name, field.value, currentStep, true, 'text');
+      });
+      return;
+    }
 
-      const country = mapCountryValues(countriesAndDocs)
-        .find((item) => item.value === fieldValues[currentStep].Country.value);
-      return country
-              && country.documents.find((item) => item.name === docType);
-    };
+    if (!fieldValues[currentStep]) {
+      this.setEmptyCountry();
+      this.setEmptyDocumentType();
+    }
+  };
 
-    changeFlowBasedOnDocumentComposition = () => {
-      const {
-        flow,
-        setFlow,
-        idCaptureBackIndex,
-      } = this.props;
+  setEmptyCountry = () => {
+    const { currentStep, addField } = this.props;
+    addField('Country', undefined, currentStep, true);
+  };
 
-      if (this.initialBSIndex < 0 || !this.initialStep) {
-        return;
-      }
+  setNewVal = (key) => (event) => {
+    const { currentStep } = this.props;
+    this.props.addField(key, event.target.value, currentStep, true, 'text');
+  }
 
-      const duplicatedFlow = flow;
-      const { composition } = this.getCurrentDocumentProperties() || '';
+  setEmptyDocumentType = () => {
+    const { currentStep, addField } = this.props;
+    addField('DocumentType', '', currentStep, true, 'text');
+  };
 
-      if (composition === 'single' && idCaptureBackIndex !== -1) {
-        duplicatedFlow.splice(idCaptureBackIndex, 1);
-        this.setBackStepIndexAndStep();
-        setFlow(duplicatedFlow);
-        return;
-      }
+  getCurrentDocumentProperties = () => {
+    const {
+      fieldValues,
+      currentStep,
+      countriesAndDocs,
+    } = this.props;
 
-      if (composition !== 'single' && idCaptureBackIndex < 0) {
-        duplicatedFlow.splice(this.initialBSIndex, 0, this.initialStep);
-        this.setBackStepIndexAndStep();
-        setFlow(duplicatedFlow);
-      }
-    };
+    const docType = fieldValues[currentStep].DocumentType.value;
 
-    generateRadioButtons = (document) => {
-      if (!document || !docTypeMapping[document]) return null;
+    const country = mapCountryValues(countriesAndDocs)
+      .find((item) => item.value === fieldValues[currentStep].Country.value);
+    return country
+      && country.documents.find((item) => item.name === docType);
+  };
 
-      const {
-        fieldValues, currentStep,
-      } = this.props;
+  changeFlowBasedOnDocumentComposition = () => {
+    const {
+      flow,
+      setFlow,
+      idCaptureBackIndex,
+    } = this.props;
 
-      return (
-        <RadioButton
-          selectedvalue={fieldValues[currentStep].DocumentType.value}
-          key={`control-${document}`}
-          value={document}
-          label={docTypeMapping[document]}
-        />
-      );
-    };
+    if (this.initialBSIndex < 0 || !this.initialStep) {
+      return;
+    }
 
-    render() {
-      const { loading } = this.state;
-      const {
-        countriesAndDocs, fieldValues, currentStep, currentComponent,
-      } = this.props;
+    const duplicatedFlow = flow;
+    const { composition } = this.getCurrentDocumentProperties() || '';
 
-      const { translations } = this.context;
-      const placeholder = translations['CountryAndDocument_country-placeholder'];
-      const values = fieldValues[currentStep];
+    if (composition === 'single' && idCaptureBackIndex !== -1) {
+      duplicatedFlow.splice(idCaptureBackIndex, 1);
+      this.setBackStepIndexAndStep();
+      setFlow(duplicatedFlow);
+      return;
+    }
 
-      if (loading && !values) {
-        return null;
-      }
+    if (composition !== 'single' && idCaptureBackIndex < 0) {
+      duplicatedFlow.splice(this.initialBSIndex, 0, this.initialStep);
+      this.setBackStepIndexAndStep();
+      setFlow(duplicatedFlow);
+    }
+  };
 
-      const currentDocumentType = values.DocumentType.value;
-      const currentCountryValue = values.Country.value;
+  generateRadioButtons = (document) => {
+    if (!document || !docTypeMapping[document]) return null;
 
-      const { documents } = countriesAndDocs[currentCountryValue] || [];
-      const { length } = currentComponent.component;
+    const {
+      fieldValues, currentStep,
+    } = this.props;
 
-      const fieldWidth = length > 1 ? 10 : 5;
+    return (
+      <RadioButton
+        selectedvalue={fieldValues[currentStep].DocumentType.value}
+        key={`control-${document}`}
+        value={document}
+        label={docTypeMapping[document]}
+      />
+    );
+  };
 
-      return (
-        <Grid justify="center" alignItems="center" container data-role="blockDocument">
-          <Grid item xs={11} sm={9} md={fieldWidth}>
-            <Select
-              items={mapCountryValues(countriesAndDocs)}
-              value={currentCountryValue}
-              onChange={this.setNewVal('Country')}
-              placeholder={placeholder}
-            />
+  render() {
+    const { loading } = this.state;
+    const {
+      countriesAndDocs,
+      fieldValues,
+      currentStep,
+      currentComponent,
+    } = this.props;
 
-            <RadioGroup value={currentDocumentType} onChange={this.setNewVal('DocumentType')}>
-              {documents && documents.map((docType) => this.generateRadioButtons(docType.name))}
-            </RadioGroup>
-          </Grid>
+    const { translations } = this.context;
+    const placeholder = translations['CountryAndDocument_country-placeholder'];
+    const values = fieldValues[currentStep];
+
+    if (loading && !values) {
+      return null;
+    }
+
+    const currentDocumentType = values.DocumentType.value;
+    const currentCountryValue = values.Country.value;
+
+    const { documents } = countriesAndDocs[currentCountryValue] || [];
+    const { length } = currentComponent.component;
+
+    const fieldWidth = length > 1 ? 10 : 5;
+
+    return (
+      <Grid justify="center" alignItems="center" container data-role="blockDocument">
+        <Grid item xs={11} sm={9} md={fieldWidth}>
+          <Select
+            items={mapCountryValues(countriesAndDocs)}
+            value={currentCountryValue}
+            onChange={this.setNewVal('Country')}
+            placeholder={placeholder}
+          />
+
+          <RadioGroup value={currentDocumentType} onChange={this.setNewVal('DocumentType')}>
+            {documents && documents.map((docType) => this.generateRadioButtons(docType.name))}
+          </RadioGroup>
         </Grid>
-      );
-    }
+      </Grid>
+    );
+  }
 }
 
 CountryAndDocument.propTypes = {
-  api: PropTypes.object.isRequired,
   addField: PropTypes.func.isRequired,
   addCountriesAndDocs: PropTypes.func.isRequired,
   setIdCaptureBack: PropTypes.func.isRequired,
@@ -228,6 +224,7 @@ CountryAndDocument.propTypes = {
   flow: PropTypes.array.isRequired,
   documentData: PropTypes.array,
   currentComponent: PropTypes.object.isRequired,
+  countriesAndDocsList: PropTypes.object.isRequired,
 };
 
 CountryAndDocument.defaultProps = {

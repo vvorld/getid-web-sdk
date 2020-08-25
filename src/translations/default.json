@@ -5,7 +5,7 @@
   "IdCapture_header": "Make front side photo of a document",
   "IdCaptureBack_header": "Make back side photo of a document",
   "ThankYou_header": "Thank you",
-  "isFail_header": "Can not send data",
+  "isFail_header": "Cannot send data",
   "400_header": "Bad request",
   "500_header": "Service is unavailable",
   "PreviewForm_selfie": "Is the selfie clearly visible?",

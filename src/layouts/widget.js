@@ -80,7 +80,7 @@ const normaliseFlow = (flow) => {
     const dockStep = flow[documentIndex];
     if (dockStep.showRules) {
       flow.splice(documentIndex, 0, {
-        component: 'Rules',
+        component: 'PhotoRules',
       });
     }
     if (dockStep.interactive) {
@@ -89,6 +89,16 @@ const normaliseFlow = (flow) => {
       });
       app.country = dockStep.country;
       app.documentType = dockStep.documentType;
+    }
+  }
+
+  const selfieIndex = flow.findIndex((x) => x.component === 'Selfie');
+  if (selfieIndex !== -1) {
+    const selfieStep = flow[selfieIndex];
+    if (selfieStep.showRules) {
+      flow.splice(selfieStep, 0, {
+        component: 'SelfieRules',
+      });
     }
   }
   return [flow, app];
@@ -222,8 +232,12 @@ class Widget extends Component {
         ),
         (form) => next({ form }, 'form'),
       ];
-      case 'Rules': return (app, next) => [
-        (props) => <Rules {...props} />,
+      case 'PhotoRules': return (app, next) => [
+        (props) => <Rules step="PhotoRules" {...props} />,
+        () => next({ }),
+      ];
+      case 'SelfieRules': return (app, next) => [
+        (props) => <Rules step="SelfieRules" {...props} />,
         () => next({ }),
       ];
       case 'CaptureBack': return (app, next) => [

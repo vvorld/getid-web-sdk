@@ -7,14 +7,14 @@ import TranslationsContext from '../../context/TranslationsContext';
 import './rules.css';
 import PropTypes from 'prop-types';
 
-export const RulesList = () => {
+export const RulesList = ({ rules }) => {
   const { translations } = useContext(TranslationsContext);
-  const rules = Object.keys(translations).filter((el) => el.includes('PhotoRules_line_')).map((ele) => translations[ele]);
+  const list = Object.keys(translations).filter((el) => el.includes(`${rules}_line_`)).map((ele) => translations[ele]);
 
   return (
     <div className="getid-rule-list_container">
       <ul className="getid-rule-list">
-        { rules.map((el) => (
+        { list.map((el) => (
           <li key={el}>
             { el }
           </li>
@@ -23,14 +23,14 @@ export const RulesList = () => {
     </div>
   );
 };
-const Rules = ({ finishStep, prevStep }) => (
+const Rules = ({ finishStep, prevStep, step }) => (
   <>
-    <Header step="PhotoRules" />
-    <Content step="PhotoRules">
-      <RulesList step="PhotoRules" />
+    <Header step={step} />
+    <Content step={step}>
+      <RulesList rules={step} />
     </Content>
     <Footer
-      step="PhotoRules"
+      step={step}
       next={{ onClick: () => finishStep() }}
       back={{ onClick: () => prevStep() }}
     />
@@ -40,6 +40,7 @@ const Rules = ({ finishStep, prevStep }) => (
 Rules.propTypes = {
   finishStep: PropTypes.func.isRequired,
   prevStep: PropTypes.func.isRequired,
+  step: PropTypes.string.isRequired,
 };
 
 export default Rules;

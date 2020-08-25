@@ -82,7 +82,7 @@ export default {
       interactive: true,
       enableCheckPhoto: true,
     },
-    { component: 'Selfie' },
+    { component: 'Selfie', showRules: true },
 
     // { component: 'Selfie' },
     // {

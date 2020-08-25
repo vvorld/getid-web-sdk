@@ -164,7 +164,7 @@ class WebcamView extends React.Component {
               <PreviewForm blob={blob} result={result} ratio={ratio} />
             </div>
             <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
-              <RetakeDescription step={step} code={retakeCode} />
+              <RetakeDescription step={step} code={retakeCode} rules={this.props.rules} />
             </div>
             {step === 'checking'
               ? (

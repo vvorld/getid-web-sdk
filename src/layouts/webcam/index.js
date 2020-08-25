@@ -22,6 +22,7 @@ const CaptureFront = (props) => (
     {...props}
     Camera={camera('rectangle')}
     ratio={3 / 2}
+    rules="PhotoRules"
     componentName="IdCapture"
     Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/default_front.svg' : 'https://cdn.getid.cloud/assets/desktop/default_front.svg')}
     facingMode="environment"
@@ -33,6 +34,7 @@ const CaptureBack = (props) => (
     {...props}
     Camera={camera('rectangle')}
     ratio={3 / 2}
+    rules="PhotoRules"
     componentName="IdCaptureBack"
     onCheck={props.checkDocumentPhoto}
     isMobile={isMobile()}
@@ -50,6 +52,7 @@ const DocumentPhoto = (props) => (
     {...props}
     Camera={camera('rectangle')}
     ratio={3 / 2}
+    rules="PhotoRules"
     onCheck={props.checkDocumentPhoto}
     componentName="IdCapture"
     isMobile={isMobile()}
@@ -66,6 +69,7 @@ const Selfie = (props) => (
     Camera={camera('ellips')}
     ratio={3 / 4}
     componentName="IdSelfie"
+    rules="SelfieRules"
     isMobile={isMobile()}
     Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/selfie.svg' : 'https://cdn.getid.cloud/assets/desktop/selfie.svg')}
     facingMode="user"

@@ -99,6 +99,15 @@ export default {
   IdSelfie_preview_next: 'Yes, continue',
   IdSelfie_preview_back: 'No, retake',
 
+  SelfieRules_header: 'Take a selfie',
+  SelfieRules_subHeader: ' ',
+  SelfieRules_line_1: 'Make sure lightning conditions are sufficient',
+  SelfieRules_line_2: 'Avoid flash and counter light',
+  SelfieRules_line_3: 'Avoid other people in the frame',
+  SelfieRules_line_4: 'Look straight ahead',
+  SelfieRules_back: 'Go back',
+  SelfieRules_next: 'ok, i got it',
+
   Recording_guide_header: 'Record video',
   Recording_guide_subHeader: ' ',
   Recording_guide_next: 'ok, i got it',

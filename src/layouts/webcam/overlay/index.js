@@ -20,16 +20,7 @@ const createOverlay = (figure) => ({
 
               <path
                 d={`M0,0  h${width}  v${height} h-${width} z
-                M${left}, ${top + r}
-                  v${fheight - (2 * r)}
-                  C ${left} ${bottom - r} ${left} ${bottom} ${left + r} ${bottom}
-                  h${fwidth - (2 * r)}
-                  C ${right} ${bottom} ${right} ${bottom - r} ${right} ${bottom - r}
-                  v-${fheight - (2 * r)}
-                  C ${right} ${top + r} ${right} ${top} ${right - r} ${top}
-                  h-${fwidth - (2 * r)}
-                  C ${left} ${top} ${left} ${top + r} ${left} ${top + r}
-                  z`}
+                M ${width / 2}, ${top} a ${fwidth / 2},${fheight / 2} 0 1,0 1,0 z`}
               />
             </g>
             <path
@@ -37,16 +28,9 @@ const createOverlay = (figure) => ({
               stroke="var(--main-input-active-border)"
               strokeWidth={`${Math.round(width * 0.01)}px`}
               strokeLinecap="round"
-              d={`M${left}, ${top + r}
-                  v${fheight - (2 * r)}
-                  C ${left} ${bottom - r} ${left} ${bottom} ${left + r} ${bottom}
-                  h${fwidth - (2 * r)}
-                  C ${right} ${bottom} ${right} ${bottom - r} ${right} ${bottom - r}
-                  v-${fheight - (2 * r)}
-                  C ${right} ${top + r} ${right} ${top} ${right - r} ${top}
-                  h-${fwidth - (2 * r)}
-                  C ${left} ${top} ${left} ${top + r} ${left} ${top + r}
-                  z`}
+              d={`M ${width / 2}, ${top} a ${fwidth / 2},${fheight / 2} 0 1,0 1,0 z
+              
+            `}
 
             />
           </>

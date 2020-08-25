@@ -8,14 +8,14 @@ import Footer from '../../../components/blocks/footer';
 import TranslationsContext from '../../../context/TranslationsContext';
 
 const AnimatedSvg = {
-  front: 'https://cdn.getid.cloud/assets/desktop/default_front.svg',
-  back: 'https://cdn.getid.cloud/assets/desktop/default_back.svg',
-  passport: 'https://cdn.getid.cloud/assets/desktop/passport.svg',
-  frontMobile: 'https://cdn.getid.cloud/assets/mobile/default_front.svg',
-  backMobile: 'https://cdn.getid.cloud/assets/mobile/default_back.svg',
-  passportMobile: 'https://cdn.getid.cloud/assets/mobile/passport.svg',
-  selfieMobile: 'https://cdn.getid.cloud/assets/mobile/selfie.svg',
-  selfie: 'https://cdn.getid.cloud/assets/desktop/selfie.svg',
+  front: 'https://cdn.getid.cloud/assets/am/desktop/default_front.svg',
+  back: 'https://cdn.getid.cloud/assets/am/desktop/default_back.svg',
+  passport: 'https://cdn.getid.cloud/assets/am/desktop/passport.svg',
+  frontMobile: 'https://cdn.getid.cloud/assets/am/mobile/default_front.svg',
+  backMobile: 'https://cdn.getid.cloud/assets/am/mobile/default_back.svg',
+  passportMobile: 'https://cdn.getid.cloud/assets/am/mobile/passport.svg',
+  selfieMobile: 'https://cdn.getid.cloud/assets/am/mobile/selfie.svg',
+  selfie: 'https://cdn.getid.cloud/assets/am/desktop/selfie.svg',
 };
 
 const useStyles = makeStyles((theme) => ({

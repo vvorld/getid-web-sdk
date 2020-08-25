@@ -163,8 +163,7 @@ class Widget extends Component {
   };
 
   nextStep = async (delta, stepName) => {
-    console.log(this.flow, this.state);
-    if (this.step >= this.flow.length - 1) {
+    if (this.state.step >= this.flow.length - 1) {
       this.finish();
       return;
     }

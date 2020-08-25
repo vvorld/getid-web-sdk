@@ -28,14 +28,6 @@
 #getid-main .animation {
     opacity: 0;
 }
-#getid-main .invisible {
-    opacity: 0;
-    transition: .55s opacity;
-
-}
-#getid-main .visible_1 {
-    opacity: 1;
-}
 #getid-main .visible_1 {
     opacity: 1;
     transition: .3s opacity;
@@ -46,7 +38,6 @@
     transition: .3s opacity;
     transition-delay:  .6s;
 }
-
 #getid-main .visible_3 {
     opacity: 1;
     transition: .3s opacity;

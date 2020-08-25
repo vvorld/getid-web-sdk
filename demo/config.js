@@ -74,7 +74,7 @@ export default {
     {
       component: 'Record',
       server: 'http://164.90.223.220:8080',
-      phrases: ['I would like to get a setificate from Company Z'],
+      phrases: ['I would like to get a setificate from Company Z', 'Step 2'],
     },
     {
       component: 'DocumentPhoto',

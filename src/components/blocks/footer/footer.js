@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PoweredBy from '../powered-by/index';
@@ -5,14 +6,12 @@ import './footer.css';
 import './button.css';
 import Translate from '../translations';
 
-const Footer = ({
-  next = {}, back = {}, step,
-}) => {
+const Footer = ({ next, back, step }) => {
   if (!next) {
-    next = {};
+    next = { onClick: null };
   }
   if (!back) {
-    back = {};
+    back = { onClick: null };
   }
   const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
   const enableAnimation = !visible || step !== st;
@@ -33,7 +32,7 @@ const Footer = ({
               className={`getid-button__main ${next.mod ? `getid-${next.mod}` : ''}`}
               disabled={next.disable}
               onClick={() => {
-                setVisible(false);
+                setVisible({ visible: false, step });
                 next.onClick();
               }}
             >
@@ -54,7 +53,7 @@ const Footer = ({
           <button
             type="button"
             onClick={() => {
-              setVisible(false);
+              setVisible({ visible: false, step });
               back.onClick();
             }}
             className="getid-btn__back"
@@ -76,11 +75,14 @@ Footer.propTypes = {
     text: PropTypes.string,
     disable: PropTypes.bool,
     onClick: PropTypes.func,
+    mod: PropTypes.string,
+    icon: PropTypes.node,
   }),
   back: PropTypes.shape({
     onClick: PropTypes.func,
     text: PropTypes.string,
   }),
+  step: PropTypes.string,
   style: PropTypes.shape({}),
 };
 
@@ -88,6 +90,7 @@ Footer.defaultProps = {
   next: null,
   back: null,
   style: {},
+  step: '',
 };
 
 export default Footer;

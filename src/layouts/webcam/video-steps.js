@@ -25,7 +25,17 @@ class RecordView extends React.Component {
       blob: props.blob,
       result: {},
     };
+    this.createComponents();
+  }
 
+  componentWillUnmount() {
+    if (this.state.stream) {
+      this.state.stream.getTracks().forEach((track) => track.stop());
+    }
+  }
+
+  createComponents = () => {
+    const { props } = this;
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
@@ -39,12 +49,6 @@ class RecordView extends React.Component {
     });
     this.Camera = Camera;
     this.CameraFooter = CameraFooter;
-  }
-
-  componentWillUnmount() {
-    if (this.state.stream) {
-      this.state.stream.getTracks().forEach((track) => track.stop());
-    }
   }
 
   makeVideo = () => {
@@ -120,7 +124,12 @@ class RecordView extends React.Component {
           footer: <Footer
             step={stepName}
             next={{ onClick: () => this.props.finishStep(blob) }}
-            back={{ text: 'No, retake', onClick: this.startRecordStep }}
+            back={{
+              onClick: () => {
+                this.createComponents();
+                this.startRecordStep();
+              },
+            }}
           />,
         };
         default: throw new Error(`Bad step ${step}`);
@@ -135,7 +144,7 @@ class RecordView extends React.Component {
             <Guide />
           </div>
           <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera visible={step === 'record'} />
+            <Camera active visible={step === 'record'} />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewVideo

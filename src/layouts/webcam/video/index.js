@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React, { Component, useState, useEffect } from 'react';
 import Api from './api';
 import VideoClient from './client';
@@ -102,6 +103,9 @@ export default (pr) => {
 
   const rerenders = [];
   const change = (rec, fin) => {
+    if (!recording && rec) {
+      client.startRecord();
+    }
     recording = rec;
     if (fin) {
       client.stop();
@@ -115,8 +119,6 @@ export default (pr) => {
 
   class WebRTCCamera extends Component {
     componentWillMount() {
-      console.log(2);
-
       rerenders.push(() => this.forceUpdate());
     }
 

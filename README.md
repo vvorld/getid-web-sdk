@@ -312,6 +312,7 @@ getId web SDK allows several callbacks:
 - **onComplete** function - callback executed on Success event (client has been successfully verified)
 - **onError** function - callback executed on fail event (client has not been successfully verified) - we will tell you why in `error.message` - now it's up to you to handle this accordingly
 - **OnExists** function - callback executed when we detect existing application with id that was passed on init
+- **onSortDocuments** function - callback executing for sorting or filtering supported documents list. Function takes two parameters: country - string in ALPHA-2 format(lowercase) and documents: array of supported document types for current country. You should return an array of desired document types(in desired order) for every country if you don't want to display some countries just return empty array.
 
 Example:
 ``` js
@@ -324,6 +325,14 @@ const config = {
   },
    onFail: function(error) {
    console.log("something went wrong" + error)
+  },
+  onSortDocuments: function(coutry, documents) {
+   const desiredCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'at', 'be', 'bg', 'de', 'ee'];
+   const desiredDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
+
+   if (desiredCountries.includes(country) return desiredDocuments;
+   
+   return [];
   }
 }; 
 

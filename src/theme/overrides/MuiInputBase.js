@@ -13,6 +13,9 @@ export default {
       '& .MuiOutlinedInput-input': {
         padding: '27px 14px',
       },
+      '&.MuiOutlinedInput-adornedEnd': {
+        padding: 0,
+      },
       '& .MuiOutlinedInput-notchedOutline': {
         border: '1px solid rgba(0, 0, 0, 0.6)',
       },
@@ -39,7 +42,15 @@ export default {
         alignItems: 'center',
       },
       backgroundColor: 'transparent',
-      color: 'rgba(0, 0, 0, 0.6)!important',
+      color: 'rgba(0, 0, 0, 0.87)!important',
+      '& .MuiInputAdornment-root.MuiInputAdornment-positionEnd': {
+        color: 'pink',
+        '& .MuiIconButton-label': {
+          '& stroke, path': {
+            fill: '#105EF6',
+          },
+        },
+      },
       '& .MuiOutlinedInput-notchedOutline': {
         borderWidth: 1,
       },

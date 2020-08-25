@@ -29,7 +29,6 @@ const createErrorView = (config) => (props) => {
         <Typography variant="h1">
           {config.header(dictionary, responseCode, error)}
         </Typography>
-        <hr className={hr} />
         <Typography variant="h2">
           {config.subHeader(dictionary, responseCode, error)}
         </Typography>

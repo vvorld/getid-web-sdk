@@ -125,6 +125,7 @@ class Widget extends Component {
       next: {
         attempts: 3,
         width: 12,
+        isThankYou: this.isPage('ThankYou'),
         direction: 'center',
         action: this.buttonAction(),
         text: this.nextButtonText(),

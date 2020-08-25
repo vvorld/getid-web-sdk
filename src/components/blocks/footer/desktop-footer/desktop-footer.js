@@ -7,7 +7,7 @@ const Footer = (props) => {
   const classes = FooterStyles();
   return (
     <div>
-      <div className={classes.lineLong} data-role="preFooter" />
+      {!props.next.isThankYou && <div className={classes.lineLong} data-role="preFooter" />}
       <ActionBar {...(props)} />
       <PoweredBy />
     </div>

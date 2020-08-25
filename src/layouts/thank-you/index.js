@@ -7,10 +7,10 @@ import Content from '../../components/blocks/content';
 
 const ThankYou = (props) => (
   <>
-    <div>
-      <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
-    </div>
     <Header step="ThankYou" />
+    <Content>
+      <img data-role="logo" className="getid-logo__top" src={ThankYouIcon} alt="logo" />
+    </Content>
     <Footer step="ThankYou" next={{ onClick: props.finishStep }} />
   </>
 );

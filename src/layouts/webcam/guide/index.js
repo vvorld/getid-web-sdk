@@ -9,6 +9,12 @@ const urlCreator = window.URL || window.webkitURL;
 const Guide = ({ src }) => {
   const [blob, setBlob] = useState('');
   if (!cache[src]) {
+    // cache[src] = fetch(src)
+    //   .then((r) => r.text())
+    //   .then((text) => {
+    //     const str = text.split('rgb(206,211,221)').join('rgb(191, 88, 82)');
+    //     return str.blob();
+    //   }).then((x) => urlCreator.createObjectURL(x));
     cache[src] = fetch(src).then((r) => r.blob()).then((x) => urlCreator.createObjectURL(x));
   }
   cache[src].then(setBlob);

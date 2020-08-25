@@ -10,6 +10,7 @@ import CameraDisabled from './cam-disabled';
 import PreviewForm from './photo-preview';
 import Checking from './checking';
 import RetakeDescription from './retake-description';
+import {isMobile} from "../../helpers/generic";
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -139,7 +140,6 @@ class WebcamView extends React.Component {
         default: throw new Error(`Bad step ${step}`);
       }
     })();
-
     return (
       <>
         {layout.header}

@@ -5,14 +5,18 @@ import './guide.css';
 const cache = {
 
 };
+const urlCreator = window.URL || window.webkitURL;
 const Guide = ({ src }) => {
-  const [code, setCode] = useState('');
+  const [blob, setBlob] = useState('');
   if (!cache[src]) {
-    cache[src] = fetch(src).then((r) => r.text()).then((x) => x.replace('<svg', '<svg class="getid-guide__img"'));
+    cache[src] = fetch(src).then((r) => r.blob()).then((x) => urlCreator.createObjectURL(x));
   }
-  cache[src].then(setCode);
+  cache[src].then(setBlob);
   return (
-    <div className="getid-guide__container" dangerouslySetInnerHTML={{ __html: code }} />
+    <div className="getid-guide__container">
+      <img alt="guide" className="getid-guide__img" src={blob} />
+    </div>
+
   );
 };
 

@@ -10,7 +10,7 @@ const RetakeDescription = ({ code, step, rules }) => (
       <Translate step={step} element={code} />
     </div>
 
-    <RulesList step={rules} />
+    <RulesList rules={rules} />
   </div>
 );
 

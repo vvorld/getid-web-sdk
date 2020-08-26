@@ -96,7 +96,7 @@ const normaliseFlow = (flow) => {
   if (selfieIndex !== -1) {
     const selfieStep = flow[selfieIndex];
     if (selfieStep.showRules) {
-      flow.splice(selfieStep, 0, {
+      flow.splice(selfieIndex, 0, {
         component: 'SelfieRules',
       });
     }

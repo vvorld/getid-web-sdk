@@ -24,19 +24,8 @@ class DesktopCamera extends CameraBase {
           ref={this.setSrc}
           muted
           autoPlay
-        >
-          <track kind="captions" />
-        </video>
-        {Overlay && (
-        <Overlay
-          width={width}
-          height={height}
-          left={left}
-          top={top}
-          bottom={bottom}
-          right={right}
         />
-        )}
+        {Overlay && <Overlay width={width} height={height} left={left} top={top} bottom={bottom} right={right} />}
       </div>
     );
   }

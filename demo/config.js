@@ -87,9 +87,9 @@ export default {
     console.log('exists');
   },
   onSortDocuments(country, documents) {
-    const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'ci'];
-    const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl', 'sk'];
-    const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl'];
+    const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'cn'];
+    const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl'];
+    const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'sk'];
     const drivingPassportIdCountries = ['lu'];
     const drivingIdPassportCountries = ['au'];
 

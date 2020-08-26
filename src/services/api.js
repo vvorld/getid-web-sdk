@@ -37,7 +37,11 @@ export const createApi = (url, jwt, verificationTypes, metadata) => {
 
   const trySendEvent = async (step, stepPhase) => {
     try {
-      await post(`${url}${EVENT}`, { jwt, event: { stepPhase, step } });
+      const event = { stepPhase, step };
+      if (metadata) {
+        event.metadata = metadata;
+      }
+      await post(`${url}${EVENT}`, { jwt, event });
     } catch (e) {
       console.log(e);
     }

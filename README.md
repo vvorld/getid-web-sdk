@@ -33,9 +33,7 @@ upload (capture) ids and face photos.
             
 | OS | Browser | photos | liveness |
 | --- | --- | --- | --- |
-| iOS | Chrome, last versions | ✔️ | ― |
 | iOS | Safari, last versions | ✔️ | ― |
-| iOS | Firefox, last versions | ✔️ | ― |
 | Android | Chrome | ✔️ | ― |
 | Android | Samsung Internet | ✔️ | ― |
 | Android | Firefox | ✔️ | ― |

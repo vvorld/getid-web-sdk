@@ -77,7 +77,6 @@ class WebcamView extends React.Component {
       errorMessage, step, blob, cameraStepIsAllowed,
       result, retakeCode, tryNumber,
     } = this.state;
-    console.log(this.props);
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {

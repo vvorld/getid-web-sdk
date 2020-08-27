@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './file-input.css';
 import TranslationsContext from '../../../context/TranslationsContext';
@@ -21,6 +21,10 @@ const FileInput = (props) => {
     setError(null);
   };
 
+  useEffect(() => {
+    onChange(currValue, !!error);
+  }, [currValue]);
+
   return (
     <>
       {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}
@@ -31,8 +35,7 @@ const FileInput = (props) => {
           accept="image/x-png,image/jpeg"
           onChange={(e) => {
             const file = [...e.target.files][0];
-            setValue(file.name);
-            onChange(file);
+            setValue(file);
             validate(file);
           }}
           name={name}
@@ -40,7 +43,7 @@ const FileInput = (props) => {
         />
         <div className={`getid-file-input ${error ? 'getid-input-error' : ''}`}>
           <div className="getid-file-input__label">
-            {currValue || (
+            {(currValue && currValue.name) || (
               <div className="getid-file-input__placeholder">
                 {ph}
               &nbsp;
@@ -57,7 +60,7 @@ const FileInput = (props) => {
 
         </div>
       </label>
-      {error && <span className="getid-error__message">{error }</span>}
+      {error && <span className="getid-error__message">{error}</span>}
     </>
   );
 };

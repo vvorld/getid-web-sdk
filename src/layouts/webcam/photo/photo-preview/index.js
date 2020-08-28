@@ -1,7 +1,7 @@
 import React from 'react';
 import './preview.css';
 import PropTypes from 'prop-types';
-import Loader from '../../../components/loader/loader';
+import Loader from '~/components/loader/loader';
 
 const PreviewForm = ({ blob, ratio, checking }) => {
   const urlCreator = window.URL || window.webkitURL;

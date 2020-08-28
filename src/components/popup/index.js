@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Landscape from '../../../assets/icons/views/landscape.svg';
-import Translate from '../../../components/blocks/translations';
+import Landscape from '~/assets/icons/views/landscape.svg';
+import Translate from '~/components/blocks/translations';
 import './popup.css';
 
 class Popup extends Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import FileInput from './index';
-import '../../../layouts/form/form.css';
+import '~/layouts/form/form.css';
 
 const onchange = action('Change action fired');
 

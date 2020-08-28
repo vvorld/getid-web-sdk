@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SadSmileSVG from '../../../assets/icons/views/sad-smile.svg';
+import SadSmileSVG from '~/assets/icons/views/sad-smile.svg';
 
 const index = ({ requestCamera, errorMessage }) => (
   <div>

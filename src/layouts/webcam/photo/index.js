@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CameraSteps from './photo/camera-steps';
+import CameraSteps from './camera-steps';
 import Guide from '~/components/guide';
-import Camera from './photo/camera';
-import overlay from './photo/overlay';
+import Camera from './camera';
+import overlay from './overlay';
 
 import { isMobile } from '~/helpers/generic';
-import RecordStep from './video-steps';
-import LivenessStep from './liveness-steps';
 
 const guide = (src) => () => <Guide src={src} />;
 
@@ -77,28 +75,6 @@ const Selfie = (props) => (
   />
 );
 
-const Liveness = (props) => (
-  <LivenessStep
-    {...props}
-    componentName="Liveness"
-    isMobile={isMobile()}
-    // 'https://cdn.getid.cloud/assets/mobile/passport.svg',
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/recording.svg')}
-    facingMode={{ exact: 'environment' }}
-  />
-);
-
-const Record = (props) => (
-  <RecordStep
-    {...props}
-    componentName="Video"
-    isMobile={isMobile()}
-    // 'https://cdn.getid.cloud/assets/mobile/passport.svg',
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/recording.svg')}
-    facingMode={{ exact: 'environment' }}
-  />
-);
-
 export {
-  Selfie, CaptureBack, CaptureFront, DocumentPhoto, Record, Liveness,
+  Selfie, CaptureBack, CaptureFront, DocumentPhoto,
 };

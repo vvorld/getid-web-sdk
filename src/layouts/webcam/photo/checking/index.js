@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Loader from '../../../components/loader/loader';
+import Loader from '~/components/loader/loader';
 
 const Check = ({
   onSuccess, onFail, onCheck, blob, enable, tryNumber,

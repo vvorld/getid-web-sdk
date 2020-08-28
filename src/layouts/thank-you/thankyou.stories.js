@@ -1,5 +1,5 @@
 import React from 'react';
-import { setCss } from '../../helpers/generic';
+import { setCss } from '~/helpers/generic';
 import { darkTheme } from '../../dark-theme';
 
 import ThankYou from './index';

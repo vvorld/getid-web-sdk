@@ -1,11 +1,11 @@
 import React, { Component, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Camera from './camera';
-import Footer from '../../components/blocks/footer/footer';
-import Header from '../../components/blocks/header/header';
-import Content from '../../components/blocks/content';
+import Camera from './photo/camera';
+import Footer from '~/components/blocks/footer/footer';
+import Header from '~/components/blocks/header/header';
+import Content from '~/components/blocks/content';
 import CameraDisabled from './cam-disabled';
-import { isMobile } from '../../helpers/generic';
+import { isMobile } from '~/helpers/generic';
 import createLivenessSession from './liveness';
 
 const getErrorText = (name, translations) => {

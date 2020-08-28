@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../context/TranslationsContext';
-import Footer from '../../components/blocks/footer/footer';
-import Radiobutton from '../../components/inputs/radio-button';
+import TranslationsContext from '~/context/TranslationsContext';
+import Footer from '~/components/blocks/footer/footer';
+import Radiobutton from '~/components/inputs/radio-button';
 import '../form/form.css';
-import Header from '../../components/blocks/header/header';
-import Content from '../../components/blocks/content';
+import Header from '~/components/blocks/header/header';
+import Content from '~/components/blocks/content';
 
 const docTypeMapping = {
   passport: 'Passport',

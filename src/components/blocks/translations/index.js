@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { isMobile } from '../../../helpers/generic';
-import TranslationsContext from '../../../context/TranslationsContext';
+import { isMobile } from '~/helpers/generic';
+import TranslationsContext from '~/context/TranslationsContext';
 
 const translate = (step, element) => {
   const { translations } = useContext(TranslationsContext);

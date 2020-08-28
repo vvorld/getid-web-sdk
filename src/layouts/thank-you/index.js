@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ThankYouIcon from '../../assets/icons/thank-you-logo.svg';
-import Header from '../../components/blocks/header/header';
-import Footer from '../../components/blocks/footer/footer';
-import Content from '../../components/blocks/content';
+import ThankYouIcon from '~/assets/icons/thank-you-logo.svg';
+import Header from '~/components/blocks/header/header';
+import Footer from '~/components/blocks/footer/footer';
+import Content from '~/components/blocks/content';
 
 const ThankYou = (props) => (
   <>

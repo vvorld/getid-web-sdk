@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 import PropTypes from 'prop-types';
-import { getConst } from '../../blocks/translations';
+import { getConst } from '~/components/blocks/translations';
 
 const getMonths = () => [
   { name: getConst('january'), days: 31 },

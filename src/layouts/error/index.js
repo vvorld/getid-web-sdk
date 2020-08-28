@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import TranslationsContext from '../../context/TranslationsContext';
-import ErrorIcon from '../../assets/icons/views/error-icon.svg';
-import PoweredBy from '../../components/blocks/powered-by';
+import TranslationsContext from '~/context/TranslationsContext';
+import ErrorIcon from '~/assets/icons/views/error-icon.svg';
+import PoweredBy from '~/components/blocks/powered-by';
 import Browsers from './browsers';
 
 import '../style.css';

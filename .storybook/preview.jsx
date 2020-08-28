@@ -6,7 +6,9 @@ import translations from '../src/translations/default.js';
 
 const Context = (storyFn) => (
   <TranslationsContext.Provider value={{ translations }}>
-    {storyFn()}
+    <div id="getid-main">
+      {storyFn()}
+    </div>
   </TranslationsContext.Provider>
 );
 

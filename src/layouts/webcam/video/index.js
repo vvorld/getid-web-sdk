@@ -2,8 +2,8 @@
 import React, { Component, useState, useEffect } from 'react';
 import Api from './api';
 import VideoClient from './client';
-import Footer from '../../../components/blocks/footer/footer';
-import Popup from '../popup';
+import Footer from '~/components/blocks/footer/footer';
+import Popup from '~/components/popup';
 import './record.css';
 
 const normalizeNumber = (n) => (n < 10 ? `0${n}` : `${n}`);

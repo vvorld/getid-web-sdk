@@ -1,6 +1,6 @@
 import React from 'react';
-import { setCss } from '../../helpers/generic';
-import { darkTheme } from '../../dark-theme';
+import { setCss } from '~/helpers/generic';
+import { darkTheme } from '~/dark-theme';
 import CountryAndDocument from './index';
 
 export default { title: 'Layouts|CountryDocument' };

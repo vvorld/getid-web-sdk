@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import getIdLogo from '../../assets/icons/getid-logo.svg';
-import thankyou from '../../assets/icons/thank-you-logo.svg';
-import reset from '../../assets/icons/error-icon.svg';
+import getIdLogo from '~/assets/icons/getid-logo.svg';
+import thankyou from '~/assets/icons/thank-you-logo.svg';
+import reset from '~/assets/icons/error-icon.svg';
 
 const logoMapping = {
   getIdLogo,

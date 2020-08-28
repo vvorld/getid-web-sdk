@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './file-input.css';
-import TranslationsContext from '../../../context/TranslationsContext';
+import TranslationsContext from '~/context/TranslationsContext';
 
 const FileInput = (props) => {
   const {

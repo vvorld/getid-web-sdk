@@ -1,9 +1,9 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import chrome from '../../assets/icons/chrome.svg';
-import safari from '../../assets/icons/safari.svg';
-import firefox from '../../assets/icons/ff.svg';
+import chrome from '~/assets/icons/chrome.svg';
+import safari from '~/assets/icons/safari.svg';
+import firefox from '~/assets/icons/ff.svg';
 
 const icons = {
   chrome,

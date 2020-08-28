@@ -1,6 +1,6 @@
 import React from 'react';
 import Select from './index';
-import '../../../layouts/form/form.css';
+import '~/layouts/form/form.css';
 
 export default { title: 'Inputs|Select Input' };
 

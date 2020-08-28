@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Loader from '../../components/loader/loader';
+import Loader from '~/components/loader/loader';
 
 const Sending = ({ send, finishStep }) => {
   useEffect(() => {

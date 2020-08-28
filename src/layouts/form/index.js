@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { InputRenderer } from '../../components/inputs';
-import Footer from '../../components/blocks/footer/footer';
-import Content from '../../components/blocks/content';
+import { InputRenderer } from '~/components/inputs';
+import Footer from '~/components/blocks/footer/footer';
+import Content from '~/components/blocks/content';
 
 import './form.css';
-import Header from '../../components/blocks/header/header';
+import Header from '~/components/blocks/header/header';
 
 class Form extends Component {
   constructor(props) {

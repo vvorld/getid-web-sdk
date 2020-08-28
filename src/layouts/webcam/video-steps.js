@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Footer from '../../components/blocks/footer/footer';
-import Header from '../../components/blocks/header/header';
-import Content from '../../components/blocks/content';
+import Footer from '~/components/blocks/footer/footer';
+import Header from '~/components/blocks/header/header';
+import Content from '~/components/blocks/content';
 import createRecordCamera from './video';
 import CameraDisabled from './cam-disabled';
 import PreviewVideo from './video-preview';
-import { isMobile } from '../../helpers/generic';
+import { isMobile } from '~/helpers/generic';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }

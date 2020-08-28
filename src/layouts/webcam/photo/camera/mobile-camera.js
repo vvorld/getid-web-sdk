@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CameraBase from './camera-base';
-import Popup from '../popup';
+import Popup from '~/components/popup';
 
 class MobileCamera extends CameraBase {
   componentWillUnmount() {

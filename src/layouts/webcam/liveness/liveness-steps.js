@@ -1,12 +1,12 @@
 import React, { Component, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Camera from './photo/camera';
+import Camera from '../photo/camera';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import CameraDisabled from './cam-disabled';
+import CameraDisabled from '../cam-disabled';
 import { isMobile } from '~/helpers/generic';
-import createLivenessSession from './liveness';
+import createLivenessSession from './session';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }

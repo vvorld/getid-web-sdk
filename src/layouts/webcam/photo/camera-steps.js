@@ -131,6 +131,7 @@ class WebcamView extends React.Component {
                     this.setState({ checking: false });
                   });
               },
+              disable: this.state.checking,
             }}
           />,
         };

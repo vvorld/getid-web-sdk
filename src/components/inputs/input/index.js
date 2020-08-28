@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 const defaultValidation = (value, isRequired) => {
@@ -24,11 +24,14 @@ const Input = ({
     setError(errorMessage);
   };
 
+  useEffect(() => {
+    validate(currValue);
+    onChange(currValue, !!error);
+  }, [currValue, error]);
+
   const changeVal = (e) => {
     const newValue = e.target.value;
-    onChange(newValue);
     setValue(newValue);
-    validate(newValue);
   };
 
   return (

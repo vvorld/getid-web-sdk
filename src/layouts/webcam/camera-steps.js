@@ -27,6 +27,7 @@ class WebcamView extends React.Component {
       result: {},
       retakeCode: '',
       tryNumber: 1,
+      checking: false,
     };
   }
 
@@ -113,14 +114,25 @@ class WebcamView extends React.Component {
           footer: <Footer
             step={stepName}
             back={{ text: 'No, retake', onClick: () => this.setStep('record') }}
-            next={{ onClick: () => this.setStep('checking') }}
-          />,
-        };
-        case 'checking': return {
-          header: <Header step={stepName} />,
-          footer: <Footer
-            step={stepName}
-            back={{ onClick: () => this.setStep('preview', { blob }) }}
+            next={{
+              onClick: () => {
+                if (!onCheck || !enableCheckPhoto) {
+                  finishStep(blob);
+                  return;
+                }
+                this.setState({ checking: true });
+                onCheck(blob, tryNumber)
+                  .then(({ res, code }) => {
+                    if (res) {
+                      finishStep(blob);
+                    } else {
+                      this.retakeDescription({ code });
+                    }
+                  }).catch((e) => this.retakeDescription(e)).finally(() => {
+                    this.setState({ checking: false });
+                  });
+              },
+            }}
           />,
         };
 
@@ -158,23 +170,16 @@ class WebcamView extends React.Component {
               />
             </div>
             <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-              <PreviewForm blob={blob} result={result} ratio={ratio} />
+              <PreviewForm
+                checking={this.state.checking}
+                blob={blob}
+                result={result}
+                ratio={ratio}
+              />
             </div>
             <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
               <RetakeDescription step={step} code={retakeCode} rules={this.props.rules} />
             </div>
-            {step === 'checking'
-              ? (
-                <Checking
-                  tryNumber={tryNumber}
-                  enable={enableCheckPhoto}
-                  onCheck={onCheck}
-                  blob={blob}
-                  onSuccess={() => finishStep(blob)}
-                  onFail={this.retakeDescription}
-                />
-              )
-              : null}
           </div>
         </Content>
         {layout.footer}

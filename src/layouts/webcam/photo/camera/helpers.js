@@ -13,8 +13,9 @@ const frameRenderer = (webcam, {
   canvas.width = r - l;
   canvas.height = b - t;
   const context = canvas.getContext('2d');
-  context.translate(canvas.width, 0);
+
   if (reflectionEnable) {
+    context.translate(canvas.width, 0);
     context.scale(-1, 1);
   }
   context.drawImage(webcam,

@@ -26,6 +26,9 @@
         "jsx-a11y/label-has-associated-control": "off",
         "react/forbid-prop-types": "off",
         "react/destructuring-assignment": "off",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "import/extensions": "off",
+        "no-await-in-loop": "off",
+        "jsx-a11y/no-autofocus": "off"
     }
 }

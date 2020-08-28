@@ -70,8 +70,10 @@ const enableThankYou = (flow) => true;
 const normaliseFlow = (flow) => {
   validateFlow(flow);
   if (enableThankYou(flow)) {
+    // eslint-disable-next-line no-param-reassign
     flow = [...flow.slice(0, -1), { component: 'Sending' }, flow.pop()];
   } else {
+    // eslint-disable-next-line no-param-reassign
     flow = [...flow, { Component: 'Sending' }];
   }
 
@@ -247,7 +249,9 @@ class Widget extends Component {
             blob={app.back}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={(back, tryNumber) => this.checkDocumentPhoto({ front: app.front, back }, tryNumber, 3)}
+            checkDocumentPhoto={(
+              back, tryNumber,
+            ) => this.checkDocumentPhoto({ front: app.front, back }, tryNumber, 3)}
           />
         ),
         (back) => next({ back }, 'back'),
@@ -258,7 +262,9 @@ class Widget extends Component {
             blob={app.front}
             {...props}
             direction={this.state.direction}
-            checkDocumentPhoto={(front, tryNumber) => this.checkDocumentPhoto({ front }, tryNumber, 3)}
+            checkDocumentPhoto={(
+              front, tryNumber,
+            ) => this.checkDocumentPhoto({ front }, tryNumber, 3)}
           />
         ),
         (front) => next({ front }, 'front'),

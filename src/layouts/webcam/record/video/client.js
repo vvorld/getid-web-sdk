@@ -26,8 +26,8 @@ class VideoClient {
 
       await peerConnection.setRemoteDescription(localDescription);
       this.releases.push(
-        async () => await (this.dataChannel && this.dataChannel.close()),
-        async () => await this.api.stopRecord(),
+        async () => (this.dataChannel && this.dataChannel.close()),
+        async () => this.api.stopRecord(),
         async () => peerConnection.close(),
       );
 

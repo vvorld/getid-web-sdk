@@ -24,7 +24,7 @@ class RecordView extends React.Component {
       stream: null,
       cameraStepIsAllowed: false,
       blob: props.blob,
-      result: {},
+      // result: {},
     };
     this.createComponents();
   }
@@ -37,7 +37,7 @@ class RecordView extends React.Component {
 
   createComponents = () => {
     const { props } = this;
-    console.log(props)
+    console.log(props);
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
@@ -138,6 +138,7 @@ class RecordView extends React.Component {
       }
     })();
     const { Camera } = this;
+
     const mobile = isMobile();
     return (
       <>
@@ -164,19 +165,23 @@ class RecordView extends React.Component {
 }
 
 RecordView.propTypes = {
-  Camera: PropTypes.func.isRequired,
   Guide: PropTypes.func.isRequired,
-  Placeholder: PropTypes.func.isRequired,
   prevStep: PropTypes.func,
   finishStep: PropTypes.func,
+  phrases: PropTypes.array,
   direction: PropTypes.string,
   blob: PropTypes.any,
+  server: PropTypes.string,
+  facingMode: PropTypes.string,
 };
 
 RecordView.defaultProps = {
   prevStep: null,
+  phrases: [],
   finishStep: null,
   direction: '',
+  facingMode: '',
+  server: '',
   blob: null,
 };
 

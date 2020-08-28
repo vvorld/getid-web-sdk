@@ -1,5 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import Api from './api';
 import VideoClient from './client';
 import Footer from '~/components/blocks/footer/footer';
@@ -91,6 +93,13 @@ export const TextLinesFooter = ({
   );
 };
 
+TextLinesFooter.propTypes = {
+  next: PropTypes.func.isRequired,
+  back: PropTypes.func.isRequired,
+  phrases: PropTypes.array.isRequired,
+  step: PropTypes.string.isRequired,
+};
+
 export default (pr) => {
   let recording = false;
   const { back, phrases } = pr;
@@ -98,16 +107,17 @@ export default (pr) => {
   const client = new VideoClient(api);
 
   const rerenders = [];
-  const change = (rec, fin) => {
+  const change = async (rec, fin) => {
     if (!recording && rec) {
-      client.startRecord();
+      await client.startRecord();
     }
     recording = rec;
     if (fin) {
-      client.stop();
+      await client.stop();
       pr.next.onClick(api.loadRecord);
       return;
     }
+    // eslint-disable-next-line no-restricted-syntax
     for (const r of rerenders) {
       r();
     }
@@ -152,7 +162,15 @@ export default (pr) => {
     }
   }
 
+  WebRTCCamera.propTypes = {
+    onReady: PropTypes.func.isRequired,
+  };
+
   class CameraFooter extends Component {
+    constructor(props) {
+      super(props);
+    }
+
     componentWillMount() {
       rerenders.push(() => this.forceUpdate());
     }
@@ -181,6 +199,9 @@ export default (pr) => {
       );
     }
   }
+  CameraFooter.propTypes = {
+    step: PropTypes.string.isRequired,
+  };
   return {
     Camera: (props) => (
       props.isMobile
@@ -193,6 +214,7 @@ export default (pr) => {
     ),
     CameraFooter: (props) => (props.isMobile ? null : <CameraFooter {...props} />), // ,
   };
+
 };
 
 /* const iceServers = [

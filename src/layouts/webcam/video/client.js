@@ -49,11 +49,9 @@ class VideoClient {
         new RTCSessionDescription({
           type: 'answer',
           sdp: originalAnswer.sdp,
-          /* iceServers: [
-            { urls: 'stun:164.90.223.220:3478' },
-          ], */
         }),
       );
+
       await this.api.remoteDescription(peerConnection.localDescription);
     }
 

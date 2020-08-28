@@ -7,7 +7,7 @@ import Content from '../../components/blocks/content';
 import createRecordCamera from './video';
 import CameraDisabled from './cam-disabled';
 import PreviewVideo from './video-preview';
-import {isMobile} from "../../helpers/generic";
+import { isMobile } from '../../helpers/generic';
 
 const getErrorText = (name, translations) => {
   if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
@@ -137,15 +137,16 @@ class RecordView extends React.Component {
       }
     })();
     const { Camera } = this;
+    const mobile = isMobile();
     return (
       <>
         {layout.header}
-        <Content step={stepName} disableAnmation={step === 'record' && isMobile()}>
+        <Content step={stepName} disableAnmation={step === 'record' && mobile}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
             <Guide />
           </div>
           <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera active visible={step === 'record'} />
+            <Camera active visible={step === 'record'} isMobile={mobile} />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
             <PreviewVideo

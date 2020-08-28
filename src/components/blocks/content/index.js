@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './content.css';
+import { node, string, bool } from 'prop-types';
 
 const Content = ({ children, step, disableAnmation }) => {
   const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
@@ -16,4 +17,9 @@ const Content = ({ children, step, disableAnmation }) => {
   );
 };
 
+Content.propTypes = {
+  children: node.isRequired,
+  step: string.isRequired,
+  disableAnmation: bool.isRequired,
+};
 export default Content;

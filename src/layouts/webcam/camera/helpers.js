@@ -1,6 +1,6 @@
 const frameRenderer = (webcam, {
   left, right, top, bottom,
-}) => (callback) => {
+}) => (callback, reflectionEnable = false) => {
   const additionalVOffset = top * 0.1;
   const additionalHOffset = left * 0.1;
 
@@ -13,14 +13,17 @@ const frameRenderer = (webcam, {
   canvas.width = r - l;
   canvas.height = b - t;
   const context = canvas.getContext('2d');
-
+  context.translate(canvas.width, 0);
+  if (reflectionEnable) {
+    context.scale(-1, 1);
+  }
   context.drawImage(webcam,
     l,
     t,
     r - l,
     b - t,
     0, 0, canvas.width, canvas.height);
-  canvas.toBlob(callback, 'image/jpeg', 1.0);
+  canvas.toBlob(callback, 'image/jpeg', 0.7);
 };
 
 export default frameRenderer;

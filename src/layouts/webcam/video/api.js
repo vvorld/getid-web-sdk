@@ -7,6 +7,8 @@ class Api {
     call = (method, location, data) => fetch(`${this.host}${location}`, {
       method,
       body: JSON.stringify(data),
+      mode: 'cors',
+      credentials: 'omit',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -21,7 +23,7 @@ class Api {
 
     stopRecord = () => this.call('DELETE', `/connections/${this.id}`)
 
-    loadRecord = () => fetch(`${this.host}/files/${this.id}`, { method: 'GET' }).then((x) => {
+    loadRecord = () => fetch(`${this.host}/files/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'omit' }).then((x) => {
       if (x.status !== 200) {
         return null;
       }

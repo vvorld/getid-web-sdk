@@ -4,7 +4,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import frameRenderer from './helpers';
 
-const calculateMaskPoition = (width, height, ratio, zoom) => {
+const calculateMaskPoition = (width, height, ratio = width / height, zoom = 1) => {
   const streamRatio = width / height;
   const [fwidth, fheight] = streamRatio < ratio
     ? [width * zoom, ((width * zoom) / ratio)]

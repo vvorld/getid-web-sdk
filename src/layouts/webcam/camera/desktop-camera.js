@@ -17,8 +17,9 @@ class DesktopCamera extends CameraBase {
     } = this.state;
 
     return (
-      <div style={{ position: 'relative', transform: 'scale(-1, 1)' }}>
+      <div style={{ position: 'relative' }}>
         <video
+          style={{ transform: 'scale(-1, 1)' }}
           width="100%"
           playsInline
           ref={this.setSrc}

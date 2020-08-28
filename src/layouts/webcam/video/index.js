@@ -3,6 +3,8 @@ import React, { Component, useState, useEffect } from 'react';
 import Api from './api';
 import VideoClient from './client';
 import Footer from '../../../components/blocks/footer/footer';
+import Popup from '../popup';
+import './record.css';
 
 const normalizeNumber = (n) => (n < 10 ? `0${n}` : `${n}`);
 const Timer = () => {
@@ -14,14 +16,8 @@ const Timer = () => {
     );
   });
   return (
-    <div style={{
-      position: 'absolute', top: '10px', padding: '10px', borderRadius: '15px', color: 'white', left: '10px', background: 'red',
-    }}
-    >
-      <div style={{
-        marginRight: '5px', background: 'white', borderRadius: '50%', display: 'inline-block', width: '10px', height: '10px',
-      }}
-      />
+    <div className="getid-timer_contaner">
+      <div className="getid-timer_dot" />
       {`${normalizeNumber(Math.round(time / 60))}:${normalizeNumber(Math.round(time % 60))}`}
     </div>
   );
@@ -97,7 +93,7 @@ export const TextLinesFooter = ({
 
 export default (pr) => {
   let recording = false;
-  const { next, back, phrases } = pr;
+  const { back, phrases } = pr;
   const api = new Api(pr.server);
   const client = new VideoClient(api);
 
@@ -157,10 +153,6 @@ export default (pr) => {
   }
 
   class CameraFooter extends Component {
-    constructor(props) {
-      super(props);
-    }
-
     componentWillMount() {
       rerenders.push(() => this.forceUpdate());
     }
@@ -190,8 +182,16 @@ export default (pr) => {
     }
   }
   return {
-    Camera: () => <WebRTCCamera {...pr} />,
-    CameraFooter: (props) => <CameraFooter {...props} />,
+    Camera: (props) => (
+      props.isMobile
+        ? (
+          <Popup visible={props.visible}>
+            <WebRTCCamera {...pr} {...props} />
+          </Popup>
+        )
+        : <WebRTCCamera {...pr} {...props} />
+    ),
+    CameraFooter: (props) => (props.isMobile ? null : <CameraFooter {...props} />), // ,
   };
 };
 

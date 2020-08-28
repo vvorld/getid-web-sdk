@@ -73,8 +73,13 @@ export default {
     },
     {
       component: 'Record',
+      // server: 'http://mc.getid.dev',
       server: 'http://164.90.223.220:8080',
       phrases: ['I would like to get a setificate from Company Z', 'Step 2'],
+    },
+    {
+      server: 'ws://10.10.10.59:8765/',
+      component: 'Liveness',
     },
     {
       component: 'DocumentPhoto',

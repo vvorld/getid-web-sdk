@@ -1,0 +1,42 @@
+#getid-main .popup_contnet{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    
+}
+.landscape__content{
+    display: flex
+}
+
+#getid-main .landscape {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background: white;
+    width: 100%;
+    height: 100%;
+}
+
+#getid-main .popup {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background: black;
+        
+}
+@media (orientation: landscape) {
+    #getid-main .landscape {
+        display: flex;
+    }
+    #getid-main .popup_contnet{
+        display: none;
+    }
+}

@@ -31,6 +31,14 @@ const Recording = ({ enable, onChange }) => {
     </div>
   );
 };
+const Liveness = ({ enable, onChange }) => {
+  const [isOpen, setOpen] = useState(false);
+  return (
+    <div className="step">
+      <StepHeader label="Liveness" enable={enable} onChange={onChange} setOpen={setOpen} />
+    </div>
+  );
+};
 const Selfie = ({ enable, onChange }) => {
   const [isOpen, setOpen] = useState(false);
   return (
@@ -163,6 +171,7 @@ class ConfigPanel extends Component {
           <Form enable={flow.Form} onChange={(value) => this.setFlow('Form', value)} />
           <DocumentPhoto enable={flow.DocumentPhoto} onChange={(value) => this.setFlow('DocumentPhoto', value)} />
           <Recording enable={flow.Record} onChange={(value) => this.setFlow('Record', value)} />
+          <Liveness enable={flow.Liveness} onChange={(value) => this.setFlow('Liveness', value)} />
           <Selfie enable={flow.Selfie} onChange={(value) => this.setFlow('Selfie', value)} />
           <ThankYou enable={flow.ThankYou} onChange={(value) => this.setFlow('ThankYou', value)} />
           <br />

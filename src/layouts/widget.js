@@ -10,6 +10,7 @@ import {
   DocumentPhoto,
   Record,
   Selfie,
+  Liveness,
 } from './webcam';
 
 import Rules from './rules';
@@ -270,6 +271,10 @@ class Widget extends Component {
       case 'Record': return (app, next) => [
         (props) => <Record {...props} />,
         (selfieVideo) => next({ selfieVideo }, 'record'),
+      ];
+      case 'Liveness': return (app, next) => [
+        (props) => <Liveness {...props} />,
+        () => next({ }, 'liveness'),
       ];
       case 'Sending': return (app, next) => [
         (props) => (

@@ -6,7 +6,13 @@ const cache = {
 
 };
 
-const modifySvg = (svgText) => svgText.split('rgb(156,119,224)').join('#105EF6');
+const transforms = {
+  'rgb(156,119,224)': '#105EF6',
+};
+
+const modifySvg = (svgText) => Object.entries(transforms)
+  .reduce((text, v) => text.split(v[0]).join(v[1]), svgText);
+
 // const urlCreator = window.URL || window.webkitURL;
 const Guide = ({ src }) => {
   const [blob, setBlob] = useState('');

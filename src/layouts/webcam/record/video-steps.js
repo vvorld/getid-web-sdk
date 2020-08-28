@@ -37,6 +37,7 @@ class RecordView extends React.Component {
 
   createComponents = () => {
     const { props } = this;
+    console.log(props)
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,

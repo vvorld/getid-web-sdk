@@ -14,7 +14,7 @@ class VideoClient {
       }
       this.active = true;
       const { localDescription, id } = await this.api.initConnect(3);
-      const peerConnection = new RTCPeerConnection({ sdpSemantics: 'unified-plan' });
+      const peerConnection = new RTCPeerConnection({ });
 
       peerConnection.ondatachannel = (event) => {
         this.dataChannel = event.channel;
@@ -33,12 +33,18 @@ class VideoClient {
 
       const localStream = await window.navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: {
+        video: true, /* {
           mandatory: {
             maxWidth: 320,
           },
-        },
+        }, */
       });
+      await new Promise((resolve) => setTimeout(() => {
+        const settings = localStream.getVideoTracks()[0].getSettings();
+        console.log(settings);
+        resolve();
+      }, 1000));
+      localStream.getVideoTracks().forEach((track) => console.log(track.getSettings())),
       localStream.getTracks().forEach((track) => peerConnection.addTrack(track, localStream));
       this.localStream = localStream;
       this.releases.push(
@@ -67,6 +73,9 @@ class VideoClient {
     }
 
     setEl = (el) => {
+      el.addEventListener('loadedmetadata', function () {
+        console.log(`Local video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
+      });
       el.srcObject = this.localStream;
     }
 }

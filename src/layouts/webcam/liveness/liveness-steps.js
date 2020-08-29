@@ -1,9 +1,12 @@
 import React, { Component, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Camera from '../photo/camera';
+
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
+import Guide from '~/components/guide';
+
+import Camera from '../photo/camera';
 import CameraDisabled from '../cam-disabled';
 import { isMobile } from '~/helpers/generic';
 import createLivenessSession from './session';
@@ -128,7 +131,7 @@ class LivenessStep extends Component {
 
   render() {
     const {
-      Guide, prevStep,
+      prevStep,
     } = this.props;
     const {
       errorMessage, step, cameraStepIsAllowed, LivenessCommands,
@@ -172,12 +175,13 @@ class LivenessStep extends Component {
         default: throw new Error(`Bad step ${step}`);
       }
     })();
+
     return (
       <>
         {layout.header}
         <Content step={stepName} disableAnmation={step === 'liveness' && isMobile()}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide />
+            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>
           <div style={{ display: step === 'liveness' ? 'block' : 'none' }}>
             <Camera Overlay={step === 'liveness' ? LivenessCommands : null} active visible={step === 'liveness'} onReady={this.cameraReady} />
@@ -190,7 +194,6 @@ class LivenessStep extends Component {
 }
 
 LivenessStep.propTypes = {
-  Guide: PropTypes.func.isRequired,
   prevStep: PropTypes.func,
   direction: PropTypes.string,
 };

@@ -124,7 +124,7 @@ export default (pr) => {
 
     setSrc = async (el) => {
       if (el) {
-        await client.start();
+        await client.start(el);
         client.setEl(el);
         this.props.onReady(this.stop);
       }
@@ -187,11 +187,12 @@ export default (pr) => {
         ? (
           <Popup visible={props.visible}>
             <WebRTCCamera {...pr} {...props} />
+            <CameraFooter {...props} />
           </Popup>
         )
         : <WebRTCCamera {...pr} {...props} />
     ),
-    CameraFooter: (props) => (props.isMobile ? null : <CameraFooter {...props} />), // ,
+    CameraFooter: (props) => null, // (props.isMobile ? null : <CameraFooter {...props} />), // ,
   };
 };
 

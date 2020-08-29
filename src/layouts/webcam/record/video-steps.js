@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import Guide from '~/components/guide';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import createRecordCamera from './video';
 import CameraDisabled from '../cam-disabled';
-import PreviewVideo from './video-preview';
+import Preview from './preview';
 import { isMobile } from '~/helpers/generic';
 
 const getErrorText = (name, translations) => {
@@ -21,7 +20,6 @@ class RecordView extends React.Component {
     this.state = {
       errorMessage: '',
       step: props.direction === 'back' ? 'preview' : 'guide',
-      stream: null,
       cameraStepIsAllowed: false,
       blob: props.blob,
       result: {},
@@ -29,21 +27,14 @@ class RecordView extends React.Component {
     this.createComponents();
   }
 
-  componentWillUnmount() {
-    if (this.state.stream) {
-      this.state.stream.getTracks().forEach((track) => track.stop());
-    }
-  }
-
   createComponents = () => {
     const { props } = this;
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
-      stream: this.state.stream,
       onReady: this.cameraReady,
       onError: this.cameraError,
-      facingMode: props.facingMode,
+      facingMode: { exact: 'environment' },
 
       next: { onClick: this.showPreviewStep, text: 'Show preview' },
       back: { onClick: this.showGuideStep },
@@ -82,9 +73,7 @@ class RecordView extends React.Component {
   }
 
   render() {
-    const {
-      Guide, prevStep,
-    } = this.props;
+    const { prevStep } = this.props;
     const {
       errorMessage, step, loadRecord, cameraStepIsAllowed, blob,
     } = this.state;
@@ -143,13 +132,13 @@ class RecordView extends React.Component {
         {layout.header}
         <Content step={stepName} disableAnmation={step === 'record' && mobile}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide />
+            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>
           <div style={{ display: step === 'record' ? 'block' : 'none' }}>
             <Camera active visible={step === 'record'} isMobile={mobile} />
           </div>
           <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
-            <PreviewVideo
+            <Preview
               onLoad={(b) => this.setState({ blob: b })}
               load={loadRecord}
               blob={blob}
@@ -161,16 +150,6 @@ class RecordView extends React.Component {
     );
   }
 }
-
-RecordView.propTypes = {
-  Camera: PropTypes.func.isRequired,
-  Guide: PropTypes.func.isRequired,
-  Placeholder: PropTypes.func.isRequired,
-  prevStep: PropTypes.func,
-  finishStep: PropTypes.func,
-  direction: PropTypes.string,
-  blob: PropTypes.any,
-};
 
 RecordView.defaultProps = {
   prevStep: null,

@@ -25,7 +25,6 @@ const Footer = ({ next, back, step }) => {
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
-        // eslint-disable-next-line jsx-a11y/no-autofocus
             <button
               autoFocus
               type="button"
@@ -38,7 +37,6 @@ const Footer = ({ next, back, step }) => {
             >
               {next.icon}
               <Translate step={step} element="next" />
-
             </button>
           )
           : (

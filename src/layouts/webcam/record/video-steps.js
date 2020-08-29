@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Guide from '~/components/guide';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
@@ -22,13 +23,14 @@ class RecordView extends React.Component {
       step: props.direction === 'back' ? 'preview' : 'guide',
       cameraStepIsAllowed: false,
       blob: props.blob,
-      result: {},
+      // result: {},
     };
     this.createComponents();
   }
 
   createComponents = () => {
     const { props } = this;
+    console.log(props);
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
@@ -126,6 +128,7 @@ class RecordView extends React.Component {
       }
     })();
     const { Camera } = this;
+
     const mobile = isMobile();
     return (
       <>
@@ -151,10 +154,21 @@ class RecordView extends React.Component {
   }
 }
 
+RecordView.propTypes = {
+  prevStep: PropTypes.func,
+  finishStep: PropTypes.func,
+  phrases: PropTypes.array,
+  direction: PropTypes.string,
+  blob: PropTypes.any,
+  server: PropTypes.string,
+};
+
 RecordView.defaultProps = {
   prevStep: null,
+  phrases: [],
   finishStep: null,
   direction: '',
+  server: '',
   blob: null,
 };
 

@@ -10,8 +10,10 @@ const PreviewForm = ({ load, onLoad, blob }) => {
   useEffect(() => {
     (async () => {
       while (true) {
+        // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve) => setInterval(resolve, 100));
         try {
+          // eslint-disable-next-line no-await-in-loop
           const video = await load();
           if (video && video.size) {
             onLoad(video);
@@ -30,15 +32,18 @@ const PreviewForm = ({ load, onLoad, blob }) => {
         controls
         className="getid-preview"
         src={src}
-        alt="current"
         data-role="cameraPreviewImg"
-      />
+      >
+        <track kind="captions" />
+      </video>
     </div>
   );
 };
 
 PreviewForm.propTypes = {
   blob: PropTypes.any.isRequired,
+  load: PropTypes.bool.isRequired,
+  onLoad: PropTypes.func.isRequired,
 };
 
 export default PreviewForm;

@@ -15,7 +15,9 @@ const RetakeDescription = ({ code, step, rules }) => (
 );
 
 RetakeDescription.propTypes = {
-  message: PropTypes.string.isRequired,
+  code: PropTypes.string.isRequired,
+  step: PropTypes.string.isRequired,
+  rules: PropTypes.string.isRequired,
 };
 
 export default RetakeDescription;

@@ -70,7 +70,8 @@ const init = (options, tokenProvider) => {
     }
     const api = createApi(apiUrl, token);
     const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
-    const translations = { ...defaultTranslations, ...responseTranslations };
+    const customTranslations = options.translations || {};
+    const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
 
     if (!cameraAchievable(options)) {
       if (options.onFail && typeof options.onFail === 'function') {

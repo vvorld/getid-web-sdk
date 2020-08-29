@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Landscape from '~/assets/icons/views/landscape.svg';
 import Translate from '~/components/blocks/translations';
 import './popup.css';
@@ -21,7 +23,7 @@ class Popup extends Component {
       document.body.style.overflow = 'hidden';
 
       try {
-        history.pushState({ }, null, '#getid_step=popup');
+        window.history.pushState({ }, null, '#getid_step=popup');
       } catch (e) {
         console.log(e);
       }
@@ -62,6 +64,10 @@ class Popup extends Component {
 }
 
 Popup.propTypes = {
-
+  children: PropTypes.any.isRequired,
+  visible: PropTypes.bool.isRequired,
+  back: PropTypes.shape({
+    onClick: PropTypes.func.isRequired,
+  }).isRequired,
 };
 export default Popup;

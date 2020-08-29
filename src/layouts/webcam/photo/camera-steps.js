@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
@@ -131,6 +132,7 @@ class WebcamView extends React.Component {
                     this.setState({ checking: false });
                   });
               },
+              disable: this.state.checking,
             }}
           />,
         };
@@ -186,5 +188,21 @@ class WebcamView extends React.Component {
     );
   }
 }
+
+WebcamView.propTypes = {
+  rules: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  Camera: PropTypes.func.isRequired,
+  Guide: PropTypes.func.isRequired,
+  prevStep: PropTypes.shape({}).isRequired,
+  finishStep: PropTypes.shape({}).isRequired,
+  componentName: PropTypes.string.isRequired,
+  onCheck: PropTypes.func.isRequired,
+  enableCheckPhoto: PropTypes.bool.isRequired,
+  facingMode: PropTypes.string.isRequired,
+  ratio: PropTypes.number.isRequired,
+  direction: PropTypes.string.isRequired,
+  blob: PropTypes.any.isRequired,
+};
 
 export default WebcamView;

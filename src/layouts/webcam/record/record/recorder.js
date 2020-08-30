@@ -31,7 +31,6 @@ class CombineRecorder {
   startRecord = async () => this.recorder.startRecord()
 
   stopRecord = async () => {
-    alert(1);
     this.sessionActive = false;
     await this.recorder.stopRecord();
     if (this.stream) {

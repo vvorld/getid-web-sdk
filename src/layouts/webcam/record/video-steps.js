@@ -4,33 +4,26 @@ import Guide from '~/components/guide';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import createRecordCamera from './video';
-import CameraDisabled from '../cam-disabled';
 import Preview from './preview';
 import { isMobile } from '~/helpers/generic';
 
-const getErrorText = (name, translations) => {
-  if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
-  if (name === 'NotFoundError') { return translations.camera_error_not_found; }
-  return translations.camera_error_generic;
-};
+import createRecordCamera from './record';
+import CameraDisabled from '../cam-disabled';
 
 class RecordView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: '',
+      error: null,
       step: props.direction === 'back' ? 'preview' : 'guide',
       cameraStepIsAllowed: false,
       blob: props.blob,
-      // result: {},
     };
     this.createComponents();
   }
 
   createComponents = () => {
     const { props } = this;
-    console.log(props);
     const { Camera, CameraFooter } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
@@ -58,6 +51,7 @@ class RecordView extends React.Component {
   }
 
   showGuideStep = () => {
+    this.createComponents();
     this.setState({ step: 'guide' });
   }
 
@@ -69,28 +63,18 @@ class RecordView extends React.Component {
   }
 
   cameraError = (error) => {
-    const { translations } = this.context;
-    const errorMessage = getErrorText(error.name, translations);
-    this.setState(() => ({ step: 'disabled', errorMessage }));
+    this.setState(() => ({ step: 'disabled', error }));
   }
 
   render() {
     const { prevStep } = this.props;
     const {
-      errorMessage, step, loadRecord, cameraStepIsAllowed, blob,
+      error, step, loadRecord, cameraStepIsAllowed, blob,
     } = this.state;
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      return (
-        <>
-          <Header step={stepName} />
-          <Content step={stepName}>
-            <CameraDisabled requestCamera={this.startRecordStep} errorMessage={errorMessage} />
-          </Content>
-          <Footer step={stepName} />
-        </>
-      );
+      return <CameraDisabled step={stepName} requestCamera={this.showGuideStep} errorName={error.name} />;
     }
 
     const layout = (() => {

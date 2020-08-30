@@ -274,7 +274,7 @@ class Widget extends Component {
         (selfie) => next({ selfie }, 'selfie'),
       ];
       case 'Record': return (app, next) => [
-        (props) => <Record {...props} server={this.props.webRtcServerUrl} />,
+        (props) => <Record server={this.props.webRtcServerUrl} {...props} />,
         (selfieVideo) => next({ selfieVideo }, 'record'),
       ];
       case 'Liveness': return (app, next) => [

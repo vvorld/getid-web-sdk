@@ -150,11 +150,15 @@ export default {
   guide_accept: 'Ok, got it',
   photo_tip: 'Please use <b>Spacebar</b> key to make photo',
   error_header: 'Something was wrong',
+
   camera_error_header: 'Camera is not supported',
-  error_subHeader: 'Please contact your provider for further information.',
+  camera_error_next: 'Try again',
   camera_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
   camera_error_not_found: 'No available devices were found',
+  camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
   camera_error_generic: 'To make a photo you need to give access for webcam',
   camera_error_another_browser: 'Use another browser',
+
+  error_subHeader: 'Please contact your provider for further information.',
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
 };

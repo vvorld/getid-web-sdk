@@ -5,17 +5,11 @@ import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Guide from '~/components/guide';
+import { CameraDisabledErrorView } from '~/components/errors';
+import { isMobile } from '~/helpers/generic';
 
 import Camera from '../photo/camera';
-import CameraDisabled from '../cam-disabled';
-import { isMobile } from '~/helpers/generic';
 import createLivenessSession from './session';
-
-const getErrorText = (name, translations) => {
-  if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
-  if (name === 'NotFoundError') { return translations.camera_error_not_found; }
-  return translations.camera_error_generic;
-};
 
 const mapTasks = {
   smile: 'Smile',
@@ -94,7 +88,7 @@ class LivenessStep extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: '',
+      error: null,
       step: props.direction === 'back' ? 'preview' : 'guide',
       stream: null,
       cameraStepIsAllowed: false,
@@ -124,9 +118,7 @@ class LivenessStep extends Component {
   }
 
   cameraError = (error) => {
-    const { translations } = this.context;
-    const errorMessage = getErrorText(error.name, translations);
-    this.setState(() => ({ step: 'disabled', errorMessage }));
+    this.setState(() => ({ step: 'disabled', error }));
   }
 
   render() {
@@ -134,20 +126,12 @@ class LivenessStep extends Component {
       prevStep,
     } = this.props;
     const {
-      errorMessage, step, cameraStepIsAllowed, LivenessCommands,
+      error, step, cameraStepIsAllowed, LivenessCommands,
     } = this.state;
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      return (
-        <>
-          <Header step={stepName} />
-          <Content step={stepName}>
-            <CameraDisabled requestCamera={this.startLiveness} errorMessage={errorMessage} />
-          </Content>
-          <Footer step={stepName} />
-        </>
-      );
+      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.startLiveness }} />;
     }
 
     const layout = (() => {

@@ -9,7 +9,7 @@ import { createApi } from './services/api';
 import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
-import { CameraErrorView, ErrorView, AppExistsView } from './layouts/error/index';
+import { CameraErrorView, ErrorView, AppExistsView } from './components/errors';
 
 import {
   convertAnswer,

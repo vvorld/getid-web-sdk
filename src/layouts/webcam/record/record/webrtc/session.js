@@ -1,4 +1,4 @@
-class Api {
+class RecordSession {
   constructor(host) {
     this.host = host;
     this.id = null;
@@ -14,7 +14,7 @@ class Api {
       },
     }).then((r) => r.json())
 
-    initConnect = (duration) => this.call('POST', '/connections', { duration }).then((data) => {
+    initSession = (duration) => this.call('POST', '/connections', { duration }).then((data) => {
       this.id = data.id;
       return data;
     })
@@ -31,4 +31,4 @@ class Api {
     })
 }
 
-export default Api;
+export default RecordSession;

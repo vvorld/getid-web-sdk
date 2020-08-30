@@ -15,20 +15,20 @@ const Browsers = ({ config, dictionary }) => (
   <div className="getid-browsers">
     <div style={{ fontWeight: 'bold' }} className="getid-header__small">{config.text(dictionary)}</div>
     {
-            Object.entries(config.buttons).map(([key, button]) => (
-              <button
-                type="button"
-                key={key}
-                className={`getid-${button.name}`}
-                onClick={function () { window.location.href = button.link; }}
-              >
-                <img alt={key} src={icons[key]} />
-                <p>
-                  {button.name}
-                </p>
-              </button>
-            ))
-        }
+        Object.entries(config.buttons).map(([key, button]) => (
+          <button
+            type="button"
+            key={key}
+            className={`getid-${button.name}`}
+            onClick={() => { window.location.href = button.link; }}
+          >
+            <img alt={key} src={icons[key]} />
+            <p>
+              {button.name}
+            </p>
+          </button>
+        ))
+    }
   </div>
 );
 

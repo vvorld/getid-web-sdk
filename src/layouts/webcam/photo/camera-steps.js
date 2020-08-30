@@ -4,22 +4,16 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
+import { CameraDisabledErrorView } from '~/components/errors';
 
-import CameraDisabled from '../cam-disabled';
 import PreviewForm from './photo-preview';
 import RetakeDescription from './retake-description';
-
-const getErrorText = (name, translations) => {
-  if (name === 'NotAllowedError') { return 'Please enable web camera access in your browser settings.'; }
-  if (name === 'NotFoundError') { return translations.camera_error_not_found; }
-  return translations.camera_error_generic;
-};
 
 class WebcamView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: '',
+      error: null,
       step: props.direction === 'back' ? 'preview' : 'guide',
       stream: null,
       cameraStepIsAllowed: false,
@@ -60,9 +54,7 @@ class WebcamView extends React.Component {
   }
 
   cameraError = (error) => {
-    const { translations } = this.context;
-    const errorMessage = getErrorText(error.name, translations);
-    this.setState(() => ({ step: 'disabled', errorMessage }));
+    this.setState(() => ({ step: 'disabled', error }));
   }
 
   render() {
@@ -72,21 +64,13 @@ class WebcamView extends React.Component {
       ratio,
     } = this.props;
     const {
-      errorMessage, step, blob, cameraStepIsAllowed,
+      error, step, blob, cameraStepIsAllowed,
       result, retakeCode, tryNumber,
     } = this.state;
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {
-      return (
-        <>
-          <Header step={stepName} />
-          <Content step={stepName}>
-            <CameraDisabled requestCamera={() => this.setStep('record')} errorMessage={errorMessage} />
-          </Content>
-          <Footer step={stepName} />
-        </>
-      );
+      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: () => this.setStep('guide') }} />;
     }
 
     const layout = (() => {

@@ -5,11 +5,9 @@ import ErrorIcon from '~/assets/icons/views/error-icon.svg';
 import PoweredBy from '~/components/blocks/powered-by';
 import Browsers from './browsers';
 
-import '../style.css';
-
 const createErrorView = (config) => (props) => {
   const {
-    callbacks, responseCode, submitAttempts,
+    callbacks, error, submitAttempts,
   } = props;
 
   const { translations: dictionary } = useContext(TranslationsContext);
@@ -23,10 +21,10 @@ const createErrorView = (config) => (props) => {
         <div><img alt="error" src={ErrorIcon} /></div>
         <div style={{ margin: '50px auto' }} className="getid-header__container">
           <div className="getid-header__big">
-            {config.header(dictionary, responseCode)}
+            {config.header(dictionary, error)}
           </div>
           <div className="getid-header__small">
-            {config.subHeader(dictionary, responseCode)}
+            {config.subHeader(dictionary, error)}
           </div>
         </div>
         {buttons && (
@@ -104,8 +102,8 @@ export const CameraErrorView = createErrorView({
 });
 
 export const FailError = createErrorView({
-  header: (dictionary, responseCode) => dictionary[`${responseCode}_header`] || dictionary.isFail_header,
-  subHeader: (dictionary, responseCode) => dictionary[`${responseCode}_subHeader`] || dictionary.isFail_subHeader,
+  header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_header,
+  subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_subHeader,
   buttons: {
     cancel: {
       name: (dictionary) => dictionary.cancel_button,
@@ -120,7 +118,29 @@ export const FailError = createErrorView({
   },
 });
 
+const getErrorText = (dictionary, name) => {
+  if (name === 'NotAllowedError') {
+    return dictionary.camera_error_not_allowed || dictionary.camera_error_generic;
+  }
+  if (name === 'NotFoundError') {
+    return dictionary.camera_error_not_found || dictionary.camera_error_generic;
+  }
+  return dictionary.camera_error_generic;
+};
+export const CameraDisabledErrorView = createErrorView({
+  header: (dictionary) => dictionary.camera_error_header,
+  subHeader: getErrorText,
+  buttons: {
+    retry: {
+      name: (dictionary) => dictionary.retry_button,
+      action: (callbacks) => callbacks.onRetry,
+      className: 'violet',
+    },
+  },
+});
+
 FailError.props = errorProps;
 AppExistsView.props = errorProps;
 ErrorView.props = errorProps;
 CameraErrorView.props = errorProps;
+CameraDisabledErrorView.props = errorProps;

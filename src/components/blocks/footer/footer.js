@@ -6,22 +6,24 @@ import './footer.css';
 import './button.css';
 import Translate from '../translations';
 
-const Footer = ({ next, back, step }) => {
+const Footer = ({
+  next, back, step, disableAnmation,
+}) => {
   if (!next) {
     next = { onClick: null };
   }
   if (!back) {
     back = { onClick: null };
   }
-  const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
-  const enableAnimation = !visible || step !== st;
+  const [{ visible, step: st }, setVisible] = useState({ visible: disableAnmation, step });
+  const enableAnimation = (!visible || step !== st) && !disableAnmation;
   if (enableAnimation) {
     setTimeout(() => {
       setVisible({ visible: true, step });
     }, 50);
   }
   return (
-    <div className={`getid-footer__container getid-animation${visible ? ' getid-visible_3' : ''}`}>
+    <div className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
@@ -36,7 +38,7 @@ const Footer = ({ next, back, step }) => {
               }}
             >
               {next.icon}
-              <Translate step={step} element="next" />
+              <Translate step={step} element={next.translate || 'next'} />
             </button>
           )
           : (
@@ -56,7 +58,7 @@ const Footer = ({ next, back, step }) => {
             }}
             className="getid-btn__back"
           >
-            <Translate step={step} element="back" />
+            <Translate step={step} element={back.translate || 'back'} />
           </button>
         )
         : <button type="button" className="getid-btn__back getid-hidden">-</button>}
@@ -70,7 +72,7 @@ const Footer = ({ next, back, step }) => {
 
 Footer.propTypes = {
   next: PropTypes.shape({
-    text: PropTypes.string,
+    translate: PropTypes.string,
     disable: PropTypes.bool,
     onClick: PropTypes.func,
     mod: PropTypes.string,
@@ -78,10 +80,12 @@ Footer.propTypes = {
   }),
   back: PropTypes.shape({
     onClick: PropTypes.func,
-    text: PropTypes.string,
+    translate: PropTypes.string,
+
   }),
   step: PropTypes.string,
   style: PropTypes.shape({}),
+  disableAnmation: PropTypes.bool,
 };
 
 Footer.defaultProps = {
@@ -89,6 +93,7 @@ Footer.defaultProps = {
   back: null,
   style: {},
   step: '',
+  disableAnmation: false,
 };
 
 export default Footer;

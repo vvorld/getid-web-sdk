@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const normalizeNumber = (n) => (n < 10 ? `0${n}` : `${n}`);
 const Timer = () => {

@@ -134,15 +134,16 @@ class WebcamView extends React.Component {
         default: throw new Error(`Bad step ${step}`);
       }
     })();
+    const display = (st) => ({ display: step === st ? 'block' : 'none' });
     return (
       <>
         {layout.header}
         <Content step={stepName} disableAnmation={step === 'record'}>
           <div>
-            <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
+            <div style={display('guide')}>
               <Guide />
             </div>
-            <div style={{ display: step === 'record' ? 'block' : 'none', borderRadius: '10px', overflow: 'hidden' }}>
+            <div className="getid-camera_content" style={display('record')}>
               <Camera
                 ratio={ratio}
                 visible={step === 'record'}
@@ -154,7 +155,7 @@ class WebcamView extends React.Component {
                 back={{ onClick: () => this.setStep('guide') }}
               />
             </div>
-            <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
+            <div style={display('preview')}>
               <PreviewForm
                 checking={this.state.checking}
                 blob={blob}
@@ -162,7 +163,7 @@ class WebcamView extends React.Component {
                 ratio={ratio}
               />
             </div>
-            <div style={{ display: step === 'retake_description' ? 'block' : 'none' }}>
+            <div style={display('retake_description')}>
               <RetakeDescription step={step} code={retakeCode} rules={this.props.rules} />
             </div>
           </div>

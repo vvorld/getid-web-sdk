@@ -30,7 +30,6 @@ const Command = ({ s, children }) => {
       justifyContent: 'center',
       flexDirection: 'column',
       fontSize: '1.6em',
-      marginTop: '-25px',
       borderRadius: '5px',
       position: 'relative',
 

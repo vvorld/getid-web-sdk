@@ -160,46 +160,13 @@ main a {
 
 /*-----------FORM END---------*/
 
-
-#getid-main div#animation {
-    border: 1px solid var(--main-accent-color);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 270px;
-}
-
-#getid-main .icon {
-    margin-top: 20%;
-}
-
 /*-----------VIDEO---------*/
-#getid-main #container {
-    margin: 0px auto;
-    width: 500px;
-    height: 375px;
-    border-radius: 8px;
+#getid-main .camera_content {
+    border-radius: 10px;
     overflow: hidden;
 }
 
-#getid-main #videoElement {
-    width: 500px;
-    height: 375px;
-    background-color: var(--main-txt-color-secondary);
-    transform: scale(-1, 1);
-}
 
-#getid-main div#container:before {
-    content: "";
-    display: block;
-    /* background-image: url(./images/aim-id-card-front.svg);*/
-    background-position: 0vh 0vw;
-    background-repeat: no-repeat;
-    width: 500;
-    height: 375;
-    position: absolute;
-    z-index: 2;
-    border-radius: 8px;
-}
 
 /*-----------VIDEO END---------*/
 

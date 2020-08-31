@@ -5,7 +5,7 @@ const { RTCSessionDescription, RTCPeerConnection } = require('wrtc');
 class WebRTCRecorder {
   constructor(server) {
     this.session = new RecordSession(server);
-
+    this.size = null;
     this.releases = [];
     this.dataChannel = null;
   }
@@ -34,12 +34,15 @@ class WebRTCRecorder {
           sdp: originalAnswer.sdp,
         }),
       );
+      this.stream = stream;
 
       await this.session.remoteDescription(peerConnection.localDescription);
     }
 
   startRecord = async () => {
-    this.dataChannel.send('startRecording');
+    const settings = this.stream.getVideoTracks()[0].getSettings();
+    const { width, height } = settings;
+    this.dataChannel.send('startRecording');// ,${width}x${height}`);
   }
 
   stopRecord = async () => {

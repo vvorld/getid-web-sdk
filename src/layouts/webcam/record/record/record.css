@@ -6,4 +6,49 @@
     border-radius: 15px;
     left: 10px;
     background: red;
+    display: flex;
+    align-items: center;
+}
+#getid-main .timer_dot{
+    background: white;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+
+#getid-main .phrases__contaner  {
+    background: #7861A2;
+    margin-top: -35px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.6em;
+    border-radius: 5px;
+    position: relative;
+    color: white;
+    padding: 20px;
+    border-radius: 0 0 15px 15px;
+
+    transform: scaleY(1);    
+    transform-origin: top;
+    transition: transform 0.5s ease;
+}
+#getid-main .phrases_begin {
+    transform: scaleY(0); 
+}
+
+#getid-main .phrases__content{
+    font-weight: bold;
+    margin-top: 20px;
+    min-height: 3.3em;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#getid-main .phrases__title{
+    font-size: 0.8em;
 }

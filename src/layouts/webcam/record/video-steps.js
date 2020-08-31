@@ -6,9 +6,9 @@ import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
 import { isMobile } from '~/helpers/generic';
+import { CameraDisabledErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
-import CameraDisabled from '../cam-disabled';
 
 class RecordView extends React.Component {
   constructor(props) {
@@ -74,7 +74,7 @@ class RecordView extends React.Component {
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      return <CameraDisabled step={stepName} requestCamera={this.showGuideStep} errorName={error.name} />;
+      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.showGuideStep }} />;
     }
 
     const layout = (() => {
@@ -114,17 +114,18 @@ class RecordView extends React.Component {
     const { Camera } = this;
 
     const mobile = isMobile();
+    const display = (st) => ({ display: step === st ? 'block' : 'none' });
     return (
       <>
         {layout.header}
         <Content step={stepName} disableAnmation={step === 'record' && mobile}>
-          <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
+          <div style={display('guide')}>
             <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>
-          <div style={{ display: step === 'record' ? 'block' : 'none' }}>
-            <Camera active visible={step === 'record'} isMobile={mobile} />
+          <div className="getid-camera_content" style={display('record')}>
+            <Camera active visible={step === 'record'} step={stepName} isMobile={mobile} />
           </div>
-          <div style={{ display: step === 'preview' ? 'block' : 'none' }}>
+          <div style={display('preview')}>
             <Preview
               onLoad={(b) => this.setState({ blob: b })}
               load={loadRecord}

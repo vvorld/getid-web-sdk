@@ -117,6 +117,14 @@ export default {
   Recording_record_subHeader: ' ',
   Recording_record_next: 'Start record',
   Recording_record_back: 'Go back',
+  Recording_record_nextPhrase: 'Next phrase',
+  Recording_record_prevPhrase: 'Previous phrase',
+  Recording_record_phrasesHeader: 'Please speak it:',
+
+  Recording_preview_header: 'Please check video',
+  Recording_preview_subHeader: ' ',
+  Recording_preview_next: 'It\'s ok',
+  Recording_preview_back: 'retake video',
 
   ThankYou_header: 'Thank you',
   ThankYou_subHeader: 'The identity verification process is complete',

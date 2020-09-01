@@ -1,10 +1,10 @@
 #getid-main .popup_contnet{
-    position: relative;
-    display: flex;
+    position: absolute;
     justify-content: center;
     flex-direction: column;
     width: 100%;
-    
+    min-height: 100vh;
+    top: 0;
 }
 .landscape__content{
     display: flex
@@ -28,7 +28,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100vw;
     background: black;
         
 }

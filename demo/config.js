@@ -20,42 +20,16 @@ export default {
           type: 'text',
           name: 'First name',
           required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
+          // validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         },
-        {
-          label: 'First Name 2',
-          type: 'text',
-          name: 'First name',
-          required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
-        },
-        {
-          label: 'First Name 3',
-          type: 'text',
-          name: 'First name',
-          required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
-        },
+
         {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',
           required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
+          // validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
 
-        },
-        {
-          placeholder: 'Document front side',
-          type: 'file',
-          name: 'test',
-          required: true,
-        },
-        {
-          label: 'First Name 3',
-          type: 'text',
-          name: 'First name',
-          required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         },
         {
           label: 'Date Of Birth',
@@ -74,11 +48,12 @@ export default {
     {
       component: 'Record',
       server: 'https://mc2.getid.dev',
-      // server: 'http://164.90.223.220:8080',
-      phrases: ['I would like to get a setificate from Company Z', 'Step 2'],
+      phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
     {
-      server: 'ws://10.10.10.59:8765/',
+      servers: [
+        'wss://ws.getid.dev',
+      ],
       component: 'Liveness',
     },
     {

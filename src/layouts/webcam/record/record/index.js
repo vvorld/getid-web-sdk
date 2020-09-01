@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Footer from '~/components/blocks/footer/footer';
+import Header from '~/components/blocks/header/header';
+
 import Popup from '~/components/popup';
 import './record.css';
 
@@ -98,7 +100,6 @@ export default (pr) => {
       if (!recording) {
         return null;
       }
-      const { step } = this.props;
       const { textMod, visible } = this.state;
 
       if (textMod === 'hide' || !visible) {
@@ -112,7 +113,7 @@ export default (pr) => {
             <>
               <div className={`getid-phrases__contaner${!visible ? ' getid-phrases_begin' : ''}`}>
                 <div className="getid-phrases__title">
-                  <Translate step={step} element="phrasesHeader" />
+                  <Translate step="Recording_recording" element="phrasesHeader" />
                 </div>
                 <div className={`getid-phrases__content getid-animation${textMod === 'show' ? ' getid-visible_1' : ''}`}>
                   {phrases[activeLine]}
@@ -122,6 +123,18 @@ export default (pr) => {
           )}
         </div>
       );
+    }
+  }
+  class CameraHeader extends Component {
+    componentWillMount() {
+      rerenders.push(() => this.forceUpdate());
+    }
+
+    render() {
+      if (!recording) {
+        return <Header step="Recording_record" />;
+      }
+      return <Header step="Recording_recording" />;
     }
   }
   class CameraFooter extends Component {
@@ -134,7 +147,7 @@ export default (pr) => {
       if (!recording) {
         return (
           <Footer
-            step={this.props.step}
+            step="Recording_record"
             next={{
               onClick: async () => {
                 await change(true);
@@ -148,6 +161,7 @@ export default (pr) => {
       const nextInfo = activeLine === phrases.length - 1
         ? {
           ...pr.next,
+          translate: 'lastPhrase',
           onClick: async () => {
             await recorder.stopRecord();
             pr.next.onClick(recorder.getRecord);
@@ -159,11 +173,10 @@ export default (pr) => {
         ? back
         : { onClick: () => changeLine(activeLine - 1), translate: 'prevPhrase' };
 
-      const { step } = this.props;
       return (
 
         <Footer
-          step={step}
+          step="Recording_recording"
           next={nextInfo}
           back={backInfo}
           disableAnmation={activeLine > 0}
@@ -191,6 +204,7 @@ export default (pr) => {
           </>
         )
     ),
+    CameraHeader: (props) => <CameraHeader />,
     CameraFooter: (props) => (props.isMobile ? null : <CameraFooter {...props} />),
   };
 };

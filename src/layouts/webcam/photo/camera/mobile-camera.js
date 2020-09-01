@@ -29,20 +29,18 @@ class MobileCamera extends CameraBase {
     } = this.state;
     return (
       <Popup visible={visible}>
-        <div style={{ position: 'relative', height: '70vh' }}>
+        <div style={{ position: 'relative', height: '80vh' }}>
           <video
             style={{
               transform: mode === 'user' ? 'scale(-1, 1)' : 'scale(1, 1)',
-              maxHeight: '70vh',
+              maxHeight: '80vh',
             }}
             width="100%"
             playsInline
             autoPlay
             muted
             ref={this.setSrc}
-          >
-            <track kind="captions" />
-          </video>
+          />
           {Overlay && (
           <Overlay
             width={width}
@@ -51,17 +49,14 @@ class MobileCamera extends CameraBase {
             top={top}
             bottom={bottom}
             right={right}
-            style={{ maxHeight: '70vh' }}
+            style={{ maxHeight: '80vh' }}
           />
           )}
         </div>
         <div
           className="getid-footer__container"
           style={{
-            bottom: 0,
-            left: 0,
-            right: 0,
-            background: 'balck',
+            background: 'black',
             maxHeight: '20vh',
             display: 'flex',
             flexDirection: 'column',

@@ -18,8 +18,17 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
   })();
   return () => { running = false; };
 };
-async function createLiveness(server, takePhoto, onCommand) {
-  const ws = new WebSocket(server);
+async function createLiveness(servers, takePhoto, onCommand) {
+  const ws = (() => {
+    for (const address of servers) {
+      try {
+        return new WebSocket(address);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    throw new Error('Liveness server error');
+  })();
 
   let stop = null;
 
@@ -46,9 +55,12 @@ async function createLiveness(server, takePhoto, onCommand) {
     if (event.data.startsWith('warning:')) {
       if (event.data.startsWith('warning:otherAction:')) {
         st();
-        sleep(1000).then(() => ws.send('giveMeTask'));
       }
-      onCommand({ text: event.data.replace('warning:', ''), type: 'warning' });
+      onCommand({
+        text: event.data.replace('warning:', ''),
+        type: 'warning',
+        next: () => ws.send('giveMeTask'),
+      });
     }
 
     if (event.data.startsWith('failure:')) {

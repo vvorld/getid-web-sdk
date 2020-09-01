@@ -43,7 +43,7 @@ class CameraBase extends Component {
     const params = {
       audio: false,
       video: {
-        width: 2048,
+        width: { ideal: 2048 },
         facingMode: { exact: this.props.facingMode },
       },
     };
@@ -68,7 +68,7 @@ class CameraBase extends Component {
     }
     try {
       const [stream, mode] = await this.getStream();
-
+      this.ref.srcObject = stream;
       setTimeout(() => {
         const settings = stream.getVideoTracks()[0].getSettings();
         const { width, height } = settings;
@@ -78,7 +78,7 @@ class CameraBase extends Component {
         this.setState({
           width, height, left, right, top, bottom, mode,
         });
-        this.ref.srcObject = stream;
+
         const intervalId = setInterval(() => {
           if (ref.readyState === 4 || ref.readyState > 0) {
             clearInterval(intervalId);

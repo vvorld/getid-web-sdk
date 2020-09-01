@@ -12,13 +12,15 @@ class Popup extends Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (nextProps.visible) {
-      this.originalWidth = document.body.style.maxWidth;
+      this.originalMaxWidth = document.body.style.maxWidth;
+      this.originalWidth = document.body.style.width;
       this.originalDisplay = document.body.style.display;
       this.originalHeight = document.body.style.maxHeight;
       this.originalOverflow = document.body.style.overflow;
       this.originalOnpopstate = window.onpopstate;
-      document.body.style.maxWidth = '100vw';
-      document.body.style.maxHeight = '100vh';
+      document.body.style.maxWidth = window.screen.width;
+      document.body.style.width = window.screen.width;
+      document.body.style.maxHeight = window.screen.height;
       document.body.style.display = 'block';
       document.body.style.overflow = 'hidden';
 
@@ -29,7 +31,8 @@ class Popup extends Component {
       }
       window.onpopstate = this.onpopstate;
     } else {
-      document.body.style.maxWidth = this.originalWidth;
+      document.body.style.maxWidth = this.originalMaxWidth;
+      document.body.style.width = this.originalWidth;
       document.body.style.display = this.originalDisplay;
       document.body.style.maxHeight = this.originalHeight;
       document.body.style.overflow = this.originalOverflow;
@@ -42,6 +45,10 @@ class Popup extends Component {
     return (
       <div
         className="getid-popup"
+        style={{
+          width: window.screen.width,
+          minHeight: window.screen.height,
+        }}
       >
         <div className="getid-landscape">
           <div className="getid-landscape__content">

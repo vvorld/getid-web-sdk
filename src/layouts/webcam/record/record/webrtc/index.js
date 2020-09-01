@@ -42,7 +42,7 @@ class WebRTCRecorder {
   startRecord = async () => {
     const settings = this.stream.getVideoTracks()[0].getSettings();
     const { width, height } = settings;
-    this.dataChannel.send('startRecording');// ,${width}x${height}`);
+    this.dataChannel.send(`startRecording,${width}x${height}`);
   }
 
   stopRecord = async () => {

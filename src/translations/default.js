@@ -109,7 +109,7 @@ export default {
   SelfieRules_next: 'ok, i got it',
 
   Recording_guide_header: 'Record video',
-  Recording_guide_subHeader: ' ',
+  Recording_guide_subHeader: 'You will be asked to record a short video saying a phrase provided',
   Recording_guide_next: 'ok, i got it',
   Recording_guide_back: 'Go back',
 
@@ -117,14 +117,19 @@ export default {
   Recording_record_subHeader: ' ',
   Recording_record_next: 'Start record',
   Recording_record_back: 'Go back',
-  Recording_record_nextPhrase: 'Next phrase',
-  Recording_record_prevPhrase: 'Previous phrase',
-  Recording_record_phrasesHeader: 'Please speak it:',
 
-  Recording_preview_header: 'Please check video',
+  Recording_recording_header: 'Please, follow the instructions',
+  Recording_recording_subHeader: ' ',
+  Recording_recording_nextPhrase: 'Next phrase',
+  Recording_recording_lastPhrase: 'Finish',
+  Recording_recording_prevPhrase: 'Previous phrase',
+  Recording_recording_back: 'Go back',
+  Recording_recording_phrasesHeader: 'Please say on camera:',
+
+  Recording_preview_header: 'Check the recorded video',
   Recording_preview_subHeader: ' ',
   Recording_preview_next: 'It\'s ok',
-  Recording_preview_back: 'retake video',
+  Recording_preview_back: 're-take a video',
 
   ThankYou_header: 'Thank you',
   ThankYou_subHeader: 'The identity verification process is complete',

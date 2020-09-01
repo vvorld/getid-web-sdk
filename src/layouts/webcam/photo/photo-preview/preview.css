@@ -20,11 +20,6 @@
     background-color: var(--main-txt-color);
 }
 
-#getid-main .image-container > .cell > .wrapper > .spinner {
-    opacity: 1;
-    width: 8rem;
-    height: 8rem;
-}
 
 #getid-main .image-container > .cell > .wrapper > .spinner.spinner3 {
     border-top: 5px solid var(--main-accent-color);

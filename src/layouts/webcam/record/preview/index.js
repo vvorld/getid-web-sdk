@@ -4,6 +4,19 @@ import PropTypes from 'prop-types';
 
 const PreviewForm = ({ load, onLoad, blob }) => {
   const urlCreator = window.URL || window.webkitURL;
+  if (blob) {
+    const src = blob && urlCreator.createObjectURL(blob);
+    return (
+      <div data-role="cameraPreview">
+        <video
+          controls
+          className="getid-preview"
+          src={src}
+          data-role="cameraPreviewImg"
+        />
+      </div>
+    );
+  }
   if (!load) {
     return null;
   }
@@ -11,7 +24,7 @@ const PreviewForm = ({ load, onLoad, blob }) => {
     (async () => {
       while (true) {
         // eslint-disable-next-line no-await-in-loop
-        await new Promise((resolve) => setInterval(resolve, 100));
+        await new Promise((resolve) => setInterval(resolve, 1000));
         try {
           // eslint-disable-next-line no-await-in-loop
           const video = await load();
@@ -25,17 +38,13 @@ const PreviewForm = ({ load, onLoad, blob }) => {
       }
     })();
   }, [load]);
-  const src = blob && urlCreator.createObjectURL(blob);
   return (
     <div data-role="cameraPreview">
       <video
         controls
         className="getid-preview"
-        src={src}
         data-role="cameraPreviewImg"
-      >
-        <track kind="captions" />
-      </video>
+      />
     </div>
   );
 };

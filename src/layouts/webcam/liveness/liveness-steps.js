@@ -21,8 +21,8 @@ const mapTasks = {
 };
 
 const Command = ({ s, children }) => {
-  const [{ text, type }, setText] = useState({});
-  s.delegate = setText;
+  const [{ text, type, next }, setTask] = useState({});
+  s.delegate = setTask;
   return (
     <div style={{
       background: '#7861A2',
@@ -32,6 +32,7 @@ const Command = ({ s, children }) => {
       fontSize: '1.6em',
       borderRadius: '5px',
       position: 'relative',
+      marginTop: '-10px',
 
     }}
     >
@@ -50,6 +51,17 @@ const Command = ({ s, children }) => {
         >
           {children}
           {mapTasks[text] || text}
+          {type === 'warning' && (
+          <div>
+            <button onClick={next}>Ok</button>
+          </div>
+          )}
+
+          {type === 'fail' && (
+          <div>
+            <button onClick={next}>Try again</button>
+          </div>
+          )}
         </div>
       </div>
 
@@ -57,27 +69,31 @@ const Command = ({ s, children }) => {
   );
 };
 
-const createComponentLiveness = (server, takePhoto) => () => {
+const createComponentLiveness = (servers, takePhoto, success) => () => {
   const sessionActions = {};
   const [sessionNumber, setSessionNumber] = useState(1);
 
-  const createLiveness = () => createLivenessSession(server, takePhoto, (data) => {
-    if (data.type === 'fail') {
-      setTimeout(() => {
-        setSessionNumber(sessionNumber + 1);
-      }, 3000);
-
-      sessionActions.delegate(data);
-    } else {
-      sessionActions.delegate(data);
+  const createLiveness = () => createLivenessSession(servers, takePhoto, (data) => {
+    switch (data.type) {
+      case 'fail': {
+        sessionActions.delegate({ ...data, next: () => setSessionNumber(sessionNumber + 1) });
+        break;
+      }
+      case 'success': {
+        success();
+        break;
+      }
+      default: {
+        sessionActions.delegate(data);
+        break;
+      }
     }
   });
   useEffect(() => { createLiveness(); }, [sessionNumber]);
   return (
     <Command s={sessionActions}>
       <div>
-        {'Try '}
-        {sessionNumber}
+        {`Try ${sessionNumber}`}
       </div>
     </Command>
   );
@@ -91,7 +107,11 @@ class LivenessStep extends Component {
       step: props.direction === 'back' ? 'preview' : 'guide',
       stream: null,
       cameraStepIsAllowed: false,
-      LivenessCommands: createComponentLiveness(props.server, (c) => this.state.takePhoto(c)),
+      LivenessCommands: createComponentLiveness(
+        props.servers,
+        (c) => this.state.takePhoto(c, true),
+        props.finishStep,
+      ),
     };
   }
 
@@ -127,7 +147,7 @@ class LivenessStep extends Component {
     const {
       error, step, cameraStepIsAllowed, LivenessCommands,
     } = this.state;
-    const stepName = `Recording_${step}`;
+    const stepName = `Liveness_${step}`;
 
     if (step === 'disabled') {
       return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.startLiveness }} />;

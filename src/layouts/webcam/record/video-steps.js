@@ -24,7 +24,7 @@ class RecordView extends React.Component {
 
   createComponents = () => {
     const { props } = this;
-    const { Camera, CameraFooter } = createRecordCamera({
+    const { Camera, CameraFooter, CameraHeader } = createRecordCamera({
       server: props.server,
       phrases: props.phrases,
       onReady: this.cameraReady,
@@ -36,6 +36,7 @@ class RecordView extends React.Component {
     });
     this.Camera = Camera;
     this.CameraFooter = CameraFooter;
+    this.CameraHeader = CameraHeader;
   }
 
   makeVideo = () => {
@@ -76,6 +77,7 @@ class RecordView extends React.Component {
     if (step === 'disabled') {
       return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.showGuideStep }} />;
     }
+    const mobile = isMobile();
 
     const layout = (() => {
       switch (step) {
@@ -89,10 +91,10 @@ class RecordView extends React.Component {
         };
 
         case 'record': {
-          const { CameraFooter } = this;
+          const { CameraFooter, CameraHeader } = this;
           return {
-            header: <Header step={stepName} />,
-            footer: <CameraFooter step={stepName} />,
+            header: <CameraHeader />,
+            footer: <CameraFooter isMobile={mobile} step={stepName} />,
           };
         }
         case 'preview': return {
@@ -113,7 +115,6 @@ class RecordView extends React.Component {
     })();
     const { Camera } = this;
 
-    const mobile = isMobile();
     const display = (st) => ({ display: step === st ? 'block' : 'none' });
     return (
       <>

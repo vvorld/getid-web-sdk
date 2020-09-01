@@ -65,17 +65,10 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
 
 const validateFlow = (flow) => true;
 
-const enableThankYou = (flow) => true;
+const enableThankYou = (flow) => flow.find((x) => x.component === 'ThankYou');
 
 const normaliseFlow = (flow) => {
   validateFlow(flow);
-  if (enableThankYou(flow)) {
-    // eslint-disable-next-line no-param-reassign
-    flow = [...flow.slice(0, -1), { component: 'Sending' }, flow.pop()];
-  } else {
-    // eslint-disable-next-line no-param-reassign
-    flow = [...flow, { Component: 'Sending' }];
-  }
 
   const documentIndex = flow.findIndex((x) => x.component === 'DocumentPhoto');
   const app = {};
@@ -103,6 +96,13 @@ const normaliseFlow = (flow) => {
         component: 'SelfieRules',
       });
     }
+  }
+  if (enableThankYou(flow)) {
+    // eslint-disable-next-line no-param-reassign
+    flow = [...flow.slice(0, -1), { component: 'Sending' }, flow.pop()];
+  } else {
+    // eslint-disable-next-line no-param-reassign
+    flow = [...flow, { Component: 'Sending' }];
   }
   return [flow, app];
 };
@@ -193,6 +193,7 @@ class Widget extends Component {
     }
 
     const { step } = this.state;
+    console.log('next', delta, app);
     this.setState({
       step: step + 1,
       direction: 'forward',
@@ -201,7 +202,8 @@ class Widget extends Component {
   }
 
   prevStep = () => {
-    const { step } = this.state;
+    const { step, app } = this.state;
+    console.log('prev', app);
     this.setState({
       step: step - 1,
       direction: 'back',
@@ -270,15 +272,22 @@ class Widget extends Component {
         (front) => next({ front }, 'front'),
       ];
       case 'Selfie': return (app, next) => [
-        (props) => <Selfie blob={app.selfie} {...props} />,
+        (props) => <Selfie blob={app.selfie} direction={this.state.direction} {...props} />,
         (selfie) => next({ selfie }, 'selfie'),
       ];
       case 'Record': return (app, next) => [
-        (props) => <Record server={this.props.webRtcServerUrl} {...props} />,
+        (props) => (
+          <Record
+            server={this.props.webRtcServerUrl}
+            direction={this.state.direction}
+            blob={app.selfieVideo}
+            {...props}
+          />
+        ),
         (selfieVideo) => next({ selfieVideo }, 'record'),
       ];
       case 'Liveness': return (app, next) => [
-        (props) => <Liveness {...props} />,
+        (props) => <Liveness direction={this.state.direction} {...props} />,
         () => next({ }, 'liveness'),
       ];
       case 'Sending': return (app, next) => [

@@ -16,13 +16,30 @@ class Form extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    const getFormValue = (name) => {
+      if (!this.props.form) {
+        return null;
+      }
+      const f = this.props.form[name];
+      return f && f.value;
+    };
+
     this.props.additionalData.forEach((el) => {
-      this.form[el.name] = { value: el.value, required: (el.required || el.type === 'consent') || false };
+      this.form[el.name] = {
+        value: getFormValue(el.name) || el.value,
+        required: (el.required || el.type === 'consent') || false,
+      };
     });
+
     this.props.fields.forEach((el) => {
-      this.form[el.name] = { value: el.value || this.getExtractedValue(el.name), required: (el.required || el.type === 'consent') || false };
+      const v = getFormValue(el.name);
+      this.form[el.name] = {
+        value: v,
+        required: (el.required || el.type === 'consent') || false,
+      };
     });
+
     this.setState({ disabled: this.isDisabled() });
   }
 
@@ -39,6 +56,8 @@ class Form extends Component {
     return extractedField && extractedField.content;
   }
 
+  copyForm = () => ({ ...this.form })
+
   render() {
     const {
       fields, finishStep, prevStep,
@@ -52,9 +71,9 @@ class Form extends Component {
             {fields.map((field) => (
               <div key={field.name} className="getid-form__input-wrapper">
                 <InputRenderer
-                  value={field.value || this.getExtractedValue(field.name)}
-                  required={(field.required || field.type === 'consent') || false}
                   {...field}
+                  value={this.form[field.name].value}
+                  required={(field.required || field.type === 'consent') || false}
                   onChange={this.handleChange}
                 />
               </div>
@@ -63,21 +82,13 @@ class Form extends Component {
         </Content>
         <Footer
           step="Form"
-          next={{ onClick: () => finishStep(this.form), disable: this.state.disabled }}
+          next={{ onClick: () => finishStep(this.copyForm()), disable: this.state.disabled }}
           back={{ onClick: prevStep }}
         />
       </>
     );
   }
 }
-
-Form.propTypes = {
-  fields: PropTypes.array.isRequired,
-  additionalData: PropTypes.array,
-  extractedData: PropTypes.array,
-  finishStep: PropTypes.func,
-  prevStep: PropTypes.func,
-};
 
 Form.defaultProps = {
   finishStep: null,

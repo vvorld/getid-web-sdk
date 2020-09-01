@@ -18,9 +18,11 @@ const PreviewForm = ({ blob, ratio, checking }) => {
       style={{ position: 'relative' }}
       data-role="cameraPreview"
     >
+      {checking && (
       <div className="getid-image-container">
         <Loader />
       </div>
+      )}
       <img
         className="getid-preview"
         src={imageSrc}

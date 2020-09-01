@@ -53,11 +53,19 @@ class CameraBase extends Component {
         this.props.facingMode,
       ];
     } catch (e) {
-      params.video.facingMode = 'user';
-      return [
-        await navigator.mediaDevices.getUserMedia(params),
-        'user',
-      ];
+      try {
+        params.video.facingMode = 'user';
+        return [
+          await navigator.mediaDevices.getUserMedia(params),
+          'user',
+        ];
+      } catch (e) {
+        delete params.video.facingMode;
+        return [
+          await navigator.mediaDevices.getUserMedia(params),
+          '',
+        ];
+      }
     }
   }
 

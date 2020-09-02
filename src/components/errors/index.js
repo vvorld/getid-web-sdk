@@ -106,6 +106,11 @@ export const CameraErrorView = createErrorView({
   },
 });
 
+export const HttpErrorView = createErrorView({
+  header: (dictionary) => dictionary.http_error_header,
+  subHeader: (dictionary) => dictionary.http_error_subHeader,
+})
+
 export const FailError = createErrorView({
   header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_header,
   subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_subHeader,

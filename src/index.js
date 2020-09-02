@@ -9,7 +9,7 @@ import { createApi } from './services/api';
 import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
-import { CameraErrorView, ErrorView, AppExistsView } from './components/errors';
+import { CameraErrorView, ErrorView, AppExistsView, HttpErrorView } from './components/errors';
 
 import {
   convertAnswer,
@@ -28,7 +28,7 @@ const cameraAchievable = (options) => {
 };
 
 /**
- * @param options - sdk config object
+ * @param originOptions - sdk config object
  * @param tokenProvider - object with token or function, depends on usage
  */
 const init = (originOptions, tokenProvider) => {
@@ -73,6 +73,15 @@ const init = (originOptions, tokenProvider) => {
     const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
+
+    if (window.location.protocol !== 'https:') {
+      renderComponent({
+            ...options,
+            translations,
+          },
+          <HttpErrorView />);
+      return;
+    }
 
     if (!cameraAchievable(options)) {
       if (options.onFail && typeof options.onFail === 'function') {

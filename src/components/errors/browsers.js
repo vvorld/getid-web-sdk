@@ -14,7 +14,8 @@ const icons = {
 const Browsers = ({ config, dictionary }) => (
   <div className="getid-browsers">
     <div style={{ fontWeight: 'bold' }} className="getid-header__small">{config.text(dictionary)}</div>
-    {
+    <div className="getid-browsers__list">
+      {
         Object.entries(config.buttons()).map(([key, button]) => (
           <button
             type="button"
@@ -29,6 +30,8 @@ const Browsers = ({ config, dictionary }) => (
           </button>
         ))
     }
+    </div>
+
   </div>
 );
 

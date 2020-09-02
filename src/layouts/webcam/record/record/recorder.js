@@ -15,7 +15,7 @@ class CombineRecorder {
       }
       const stream = await window.navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: { width: 320 },
+        video: { width: 320, height: 340 },
       });
       try {
         await this.recorder.initInput(stream);

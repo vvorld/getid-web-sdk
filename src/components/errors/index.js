@@ -84,19 +84,24 @@ export const CameraErrorView = createErrorView({
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
   extra: {
     text: (dictionary) => dictionary.camera_error_another_browser,
-    buttons: {
-      safari: {
-        name: 'Safari',
-        link: 'https://support.apple.com/downloads/safari',
-      },
-      chrome: {
-        name: 'Chrome',
-        link: 'https://www.google.com/chrome/',
-      },
-      firefox: {
-        name: 'Firefox',
-        link: 'https://www.mozilla.org/en-US/firefox/new/',
-      },
+    buttons: () => {
+      const isMacOS = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+      return {
+        ...(isMacOS && {
+          safari: {
+            name: 'Safari',
+            link: 'https://support.apple.com/downloads/safari',
+          },
+        }),
+        chrome: {
+          name: 'Chrome',
+          link: 'https://www.google.com/chrome/',
+        },
+        firefox: {
+          name: 'Firefox',
+          link: 'https://www.mozilla.org/en-US/firefox/new/',
+        },
+      };
     },
   },
 });

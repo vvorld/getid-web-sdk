@@ -5,7 +5,7 @@ import Guide from '~/components/guide';
 import Camera from './camera';
 import overlay from './overlay';
 
-const guide = (src, styles) => () => <Guide src={src} styles={styles}/>;
+const guide = (src, styles) => () => <Guide src={src} styles={styles} />;
 
 const camera = (figure) => (props) => (
   <Camera
@@ -21,7 +21,7 @@ const CaptureFront = (props) => (
     ratio={3 / 2}
     rules="PhotoRules"
     componentName="IdCapture"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
     facingMode="environment"
   />
 );
@@ -34,7 +34,7 @@ const CaptureBack = (props) => (
     rules="PhotoRules"
     componentName="IdCaptureBack"
     onCheck={props.checkDocumentPhoto}
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_back.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_back.svg', props.styles)}
     facingMode="environment"
   />
 );
@@ -43,21 +43,18 @@ CaptureBack.propTypes = {
   checkDocumentPhoto: PropTypes.func.isRequired,
 };
 
-const DocumentPhoto = (props) => {
-  console.log(props)
-  return (
-      <CameraSteps
-          {...props}
-          Camera={camera('rectangle')}
-          ratio={3 / 2}
-          rules="PhotoRules"
-          onCheck={props.checkDocumentPhoto}
-          componentName="IdCapture"
-          Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
-          facingMode="environment"
-      />
-  );
-}
+const DocumentPhoto = (props) => (
+  <CameraSteps
+    {...props}
+    Camera={camera('rectangle')}
+    ratio={3 / 2}
+    rules="PhotoRules"
+    onCheck={props.checkDocumentPhoto}
+    componentName="IdCapture"
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
+    facingMode="environment"
+  />
+);
 DocumentPhoto.propTypes = {
   checkDocumentPhoto: PropTypes.func.isRequired,
   styles: PropTypes.shape({}).isRequired,
@@ -69,7 +66,7 @@ const Selfie = (props) => (
     ratio={3 / 4}
     componentName="IdSelfie"
     rules="SelfieRules"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg', props.styles)}
     facingMode="user"
   />
 );

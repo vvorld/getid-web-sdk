@@ -123,7 +123,7 @@ class RecordView extends React.Component {
         {layout.header}
         <Content step={stepName}>
           <div style={display('guide')}>
-            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
+            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" styles={this.props.styles} />
           </div>
           <div className="getid-camera_content" style={display('record')}>
             <Camera active visible={step === 'record'} step={stepName} />

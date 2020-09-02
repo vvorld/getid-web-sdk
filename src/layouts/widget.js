@@ -254,6 +254,7 @@ class Widget extends Component {
             front={app.front}
             blob={app.back}
             {...props}
+            styles={this.props.styles}
             direction={this.state.direction}
             checkDocumentPhoto={(
               back, tryNumber,
@@ -277,7 +278,14 @@ class Widget extends Component {
         (front) => next({ front }, 'front'),
       ];
       case 'Selfie': return (app, next) => [
-        (props) => <Selfie blob={app.selfie} direction={this.state.direction} {...props} />,
+        (props) => (
+          <Selfie
+            styles={this.props.styles}
+            blob={app.selfie}
+            direction={this.state.direction}
+            {...props}
+          />
+        ),
         (selfie) => next({ selfie }, 'selfie'),
       ];
       case 'Record': return (app, next) => [
@@ -286,13 +294,20 @@ class Widget extends Component {
             server={this.props.webRtcServerUrl}
             direction={this.state.direction}
             blob={app.selfieVideo}
+            styles={this.props.styles}
             {...props}
           />
         ),
         (selfieVideo) => next({ selfieVideo }, 'record'),
       ];
       case 'Liveness': return (app, next) => [
-        (props) => <Liveness direction={this.state.direction} {...props} />,
+        (props) => (
+          <Liveness
+            styles={this.props.styles}
+            direction={this.state.direction}
+            {...props}
+          />
+        ),
         () => next({ }, 'liveness'),
       ];
       case 'Sending': return (app, next) => [
@@ -362,12 +377,14 @@ Widget.propTypes = {
     checkSide: PropTypes.func.isRequired,
   }).isRequired,
   metadata: PropTypes.shape({}).isRequired,
+  styles: PropTypes.shape({}),
   flow: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
   webRtcServerUrl: PropTypes.string,
 };
 Widget.defaultProps = {
   onBack: null,
+  styles: {},
   onComplete: null,
   additionalData: [],
   webRtcServerUrl: '',

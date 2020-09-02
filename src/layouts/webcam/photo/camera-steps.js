@@ -110,7 +110,10 @@ class WebcamView extends React.Component {
                     } else {
                       this.retakeDescription({ code });
                     }
-                  }).catch((e) => this.retakeDescription(e)).finally(() => {
+                  }).catch((e) => {
+                    console.error(e);
+                    this.retakeDescription({ code: 'error' });
+                  }).finally(() => {
                     this.setState({ checking: false });
                   });
               },

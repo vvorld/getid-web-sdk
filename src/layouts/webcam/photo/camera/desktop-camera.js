@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CameraBase from './camera-base';
+import {isMobile} from "~/helpers/generic";
 
 class DesktopCamera extends CameraBase {
   componentWillUnmount() {
@@ -16,7 +17,6 @@ class DesktopCamera extends CameraBase {
       right,
       mode,
     } = this.state;
-
     return (
       <div className="getid-camera__container">
         <video

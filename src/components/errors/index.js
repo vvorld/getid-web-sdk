@@ -125,10 +125,10 @@ export const FailError = createErrorView({
 
 const getErrorText = (dictionary, name) => {
   if (name === 'NotAllowedError') {
-    return dictionary.camera_error_not_allowed || dictionary.camera_error_generic;
+    return dictionary.camera_error_not_allowed;
   }
   if (name === 'NotFoundError') {
-    return dictionary.camera_error_not_found || dictionary.camera_error_generic;
+    return dictionary.camera_error_not_found;
   }
   return dictionary.camera_error_generic;
 };

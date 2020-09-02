@@ -7,7 +7,7 @@ import './retake.css';
 const RetakeDescription = ({ code, step, rules }) => (
   <div>
     <div className="getid-retake_message">
-      <Translate step={step} element={code} />
+      <Translate step={step} element={code || 'error'} />
     </div>
 
     <RulesList rules={rules} />

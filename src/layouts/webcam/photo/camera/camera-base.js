@@ -43,7 +43,7 @@ class CameraBase extends Component {
     const params = {
       audio: false,
       video: {
-        width: { ideal: 2048 },
+        width: { min: 1024, ideal: 1024 },
         facingMode: { exact: this.props.facingMode },
       },
     };
@@ -53,6 +53,7 @@ class CameraBase extends Component {
         this.props.facingMode,
       ];
     } catch (e) {
+      console.error(e);
       try {
         params.video.facingMode = 'user';
         return [
@@ -60,6 +61,7 @@ class CameraBase extends Component {
           'user',
         ];
       } catch (ee) {
+        console.error(ee);
         delete params.video.facingMode;
         return [
           await navigator.mediaDevices.getUserMedia(params),

@@ -172,18 +172,15 @@ main a {
 
 /*-----------FOOTER---------*/
 #getid-main .browsers button {
+    margin-top: 20px;
     background: none;
     outline: none;
     cursor: pointer;
     border: none;
+    width: 33%;
 }
 
-#getid-main .browsers > button:nth-child(2) {
-    margin-right: 20px;
-}
-#getid-main .browsers > button:nth-child(3) {
-    margin-right: 20px;
-}
+
 
 #getid-main .browsers p {
     font-style: normal;
@@ -193,6 +190,10 @@ main a {
     text-align: center;
     color: var(--main-dark-blue-text);
     opacity: 0.7;
+}
+#getid-main .browsers__list{
+    max-width: 300px;
+    margin: auto;
 }
 /*-----------FOOTER END---------*/
 

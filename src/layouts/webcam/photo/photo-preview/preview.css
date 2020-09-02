@@ -1,9 +1,10 @@
 
 #getid-main .preview {
      width: 100%;
+     transform: scale(-1, 1);
 }
 
-#getid-main .image-image__container {
+#getid-main .image__container {
     position: absolute;
     top: 0;
     left: 0;
@@ -14,4 +15,5 @@
     align-items: center;
     opacity: 0.5;
     background-color: var(--main-txt-color);
+    z-index: 1;
 }

@@ -6,6 +6,9 @@
 #getid-main .form__input-wrapper {
     margin-bottom: 15px;
 }
+#getid-main .form__input-hiiden {
+     visibility: hidden;
+}
 
 #getid-main .form__input-label {
     font-style: normal;

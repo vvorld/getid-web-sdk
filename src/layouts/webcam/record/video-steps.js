@@ -5,7 +5,6 @@ import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
-import { isMobile } from '~/helpers/generic';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
@@ -82,8 +81,6 @@ class RecordView extends React.Component {
         />
       );
     }
-    const mobile = isMobile();
-
     const layout = (() => {
       switch (step) {
         case 'guide': return {
@@ -99,7 +96,7 @@ class RecordView extends React.Component {
           const { CameraFooter, CameraHeader } = this;
           return {
             header: <CameraHeader />,
-            footer: <CameraFooter isMobile={mobile} step={stepName} />,
+            footer: <CameraFooter />,
           };
         }
         case 'preview': return {
@@ -129,7 +126,7 @@ class RecordView extends React.Component {
             <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>
           <div className="getid-camera_content" style={display('record')}>
-            <Camera active visible={step === 'record'} step={stepName} isMobile={mobile} />
+            <Camera active visible={step === 'record'} step={stepName} />
           </div>
           <div style={display('preview')}>
             <Preview

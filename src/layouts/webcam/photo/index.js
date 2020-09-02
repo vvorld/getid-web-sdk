@@ -5,8 +5,6 @@ import Guide from '~/components/guide';
 import Camera from './camera';
 import overlay from './overlay';
 
-import { isMobile } from '~/helpers/generic';
-
 const guide = (src) => () => <Guide src={src} />;
 
 const camera = (figure) => (props) => (
@@ -23,7 +21,7 @@ const CaptureFront = (props) => (
     ratio={3 / 2}
     rules="PhotoRules"
     componentName="IdCapture"
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/default_front.svg' : 'https://cdn.getid.cloud/assets/desktop/default_front.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
     facingMode="environment"
   />
 );
@@ -36,8 +34,7 @@ const CaptureBack = (props) => (
     rules="PhotoRules"
     componentName="IdCaptureBack"
     onCheck={props.checkDocumentPhoto}
-    isMobile={isMobile()}
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/default_back.svg' : 'https://cdn.getid.cloud/assets/desktop/default_back.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_back.svg')}
     facingMode="environment"
   />
 );
@@ -54,8 +51,7 @@ const DocumentPhoto = (props) => (
     rules="PhotoRules"
     onCheck={props.checkDocumentPhoto}
     componentName="IdCapture"
-    isMobile={isMobile()}
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/default_front.svg' : 'https://cdn.getid.cloud/assets/desktop/default_front.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
     facingMode="environment"
   />
 );
@@ -69,8 +65,7 @@ const Selfie = (props) => (
     ratio={3 / 4}
     componentName="IdSelfie"
     rules="SelfieRules"
-    isMobile={isMobile()}
-    Guide={guide(isMobile() ? 'https://cdn.getid.cloud/assets/mobile/selfie.svg' : 'https://cdn.getid.cloud/assets/desktop/selfie.svg')}
+    Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg')}
     facingMode="user"
   />
 );

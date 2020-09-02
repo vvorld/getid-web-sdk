@@ -85,13 +85,11 @@ class WebcamView extends React.Component {
         };
         case 'record': return {
           header: <Header step={stepName} />,
-          footer: !this.props.isMobile && (
-          <Footer
+          footer: <Footer
             step={stepName}
             next={{ onClick: this.makePhoto }}
             back={{ onClick: () => this.setStep('guide') }}
-          />
-          ),
+          />,
         };
         case 'preview': return {
           header: <Header step={stepName} />,
@@ -176,7 +174,6 @@ class WebcamView extends React.Component {
 
 WebcamView.propTypes = {
   rules: PropTypes.string.isRequired,
-  isMobile: PropTypes.bool.isRequired,
   Camera: PropTypes.func.isRequired,
   Guide: PropTypes.func.isRequired,
   prevStep: PropTypes.shape({}).isRequired,

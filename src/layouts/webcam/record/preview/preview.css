@@ -1,8 +1,0 @@
-@keyframes example {
-  from {transform: scale(-1, 1);}
-  to {transform: scale(1, 1);}
-}
-
-.preview {
-     width: 100%;
-}

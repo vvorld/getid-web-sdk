@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect } from 'react';
-import './preview.css';
 import PropTypes from 'prop-types';
 
 const PreviewForm = ({ load, onLoad, blob }) => {
@@ -40,9 +39,8 @@ const PreviewForm = ({ load, onLoad, blob }) => {
     })();
   }, [load]);
   return (
-    <div data-role="cameraPreview">
+    <div>
       <video
-        style={{ transform: 'scale(-1, 1)' }}
         controls
         className="getid-preview"
       />

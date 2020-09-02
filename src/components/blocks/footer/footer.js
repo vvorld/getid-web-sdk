@@ -22,12 +22,15 @@ const Footer = ({
       setVisible({ visible: true, step });
     }, 50);
   }
+  const mainButton = document.getElementById('main');
+  if (mainButton) document.getElementById('main').focus();
   return (
     <div className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
       <div className="getid-button__wrapper">
         {next.onClick
           ? (
             <button
+              id="main"
               autoFocus
               type="button"
               className={`getid-button__main ${next.mod ? `getid-${next.mod}` : ''}`}

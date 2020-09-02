@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import frameRenderer from './helpers';
+import { isMobile } from '~/helpers/generic';
 
 const calculateMaskPoition = (width, height, ratio = width / height, zoom = 1) => {
   const streamRatio = width / height;
@@ -47,6 +48,18 @@ class CameraBase extends Component {
         facingMode: { exact: this.props.facingMode },
       },
     };
+    console.log(params);
+
+    if (isMobile()) {
+      console.log(params);
+
+      Object.assign(params, {
+        video: {
+          width: 1280,
+          height: 720,
+        },
+      });
+    }
     try {
       return [
         await navigator.mediaDevices.getUserMedia(params),

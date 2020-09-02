@@ -180,7 +180,6 @@ class Widget extends Component {
   };
 
   nextStep = async (delta, stepName) => {
-    console.log(this.flow, this.state.step);
     if (this.state.step >= this.flow.length - 1) {
       this.finish();
       return;
@@ -209,7 +208,6 @@ class Widget extends Component {
 
   prevStep = () => {
     const { step, app } = this.state;
-    console.log('prev', app);
     this.setState({
       step: step - 1,
       direction: 'back',
@@ -269,6 +267,7 @@ class Widget extends Component {
           <DocumentPhoto
             blob={app.front}
             {...props}
+            styles={this.props.styles}
             direction={this.state.direction}
             checkDocumentPhoto={(
               front, tryNumber,

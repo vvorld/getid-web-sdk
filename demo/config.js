@@ -6,11 +6,11 @@ export default {
   metadata: {
     externalId: 121212,
   },
-  // styles: {
-  //   'txt-color': 'red',
-  //   'txt-color-secondary': 'green',
-  //   'font-family': 'Helvetica',
-  // },
+  styles: {
+    'txt-color': 'red',
+    'accent-color': 'green',
+    'font-family': 'Helvetica',
+  },
   flow: [
     {
       component: 'Form',

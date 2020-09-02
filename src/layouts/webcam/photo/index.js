@@ -5,7 +5,7 @@ import Guide from '~/components/guide';
 import Camera from './camera';
 import overlay from './overlay';
 
-const guide = (src) => () => <Guide src={src} />;
+const guide = (src, styles) => () => <Guide src={src} styles={styles}/>;
 
 const camera = (figure) => (props) => (
   <Camera
@@ -43,20 +43,24 @@ CaptureBack.propTypes = {
   checkDocumentPhoto: PropTypes.func.isRequired,
 };
 
-const DocumentPhoto = (props) => (
-  <CameraSteps
-    {...props}
-    Camera={camera('rectangle')}
-    ratio={3 / 2}
-    rules="PhotoRules"
-    onCheck={props.checkDocumentPhoto}
-    componentName="IdCapture"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg')}
-    facingMode="environment"
-  />
-);
+const DocumentPhoto = (props) => {
+  console.log(props)
+  return (
+      <CameraSteps
+          {...props}
+          Camera={camera('rectangle')}
+          ratio={3 / 2}
+          rules="PhotoRules"
+          onCheck={props.checkDocumentPhoto}
+          componentName="IdCapture"
+          Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
+          facingMode="environment"
+      />
+  );
+}
 DocumentPhoto.propTypes = {
   checkDocumentPhoto: PropTypes.func.isRequired,
+  styles: PropTypes.shape({}).isRequired,
 };
 const Selfie = (props) => (
   <CameraSteps

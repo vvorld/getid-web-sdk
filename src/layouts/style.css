@@ -162,6 +162,7 @@ main a {
 
 /*-----------VIDEO---------*/
 #getid-main .camera_content {
+    position: relative;
     border-radius: 10px;
     overflow: hidden;
 }

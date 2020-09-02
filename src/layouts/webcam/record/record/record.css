@@ -8,6 +8,7 @@
     background: red;
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 #getid-main .timer_dot{
     background: white;

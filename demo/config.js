@@ -11,6 +11,9 @@ export default {
     'accent-color': 'green',
     'font-family': 'Helvetica',
   },
+  translations: {
+    Form_header: 'Is Custom Form Header!',
+  },
   flow: [
     {
       component: 'Form',

@@ -138,6 +138,7 @@ export default {
 
   // ERROR
   isFail_header: 'Cannot send data',
+  retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
   '400_header': 'Bad request',
   '500_header': 'Service is unavailable',

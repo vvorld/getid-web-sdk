@@ -107,7 +107,7 @@ const normaliseFlow = (flow) => {
     flow = [...flow.slice(0, -1), { component: 'Sending' }, flow.pop()];
   } else {
     // eslint-disable-next-line no-param-reassign
-    flow = [...flow, { Component: 'Sending' }];
+    flow = [...flow, { component: 'Sending' }];
   }
   return [flow, app];
 };
@@ -180,6 +180,7 @@ class Widget extends Component {
   };
 
   nextStep = async (delta, stepName) => {
+    console.log(this.flow, this.state.step);
     if (this.state.step >= this.flow.length - 1) {
       this.finish();
       return;
@@ -322,7 +323,8 @@ class Widget extends Component {
         ),
         ({ country, documentType }) => next({ country, documentType }, 'country-and-document'),
       ];
-      default: throw new Error(`Unexpected step: '${name}'`);
+      default:
+        throw new Error(`Unexpected step: '${name}'`);
     }
   }
 

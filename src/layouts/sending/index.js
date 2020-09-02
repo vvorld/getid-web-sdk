@@ -7,9 +7,11 @@ const Sending = ({ send, finishStep }) => {
     send().then((result) => finishStep(result));
   }, send);
   return (
-    <Loader>
-      Send....
-    </Loader>
+    <div style={{ marginTop: '50px' }}>
+      <Loader>
+        Send....
+      </Loader>
+    </div>
   );
 };
 

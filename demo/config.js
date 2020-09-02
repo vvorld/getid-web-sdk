@@ -6,6 +6,9 @@ export default {
   metadata: {
     externalId: 121212,
   },
+  translations: {
+    Form_header: 'Is Custom Form Header!',
+  },
   // styles: {
   //   'txt-color': 'red',
   //   'txt-color-secondary': 'green',

@@ -9,7 +9,9 @@ import { createApi } from './services/api';
 import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
-import { CameraErrorView, ErrorView, AppExistsView, HttpErrorView } from './components/errors';
+import {
+  CameraErrorView, ErrorView, AppExistsView, HttpErrorView,
+} from './components/errors';
 
 import {
   convertAnswer,
@@ -74,12 +76,13 @@ const init = (originOptions, tokenProvider) => {
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
 
-    if (window.location.protocol !== 'https:') {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (window.location.protocol !== 'https:' && !isLocalhost) {
       renderComponent({
-            ...options,
-            translations,
-          },
-          <HttpErrorView />);
+        ...options,
+        translations,
+      },
+        <HttpErrorView />);
       return;
     }
 

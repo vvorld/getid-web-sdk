@@ -7,12 +7,11 @@ const PreviewForm = ({ load, onLoad, blob }) => {
   if (blob) {
     const src = blob && urlCreator.createObjectURL(blob);
     return (
-      <div data-role="cameraPreview">
+      <div>
         <video
           controls
           className="getid-preview"
           src={src}
-          data-role="cameraPreviewImg"
         />
       </div>
     );

@@ -6,7 +6,7 @@ import Translate from '~/components/blocks/translations';
 import './popup.css';
 
 class Popup extends Component {
-  onpopstate = (event) => {
+  onpopstate = () => {
     this.props.back.onClick();
   }
 

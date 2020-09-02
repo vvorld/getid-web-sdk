@@ -14,19 +14,31 @@ class DesktopCamera extends CameraBase {
       top,
       bottom,
       right,
+      mode,
     } = this.state;
 
     return (
-      <div style={{ position: 'relative' }}>
+      <div className="getid-camera__container">
         <video
-          style={{ transform: 'scale(-1, 1)' }}
+          style={{
+            transform: mode === 'user' ? 'scale(-1, 1)' : 'scale(1, 1)',
+          }}
           width="100%"
           playsInline
           ref={this.setSrc}
           muted
           autoPlay
         />
-        {Overlay && <Overlay width={width} height={height} left={left} top={top} bottom={bottom} right={right} />}
+        {Overlay && (
+        <Overlay
+          width={width}
+          height={height}
+          left={left}
+          top={top}
+          bottom={bottom}
+          right={right}
+        />
+        )}
       </div>
     );
   }

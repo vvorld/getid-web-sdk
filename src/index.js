@@ -31,7 +31,8 @@ const cameraAchievable = (options) => {
  * @param options - sdk config object
  * @param tokenProvider - object with token or function, depends on usage
  */
-const init = (options, tokenProvider) => {
+const init = (originOptions, tokenProvider) => {
+  const options = { ...originOptions };
   if (!options.containerId) {
     throw new Error('Please provide container id.');
   }

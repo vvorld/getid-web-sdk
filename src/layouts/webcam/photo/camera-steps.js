@@ -138,7 +138,7 @@ class WebcamView extends React.Component {
     return (
       <>
         {layout.header}
-        <Content step={stepName} disableAnmation={step === 'record'}>
+        <Content step={stepName}>
           <div>
             <div style={display('guide')}>
               <Guide />

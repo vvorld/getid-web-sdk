@@ -3,7 +3,7 @@ import React from 'react';
 const createOverlay = (figure) => ({
   width, height, top, left, bottom, right, style,
 }) => {
-  const Path = (function () {
+  const createPath = () => {
     if (figure === 'none') {
       return () => null;
     }
@@ -13,7 +13,6 @@ const createOverlay = (figure) => ({
 
     switch (figure) {
       case 'ellips': {
-        const r = fwidth / 2;
         return () => (
           <>
             <g fillRule="evenodd" fill="var(--main-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
@@ -77,7 +76,8 @@ const createOverlay = (figure) => ({
         );
       }
     }
-  }());
+  };
+  const Path = createPath();
 
   return (
     <svg

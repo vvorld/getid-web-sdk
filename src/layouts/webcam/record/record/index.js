@@ -1,11 +1,9 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 
-import Popup from '~/components/popup';
 import './record.css';
 
 import Timer from './timer';
@@ -15,7 +13,7 @@ import CombineRecorder from './recorder';
 export default (pr) => {
   let recording = false;
   const {
-    back, next, phrases, server, onError, onReady,
+    back, phrases, server, onError, onReady,
   } = pr;
 
   const recorder = new CombineRecorder(server);
@@ -36,9 +34,7 @@ export default (pr) => {
   const rerenderPhrases = [];
   const changeLine = (newValue) => {
     activeLine = newValue;
-    for (const r of rerenderPhrases) {
-      r();
-    }
+    rerenderPhrases.forEach((r) => r());
   };
 
   class RecordingCamera extends Component {
@@ -67,9 +63,10 @@ export default (pr) => {
 
     render() {
       return (
-        <div style={{ position: 'relative' }}>
+        <div className="record_camera">
           {recording && <Timer />}
           <video
+            style={{ transform: 'scale(-1, 1)' }}
             width="100%"
             playsInline
             ref={this.setSrc}
@@ -184,27 +181,14 @@ export default (pr) => {
       );
     }
   }
-  CameraFooter.propTypes = {
-    step: PropTypes.string.isRequired,
-  };
   return {
     Camera: (props) => (
-      props.isMobile
-        ? (
-          <Popup visible={props.visible}>
-            <RecordingCamera {...pr} {...props} />
-            <Phrases {...props} />
-            <CameraFooter {...pr} {...props} />
-          </Popup>
-        )
-        : (
-          <>
-            <RecordingCamera {...pr} {...props} />
-            <Phrases {...props} />
-          </>
-        )
+      <>
+        <RecordingCamera {...pr} {...props} />
+        <Phrases {...props} />
+      </>
     ),
-    CameraHeader: (props) => <CameraHeader />,
-    CameraFooter: (props) => (props.isMobile ? null : <CameraFooter {...props} />),
+    CameraHeader,
+    CameraFooter,
   };
 };

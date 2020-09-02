@@ -6,7 +6,6 @@ import './style.css';
 function Checkbox(props) {
   const { label, onChange, value } = props;
   const [currValue, setValue] = useState(value);
-  const [error, setError] = useState(null);
   return (
     <label
       className="getid-checkbox__label"
@@ -19,7 +18,7 @@ function Checkbox(props) {
         onChange={
           (e) => {
             const newValue = e.target.checked;
-            onChange(newValue, !!error);
+            onChange(newValue, false);
             setValue(newValue);
           }
         }

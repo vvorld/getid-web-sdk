@@ -12,9 +12,8 @@ class MobileCamera extends CameraBase {
     this.stopRecord();
   }
 
-  onpopstate = (event) => {
+  onpopstate = () => {
     this.props.back.onClick();
-    //    alert(`location: ${document.location}, state: ${JSON.stringify(event.state)}`);
   }
 
   render() {
@@ -29,7 +28,7 @@ class MobileCamera extends CameraBase {
     } = this.state;
     return (
       <Popup visible={visible}>
-        <div style={{ position: 'relative', height: '80vh' }}>
+        <div className="getid-camera__container" style={{ height: '80vh' }}>
           <video
             style={{
               transform: mode === 'user' ? 'scale(-1, 1)' : 'scale(1, 1)',

@@ -63,7 +63,12 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
 };
 // warning CountryAndDocument
 
-const validateFlow = (flow) => true;
+const validateFlow = (flow) => {
+  const ty = flow.findIndex((x) => x.component === 'ThankYou');
+  if (ty >= 0 && ty < flow.length - 1) {
+    throw new Error('ThankYou must be last component');
+  }
+};
 
 const enableThankYou = (flow) => flow.find((x) => x.component === 'ThankYou');
 
@@ -179,8 +184,9 @@ class Widget extends Component {
       this.finish();
       return;
     }
+    const a = this.state.app;
     const app = {
-      ...this.state.app,
+      ...a,
       ...delta,
     };
 
@@ -193,7 +199,6 @@ class Widget extends Component {
     }
 
     const { step } = this.state;
-    console.log('next', delta, app);
     this.setState({
       step: step + 1,
       direction: 'forward',

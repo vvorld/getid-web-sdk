@@ -24,6 +24,7 @@ class CombineRecorder {
         await this.recorder.initInput(stream);
       }
       this.stream = stream;
+      // eslint-disable-next-line no-param-reassign
       el.srcObject = stream;
       this.sessionActive = true;
     }

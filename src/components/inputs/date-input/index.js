@@ -50,7 +50,6 @@ function DateInput({
   const [year, setYear] = useState(y);
   const [month, setMonth] = useState(m);
   const [day, setDay] = useState(d);
-  const [error, setError] = useState(null);
 
   const formatYears = () => years
     .filter((el) => el >= getDate(min || '100yearsFromNow')
@@ -60,7 +59,7 @@ function DateInput({
   const changeDate = (yr, mth, dy) => {
     if (yr && mth && dy) {
       const date = `${yr}-${mth}-${dy}`;
-      onChange(date, !!error);
+      onChange(date, false);
     }
   };
 

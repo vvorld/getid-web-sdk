@@ -59,7 +59,7 @@ class CameraBase extends Component {
           await navigator.mediaDevices.getUserMedia(params),
           'user',
         ];
-      } catch (e) {
+      } catch (ee) {
         delete params.video.facingMode;
         return [
           await navigator.mediaDevices.getUserMedia(params),
@@ -77,25 +77,24 @@ class CameraBase extends Component {
     try {
       const [stream, mode] = await this.getStream();
       this.ref.srcObject = stream;
-      setTimeout(() => {
-        const settings = stream.getVideoTracks()[0].getSettings();
-        const { width, height } = settings;
-        const {
-          left, right, top, bottom,
-        } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
-        this.setState({
-          width, height, left, right, top, bottom, mode,
-        });
+      const intervalId = setInterval(() => {
+        if (ref.readyState === 4 || ref.readyState > 0) {
+          const settings = stream.getVideoTracks()[0].getSettings();
+          const height = this.ref.videoHeight || settings.height;
+          const width = this.ref.videoWidth || settings.width;
+          const {
+            left, right, top, bottom,
+          } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
+          this.setState({
+            width, height, left, right, top, bottom, mode,
+          });
 
-        const intervalId = setInterval(() => {
-          if (ref.readyState === 4 || ref.readyState > 0) {
-            clearInterval(intervalId);
-            this.props.onReady(frameRenderer(ref, {
-              left, right, top, bottom,
-            }));
-          }
-        }, 100);
-      }, 1000);
+          clearInterval(intervalId);
+          this.props.onReady(frameRenderer(ref, {
+            left, right, top, bottom,
+          }));
+        }
+      }, 100);
     } catch (err) {
       this.props.onError(err);
     }

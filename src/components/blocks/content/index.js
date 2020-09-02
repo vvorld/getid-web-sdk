@@ -20,6 +20,9 @@ const Content = ({ children, step, disableAnmation }) => {
 Content.propTypes = {
   children: node.isRequired,
   step: string.isRequired,
-  disableAnmation: bool.isRequired,
+  disableAnmation: bool,
+};
+Content.defaultProps = {
+  disableAnmation: false,
 };
 export default Content;

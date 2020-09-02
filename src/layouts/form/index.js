@@ -17,25 +17,30 @@ class Form extends Component {
   }
 
   componentWillMount() {
-    const getFormValue = (name) => {
-      if (!this.props.form) {
-        return null;
+    const getFormValue = ({ name, value, type }) => {
+      const f = (this.props.form || {})[name];
+      if (f && f.value) {
+        return f.value;
       }
-      const f = this.props.form[name];
-      return f && f.value;
+      if (value) {
+        return value;
+      }
+      if (type === 'consent' || type === 'checkbox') {
+        return false;
+      }
+      return '';
     };
 
     this.props.additionalData.forEach((el) => {
       this.form[el.name] = {
-        value: getFormValue(el.name) || el.value,
+        value: getFormValue(el),
         required: (el.required || el.type === 'consent') || false,
       };
     });
 
     this.props.fields.forEach((el) => {
-      const v = getFormValue(el.name);
       this.form[el.name] = {
-        value: v,
+        value: getFormValue(el),
         required: (el.required || el.type === 'consent') || false,
       };
     });
@@ -89,11 +94,20 @@ class Form extends Component {
     );
   }
 }
-
+Form.propTypes = {
+  finishStep: PropTypes.func,
+  prevStep: PropTypes.func,
+  additionalData: PropTypes.arrayOf(),
+  fields: PropTypes.arrayOf(),
+  extractedData: PropTypes.arrayOf(),
+  form: PropTypes.arrayOf(),
+};
 Form.defaultProps = {
   finishStep: null,
   prevStep: null,
+  form: null,
   additionalData: [],
+  fields: [],
   extractedData: [],
 };
 

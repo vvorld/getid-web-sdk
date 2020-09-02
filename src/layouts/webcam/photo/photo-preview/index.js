@@ -15,11 +15,11 @@ const PreviewForm = ({ blob, ratio, checking }) => {
     : (100 * (2 / 3)) * ratio;
   return (
     <div
-      style={{ position: 'relative' }}
+      className="getid-camera__container"
       data-role="cameraPreview"
     >
       {checking && (
-      <div className="getid-image-container">
+      <div className="getid-image__container">
         <Loader />
       </div>
       )}
@@ -36,10 +36,14 @@ const PreviewForm = ({ blob, ratio, checking }) => {
 
 PreviewForm.propTypes = {
   blob: PropTypes.any,
+  ratio: PropTypes.number,
+  checking: PropTypes.bool,
 };
 
 PreviewForm.defaultProps = {
   blob: null,
+  ratio: 0,
+  checking: false,
 };
 
 export default PreviewForm;

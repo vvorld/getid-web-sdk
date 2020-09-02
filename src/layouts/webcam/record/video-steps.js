@@ -44,7 +44,7 @@ class RecordView extends React.Component {
   };
 
   startRecordStep = () => {
-    this.setState({ step: 'record' });
+    this.setState({ step: 'record', blob: null, loadRecord: null });
   }
 
   showPreviewStep = (loadRecord) => {
@@ -75,7 +75,12 @@ class RecordView extends React.Component {
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.showGuideStep }} />;
+      return (
+        <CameraDisabledErrorView
+          error={error.name}
+          callbacks={{ onRetry: this.showGuideStep }}
+        />
+      );
     }
     const mobile = isMobile();
 
@@ -119,7 +124,7 @@ class RecordView extends React.Component {
     return (
       <>
         {layout.header}
-        <Content step={stepName} disableAnmation={step === 'record' && mobile}>
+        <Content step={stepName}>
           <div style={display('guide')}>
             <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>
@@ -128,7 +133,7 @@ class RecordView extends React.Component {
           </div>
           <div style={display('preview')}>
             <Preview
-              onLoad={(b) => this.setState({ blob: b })}
+              onLoad={(b) => this.setState({ blob: b, loadRecord: null })}
               load={loadRecord}
               blob={blob}
             />

@@ -6,7 +6,6 @@ import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Guide from '~/components/guide';
 import { CameraDisabledErrorView } from '~/components/errors';
-import { isMobile } from '~/helpers/generic';
 
 import Camera from '../photo/camera';
 import createLivenessSession from './session';
@@ -182,7 +181,7 @@ class LivenessStep extends Component {
     return (
       <>
         {layout.header}
-        <Content step={stepName} disableAnmation={step === 'liveness' && isMobile()}>
+        <Content step={stepName}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
             <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
           </div>

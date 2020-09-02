@@ -20,6 +20,7 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
 };
 async function createLiveness(servers, takePhoto, onCommand) {
   const ws = (() => {
+    // eslint-disable-next-line no-restricted-syntax
     for (const address of servers) {
       try {
         return new WebSocket(address);

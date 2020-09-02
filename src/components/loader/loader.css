@@ -24,7 +24,7 @@
 
 #getid-main .spinner.spinner3{
      border-top: 3px solid var(--main-accent-color);
-     border-right: 3px solid transparent;
+     border-right: 5px solid var(--main-accent-color);
      border-radius: 50%;
      animation: rotation .8s linear infinite;
  }

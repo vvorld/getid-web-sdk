@@ -6,7 +6,6 @@ const Select = (props) => {
     options, label, value, placeholder, required, onChange,
   } = props;
   const [currValue, setValue] = useState(value || '');
-  const [error, setError] = useState(null);
   const pl = placeholder + (required ? '*' : '');
   return (
     <>
@@ -16,7 +15,7 @@ const Select = (props) => {
         onChange={(e) => {
           const v = e.target.value;
           setValue(v);
-          onChange(v, !!error);
+          onChange(v, false);
         }}
       >
         <option value="">

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React, { useEffect } from 'react';
 import './preview.css';
 import PropTypes from 'prop-types';
@@ -41,18 +42,21 @@ const PreviewForm = ({ load, onLoad, blob }) => {
   return (
     <div data-role="cameraPreview">
       <video
+        style={{ transform: 'scale(-1, 1)' }}
         controls
         className="getid-preview"
-        data-role="cameraPreviewImg"
       />
     </div>
   );
 };
 
 PreviewForm.propTypes = {
-  blob: PropTypes.any.isRequired,
-  load: PropTypes.bool.isRequired,
+  blob: PropTypes.any,
+  load: PropTypes.func,
   onLoad: PropTypes.func.isRequired,
 };
-
+PreviewForm.defaultProps = {
+  blob: null,
+  load: undefined,
+};
 export default PreviewForm;

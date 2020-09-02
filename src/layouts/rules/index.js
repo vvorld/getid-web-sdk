@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import TranslationsContext from '~/context/TranslationsContext';
 
 import './rules.css';
-import PropTypes from 'prop-types';
 
 export const RulesList = ({ rules }) => {
   const { translations } = useContext(TranslationsContext);
@@ -37,6 +38,9 @@ const Rules = ({ finishStep, prevStep, step }) => (
   </>
 );
 
+RulesList.propTypes = {
+  rules: PropTypes.string.isRequired,
+};
 Rules.propTypes = {
   finishStep: PropTypes.func.isRequired,
   prevStep: PropTypes.func.isRequired,

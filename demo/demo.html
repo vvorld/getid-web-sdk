@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   <meta name="viewport"
-    content="widt=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000000" />
   <meta name="description" />
   <script type="text/javascript"
@@ -15,10 +15,13 @@
 
 <body style="display: flex;justify-content: center;">
   <style>
+    html {
+      background: white;
+    }
+
     body {
       margin: 0;
-      min-height: 100vh;
-      background: lightgrey;
+      background: white;
     }
 
     #getid-component {
@@ -26,14 +29,14 @@
       justify-content: center;
       flex-flow: column;
       flex-grow: 1;
-      padding: 20px;
+      padding: 0 20px;
       background: white;
     }
   </style>
   <div id="getid-component"></div>
   <script>
     const config = {
-      "apiUrl": "https://localhost:3001",
+      "apiUrl": "https://asbest.sb.getid.dev",
       "apiKey": "1231223",
       "containerId": "getid-component",
       "dictionary": "en",
@@ -63,18 +66,10 @@
               "required": false
             },
             {
-              "label": "I have read and understand <a href=\"https://getid.ee\">Terms of use</a> of GetID&nbspOÜ.",
+              "label": 'I have read and understand <a target="_blank" href="https://www.lhv.ee/assets/files/guides/LHV_Trader_information_centre-EN.pdf">Terms of use</a> ',
               "type": "consent",
               "name": "privacy"
             }
-          ]
-        },
-        {
-          "component": "Record",
-          "server": "https://mc2.getid.dev",
-          "phrases": [
-            "My name is...",
-            "I would like to receive a certificate..."
           ]
         },
         {
@@ -86,6 +81,14 @@
         {
           "component": "Selfie",
           "showRules": true
+        },
+        {
+          "component": "Record",
+          "server": "https://mc2.getid.dev",
+          "phrases": [
+            "My name is...",
+            "I would like to receive a certificate..."
+          ]
         },
         {
           "component": "ThankYou"

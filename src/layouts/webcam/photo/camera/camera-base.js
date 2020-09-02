@@ -44,6 +44,7 @@ class CameraBase extends Component {
       audio: false,
       video: {
         width: { min: 1024, ideal: 1024 },
+        height: { min: 1024, ideal: 1024 },
         facingMode: { exact: this.props.facingMode },
       },
     };

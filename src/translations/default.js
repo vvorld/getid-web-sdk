@@ -165,6 +165,9 @@ export default {
   photo_tip: 'Please use <b>Spacebar</b> key to make photo',
   error_header: 'Something was wrong',
 
+  http_error_header: 'Insecure protocol detected',
+  http_error_subHeader: 'Please use https protocol',
+
   camera_error_header: 'Camera is not supported',
   camera_error_next: 'Try again',
   camera_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',

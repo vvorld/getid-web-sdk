@@ -56,7 +56,6 @@ main a {
     grid-template-rows: auto auto auto 1fr;
     grid-template-columns: 1fr;
     min-height: 504px;
-    padding: 16px 0 0;
     text-align: center;
     margin: 0 auto;
 }

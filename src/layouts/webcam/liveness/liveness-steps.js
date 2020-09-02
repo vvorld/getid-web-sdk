@@ -183,7 +183,7 @@ class LivenessStep extends Component {
         {layout.header}
         <Content step={stepName}>
           <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" />
+            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" styles={this.props.styles} />
           </div>
           <div style={{ display: step === 'liveness' ? 'block' : 'none' }}>
             <Camera Overlay={step === 'liveness' ? LivenessCommands : null} active visible={step === 'liveness'} onReady={this.cameraReady} />

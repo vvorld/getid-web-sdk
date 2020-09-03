@@ -3,7 +3,8 @@ import './style.css';
 import PropTypes from 'prop-types';
 import { getConst } from '~/components/blocks/translations';
 
-const getMonths = () => [
+const getMonths = (required) => [
+  { name: getConst('month') + (required ? '*' : ''), days: 31 },
   { name: getConst('january'), days: 31 },
   { name: getConst('february'), days: 29 },
   { name: getConst('march'), days: 31 },
@@ -37,13 +38,13 @@ const parseDate = (date) => {
   if (Number.isNaN(timestamp) === false) {
     return [+y, +m, +d];
   }
-  return [0, 1, 0];
+  return [0, 0, 0];
 };
 
 function DateInput({
   required, value, onChange, label, min, max,
 }) {
-  const months = getMonths();
+  const months = getMonths(required);
   const [y, m, d] = parseDate(value);
   const [monthDays, setDays] = useState(days);
 
@@ -72,7 +73,7 @@ function DateInput({
         }
         return;
       }
-      const daysInMonth = months[(m || 1) - 1].days;
+      const daysInMonth = months[(m || 1)].days;
       if (day > daysInMonth) {
         setDay(0);
       }
@@ -96,7 +97,6 @@ function DateInput({
     }
   };
   const dayLabel = `${getConst('day')}${required ? '*' : ''}`;
-  const monthLabel = `${getConst('month')}${required ? '*' : ''}`;
   const yearLabel = `${getConst('year')}${required ? '*' : ''}`;
   return (
     <>
@@ -107,8 +107,7 @@ function DateInput({
           {monthDays.map((x) => <option key={x} value={x}>{x}</option>)}
         </select>
         <select value={month} onChange={(e) => change(undefined, +e.target.value, undefined)}>
-          <option value="0">{monthLabel}</option>
-          {months.map((x, n) => <option key={x.name} value={n + 1}>{x.name}</option>)}
+          {months.map((x, n) => <option key={x.name} value={n}>{x.name}</option>)}
         </select>
         <select value={year} onChange={(e) => change(+e.target.value, undefined, undefined)}>
           <option value="0">{yearLabel}</option>

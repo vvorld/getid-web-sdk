@@ -10,6 +10,8 @@ import { CameraDisabledErrorView } from '~/components/errors';
 import Camera from '../photo/camera';
 import createLivenessSession from './session';
 
+import getidLogo from '~/assets/icons/poweredby.svg';
+
 const mapTasks = {
   smile: 'Smile',
   closeEyes: 'Close your eyes',
@@ -19,22 +21,20 @@ const mapTasks = {
   tiltRight: 'Tilt your head to the right',
 };
 
+const mapErrors = {
+  'otherAction:turnRight:task:smile': 'Wrong',
+  'otherAction:tiltRight:task:turnRight': 'what'
+}
+
 const Command = ({ s, children }) => {
   const [{ text, type, next }, setTask] = useState({});
   s.delegate = setTask;
-  return (
-    <div style={{
-      background: '#7861A2',
-      display: 'flex',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      fontSize: '1.6em',
-      borderRadius: '5px',
-      position: 'relative',
-      marginTop: '-10px',
+  console.log(text, type, next);
+  // console.log(mapTasks[text]);
 
-    }}
-    >
+  const classNameTask = type === 'task' ? text : type;
+  return (
+    <div className={`getid-phrases__container getid-liveness getid-${classNameTask}`}>
       <div style={{
         color: 'white',
         padding: '20px',
@@ -49,16 +49,17 @@ const Command = ({ s, children }) => {
         }}
         >
           {children}
-          {mapTasks[text] || text}
+          {type !== 'warning' && (mapTasks[text] || text)}
+          {type === 'warning' && 'Wrong (need to add some text)'}
           {type === 'warning' && (
           <div>
-            <button onClick={next}>Ok</button>
+            <button type="button" onClick={next}>Ok</button>
           </div>
           )}
 
           {type === 'fail' && (
           <div>
-            <button onClick={next}>Try again</button>
+            <button type="button" onClick={next}>Try again</button>
           </div>
           )}
         </div>
@@ -149,7 +150,12 @@ class LivenessStep extends Component {
     const stepName = `Liveness_${step}`;
 
     if (step === 'disabled') {
-      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: this.startLiveness }} />;
+      return (
+        <CameraDisabledErrorView
+          error={error.name}
+          callbacks={{ onRetry: this.startLiveness }}
+        />
+      );
     }
 
     const layout = (() => {

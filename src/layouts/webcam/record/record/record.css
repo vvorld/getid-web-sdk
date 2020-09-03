@@ -19,10 +19,9 @@
 }
 
 
-#getid-main .phrases__contaner  {
+#getid-main .phrases__container  {
     background: #0E1C2C;
     opacity: 0.7;
-    /*margin-top: -35px;*/
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -43,6 +42,33 @@
     backdrop-filter: blur(10px);
     border-radius: 8px;
 }
+
+#getid-main .phrases__container.liveness  {
+   flex-direction: row-reverse;
+    align-items: center;
+}
+
+#getid-main .phrases__container.warning:after  {
+    margin-left: 20px;
+    content: url(../../../../assets/icons/success.svg);
+}
+
+#getid-main .phrases__container.smile:after  {
+    content: url(../../../../assets/icons/success.svg);
+}
+
+#getid-main .phrases__container.closeEyes:after  {
+    content: url(../../../../assets/icons/liveness/close-eyes.svg);
+}
+
+#getid-main .phrases__container.success:after  {
+    content: url(../../../../assets/icons/success.svg);
+}
+
+#getid-main .phrases__container.fail:after  {
+    background-image: url(../../../../assets/icons/thank-you-logo.svg);
+}
+
 #getid-main .phrases_begin {
     transform: scaleY(0); 
 }

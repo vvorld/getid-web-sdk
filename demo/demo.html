@@ -36,7 +36,7 @@
   <div id="getid-component"></div>
   <script>
     const config = {
-      "apiUrl": "https://asbest.sb.getid.dev",
+      "apiUrl": "https://b-est.sb.getid.dev",
       "apiKey": "1231223",
       "containerId": "getid-component",
       "dictionary": "en",
@@ -76,7 +76,8 @@
           "component": "DocumentPhoto",
           "showRules": true,
           "interactive": true,
-          "enableCheckPhoto": true
+          "enableCheckPhoto": true,
+          "country": 'az',
         },
         {
           "component": "Selfie",
@@ -95,7 +96,7 @@
         }
       ],
       onComplete: function (data) {
-        window.location.href = 'https://asbest.sb.getid.dev/detail-view/' + data.id;
+        window.location.href = 'https://b-est.sb.getid.dev/detail-view/' + data.id;
       }
     }
 

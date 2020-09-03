@@ -25,6 +25,10 @@ class Form extends Component {
       if (value) {
         return value;
       }
+      const extValue = this.getExtractedValue(name);
+      if (extValue) {
+        return extValue;
+      }
       if (type === 'consent' || type === 'checkbox') {
         return false;
       }
@@ -57,6 +61,9 @@ class Form extends Component {
 
   getExtractedValue = (name) => {
     const { extractedData } = this.props;
+    if (!extractedData) {
+      return null;
+    }
     const extractedField = extractedData.find((el) => el.category === name);
     return extractedField && extractedField.content;
   }

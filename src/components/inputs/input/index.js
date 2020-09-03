@@ -25,7 +25,9 @@ const Input = ({
   };
 
   useEffect(() => {
-    validate(currValue);
+    if (currValue) {
+      validate(currValue);
+    }
     onChange(currValue, !!error);
   }, [currValue, error]);
 

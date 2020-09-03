@@ -13,13 +13,24 @@ class CombineRecorder {
       if (this.sessionActive) {
         return;
       }
-      const stream = await window.navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: { width: 320, height: 340 },
-      });
+      let stream = null;
+      try {
+        stream = await window.navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: { width: 320, height: 340 },
+        });
+      } catch (e) {
+        console.error(e);
+        stream = await window.navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: { width: 320 },
+        });
+      }
+
       try {
         await this.recorder.initInput(stream);
       } catch (e) {
+        console.error(e);
         this.recorder = new WebRTCRecorder(this.fallbackServer);
         await this.recorder.initInput(stream);
       }

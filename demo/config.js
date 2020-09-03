@@ -8,7 +8,7 @@ export default {
   },
   styles: {
     'txt-color': 'red',
-    'accent-color': 'green',
+    'accent-color': 'pink',
     'font-family': 'Helvetica',
   },
   translations: {

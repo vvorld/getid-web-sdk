@@ -73,6 +73,7 @@ export default (pr) => {
             muted
             autoPlay
           />
+          <Phrases {...this.props} />
         </div>
       );
     }
@@ -185,7 +186,6 @@ export default (pr) => {
     Camera: (props) => (
       <>
         <RecordingCamera {...pr} {...props} />
-        <Phrases {...props} />
       </>
     ),
     CameraHeader,

@@ -67,6 +67,8 @@ class WebcamView extends React.Component {
       error, step, blob, cameraStepIsAllowed,
       result, retakeCode, tryNumber,
     } = this.state;
+    const mainButton = document.getElementById('main');
+    if (mainButton) document.getElementById('main').focus();
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {

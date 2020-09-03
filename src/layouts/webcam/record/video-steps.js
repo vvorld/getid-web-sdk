@@ -116,7 +116,8 @@ class RecordView extends React.Component {
       }
     })();
     const { Camera } = this;
-
+    const mainButton = document.getElementById('main');
+    if (mainButton) document.getElementById('main').focus();
     const display = (st) => ({ display: step === st ? 'block' : 'none' });
     return (
       <>

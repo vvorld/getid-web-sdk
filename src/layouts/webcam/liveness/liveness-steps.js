@@ -21,17 +21,9 @@ const mapTasks = {
   tiltRight: 'Tilt your head to the right',
 };
 
-const mapErrors = {
-  'otherAction:turnRight:task:smile': 'Wrong',
-  'otherAction:tiltRight:task:turnRight': 'what'
-}
-
 const Command = ({ s, children }) => {
   const [{ text, type, next }, setTask] = useState({});
   s.delegate = setTask;
-  console.log(text, type, next);
-  // console.log(mapTasks[text]);
-
   const classNameTask = type === 'task' ? text : type;
   return (
     <div className={`getid-phrases__container getid-liveness getid-${classNameTask}`}>
@@ -50,10 +42,18 @@ const Command = ({ s, children }) => {
         >
           {children}
           {type !== 'warning' && (mapTasks[text] || text)}
-          {type === 'warning' && 'Wrong (need to add some text)'}
           {type === 'warning' && (
           <div>
-            <button type="button" onClick={next}>Ok</button>
+            <div>Wrong (need to add some text)</div>
+            <button
+              style={{
+                color: 'white',
+              }}
+              type="button"
+              onClick={next}
+            >
+              Ok
+            </button>
           </div>
           )}
 

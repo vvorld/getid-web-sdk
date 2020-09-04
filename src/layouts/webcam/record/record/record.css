@@ -48,25 +48,9 @@
     align-items: center;
 }
 
-#getid-main .phrases__container.warning:after  {
-    margin-left: 20px;
-    content: url(../../../../assets/icons/success.svg);
-}
-
-#getid-main .phrases__container.smile:after  {
-    content: url(../../../../assets/icons/success.svg);
-}
-
-#getid-main .phrases__container.closeEyes:after  {
-    content: url(../../../../assets/icons/liveness/close-eyes.svg);
-}
-
-#getid-main .phrases__container.success:after  {
-    content: url(../../../../assets/icons/success.svg);
-}
-
-#getid-main .phrases__container.fail:after  {
-    background-image: url(../../../../assets/icons/thank-you-logo.svg);
+#getid-main .phrases__container .liveness_image  {
+    margin-right: 20px;
+    width: 40px;
 }
 
 #getid-main .phrases_begin {

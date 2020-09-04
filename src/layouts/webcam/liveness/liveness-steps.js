@@ -10,7 +10,7 @@ import { CameraDisabledErrorView } from '~/components/errors';
 import Camera from '../photo/camera';
 import createLivenessSession from './session';
 
-import getidLogo from '~/assets/icons/poweredby.svg';
+import ErrorIcon from '~/assets/icons/error-icon.svg';
 
 const mapTasks = {
   smile: 'Smile',
@@ -21,12 +21,22 @@ const mapTasks = {
   tiltRight: 'Tilt your head to the right',
 };
 
+const mapAnimations = {
+  smile: 'https://cdn.getid.cloud/assets/liveness/smile.svg',
+  closeEyes: 'https://cdn.getid.cloud/assets/liveness/close-eyes.svg',
+  turnRight: 'https://cdn.getid.cloud/assets/liveness/turn-right.svg',
+  turnLeft: 'https://cdn.getid.cloud/assets/liveness/turn-left.svg',
+  tiltLeft: 'https://cdn.getid.cloud/assets/liveness/turn-left.svg',
+  tiltRight: 'https://cdn.getid.cloud/assets/liveness/turn-right.svg',
+  warning: ErrorIcon,
+  fail: ErrorIcon,
+};
+
 const Command = ({ s, children }) => {
   const [{ text, type, next }, setTask] = useState({});
   s.delegate = setTask;
-  const classNameTask = type === 'task' ? text : type;
   return (
-    <div className={`getid-phrases__container getid-liveness getid-${classNameTask}`}>
+    <div className="getid-phrases__container getid-liveness">
       <div style={{
         color: 'white',
         padding: '20px',
@@ -41,33 +51,55 @@ const Command = ({ s, children }) => {
         }}
         >
           {children}
-          {type !== 'warning' && (mapTasks[text] || text)}
+          {type !== 'warning' && (<Result text={mapTasks[text] || text} type={text} />)}
           {type === 'warning' && (
           <div>
-            <div>Wrong (need to add some text)</div>
+            <Result text="Wrong (need to add some text)" type={type} />
             <button
               style={{
                 color: 'white',
+                cursor: 'pointer',
               }}
               type="button"
               onClick={next}
             >
-              Ok
+              Continue
             </button>
           </div>
           )}
 
           {type === 'fail' && (
           <div>
-            <button type="button" onClick={next}>Try again</button>
+            <button
+              style={{
+                color: 'white',
+                cursor: 'pointer',
+              }}
+              type="button"
+              onClick={next}
+            >
+              Try again
+            </button>
           </div>
           )}
         </div>
       </div>
-
     </div>
   );
 };
+
+const Result = ({ text, type }) => (
+  <div style={{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }}
+  >
+    {mapAnimations[type] && <img alt="liveness_image" className="getid-liveness_image" src={mapAnimations[type]} />}
+    {text && <div>{text}</div>}
+  </div>
+);
 
 const createComponentLiveness = (servers, takePhoto, success) => () => {
   const sessionActions = {};

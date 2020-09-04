@@ -77,9 +77,6 @@ export default {
   ],
   formType: 'narrow',
   cameraDistance: 'default',
-  translations: {
-    Form_header: "It's custom header!",
-  },
   onComplete() {
     window.location.reload();
   },
@@ -88,5 +85,26 @@ export default {
   // },
   onExists() {
     console.log('exists');
+  },
+  onSortDocuments(country, documents) {
+    const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'cn'];
+    const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl'];
+    const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'sk'];
+    const drivingPassportIdCountries = ['lu'];
+    const drivingIdPassportCountries = ['au'];
+
+    const idPassportDrivingDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
+    const passportIdDrivingDocuments = ['passport', 'id-card', 'driving-licence', 'residence-permit'];
+    const idDrivingPassportDocuments = ['id-card', 'driving-licence', 'passport', 'residence-permit'];
+    const drivingPassportIdDocuments = ['driving-licence', 'passport', 'id-card', 'residence-permit'];
+    const drivingIdPassportDocuments = ['driving-licence', 'id-card', 'passport', 'residence-permit'];
+
+    if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
+    if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;
+    if (passportIdDrivingCountries.includes(country)) return passportIdDrivingDocuments;
+    if (idDrivingPassportCountries.includes(country)) return idDrivingPassportDocuments;
+    if (idPassportDrivingCountries.includes(country)) return idPassportDrivingDocuments;
+
+    return passportIdDrivingDocuments;
   },
 };

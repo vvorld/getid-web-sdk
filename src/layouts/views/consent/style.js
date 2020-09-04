@@ -25,6 +25,7 @@ const consentStyles = (theme) => ({
   },
   labelCheckbox: {
     textAlign: 'left',
+    marginLeft: 0,
     '& label': {
       color: theme.palette.blueDark,
       lineHeight: '22px',

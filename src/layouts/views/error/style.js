@@ -33,7 +33,7 @@ const ErrorViewStyles = makeStyles((theme) => ({
   },
   center: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
     textAlign: 'center',
     padding: '1rem 0',

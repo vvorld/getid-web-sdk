@@ -38,12 +38,12 @@ export default {
     backgroundColor: palette.violet.main,
     '&:hover': {
       boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
-      backgroundColor: palette.violet.dark,
+      backgroundColor: `${palette.violet.dark} !important`,
     },
     '&:disabled': {
       boxShadow: '0px 5px 8px rgba(14, 51, 123, 0.15)',
       color: palette.white,
-      backgroundColor: palette.violet.main,
+      backgroundColor: `${palette.violet.main} !important`,
       opacity: 0.5,
     },
   },

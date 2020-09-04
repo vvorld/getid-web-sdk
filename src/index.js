@@ -6,12 +6,14 @@ import { renderMainComponent } from './main-module';
 import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default.json';
 import { createPublicTokenProvider } from './helpers/token-provider';
+import mapApiErrors from './constants/error-mapping';
 import {
   removeFieldDupes,
   checkContainerId,
   convertAnswer,
   addDefaultValues,
   checkApiVersionSupport,
+  sortCountryDocuments,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -30,10 +32,11 @@ const init = (options, tokenProvider) => {
   const found = options.flow
     .some((view) => view.component
       .some((step) => cameraViews.includes(step)));
-  const isIOSChrome = navigator.userAgent.match('CriOS');
 
   if (found) {
-    if ((!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) && !isIOSChrome) {
+    if (!navigator.mediaDevices
+      || !navigator.mediaDevices.enumerateDevices
+      || !navigator.mediaDevices.getUserMedia) {
       if (options.onFail && typeof options.onFail === 'function') {
         const error = new Error('mediaDevices_no_supported');
         options.onFail(error);
@@ -64,25 +67,25 @@ const init = (options, tokenProvider) => {
   }
 
   tokenPromise.then((result) => {
-    const {
-      responseCode, errorMessage, token, exists,
-    } = result;
+    const { errorMessage, token, statusCode } = result;
     const { metadata, verificationTypes, apiUrl } = options;
     const api = createApi(apiUrl, token, verificationTypes, metadata);
 
     const config = {
-      ...options, exists, api, translations: defaultTranslations, errorMessage,
+      ...options, api, translations: defaultTranslations, errorMessage,
     };
+    const { onSortDocuments } = config;
 
     if (config.documentData) {
       config.documentData = config.documentData
         .map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
     }
 
-    if (responseCode !== 200 || exists) {
-      renderMainComponent(config);
+    if (errorMessage || statusCode) {
+      renderMainComponent({ ...config, statusCode, errorMessage });
       return;
     }
+
     Promise.all([
       removeFieldDupes(config.fields),
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
@@ -91,7 +94,17 @@ const init = (options, tokenProvider) => {
         console.log(`Can't get supported api versions ${error}`);
         return true;
       }),
-    ]).then(([filteredFields, info, responseTranslations, isSupportedApiVersion]) => {
+      api.getCountryAndDocList()
+        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
+          ? sortCountryDocuments(countries, onSortDocuments)
+          : countries)),
+      api.verifyToken().then(convertAnswer()),
+    ]).then(([
+      filteredFields,
+      info,
+      responseTranslations,
+      isSupportedApiVersion,
+      countriesAndDocsList]) => {
       const { showOnfidoLogo, sdkPermissions } = info;
       const customTranslations = options.translations || {};
       const translations = {
@@ -100,8 +113,26 @@ const init = (options, tokenProvider) => {
         ...customTranslations,
       };
       config.fields = filteredFields;
+
       renderMainComponent({
-        ...config, translations, showOnfidoLogo, sdkPermissions, isSupportedApiVersion,
+        ...config,
+        translations,
+        showOnfidoLogo,
+        sdkPermissions,
+        isSupportedApiVersion,
+        countriesAndDocsList,
+      });
+    }).catch((e) => {
+      const translations = {
+        ...defaultTranslations,
+        ...options.translations || {},
+      };
+      renderMainComponent({
+        ...options,
+        api,
+        statusCode: e.statusCode,
+        translations,
+        errorMessage: mapApiErrors[e.message] || 'token_invalid',
       });
     });
   });

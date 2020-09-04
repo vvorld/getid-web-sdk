@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "4.3.2",
+  "version": "4.4.1",
   "main": "./lib/bundle.js",
   "author": "GetID",
   "description": "GetID Web SDK",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/vvorld/getid-web-sdk.git"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --watch --config webpack.dev.js",
+    "start": "webpack-dev-server --open --watch --config webpack.dev.js ",
     "build": "webpack --config webpack.prod.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
@@ -63,7 +63,7 @@
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
     "react-shadow": "^18.1.2",
-    "recordrtc-ponyfill": "^1.0.0",
+    "recordrtc-ponyfill": "^1.3.0",
     "redux": "^4.0.4",
     "rollup": "^1.27.14",
     "rollup-plugin-node-resolve": "^5.2.0",

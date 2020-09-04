@@ -58,7 +58,7 @@ export default (pr) => {
     }
 
     stop = async () => {
-      await recorder.stop();
+      await recorder.stopRecord();
     }
 
     render() {

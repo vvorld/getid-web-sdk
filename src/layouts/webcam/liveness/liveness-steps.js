@@ -4,13 +4,11 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import Guide from '~/components/guide';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import Camera from '../photo/camera';
-import createLivenessSession from './session';
-
-import getidLogo from '~/assets/icons/poweredby.svg';
+import createLivenessSession from './session2';
+import createOverlay from '../photo/overlay';
 
 const mapTasks = {
   smile: 'Smile',
@@ -104,9 +102,9 @@ class LivenessStep extends Component {
     super(props);
     this.state = {
       error: null,
-      step: props.direction === 'back' ? 'preview' : 'guide',
       stream: null,
       cameraStepIsAllowed: false,
+      step: 'liveness',
       LivenessCommands: createComponentLiveness(
         props.servers,
         (c) => this.state.takePhoto(c, true),
@@ -119,10 +117,6 @@ class LivenessStep extends Component {
     if (this.state.stream) {
       this.state.stream.getTracks().forEach((track) => track.stop());
     }
-  }
-
-  showGuideStep = () => {
-    this.setState({ step: 'guide' });
   }
 
   cameraReady = (takePhoto) => {
@@ -157,45 +151,28 @@ class LivenessStep extends Component {
         />
       );
     }
-
-    const layout = (() => {
-      switch (step) {
-        case 'guide': return {
-          header: <Header step={stepName} />,
-          footer: <Footer
-            step={stepName}
-            next={{ onClick: this.startLiveness, disable: !cameraStepIsAllowed }}
-            back={{ onClick: prevStep }}
-          />,
-        };
-
-        case 'liveness': {
-          return {
-            header: <Header step={stepName} />,
-            footer: <Footer
-              step={stepName}
-              next={{ onClick: this.props.next, disable: !cameraStepIsAllowed }}
-              back={{ onClick: prevStep }}
-            />,
-          };
-        }
-
-        default: throw new Error(`Bad step ${step}`);
-      }
-    })();
+    const Overlay = createOverlay('rectangle');
 
     return (
       <>
-        {layout.header}
-        <Content step={stepName}>
-          <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" styles={this.props.styles} />
-          </div>
-          <div style={{ display: step === 'liveness' ? 'block' : 'none' }}>
-            <Camera Overlay={step === 'liveness' ? LivenessCommands : null} active visible={step === 'liveness'} onReady={this.cameraReady} />
+        <Header step={step} />
+        <Content step={step}>
+          <div>
+            <Camera
+              ratio={1}
+              Overlay={
+                step === 'liveness' ? Overlay : null// LivenessCommands : null
+              }
+              active
+              onReady={this.cameraReady}
+            />
           </div>
         </Content>
-        {layout.footer}
+        <Footer
+          step={stepName}
+          next={{ onClick: this.props.next, disable: !cameraStepIsAllowed }}
+          back={{ onClick: prevStep }}
+        />
       </>
     );
   }

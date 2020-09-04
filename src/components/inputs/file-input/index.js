@@ -33,7 +33,7 @@ const CustomFileInput = (props) => {
       >
         <Upload />
         <input
-          accept="image/x-png,image/jpeg"
+          accept="image/x-png,image/jpeg,application/pdf"
           name={name}
           onChange={onChange}
           hidden

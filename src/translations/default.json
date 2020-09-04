@@ -38,7 +38,7 @@
   "exists_subHeader": "Please contact your provider for further information",
   "done_button": "Done",
   "done_onfail_button": "Done",
-  "file_input_tooltip": "Allowed formats: jpg, png, pdf.",
+  "file_input_tooltip": "Allowed formats: jpg, jpeg, png, pdf.",
   "button_make_photo": "Take photo",
   "guide_accept": "Ok, got it",
   "consent": "I have read and understand <a href=\"https://getid.ee/sdk-terms-of-use/\" data-role=\"linkTerms\" rel=\"noopener noreferrer\" target=\"_blank\">Terms of use</a> and <a href=\"https://getid.ee/sdk-privacy-policy/\" data-role=\"linkPolicy\" rel=\"noopener noreferrer\" target=\"_blank\">Privacy policy</a> of GetID OÜ.",

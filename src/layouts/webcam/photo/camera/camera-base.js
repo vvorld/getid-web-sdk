@@ -3,7 +3,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import frameRenderer from './helpers';
-import { isMobile } from '~/helpers/generic';
 
 const calculateMaskPoition = (width, height, ratio = width / height, zoom = 1) => {
   const streamRatio = width / height;
@@ -41,36 +40,42 @@ class CameraBase extends Component {
   }
 
   getStream = async () => {
-    const params = {
-      audio: false,
-      video: {
-        width: { min: 640, ideal: 1024 },
-        height: { min: 480, ideal: 1024 },
-        facingMode: { exact: this.props.facingMode },
-      },
-    };
-    try {
-      return [
-        await navigator.mediaDevices.getUserMedia(params),
-        this.props.facingMode,
-      ];
-    } catch (e) {
-      console.error(e);
-      try {
-        params.video.facingMode = 'user';
-        return [
-          await navigator.mediaDevices.getUserMedia(params),
-          'user',
-        ];
-      } catch (ee) {
-        console.error(ee);
-        delete params.video.facingMode;
-        return [
-          await navigator.mediaDevices.getUserMedia(params),
-          '',
-        ];
+    const createStream = async (variants) => {
+      for (let i = 0; i < variants.length; i += 1) {
+        const { width, height, exact } = variants[i];
+
+        try {
+          return [
+            await navigator.mediaDevices.getUserMedia({
+              audio: false,
+              video: { width, height, facingMode: exact && { exact } },
+            }),
+            exact,
+          ];
+        } catch (e) {
+          if (!i === variants.length - 1) {
+            throw e;
+          }
+          console.error(e);
+        }
       }
-    }
+      throw new Error('Video does not supported');
+    };
+
+    const width = { min: 480, ideal: 1024 };
+    const height = { min: 320, ideal: 1024 };
+    const exact = this.props.facingMode;
+    const variants = [
+      { exact, width, height },
+      { exact, width },
+      exact !== 'user' ? { exact: 'user', width, height } : null,
+      exact !== 'user' ? { exact: 'user', width } : null,
+      { width, height },
+      { width },
+      {},
+    ].filter((x) => x);
+
+    return await createStream(variants);
   }
 
   setSrc = async (ref) => {
@@ -80,23 +85,29 @@ class CameraBase extends Component {
     }
     try {
       const [stream, mode] = await this.getStream();
+      stream.getVideoTracks()[0].getSettings(); // check UC browser
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
-          const settings = stream.getVideoTracks()[0].getSettings();
-          const height = this.ref.videoHeight || settings.height;
-          const width = this.ref.videoWidth || settings.width;
-          const {
-            left, right, top, bottom,
-          } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
-          this.setState({
-            width, height, left, right, top, bottom, mode,
-          });
+          try {
+            const settings = stream.getVideoTracks()[0].getSettings();
+            const height = this.ref.videoHeight || settings.height;
+            const width = this.ref.videoWidth || settings.width;
+            const {
+              left, right, top, bottom,
+            } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
+            this.setState({
+              width, height, left, right, top, bottom, mode,
+            });
 
-          clearInterval(intervalId);
-          this.props.onReady(frameRenderer(ref, {
-            left, right, top, bottom,
-          }));
+            clearInterval(intervalId);
+
+            this.props.onReady(frameRenderer(ref, {
+              left, right, top, bottom,
+            }));
+          } catch (e) {
+            this.props.onError(e);
+          }
         }
       }, 100);
     } catch (err) {

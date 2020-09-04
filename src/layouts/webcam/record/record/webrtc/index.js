@@ -14,10 +14,6 @@ class WebRTCRecorder {
       const { localDescription } = await this.session.initSession(3);
       const peerConnection = new RTCPeerConnection({ });
 
-      peerConnection.ondatachannel = (event) => {
-        this.dataChannel = event.channel;
-      };
-
       await peerConnection.setRemoteDescription(localDescription);
       this.releases.push(
         async () => (this.dataChannel && this.dataChannel.close()),
@@ -37,6 +33,14 @@ class WebRTCRecorder {
       this.stream = stream;
 
       await this.session.remoteDescription(peerConnection.localDescription);
+
+      let waitDataChannel = null;
+      const pr = new Promise((resolve) => { waitDataChannel = resolve; });
+      peerConnection.ondatachannel = (event) => {
+        this.dataChannel = event.channel;
+        waitDataChannel();
+      };
+      await pr;
     }
 
   startRecord = async () => {

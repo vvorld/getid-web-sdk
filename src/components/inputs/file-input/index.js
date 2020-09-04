@@ -32,7 +32,7 @@ const FileInput = (props) => {
       <label className="getid-file-input__label">
         <input
           className="getid-file-input__generic"
-          accept="image/x-png,image/jpeg"
+          accept="image/x-png,image/jpeg,application/pdf"
           onChange={(e) => {
             const file = [...e.target.files][0];
             setValue(file);

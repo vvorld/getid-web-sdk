@@ -159,7 +159,7 @@ export default {
   exists_header: 'Application already exists.',
   exists_subHeader: 'Please contact your provider for further information.',
   done_button: 'Done',
-  file_input_tooltip: 'Allowed formats: jpg, png.',
+  file_input_tooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
   button_make_photo: 'make photo',
   guide_accept: 'Ok, got it',
   photo_tip: 'Please use <b>Spacebar</b> key to make photo',

@@ -12,7 +12,7 @@ const createErrorView = (config) => (props) => {
 
   const { translations: dictionary } = useContext(TranslationsContext);
 
-  const { buttons, extra } = config;
+  const { buttons } = config;
   if (submitAttempts < 0) { delete buttons.retry; }
 
   return (
@@ -38,7 +38,7 @@ const createErrorView = (config) => (props) => {
             ))}
           </div>
         )}
-        {extra && <Browsers config={extra} dictionary={dictionary} />}
+        <Browsers dictionary={dictionary} />
         {buttons && (
           <footer className="getid-footer">
             <PoweredBy />
@@ -82,28 +82,6 @@ export const ErrorView = createErrorView({
 export const CameraErrorView = createErrorView({
   header: (dictionary) => dictionary.camera_error_header,
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
-  extra: {
-    text: (dictionary) => dictionary.camera_error_another_browser,
-    buttons: () => {
-      const isMacOS = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
-      return {
-        ...(isMacOS && {
-          safari: {
-            name: 'Safari',
-            link: 'https://support.apple.com/downloads/safari',
-          },
-        }),
-        chrome: {
-          name: 'Chrome',
-          link: 'https://www.google.com/chrome/',
-        },
-        firefox: {
-          name: 'Firefox',
-          link: 'https://www.mozilla.org/en-US/firefox/new/',
-        },
-      };
-    },
-  },
 });
 
 export const HttpErrorView = createErrorView({

@@ -151,6 +151,11 @@ class Widget extends Component {
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
+
+    if (res.documentType !== this.state.app.documentType) {
+      await this.checkDocumentType(this.state.app.documentType);
+      return { result: false, code: 'invalid_document_format' };
+    }
     if (res.documentType === 'unknown') {
       if (tryNumber >= limit) {
         if (!this.state.app.documentType) {

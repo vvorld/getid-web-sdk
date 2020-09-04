@@ -140,6 +140,7 @@ export default {
   isFail_header: 'Cannot send data',
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
+  retake_description_invalid_document_format: 'Document on the photo doesn\'t match selected document type',
   '400_header': 'Bad request',
   '500_header': 'Service is unavailable',
   isFail_subHeader: 'Error occurs when you try to send data to the server.',

@@ -54,7 +54,9 @@ class Form extends Component {
 
   handleChange = (name, type, value, required, invalid) => {
     this.form[name] = { value, required };
-    this.setState({ disabled: this.isDisabled() || invalid });
+    const isInvalid = (!invalid && required) && !value;
+    console.log(!invalid, required)
+    this.setState({ disabled: invalid || isInvalid });
   };
 
   isDisabled = () => Object.values(this.form).some((el) => !el.value && el.required)

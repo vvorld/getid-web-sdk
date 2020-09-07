@@ -147,15 +147,14 @@ class Widget extends Component {
 
   checkDocumentPhoto = async ({ front, back }, tryNumber, limit) => {
     const res = await this.props.api.checkSide(front, back);
-    await this.checkDocumentType(res.documentType);
+    const documentIndex = this.flow.findIndex((x) => x.component === 'DocumentPhoto');
+    if (!this.flow[documentIndex].interactive) {
+      await this.checkDocumentType(res.documentType);
+    }
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
 
-    if (res.documentType !== this.state.app.documentType) {
-      await this.checkDocumentType(this.state.app.documentType);
-      return { result: false, code: 'invalid_document_format' };
-    }
     if (res.documentType === 'unknown') {
       if (tryNumber >= limit) {
         if (!this.state.app.documentType) {

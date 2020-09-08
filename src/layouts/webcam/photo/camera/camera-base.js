@@ -67,8 +67,8 @@ class CameraBase extends Component {
       throw new Error('Video does not supported');
     };
 
-    const width = { min: 480, ideal: maxWidth };
-    const height = { min: 320, ideal: maxWidth };
+    const width = { min: 640, ideal: maxWidth };
+    const height = { min: 480, ideal: maxWidth };
     const exact = this.props.facingMode;
     const isSupportedQuadro = supportedQuadro();
     const variants = [
@@ -92,11 +92,11 @@ class CameraBase extends Component {
       const [stream, mode] = await this.getStream(1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
       this.ref.srcObject = stream;
-      console.log(stream.getVideoTracks()[0].getCapabilities());
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
           try {
-            const settings = stream.getVideoTracks()[0].getSettings();
+            const track = stream.getVideoTracks()[0];
+            const settings = track.getSettings();
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
             const {

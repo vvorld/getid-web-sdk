@@ -5,6 +5,10 @@ import './guide.css';
 const cache = {};
 const transforms = {};
 
+fetch('https://cdn.getid.cloud/assets/desktop/default_front.svg');
+fetch('https://cdn.getid.cloud/assets/desktop/default_back.svg');
+fetch('https://cdn.getid.cloud/assets/desktop/selfie.svg');
+
 const modifySvg = (svgText) => Object.entries(transforms)
   .reduce((text, v) => text.split(v[0]).join(v[1]), svgText);
 

@@ -19,6 +19,12 @@ const calculateMaskPoition = (width, height, ratio = width / height, zoom = 1) =
     right: width - left,
   };
 };
+function supportedQuadro() {
+  if (navigator.appVersion && /iPhone OS 1[012]/.test(navigator.appVersion)) {
+    return false;
+  }
+  return true;
+}
 class CameraBase extends Component {
   constructor(props) {
     super(props);
@@ -39,11 +45,10 @@ class CameraBase extends Component {
     }
   }
 
-  getStream = async () => {
+  getStream = async (maxWidth) => {
     const createStream = async (variants) => {
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, exact } = variants[i];
-
         try {
           return [
             await navigator.mediaDevices.getUserMedia({
@@ -53,7 +58,7 @@ class CameraBase extends Component {
             exact,
           ];
         } catch (e) {
-          if (!i === variants.length - 1) {
+          if (i === (variants.length - 1)) {
             throw e;
           }
           console.error(e);
@@ -62,20 +67,20 @@ class CameraBase extends Component {
       throw new Error('Video does not supported');
     };
 
-    const width = { min: 480, ideal: 1024 };
-    const height = { min: 320, ideal: 1024 };
+    const width = { min: 480, ideal: maxWidth };
+    const height = { min: 320, ideal: maxWidth };
     const exact = this.props.facingMode;
+    const isSupportedQuadro = supportedQuadro();
     const variants = [
-      { exact, width, height },
+      isSupportedQuadro ? { exact, width, height } : null,
       { exact, width },
-      exact !== 'user' ? { exact: 'user', width, height } : null,
+      (isSupportedQuadro && exact !== 'user') ? { exact: 'user', width, height } : null,
       exact !== 'user' ? { exact: 'user', width } : null,
-      { width, height },
+      isSupportedQuadro ? { width, height } : null,
       { width },
       {},
     ].filter((x) => x);
-
-    return await createStream(variants);
+    return createStream(variants);
   }
 
   setSrc = async (ref) => {
@@ -84,9 +89,10 @@ class CameraBase extends Component {
       return;
     }
     try {
-      const [stream, mode] = await this.getStream();
+      const [stream, mode] = await this.getStream(1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
       this.ref.srcObject = stream;
+      console.log(stream.getVideoTracks()[0].getCapabilities());
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
           try {
@@ -106,11 +112,13 @@ class CameraBase extends Component {
               left, right, top, bottom,
             }));
           } catch (e) {
+            console.error(e);
             this.props.onError(e);
           }
         }
       }, 100);
     } catch (err) {
+      console.error(err);
       this.props.onError(err);
     }
   }

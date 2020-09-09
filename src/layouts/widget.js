@@ -177,6 +177,11 @@ class Widget extends Component {
     return { result: true };
   };
 
+  checkSelfiePhoto = async ({ selfie }) => {
+    const res = await this.props.api.checkSelfie(selfie);
+    return { result: res.found };
+  }
+
   checkDocumentType = async (documentType) => {
     switch (documentType) {
       case 'passport':
@@ -295,6 +300,7 @@ class Widget extends Component {
             styles={this.props.styles}
             blob={app.selfie}
             direction={this.state.direction}
+            checkSelfiePhoto={(selfie) => this.checkSelfiePhoto({selfie})}
             {...props}
           />
         ),

@@ -50,6 +50,15 @@ export const createApi = (url, jwt) => {
     }
     return postFormData(`${url}/sdk/v1/document`, form, jwt);
   };
+
+  const checkSelfie = async (selfie) => {
+    const form = new FormData();
+    if (selfie) {
+      form.append('selfie', selfie, 'selfie');
+    }
+    return postFormData(`${url}/sdk/v1/selfie`, form, jwt);
+  }
+
   return {
     submitData,
     getInfo,
@@ -58,6 +67,7 @@ export const createApi = (url, jwt) => {
     getTranslations,
     sendErrorToServer,
     checkSide,
+    checkSelfie,
   };
 };
 

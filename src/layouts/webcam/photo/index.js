@@ -65,6 +65,7 @@ const Selfie = (props) => (
     Camera={camera('ellips')}
     ratio={3 / 4}
     componentName="IdSelfie"
+    onCheck={props.checkSelfiePhoto}
     rules="SelfieRules"
     Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg', props.styles)}
     facingMode="user"

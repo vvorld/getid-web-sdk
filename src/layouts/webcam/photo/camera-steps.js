@@ -100,6 +100,7 @@ class WebcamView extends React.Component {
             back={{ text: 'No, retake', onClick: () => this.setStep('record') }}
             next={{
               onClick: () => {
+                console.log(stepName);
                 if (!onCheck || !enableCheckPhoto) {
                   finishStep(blob);
                   return;

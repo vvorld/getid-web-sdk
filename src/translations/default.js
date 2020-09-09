@@ -99,6 +99,11 @@ export default {
   IdSelfie_preview_next: 'Yes, continue',
   IdSelfie_preview_back: 'No, retake',
 
+  IdSelfie_retake_description_header: 'Captured selfie',
+  IdSelfie_retake_description_subHeader: ' ',
+  IdSelfie_retake_description_next: 'Retake',
+  IdSelfie_retake_description_back: 'Continue',
+
   SelfieRules_header: 'Take a selfie',
   SelfieRules_subHeader: ' ',
   SelfieRules_line_1: 'Make sure lightning conditions are sufficient',
@@ -140,6 +145,7 @@ export default {
   isFail_header: 'Cannot send data',
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
+  retake_description_selfie_unknown: 'Selfie can not be identified',
   retake_description_front_side_missing: 'Front side wasn\'t recognized.',
   retake_description_back_side_missing: 'Back side wasn\'t recognized.',
   '400_header': 'Bad request',

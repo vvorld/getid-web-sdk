@@ -179,7 +179,7 @@ class Widget extends Component {
 
   checkSelfiePhoto = async ({ selfie }) => {
     const res = await this.props.api.checkSelfie(selfie);
-    return { result: res.found };
+    return { result: res.found, code: res.found === false && 'selfie_unknown' };
   }
 
   checkDocumentType = async (documentType) => {

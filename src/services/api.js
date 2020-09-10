@@ -37,6 +37,7 @@ export const createApi = (url, jwt) => {
   const getCountryAndDocList = () => get(`${url}/sdk/v1/supported-documents`);
   const getTranslations = (dictionary) => post(`${url}/sdk/v1/dictionary`, { dictionary });
   const sendErrorToServer = (errorText, stack) => post(`${url}/sdk/v1/log-error`, { error: { errorText, stack } });
+  const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt });
   const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step } })
     .catch(console.log);
 
@@ -57,7 +58,7 @@ export const createApi = (url, jwt) => {
       form.append('selfie', selfie, 'selfie');
     }
     return postFormData(`${url}/sdk/v1/selfie`, form, jwt);
-  }
+  };
 
   return {
     submitData,
@@ -68,6 +69,7 @@ export const createApi = (url, jwt) => {
     sendErrorToServer,
     checkSide,
     checkSelfie,
+    verifyToken,
   };
 };
 
@@ -77,4 +79,8 @@ export function getJwtToken(apiUrl, apiKey, customerId) {
 
 export function getScriptLink(apiUrl, apiKey) {
   return post(`${apiUrl}/sdk/v1/script-link`, {}, { apiKey });
+}
+
+export function getApiVersions(apiUrl) {
+  return get(`${apiUrl}/sdk/versions`);
 }

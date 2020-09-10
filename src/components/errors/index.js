@@ -38,7 +38,7 @@ const createErrorView = (config) => (props) => {
             ))}
           </div>
         )}
-        <Browsers dictionary={dictionary} />
+        {config.children && config.children(dictionary)}
         {buttons && (
           <footer className="getid-footer">
             <PoweredBy />
@@ -67,6 +67,11 @@ export const AppExistsView = createErrorView({
   },
 });
 
+export const ApiVersionErrorView = createErrorView({
+  header: (dictionary) => dictionary.apiVersion_error_header,
+  subHeader: (dictionary) => dictionary.apiVersion_error_subHeader,
+});
+
 export const ErrorView = createErrorView({
   header: (dictionary) => dictionary.error_header,
   subHeader: (dictionary) => dictionary.error_subHeader,
@@ -82,6 +87,7 @@ export const ErrorView = createErrorView({
 export const CameraErrorView = createErrorView({
   header: (dictionary) => dictionary.camera_error_header,
   subHeader: (dictionary) => dictionary.camera_error_subHeader,
+  children: (dictionary) => <Browsers dictionary={dictionary} />,
 });
 
 export const HttpErrorView = createErrorView({

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Footer from '~/components/blocks/footer/footer';
+import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import { CameraDisabledErrorView } from '~/components/errors';

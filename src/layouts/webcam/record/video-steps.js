@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Guide from '~/components/guide';
-import Footer from '~/components/blocks/footer/footer';
+import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
-import recordingDesktop from "~/assets/animations/photo/recording.svg";
+import recordingDesktop from '~/assets/animations/photo/recording.svg';
 
 class RecordView extends React.Component {
   constructor(props) {

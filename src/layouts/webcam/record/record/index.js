@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import React, { Component } from 'react';
 
-import Footer from '~/components/blocks/footer/footer';
+import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 
 import './record.css';

@@ -5,18 +5,21 @@ import './polyfills/toBlob.polyfill';
 
 import React from 'react';
 import { renderMainComponent, renderComponent } from './main-module';
-import { createApi } from './services/api';
+import { createApi, getApiVersions } from './services/api';
 import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 import {
   CameraErrorView, ErrorView, AppExistsView, HttpErrorView,
+  ApiVersionErrorView,
 } from './components/errors';
 
 import {
   convertAnswer,
   addDefaultValues,
   setCss,
+  checkApiVersionSupport,
+  sortCountryDocuments,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
@@ -126,10 +129,26 @@ const init = (originOptions, tokenProvider) => {
             .toLowerCase(),
         } : el));
     }
+    const { onSortDocuments } = options;
     Promise.all([
       api.getInfo().then(convertAnswer()).then(addDefaultValues()),
-      api.getCountryAndDocList().then(convertAnswer({ field: 'countries' })),
-    ]).then(([info, countryDocuments]) => {
+      api.getCountryAndDocList().then(convertAnswer())
+        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
+          ? sortCountryDocuments(countries, onSortDocuments)
+          : countries)),
+      getApiVersions(apiUrl).then(checkApiVersionSupport).catch((error) => {
+        console.log(`Can't get supported api versions ${error}`);
+        return true;
+      }),
+    ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
+      if (!isSupportedApiVersion) {
+        renderComponent({
+          ...options,
+          translations,
+        },
+          <ApiVersionErrorView callbacks={{ onExists: options.onExists }} />);
+        return;
+      }
       renderMainComponent({
         ...info,
         ...options,

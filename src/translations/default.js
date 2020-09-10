@@ -188,6 +188,9 @@ export default {
   http_error_header: 'Insecure protocol detected',
   http_error_subHeader: 'Please use https protocol',
 
+  apiVersion_error_header: 'Your sdk version not compatible with current api version',
+  apiVersion_error_subHeader: 'Please update your sdk version',
+
   camera_error_header: 'Camera is not supported',
   camera_error_next: 'Try again',
   camera_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',

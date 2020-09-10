@@ -27,21 +27,24 @@ function createLiveness(servers, takePhoto, onCommand) {
     throw new Error('Liveness server error');
   })();
 
-  let stop = null;
+  const stop = null;
 
   const st = () => stop && stop();
   ws.onopen = () => {
+    console.log('facing WS open');
     stop = photosLoop(ws, takePhoto);
   };
 
-  ws.onclose = () => {
+  ws.onclose = (e) => {
+    console.log('facing WS close', e);
     st();
   };
-
   ws.onmessage = (event) => {
+    console.log(JSON.parse(event.data));
     onCommand(JSON.parse(event.data));
   };
   return () => {
+    console.log('facing WS our close');
     ws.close();
   };
 }

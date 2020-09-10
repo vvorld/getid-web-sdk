@@ -39,14 +39,22 @@ function createLiveness(servers, takePhoto, onCommand) {
   let stop = null;
 
   const st = () => {
+    console.log('stop');
     stop && stop();
     stop = null;
   };
-  ws.onopen = () => ws.send('giveMeTask');
+  ws.onopen = () => {
+    console.log('WS open');
+    ws.send('giveMeTask');
+  };
 
-  ws.onclose = () => st();
+  ws.onclose = (e) => {
+    console.log('WS close signal', e);
+    st();
+  };
 
   ws.onmessage = (event) => {
+    console.log(event);
     const data = JSON.parse(event.data);
     if (data.messageType === 'taskComplete') {
       onCommand(data);
@@ -56,6 +64,7 @@ function createLiveness(servers, takePhoto, onCommand) {
     }
     if (data.messageType === 'success') {
       onCommand(data);
+      console.log('liveness success');
       ws.close();
     }
 
@@ -72,11 +81,13 @@ function createLiveness(servers, takePhoto, onCommand) {
 
     if (data.messageType === 'failure') {
       st();
+      console.log('liveness failure');
       ws.close();
       onCommand(data);
     }
   };
   return () => {
+    console.log('our failure');
     ws.close();
   };
 }

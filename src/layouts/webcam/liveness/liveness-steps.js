@@ -232,6 +232,7 @@ class LivenessStep extends Component {
             facingMode="user"
             Overlay={step === 'Ready' ? Overlay : () => <Command {...command} />}
             onReady={this.readyStep}
+            onError={this.cameraError}
             active
           />
         </Content>

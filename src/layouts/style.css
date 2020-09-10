@@ -79,6 +79,7 @@ main a {
     flex-direction: row-reverse;
     opacity: 0.7;
     text-align: right;
+    word-break: break-all;
 }
 
 #getid-main input[type='text'], #getid-main select, #getid-main .doc-pick {

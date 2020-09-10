@@ -100,6 +100,7 @@ class WebcamView extends React.Component {
             back={{ text: 'No, retake', onClick: () => this.setStep('record') }}
             next={{
               onClick: () => {
+                console.log(stepName);
                 if (!onCheck || !enableCheckPhoto) {
                   finishStep(blob);
                   return;
@@ -130,7 +131,12 @@ class WebcamView extends React.Component {
             footer: <Footer
               step={stepName}
               next={{ onClick: () => this.setStep('record', { tryNumber: tryNumber + 1 }) }}
-              back={{ onClick: () => finishStep(blob) }}
+              back={{
+                onClick: () => {
+                  console.log('here');
+                  finishStep(blob);
+                },
+              }}
             />,
           };
         }

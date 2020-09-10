@@ -23,9 +23,8 @@ export default {
           type: 'text',
           name: 'First name',
           required: false,
-          // validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
+          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         },
-
         {
           label: 'Last Name',
           type: 'text',
@@ -68,7 +67,7 @@ export default {
       interactive: true,
       enableCheckPhoto: true,
     },
-    { component: 'Selfie', showRules: true },
+    { component: 'Selfie', showRules: true, enableCheckPhoto: true },
 
     // { component: 'Selfie' },
     // {

@@ -147,7 +147,10 @@ class Widget extends Component {
 
   checkDocumentPhoto = async ({ front, back }, tryNumber, limit) => {
     const res = await this.props.api.checkSide(front, back);
-    await this.checkDocumentType(res.documentType);
+    const documentIndex = this.flow.findIndex((x) => x.component === 'DocumentPhoto');
+    if (!this.flow[documentIndex].interactive) {
+      await this.checkDocumentType(res.documentType);
+    }
     if (res.extractedData) {
       this.state.app.extractedData = res.extractedData;
     }
@@ -162,8 +165,22 @@ class Widget extends Component {
       }
       return { result: false, code: 'unknown' };
     }
+
+    if (res.documentSidesConclusion === 'front-side-missing' && this.state.app.documentType !== 'passport') {
+      return { result: false, code: 'front_side_missing' };
+    }
+
+    if (res.documentSidesConclusion === 'back-side-missing' && this.state.app.documentType !== 'passport') {
+      return { result: false, code: 'back_side_missing' };
+    }
+
     return { result: true };
   };
+
+  checkSelfiePhoto = async ({ selfie }) => {
+    const res = await this.props.api.checkSelfie(selfie);
+    return { result: res.found, code: res.found === false && 'selfie_unknown' };
+  }
 
   checkDocumentType = async (documentType) => {
     switch (documentType) {
@@ -283,6 +300,7 @@ class Widget extends Component {
             styles={this.props.styles}
             blob={app.selfie}
             direction={this.state.direction}
+            checkSelfiePhoto={(selfie) => this.checkSelfiePhoto({selfie})}
             {...props}
           />
         ),

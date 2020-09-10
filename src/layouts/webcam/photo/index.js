@@ -5,7 +5,7 @@ import Guide from '~/components/guide';
 import Camera from './camera';
 import overlay from './overlay';
 
-const guide = (src, styles) => () => <Guide src={src} styles={styles} />;
+const guide = (name, styles) => () => <Guide name={name} styles={styles} />;
 
 const camera = (figure) => (props) => (
   <Camera
@@ -21,7 +21,7 @@ const CaptureFront = (props) => (
     ratio={3 / 2}
     rules="PhotoRules"
     componentName="IdCapture"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
+    Guide={guide('defaultFrontDesktop', props.styles)}
     facingMode="environment"
   />
 );
@@ -34,7 +34,7 @@ const CaptureBack = (props) => (
     rules="PhotoRules"
     componentName="IdCaptureBack"
     onCheck={props.checkDocumentPhoto}
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_back.svg', props.styles)}
+    Guide={guide('defaultBackDesktop', props.styles)}
     facingMode="environment"
   />
 );
@@ -51,7 +51,7 @@ const DocumentPhoto = (props) => (
     rules="PhotoRules"
     onCheck={props.checkDocumentPhoto}
     componentName="IdCapture"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/default_front.svg', props.styles)}
+    Guide={guide('defaultFrontDesktop', props.styles)}
     facingMode="environment"
   />
 );
@@ -65,8 +65,9 @@ const Selfie = (props) => (
     Camera={camera('ellips')}
     ratio={3 / 4}
     componentName="IdSelfie"
+    onCheck={props.checkSelfiePhoto}
     rules="SelfieRules"
-    Guide={guide('https://cdn.getid.cloud/assets/desktop/selfie.svg', props.styles)}
+    Guide={guide('selfieDesktop', props.styles)}
     facingMode="user"
   />
 );

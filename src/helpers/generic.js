@@ -29,11 +29,6 @@ export const convertAnswer = (params = {}) => (resp) => {
 
 export const addDefaultValues = () => (resp) => {
     const defaultValues = {
-        sdkPermissions: {
-            videoRecording: false,
-            maxVideoDuration: 3,
-            liveness: false,
-        },
         showOnfidoLogo: false,
         tokenIsValid: false,
         tokenExpiresIn: 3600,
@@ -42,10 +37,6 @@ export const addDefaultValues = () => (resp) => {
     return {
         ...resp,
         ...defaultValues,
-        sdkPermissions: {
-            ...defaultValues.sdkPermissions,
-            ...resp.sdkPermissions,
-        },
     };
 };
 

@@ -47,7 +47,6 @@ function DateInput({
   const months = getMonths(required);
   const [y, m, d] = parseDate(value);
   const [monthDays, setDays] = useState(days);
-  console.log(y, m, d);
 
   const [year, setYear] = useState(y);
   const [month, setMonth] = useState(m);
@@ -76,8 +75,6 @@ function DateInput({
       }
       const daysInMonth = months[(mth || 1)].days;
 
-      console.log(daysInMonth)
-      console.log(m)
       if (day > daysInMonth) {
         setDay(0);
       }

@@ -3,6 +3,9 @@ import React from 'react';
 const createOverlay = (figure, status = 'active') => ({
   width, height, top, left, bottom, right, style,
 }) => {
+  if (!width || !height) {
+    return null;
+  }
   const createPath = () => {
     if (figure === 'none') {
       return () => null;

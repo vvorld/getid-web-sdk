@@ -3,8 +3,8 @@ import createOverlay from './index';
 
 export default { title: 'Webcam|Overlay' };
 
-const Overlay = createOverlay('rectangle', 3 / 2);
-const Ellips = createOverlay('ellips', 2 / 3);
+const Overlay = createOverlay('rectangle');
+const Ellips = createOverlay('ellips');
 
 export const Rectangle480x240 = () => (
   <div style={{

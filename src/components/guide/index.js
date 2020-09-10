@@ -6,29 +6,18 @@ import defaultFrontDesktop from '../../assets/animations/photo/default_front_des
 import defaultBackDesktop from '~/assets/animations/photo/default_back_desktop.svg';
 import passportDesktop from '~/assets/animations/photo/passport_desktop.svg';
 import selfieDesktop from '~/assets/animations/photo/selfie_desktop.svg';
-
-import selfieMobile from '~/assets/animations/photo/selfie.svg';
-import passportMobile from '~/assets/animations/photo/passport.svg';
-import defaultFrontMobile from '~/assets/animations/photo/default_front.svg';
-import defaultBackMobile from '~/assets/animations/photo/default_back.svg';
+import recordingDesktop from '~/assets/animations/photo/recording.svg';
 
 const mapGuide = {
   defaultFrontDesktop,
   defaultBackDesktop,
   passportDesktop,
   selfieDesktop,
-  selfieMobile,
-  passportMobile,
-  defaultFrontMobile,
-  defaultBackMobile,
+  recordingDesktop,
 };
 
 const cache = {};
 const transforms = {};
-
-fetch('https://cdn.getid.cloud/assets/desktop/default_front.svg');
-fetch('https://cdn.getid.cloud/assets/desktop/default_back.svg');
-fetch('https://cdn.getid.cloud/assets/desktop/selfie.svg');
 
 const modifySvg = (svgText) => Object.entries(transforms)
   .reduce((text, v) => text.split(v[0]).join(v[1]), svgText);

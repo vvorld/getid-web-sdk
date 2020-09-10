@@ -8,6 +8,7 @@ import Preview from './preview';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
+import recordingDesktop from "~/assets/animations/photo/recording.svg";
 
 class RecordView extends React.Component {
   constructor(props) {
@@ -124,7 +125,7 @@ class RecordView extends React.Component {
         {layout.header}
         <Content step={stepName}>
           <div style={display('guide')}>
-            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" styles={this.props.styles} />
+            <Guide name="recordingDesktop" styles={this.props.styles} />
           </div>
           <div className="getid-camera_content" style={display('record')}>
             <Camera active visible={step === 'record'} step={stepName} />

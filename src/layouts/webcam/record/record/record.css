@@ -20,28 +20,42 @@
 
 
 #getid-main .phrases__container  {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    
+}
+
+
+#getid-main .phrases__content  {
     background: #0E1C2C;
     opacity: 0.7;
     display: flex;
     justify-content: center;
-    flex-direction: column;
     font-size: 18px;
     line-height: 21px;
-    position: absolute;
-    bottom: 10px;
-    width: 90%;
     color: white;
     padding: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
     text-align: center;
     letter-spacing: 0.192941px;
     box-shadow: 0px 0.5px 0px rgba(120, 97, 162, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 8px;
+
+    font-weight: bold;
+    margin-top: 11px;
+    min-height: 3.3em;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 }
+
 
 #getid-main .phrases__container.liveness  {
    flex-direction: row-reverse;
@@ -53,34 +67,45 @@
     content: url(../../../../assets/icons/success.svg);
 }
 
-#getid-main .phrases__container.smile:after  {
-    content: url(../../../../assets/icons/success.svg);
+#getid-main .command-icon {
+    max-height: 50px;
+    margin-right: 20px;
 }
 
-#getid-main .phrases__container.closeEyes:after  {
+#getid-main .smile-icon  {
+    content: url(../../../../assets/icons/liveness/smile.svg);
+}
+#getid-main .turnLeft-icon  {
+    content: url(../../../../assets/icons/liveness/turn-left.svg);
+}
+#getid-main .tiltLeft-icon  {
+    content: url(../../../../assets/icons/liveness/turn-left.svg);
+}
+#getid-main .turnRight-icon  {
+    content: url(../../../../assets/icons/liveness/turn-right.svg);
+}
+#getid-main .tiltRight-icon  {
+    content: url(../../../../assets/icons/liveness/turn-right.svg);
+}
+
+#getid-main .closeEyes-icon  {
     content: url(../../../../assets/icons/liveness/close-eyes.svg);
 }
 
-#getid-main .phrases__container.success:after  {
+#getid-main .success-icon  {
     content: url(../../../../assets/icons/success.svg);
 }
 
-#getid-main .phrases__container.fail:after  {
-    background-image: url(../../../../assets/icons/thank-you-logo.svg);
+#getid-main .fail-icon  {
+   content: url(../../../../assets/icons/error-icon.svg);
 }
+#getid-main .warning-icon  {
+   content: url(../../../../assets/icons/warning.svg);
+}
+
 
 #getid-main .phrases_begin {
     transform: scaleY(0); 
-}
-
-#getid-main .phrases__content{
-    font-weight: bold;
-    margin-top: 11px;
-    min-height: 3.3em;
-    line-height: 1.5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 #getid-main .phrases__title{

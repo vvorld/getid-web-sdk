@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" />
+  <script type="text/javascript"
+    src="https://cdn.getid.cloud/sdk/getid-web-sdk-v1.0.0-best-sdk.min.js?t=1598955815611"></script>
+  <title>SDK Example</title>
+</head>
+
+<body style="display: flex;justify-content: center;">
+  <style>
+    html {
+      background: white;
+    }
+
+    body {
+      margin: 0;
+      background: white;
+    }
+
+    #getid-component {
+      display: flex;
+      justify-content: center;
+      flex-flow: column;
+      flex-grow: 1;
+      padding: 0 20px;
+      background: white;
+    }
+  </style>
+  <div id="getid-component"></div>
+  <script>
+    const config = {
+      "apiUrl": "https://face.dev.getid.dev",
+      "apiKey": "1231223",
+      "containerId": "getid-component",
+      "dictionary": "en",
+      "metadata": {
+      },
+      "flow": [
+        {
+          "component": "Form",
+          "fields": [
+            {
+              "label": "Name",
+              "type": "text",
+              "name": "First name",
+              "required": false
+            },
+          ]
+        },
+        {
+          "component": "DocumentPhoto",
+          "showRules": false,
+          "interactive": false,
+          "enableCheckPhoto": false,
+        },
+        {
+          "component": "Selfie",
+          "showRules": false
+        }
+      ],
+      onComplete: function (data) {
+        window.location.href = 'https://face.dev.getid.dev/detail-view/' + data.id;
+      }
+    }
+
+    try {
+      const tokenProvider = getidWebSdk.createPublicTokenProvider(config.apiUrl, config.apiKey);
+      getidWebSdk.init(config, tokenProvider);
+    } catch (e) {
+      console.log(`Error: ${e.message}`);
+    }
+
+
+  </script>
+</body>
+
+</html>

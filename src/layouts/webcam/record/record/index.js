@@ -58,7 +58,7 @@ export default (pr) => {
     }
 
     stop = async () => {
-      await recorder.stop();
+      await recorder.stopRecord();
     }
 
     render() {
@@ -110,12 +110,15 @@ export default (pr) => {
           {activeLine < phrases.length && (
             <>
               <div className={`getid-phrases__container${!visible ? ' getid-phrases_begin' : ''}`}>
-                <div className="getid-phrases__title">
-                  <Translate step="Recording_recording" element="phrasesHeader" />
+                <div className="getid-phrases__content">
+                  <div className="getid-phrases__title">
+                    <Translate step="Recording_recording" element="phrasesHeader" />
+                  </div>
+                  <div className={`getid-animation${textMod === 'show' ? ' getid-visible_1' : ''}`}>
+                    {phrases[activeLine]}
+                  </div>
                 </div>
-                <div className={`getid-phrases__content getid-animation${textMod === 'show' ? ' getid-visible_1' : ''}`}>
-                  {phrases[activeLine]}
-                </div>
+
               </div>
             </>
           )}

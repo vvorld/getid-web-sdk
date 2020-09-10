@@ -1,6 +1,6 @@
 import React from 'react';
 
-const createOverlay = (figure) => ({
+const createOverlay = (figure, status = 'active') => ({
   width, height, top, left, bottom, right, style,
 }) => {
   const createPath = () => {
@@ -24,7 +24,7 @@ const createOverlay = (figure) => ({
             </g>
             <path
               fill="none"
-              stroke="var(--main-input-active-border)"
+              stroke={`var(--main-${status}-border)`}
               strokeWidth={`${Math.round(width * 0.01)}px`}
               strokeLinecap="round"
               d={`M ${width / 2}, ${top} a ${fwidth / 2},${fheight / 2} 0 1,0 1,0 z
@@ -36,7 +36,7 @@ const createOverlay = (figure) => ({
         );
       }
       default: {
-        const r = Math.round(width * 0.02);
+        const r = Math.round(width * 0.05);
         return () => (
           <>
             <g fillRule="evenodd" fill="var(--main-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
@@ -57,7 +57,7 @@ const createOverlay = (figure) => ({
             </g>
             <path
               fill="none"
-              stroke="var(--main-input-active-border)"
+              stroke={`var(--main-${status}-border)`}
               strokeWidth={`${`${Math.round(width * 0.01)}px`}`}
               strokeLinecap="round"
               d={`M${left}, ${top + r}

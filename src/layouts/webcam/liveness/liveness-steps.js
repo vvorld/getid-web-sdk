@@ -1,14 +1,15 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Footer from '~/components/blocks/footer/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import Guide from '~/components/guide';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import Camera from '../photo/camera';
 import createLivenessSession from './session';
+import createLivenessSession2 from './session2';
+import createOverlay from '../photo/overlay';
 
 const mapTasks = {
   smile: 'Smile',
@@ -19,81 +20,94 @@ const mapTasks = {
   tiltRight: 'Tilt your head to the right',
 };
 
-const Command = ({ s, children }) => {
-  const [{ text, type, next }, setTask] = useState({});
-  s.delegate = setTask;
-  const classNameTask = type === 'task' ? text : type;
-  return (
-    <div className={`getid-phrases__container getid-liveness getid-${classNameTask}`}>
-      <div style={{
-        color: 'white',
-        padding: '20px',
-        borderRadius: '15px',
-      }}
-      >
-        <div style={{
-          fontWeight: 'bold',
-          transition: 'opacity 0.6s',
-          color: type === 'warning' ? 'red' : 'white',
-          opacity: 2 === 'hide' ? 0 : 1,
-        }}
-        >
-          {children}
-          {type !== 'warning' && (mapTasks[text] || text)}
-          {type === 'warning' && (
-          <div>
-            <div>Wrong (need to add some text)</div>
-            <button
-              style={{
-                color: 'white',
-              }}
-              type="button"
-              onClick={next}
-            >
-              Ok
-            </button>
-          </div>
-          )}
+const taskText = (task) => mapTasks[task] || task;
 
-          {type === 'fail' && (
-          <div>
-            <button type="button" onClick={next}>Try again</button>
-          </div>
-          )}
-        </div>
-      </div>
-
-    </div>
-  );
+const renderWarning = (warning) => {
+  switch (warning.warningType) {
+    case 'otherAction': return (
+      <>
+        Expected:
+        {taskText(warning.otherAction.task) }
+        <br />
+        Detected:
+        {taskText(warning.otherAction.detected) }
+      </>
+    );
+    case 'sessionError': return (
+      <>
+        {warning.sessionError}
+      </>
+    );
+    default: return <>{warning.warningType}</>;
+  }
 };
-
-const createComponentLiveness = (servers, takePhoto, success) => () => {
-  const sessionActions = {};
-  const [sessionNumber, setSessionNumber] = useState(1);
-
-  const createLiveness = () => createLivenessSession(servers, takePhoto, (data) => {
-    switch (data.type) {
-      case 'fail': {
-        sessionActions.delegate({ ...data, next: () => setSessionNumber(sessionNumber + 1) });
-        break;
-      }
-      case 'success': {
-        success();
-        break;
-      }
-      default: {
-        sessionActions.delegate(data);
-        break;
-      }
-    }
-  });
-  useEffect(() => { createLiveness(); }, [sessionNumber]);
+const renderFailure = (failure) => {
+  switch (failure.errorType) {
+    case 'tooManyWarnings': return (
+      <>
+        Fail: Too many warnings
+      </>
+    );
+    case 'faceDetectionError': return (
+      <>
+        Fail:
+        {' '}
+        {failure.faceDetectionError}
+      </>
+    );
+    case 'sessionError': return (
+      <>
+        {failure.sessionError}
+      </>
+    );
+    default: return (
+      <>
+        Fail:
+        {' '}
+        {failure.errorType}
+      </>
+    );
+  }
+};
+const Command = ({
+  task, messageType, warning, failure,
+}) => {
+  if (!messageType) {
+    return null;
+  }
   return (
-    <Command s={sessionActions}>
-      <div>
-        {`Try ${sessionNumber}`}
+    <div className="getid-phrases__container getid-liveness ">
+      <div className="getid-phrases__content">
+
+        {messageType === 'task' && (
+        <>
+          <span className={`getid-${task}-icon getid-command-icon`} />
+          {taskText(task)}
+        </>
+        )}
+        {messageType === 'warning' && (
+        <>
+          <span className="getid-warning-icon getid-command-icon" />
+          {renderWarning(warning)}
+        </>
+        )}
+
+        {messageType === 'failure' && (
+        <>
+          <span className="getid-fail-icon getid-command-icon" />
+          {renderFailure(failure)}
+        </>
+        )}
+
+        {messageType === 'success' && (
+        <>
+          <span className="getid-success-icon getid-command-icon" />
+          Good! Thanks
+        </>
+        )}
+
       </div>
-    </Command>
+    </div>
   );
 };
 
@@ -102,14 +116,9 @@ class LivenessStep extends Component {
     super(props);
     this.state = {
       error: null,
-      step: props.direction === 'back' ? 'preview' : 'guide',
       stream: null,
-      cameraStepIsAllowed: false,
-      LivenessCommands: createComponentLiveness(
-        props.servers,
-        (c) => this.state.takePhoto(c, true),
-        props.finishStep,
-      ),
+      step: 'Ready',
+      faceIsOk: false,
     };
   }
 
@@ -119,23 +128,75 @@ class LivenessStep extends Component {
     }
   }
 
-  showGuideStep = () => {
-    this.setState({ step: 'guide' });
-  }
-
-  cameraReady = (takePhoto) => {
+  readyStep = (takePhoto) => {
+    if (this.state.stopLivenessSession) {
+      this.state.stopLivenessSession();
+    }
+    const stopFaceSession = createLivenessSession2(this.props.servers, takePhoto, (data) => {
+      if (data.messageType === 'faceDetectionError') {
+        if (this.state.faceIsOk) {
+          this.setState({ faceIsOk: false });
+        }
+      } else if (!this.state.faceIsOk) {
+        this.setState({ faceIsOk: true });
+      }
+    });
     this.setState({
+      step: 'Ready',
       takePhoto,
-      cameraStepIsAllowed: true,
+      stopFaceSession,
     });
   }
 
   startLiveness = () => {
-    this.setState({ step: 'liveness' });
+    this.state.stopFaceSession();
+    const sessionStop = createLivenessSession(this.props.servers, this.state.takePhoto, (command, next) => {
+      switch (command.messageType) {
+        case 'failure': {
+          sessionStop();
+          this.setState({
+            command,
+            nextCommand: {
+              translate: 'again',
+              onClick: () => this.readyStep(this.state.takePhoto),
+
+            },
+          });
+          break;
+        }
+        case 'success': {
+          sessionStop();
+          this.setState({
+            command,
+            nextCommand: {
+              onClick: () => this.props.finishStep(),
+            },
+          });
+          break;
+        }
+        default: {
+          this.setState({
+            command,
+            nextCommand: {
+              translate: 'undestand',
+              onClick: next,
+            },
+          });
+          break;
+        }
+      }
+    });
+    this.setState({
+      step: 'Command',
+      nextCommand: undefined,
+      command: undefined,
+      stopLivenessSession: sessionStop,
+      stopFaceSession: undefined,
+    });
   }
 
   cameraError = (error) => {
-    this.setState(() => ({ step: 'disabled', error }));
+    this.setState(() => ({ step: 'Disabled', error }));
   }
 
   render() {
@@ -143,9 +204,9 @@ class LivenessStep extends Component {
       prevStep,
     } = this.props;
     const {
-      error, step, cameraStepIsAllowed, LivenessCommands,
+      error, step, command, faceIsOk, nextCommand,
     } = this.state;
-    const stepName = `Liveness_${step}`;
+    const stepName = `Liveness${step}`;
 
     if (step === 'disabled') {
       return (
@@ -155,45 +216,35 @@ class LivenessStep extends Component {
         />
       );
     }
-
-    const layout = (() => {
-      switch (step) {
-        case 'guide': return {
-          header: <Header step={stepName} />,
-          footer: <Footer
-            step={stepName}
-            next={{ onClick: this.startLiveness, disable: !cameraStepIsAllowed }}
-            back={{ onClick: prevStep }}
-          />,
-        };
-
-        case 'liveness': {
-          return {
-            header: <Header step={stepName} />,
-            footer: <Footer
-              step={stepName}
-              next={{ onClick: this.props.next, disable: !cameraStepIsAllowed }}
-              back={{ onClick: prevStep }}
-            />,
-          };
-        }
-
-        default: throw new Error(`Bad step ${step}`);
-      }
-    })();
+    const Overlay = createOverlay('rectangle', faceIsOk ? 'success' : 'error');
 
     return (
       <>
-        {layout.header}
-        <Content step={stepName}>
-          <div style={{ display: step === 'guide' ? 'block' : 'none' }}>
-            <Guide src="https://cdn.getid.cloud/assets/desktop/recording.svg" styles={this.props.styles} />
-          </div>
-          <div style={{ display: step === 'liveness' ? 'block' : 'none' }}>
-            <Camera facingMode="user" Overlay={step === 'liveness' ? LivenessCommands : null} active visible={step === 'liveness'} onReady={this.cameraReady} />
-          </div>
+        <Header step={stepName} />
+        <Content step="Liveness">
+          <Camera
+            ratio={1}
+            facingMode="user"
+            Overlay={step === 'Ready' ? Overlay : () => <Command {...command} />}
+            onReady={this.readyStep}
+            active
+          />
         </Content>
-        {layout.footer}
+        {step === 'Ready' ? (
+          <Footer
+            step={stepName}
+            next={{ onClick: this.startLiveness, disable: !faceIsOk }}
+            back={{ onClick: prevStep }}
+          />
+        )
+          : (
+            <Footer
+              step={stepName}
+              next={nextCommand}
+              back={{ onClick: prevStep }}
+            />
+          )}
+
       </>
     );
   }

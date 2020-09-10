@@ -136,6 +136,18 @@ export default {
   ThankYou_next: 'Continue',
   ThankYou_back: '',
 
+  LivenessReady_header: 'Liveness check',
+  LivenessReady_subHeader: 'You will be asked to perform some actions. The face should be always inside the frame.',
+  LivenessReady_next: 'I am ready, let’s go',
+  LivenessReady_back: 'Go back',
+
+  LivenessCommand_header: 'Liveness check',
+  LivenessCommand_subHeader: ' ',
+  LivenessCommand_next: 'Go next',
+  LivenessCommand_again: 'Try again',
+  LivenessCommand_undestand: 'OK, i undestand',
+  LivenessCommand_back: 'Go back',
+
   // ERROR
   isFail_header: 'Cannot send data',
   retake_description_error: 'Document can not be identified',

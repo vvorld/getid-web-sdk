@@ -10,6 +10,11 @@
     --main-input-active-border: #9C77E0;
     --main-white: #FFFFFF;
     --main-error-color: red;
+    
+    --main-error-border: red;
+    --main-success-border: green;
+    --main-active-border: #9C77E0;
+    
     --button-grey-bg: #F8F7FA;
     --main-font-size: 14px;
     --main-border-radius: 4px;

@@ -2,28 +2,33 @@ const sleep = async (delay) => new Promise((resolve) => setTimeout(resolve, dela
 
 const photosLoop = function sendPhotos(ws, takePhoto) {
   let running = true;
+  let count = 0;
+  const st = Date.now();
   (async () => {
-    await sleep(1000);
+    console.log('photosLoop');
     while (running) {
       const start = new Date();
       // eslint-disable-next-line no-await-in-loop
-      const blob = await new Promise((resolve) => takePhoto(resolve));
+      const blob = await new Promise((resolve) => takePhoto(resolve, true));
+      count++;
       if (blob.size) {
         ws.send(blob);
       }
       const took = new Date() - start;
       const timeout = 100;
       await sleep(took >= timeout ? 0 : timeout - took);
+      console.log(count, Date.now() - st);
     }
+    console.log('stop photosLoop');
   })();
   return () => { running = false; };
 };
-async function createLiveness(servers, takePhoto, onCommand) {
+function createLiveness(servers, takePhoto, onCommand) {
   const ws = (() => {
     // eslint-disable-next-line no-restricted-syntax
     for (const address of servers) {
       try {
-        return new WebSocket(address);
+        return new WebSocket(`${address}/liveness`);
       } catch (e) {
         console.log(e);
       }
@@ -33,41 +38,44 @@ async function createLiveness(servers, takePhoto, onCommand) {
 
   let stop = null;
 
-  const st = () => stop && stop();
+  const st = () => {
+    stop && stop();
+    stop = null;
+  };
   ws.onopen = () => ws.send('giveMeTask');
 
   ws.onclose = () => st();
 
   ws.onmessage = (event) => {
-    if (event.data === 'taskComplete') {
+    const data = JSON.parse(event.data);
+    console.log(data);
+    if (data.messageType === 'taskComplete') {
       ws.send('giveMeTask');
     }
-    if (event.data === 'success') {
-      onCommand({ text: 'SUCCESS!', type: 'success' });
+    if (data.messageType === 'success') {
+      onCommand(data);
       ws.close();
     }
 
-    if (event.data.startsWith('task:')) {
-      onCommand({ text: event.data.replace('task:', ''), type: 'task' });
+    if (data.messageType === 'task') {
+      onCommand(data);
       st();
       stop = photosLoop(ws, takePhoto);
     }
 
-    if (event.data.startsWith('warning:')) {
-      if (event.data.startsWith('warning:otherAction:')) {
-        st();
-      }
-      onCommand({
-        text: event.data.replace('warning:', ''),
-        type: 'warning',
-        next: () => ws.send('giveMeTask'),
-      });
+    if (data.messageType === 'warning') {
+      st();
+      onCommand(data, () => ws.send('giveMeTask'));
     }
 
-    if (event.data.startsWith('failure:')) {
+    if (data.messageType === 'failure') {
+      st();
       ws.close();
-      onCommand({ text: event.data.replace('failure:', ''), type: 'fail' });
+      onCommand(data);
     }
+  };
+  return () => {
+    ws.close();
   };
 }
 

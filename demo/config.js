@@ -7,8 +7,8 @@ export default {
     externalId: 121212,
   },
   styles: {
-    'txt-color': 'red',
-    'accent-color': 'pink',
+    // 'txt-color': 'red',
+    // 'accent-color': 'pink',
     'font-family': 'Helvetica',
   },
   translations: {
@@ -50,12 +50,15 @@ export default {
     },
     {
       component: 'Record',
+      //      server: 'https://mc.getid.ee',
       server: 'https://mc2.getid.dev',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
     {
       servers: [
+        // 'ws://74.80.245.17:6088',
         'wss://ws.getid.dev',
+        //        'ws://74.80.245.17:2088',
       ],
       component: 'Liveness',
     },

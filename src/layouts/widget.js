@@ -255,7 +255,7 @@ class Widget extends Component {
             {...props}
           />
         ),
-        (form) => next({ form }, 'form'),
+        (form) => next({ form: { ...app.form || {}, ...form } }, 'form'),
       ];
       case 'PhotoRules': return (app, next) => [
         (props) => <Rules step="PhotoRules" {...props} />,
@@ -300,7 +300,7 @@ class Widget extends Component {
             styles={this.props.styles}
             blob={app.selfie}
             direction={this.state.direction}
-            checkSelfiePhoto={(selfie) => this.checkSelfiePhoto({selfie})}
+            checkSelfiePhoto={(selfie) => this.checkSelfiePhoto({ selfie })}
             {...props}
           />
         ),
@@ -362,6 +362,7 @@ class Widget extends Component {
 
   render() {
     const { step, app } = this.state;
+    console.log(app.form);
     const { flow } = this;
     const currentComponent = flow[step];
     if (!currentComponent) {

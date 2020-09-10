@@ -74,7 +74,7 @@ const init = (originOptions, tokenProvider) => {
       }
       options.metadata.verificationTypes = verificationTypes;
     }
-    const api = createApi(apiUrl, token);
+    const api = createApi(apiUrl, token, options.metadata);
     const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
@@ -140,6 +140,7 @@ const init = (originOptions, tokenProvider) => {
         console.log(`Can't get supported api versions ${error}`);
         return true;
       }),
+
     ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
       if (!isSupportedApiVersion) {
         renderComponent({

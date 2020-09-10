@@ -166,11 +166,11 @@ class Widget extends Component {
       return { result: false, code: 'unknown' };
     }
 
-    if (res.documentSidesConclusion === 'front-side-missing' && this.state.app.documentType !== 'passport') {
+    if (front && (res.documentSidesConclusion === 'front-side-missing' && this.state.app.documentType !== 'passport')) {
       return { result: false, code: 'front_side_missing' };
     }
 
-    if (res.documentSidesConclusion === 'back-side-missing' && this.state.app.documentType !== 'passport') {
+    if (back && (res.documentSidesConclusion === 'back-side-missing' && this.state.app.documentType !== 'passport')) {
       return { result: false, code: 'back_side_missing' };
     }
 

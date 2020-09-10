@@ -33,9 +33,6 @@ const modifySvg = (svgText) => Object.entries(transforms)
 const Guide = ({ name, styles }) => {
   const [blob, setBlob] = useState('');
 
-  console.log(cache)
-  console.log(mapGuide[name])
-
   if (!cache[name]) {
     cache[name] = fetch(mapGuide[name]).then((r) => r.text()).then((text) => {
       let svgText = text;

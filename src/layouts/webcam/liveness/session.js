@@ -48,9 +48,11 @@ function createLiveness(servers, takePhoto, onCommand) {
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log(data);
     if (data.messageType === 'taskComplete') {
-      ws.send('giveMeTask');
+      onCommand(data);
+      setTimeout(() => {
+        ws.send('giveMeTask');
+      }, 2000);
     }
     if (data.messageType === 'success') {
       onCommand(data);

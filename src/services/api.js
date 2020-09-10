@@ -22,7 +22,7 @@ const post = (url, query, headers) => fetch(url, {
 const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
-export const createApi = (url, jwt, metadata) => {
+export const createApi = (url, jwt, metadata = {}) => {
   const submitData = (userData, files) => {
     const form = new FormData();
     form.append('data', JSON.stringify({

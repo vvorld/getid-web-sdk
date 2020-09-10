@@ -158,6 +158,7 @@ export default {
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
   retake_description_selfie_unknown: 'Selfie can not be identified',
+  retake_description_selfie_error: 'Selfie can not be identified',
   retake_description_front_side_missing: 'Front side wasn\'t recognized.',
   retake_description_back_side_missing: 'Back side wasn\'t recognized.',
   '400_header': 'Bad request',

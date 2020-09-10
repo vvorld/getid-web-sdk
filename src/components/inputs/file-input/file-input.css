@@ -1,6 +1,5 @@
 #getid-main .file-input__label{
     flex-grow: 1;
-    padding-right: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: justify;

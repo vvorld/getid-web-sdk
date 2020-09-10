@@ -34,6 +34,12 @@ export default {
 
         },
         {
+          placeholder: 'Document front side',
+          type: 'file',
+          name: 'test',
+          required: true,
+        },
+        {
           label: 'Date Of Birth',
           type: 'date',
           name: 'Date of birth',

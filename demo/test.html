@@ -45,6 +45,12 @@
         },
         "flow": [
             {
+                "component": "DocumentPhoto",
+                "showRules": true,
+                "interactive": true,
+                "enableCheckPhoto": true,
+            },
+            {
                 "component": "Form",
                 "fields": [
                     {
@@ -83,27 +89,22 @@
                 "fields": [
                     {
                         "label": "City",
-                        "type": "select",
+                        "type": "text",
                         "name": "City of residence",
                         "required": false
                     },
                     {
-                        "label": "Last Name",
+                        "label": "Position",
                         "type": "text",
-                        "name": "Last name",
+                        "name": "Position",
                         "required": false
                     },
                 ]
             },
             {
-                "component": "DocumentPhoto",
-                "showRules": true,
-                "interactive": true,
-                "enableCheckPhoto": true,
-            },
-            {
                 "component": "Selfie",
-                "showRules": true
+                "showRules": true,
+                "enableCheckPhoto": true,
             },
             {
                 "component": "Record",

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const createOverlay = (figure, status = 'active') => ({
+const createOverlay = (figure, status = 'active', styles) => ({
   width, height, top, left, bottom, right, style,
 }) => {
   if (!width || !height) {
@@ -10,6 +10,7 @@ const createOverlay = (figure, status = 'active') => ({
     if (figure === 'none') {
       return () => null;
     }
+    const stroke = styles['accent-color'] && status === 'active' ? 'var(--main-accent-color)' : `var(--main-${status}-border)`;
 
     const fwidth = right - left;
     const fheight = bottom - top;
@@ -27,7 +28,7 @@ const createOverlay = (figure, status = 'active') => ({
             </g>
             <path
               fill="none"
-              stroke={`var(--main-${status}-border)`}
+              stroke={stroke}
               strokeWidth={`${Math.round(width * 0.01)}px`}
               strokeLinecap="round"
               d={`M ${width / 2}, ${top} a ${fwidth / 2},${fheight / 2} 0 1,0 1,0 z

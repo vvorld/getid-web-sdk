@@ -10,14 +10,14 @@ const guide = (name, styles) => () => <Guide name={name} styles={styles} />;
 const camera = (figure, styles) => (props) => (
   <Camera
     {...props}
-    Overlay={overlay(figure, 'error', styles)}
+    Overlay={overlay(figure, 'active', styles)}
   />
 );
 
 const CaptureFront = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle')}
+    Camera={camera('rectangle', props.styles)}
     ratio={3 / 2}
     rules="PhotoRules"
     componentName="IdCapture"
@@ -33,7 +33,7 @@ CaptureFront.propTypes = {
 const CaptureBack = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle')}
+    Camera={camera('rectangle', props.styles)}
     ratio={3 / 2}
     rules="PhotoRules"
     componentName="IdCaptureBack"
@@ -51,7 +51,7 @@ CaptureBack.propTypes = {
 const DocumentPhoto = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('rectangle')}
+    Camera={camera('rectangle', props.styles)}
     ratio={3 / 2}
     rules="PhotoRules"
     onCheck={props.checkDocumentPhoto}

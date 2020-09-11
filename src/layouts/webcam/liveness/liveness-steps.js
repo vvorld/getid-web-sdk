@@ -168,7 +168,9 @@ class LivenessStep extends Component {
   }
 
   startLiveness = () => {
-    this.state.stopFaceSession();
+    if (this.state.stopFaceSession) {
+      this.state.stopFaceSession();
+    }
     const sessionStop = createLivenessSession(this.props.servers,
       this.state.takePhoto,
       (command, next) => {
@@ -243,6 +245,7 @@ class LivenessStep extends Component {
         <Header step={stepName} />
         <Content step="Liveness">
           <Camera
+            width={320}
             ratio={1}
             facingMode="user"
             Overlay={step === 'Ready' ? Overlay : () => <Command {...command} />}

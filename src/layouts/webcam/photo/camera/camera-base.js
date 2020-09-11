@@ -54,13 +54,10 @@ class CameraBase extends Component {
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, facingMode } = variants[i];
         try {
-          return [
-            await navigator.mediaDevices.getUserMedia({
-              audio: false,
-              video: { width, height, facingMode },
-            }),
-            facingMode,
-          ];
+          return await navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: { width, height, facingMode },
+          });
         } catch (e) {
           if (i === (variants.length - 1)) {
             throw e;
@@ -91,7 +88,7 @@ class CameraBase extends Component {
       return;
     }
     try {
-      const [stream, mode] = await this.getStream(1024);
+      const stream = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
@@ -99,14 +96,14 @@ class CameraBase extends Component {
           try {
             const track = stream.getVideoTracks()[0];
             const settings = track.getSettings();
-            console.log(settings);
+            const { facingMode = [] } = track.getCapabilities();
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
             const {
               left, right, top, bottom,
             } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
             this.setState({
-              width, height, left, right, top, bottom, mode,
+              width, height, left, right, top, bottom, mode: facingMode[0] || '',
             });
 
             clearInterval(intervalId);
@@ -132,5 +129,9 @@ CameraBase.propTypes = {
   onReady: PropTypes.func.isRequired,
   facingMode: PropTypes.any.isRequired,
   ratio: PropTypes.number.isRequired,
+  width: PropTypes.number,
+};
+CameraBase.defaultProps = {
+  width: 1024,
 };
 export default CameraBase;

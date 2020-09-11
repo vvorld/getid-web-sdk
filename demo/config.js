@@ -62,7 +62,8 @@ export default {
     {
       servers: [
         // 'ws://74.80.245.17:6088',
-        'wss://ws.getid.dev',
+        'wss://74-80-245-17.liveness.getid.cloud:1088',
+        // 'wss://ws.getid.dev',
         //        'ws://74.80.245.17:2088',
       ],
       component: 'Liveness',

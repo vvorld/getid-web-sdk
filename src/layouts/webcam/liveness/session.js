@@ -10,6 +10,7 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
       const start = new Date();
       // eslint-disable-next-line no-await-in-loop
       const blob = await new Promise((resolve) => takePhoto(resolve, true));
+      // eslint-disable-next-line no-plusplus
       count++;
       if (blob.size) {
         ws.send(blob);

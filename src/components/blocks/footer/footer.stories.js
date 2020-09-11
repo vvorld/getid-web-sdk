@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import Footer from './footer';
+import Footer from './index';
 
 const onClickBack = action('Change action fired');
 const onClickNext = action('Change action fired');

@@ -26,6 +26,10 @@ const CaptureFront = (props) => (
   />
 );
 
+CaptureFront.propTypes = {
+  styles: PropTypes.shape({}).isRequired,
+};
+
 const CaptureBack = (props) => (
   <CameraSteps
     {...props}
@@ -41,6 +45,7 @@ const CaptureBack = (props) => (
 
 CaptureBack.propTypes = {
   checkDocumentPhoto: PropTypes.func.isRequired,
+  styles: PropTypes.shape({}).isRequired,
 };
 
 const DocumentPhoto = (props) => (
@@ -71,6 +76,10 @@ const Selfie = (props) => (
     facingMode="user"
   />
 );
+Selfie.propTypes = {
+  checkSelfiePhoto: PropTypes.func.isRequired,
+  styles: PropTypes.shape({}).isRequired,
+};
 
 export {
   Selfie, CaptureBack, CaptureFront, DocumentPhoto,

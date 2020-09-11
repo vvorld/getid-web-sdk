@@ -47,7 +47,7 @@ const Guide = ({ name, styles }) => {
 };
 
 Guide.propTypes = {
-  src: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   styles: PropTypes.shape({
     'accent-color': PropTypes.string,
   }).isRequired,

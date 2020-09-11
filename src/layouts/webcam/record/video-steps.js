@@ -8,7 +8,6 @@ import Preview from './preview';
 import { CameraDisabledErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
-import recordingDesktop from '~/assets/animations/photo/recording.svg';
 
 class RecordView extends React.Component {
   constructor(props) {
@@ -151,6 +150,7 @@ RecordView.propTypes = {
   direction: PropTypes.string,
   blob: PropTypes.any,
   server: PropTypes.string,
+  styles: PropTypes.shape({}).isRequired,
 };
 
 RecordView.defaultProps = {

@@ -7,10 +7,10 @@ import overlay from './overlay';
 
 const guide = (name, styles) => () => <Guide name={name} styles={styles} />;
 
-const camera = (figure) => (props) => (
+const camera = (figure, styles) => (props) => (
   <Camera
     {...props}
-    Overlay={overlay(figure)}
+    Overlay={overlay(figure, 'error', styles)}
   />
 );
 
@@ -67,7 +67,7 @@ DocumentPhoto.propTypes = {
 const Selfie = (props) => (
   <CameraSteps
     {...props}
-    Camera={camera('ellips')}
+    Camera={camera('ellips', props.styles)}
     ratio={3 / 4}
     componentName="IdSelfie"
     onCheck={props.checkSelfiePhoto}

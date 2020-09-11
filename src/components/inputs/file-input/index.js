@@ -3,6 +3,22 @@ import PropTypes from 'prop-types';
 import './file-input.css';
 import TranslationsContext from '~/context/TranslationsContext';
 
+const checkRealMimeType = (headerString) => {
+  if (headerString === '89504e47') {
+    return [true, 'image/png'];
+  }
+
+  if (headerString.includes('ffd8ff')) {
+    return [true, 'image/jpeg'];
+  }
+
+  if (headerString === '25504446') {
+    return [true, 'application/pdf'];
+  }
+
+  return [null, 'unknown'];
+};
+
 const FileInput = (props) => {
   const {
     onChange, label, value, name, required, placeholder,
@@ -18,6 +34,21 @@ const FileInput = (props) => {
       setValue(null);
       return;
     }
+
+    const fr = new window.FileReader();
+    fr.onloadend = (e) => {
+      const arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+      let header = '';
+      arr.forEach((item, index) => {
+        header += arr[index].toString(16);
+      });
+      const [isMimeType] = checkRealMimeType(header);
+      if (!isMimeType) {
+        setValue(null);
+        setError('We support only JPG, PNG and PDF formats');
+      }
+    };
+    fr.readAsArrayBuffer(file);
     setError(null);
   };
 
@@ -36,7 +67,7 @@ const FileInput = (props) => {
           onChange={(e) => {
             const file = [...e.target.files][0];
             setValue(file);
-            validate(file);
+            validate(file, e);
           }}
           name={name}
           type="file"

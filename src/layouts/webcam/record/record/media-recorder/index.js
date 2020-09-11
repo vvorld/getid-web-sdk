@@ -23,7 +23,9 @@ class MediaStreamRecorder {
   }
 
   stopRecord = async () => {
-    this.mediaRecorder.stop();
+    if (this.mediaRecorder.state === 'active') {
+      this.mediaRecorder.stop();
+    }
   }
 
   getRecord = async () => new Blob(this.chunks, { type: 'video/webm;codecs="vp9"' })

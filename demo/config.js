@@ -55,7 +55,7 @@ export default {
     },
     {
       component: 'Record',
-      //      server: 'https://mc.getid.ee',
+      // server: 'https://mc.getid.ee',
       server: 'https://mc2.getid.dev',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },

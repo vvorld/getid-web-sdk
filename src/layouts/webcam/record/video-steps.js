@@ -21,6 +21,12 @@ class RecordView extends React.Component {
     this.createComponents();
   }
 
+  componentWillUnmount() {
+    if (this.state.stopRecord) {
+      this.state.stopRecord();
+    }
+  }
+
   createComponents = () => {
     const { props } = this;
     const { Camera, CameraFooter, CameraHeader } = createRecordCamera({
@@ -126,9 +132,11 @@ class RecordView extends React.Component {
           <div style={display('guide')}>
             <Guide name="recordingDesktop" styles={this.props.styles} />
           </div>
+          {step !== 'preview' && (
           <div className="getid-camera_content" style={display('record')}>
             <Camera active visible={step === 'record'} step={stepName} />
           </div>
+          )}
           <div style={display('preview')}>
             <Preview
               onLoad={(b) => this.setState({ blob: b, loadRecord: null })}

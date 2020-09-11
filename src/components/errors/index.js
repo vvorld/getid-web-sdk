@@ -84,10 +84,14 @@ export const ErrorView = createErrorView({
   },
 });
 
-export const CameraErrorView = createErrorView({
-  header: (dictionary) => dictionary.camera_error_header,
-  subHeader: (dictionary) => dictionary.camera_error_subHeader,
+export const BrowserNotSupportedErrorView = createErrorView({
+  header: (dictionary) => dictionary.browser_error_header,
+  subHeader: (dictionary) => dictionary.browser_error_subHeader,
   children: (dictionary) => <Browsers dictionary={dictionary} />,
+});
+export const NoCameraError = createErrorView({
+  header: (dictionary) => dictionary.no_camera_error_header,
+  subHeader: (dictionary) => dictionary.no_camera_error_subHeader,
 });
 
 export const HttpErrorView = createErrorView({
@@ -136,5 +140,6 @@ export const CameraDisabledErrorView = createErrorView({
 FailError.props = errorProps;
 AppExistsView.props = errorProps;
 ErrorView.props = errorProps;
-CameraErrorView.props = errorProps;
+BrowserNotSupportedErrorView.props = errorProps;
 CameraDisabledErrorView.props = errorProps;
+NoCameraError.props = errorProps;

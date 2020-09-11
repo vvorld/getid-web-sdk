@@ -10,7 +10,9 @@ import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
 
 import {
-  CameraErrorView, ErrorView, AppExistsView, HttpErrorView,
+  BrowserNotSupportedErrorView,
+  NoCameraError,
+  ErrorView, AppExistsView, HttpErrorView,
   ApiVersionErrorView,
 } from './components/errors';
 
@@ -25,11 +27,16 @@ import cameraViews from './constants/camera-views';
 
 const cameraAchievable = (options) => {
   const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
-  const isIOSChrome = navigator.userAgent.match('CriOS');
   if (!isCameraComponent) {
     return true;
   }
+  const isIOSChrome = navigator.userAgent.match('CriOS');
   return ((navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
+};
+
+const cameraExist = async () => {
+  const divices = await navigator.mediaDevices.enumerateDevices();
+  return !!(divices && divices.find((x) => x.kind === 'videoinput'));
 };
 
 /**
@@ -79,19 +86,9 @@ const init = (originOptions, tokenProvider) => {
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
 
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    if (window.location.protocol !== 'https:' && !isLocalhost) {
-      renderComponent({
-        ...options,
-        translations,
-      },
-        <HttpErrorView />);
-      return;
-    }
-
-    if (!cameraAchievable(options)) {
+    const renderError = (code, Error) => {
       if (options.onFail && typeof options.onFail === 'function') {
-        const error = new Error('mediaDevices_no_supported');
+        const error = new Error(code);
         options.onFail(error);
         return;
       }
@@ -99,25 +96,31 @@ const init = (originOptions, tokenProvider) => {
         ...options,
         translations,
       },
-        <CameraErrorView />);
+        <Error />);
+    };
+
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (window.location.protocol !== 'https:' && !isLocalhost) {
+      renderError('schema_missmatch', HttpErrorView);
+      return;
+    }
+
+    if (!cameraAchievable(options)) {
+      renderError('mediaDevices_no_supported', BrowserNotSupportedErrorView);
+      return;
+    }
+    if (!cameraExist(options)) {
+      renderError('no_camera', NoCameraError);
       return;
     }
 
     if (responseCode !== 200 && errorMessage) {
-      renderComponent({
-        ...options,
-        translations,
-      },
-        <ErrorView callbacks={{ onFail: options.onFail }} />);
+      renderError(errorMessage, ErrorView);
       return;
     }
 
     if (responseCode !== 200 || exists) {
-      renderComponent({
-        ...options,
-        translations,
-      },
-        <AppExistsView callbacks={{ onExists: options.onExists }} />);
+      renderError('app_exist', () => <AppExistsView callbacks={{ onExists: options.onExists }} />);
       return;
     }
 
@@ -143,11 +146,7 @@ const init = (originOptions, tokenProvider) => {
 
     ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
       if (!isSupportedApiVersion) {
-        renderComponent({
-          ...options,
-          translations,
-        },
-          <ApiVersionErrorView callbacks={{ onExists: options.onExists }} />);
+        renderError('api_version_missmatch', () => <ApiVersionErrorView />);
         return;
       }
       renderMainComponent({

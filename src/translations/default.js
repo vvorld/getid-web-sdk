@@ -192,13 +192,17 @@ export default {
   apiVersion_error_header: 'Your sdk version not compatible with current api version',
   apiVersion_error_subHeader: 'Please update your sdk version',
 
-  camera_error_header: 'Camera is not supported',
-  camera_error_next: 'Try again',
-  camera_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
+  browser_error_header: 'Browser is not supported',
+  browser_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
   camera_error_not_found: 'No available devices were found',
   camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
   camera_error_generic: 'To make a photo you need to give access for webcam',
   camera_error_another_browser: 'Use another browser',
+  camera_error_next: 'Try again',
+  camera_error_header: 'Camera is not supported',
+
+  no_camera_error_header: 'Your device has no camera',
+  no_camera_error_subHeader: 'Please use device with camera',
 
   error_subHeader: 'Please contact your provider for further information.',
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',

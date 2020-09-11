@@ -75,6 +75,12 @@ class CameraBase extends Component {
     const height = { min: 480, ideal: maxWidth };
     const exact = this.props.facingMode;
     const isSupportedQuadro = supportedQuadro();
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    for (const d of devices) {
+      console.log(d);
+    }
+    const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
+    console.log(supportedConstraints);
     const variants = [
       isSupportedQuadro ? { exact, width, height } : null,
       { exact, width },
@@ -101,6 +107,7 @@ class CameraBase extends Component {
           try {
             const track = stream.getVideoTracks()[0];
             const settings = track.getSettings();
+            console.log(settings);
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
             const {

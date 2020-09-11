@@ -52,14 +52,14 @@ class CameraBase extends Component {
   getStream = async (maxWidth) => {
     const createStream = async (variants) => {
       for (let i = 0; i < variants.length; i += 1) {
-        const { width, height, exact } = variants[i];
+        const { width, height, facingMode } = variants[i];
         try {
           return [
             await navigator.mediaDevices.getUserMedia({
               audio: false,
-              video: { width, height, facingMode: exact && { exact } },
+              video: { width, height, facingMode },
             }),
-            exact,
+            facingMode,
           ];
         } catch (e) {
           if (i === (variants.length - 1)) {
@@ -71,21 +71,13 @@ class CameraBase extends Component {
       throw new Error('Video does not supported');
     };
 
-    const width = { min: 640, ideal: maxWidth };
-    const height = { min: 480, ideal: maxWidth };
-    const exact = this.props.facingMode;
+    const width = maxWidth;
+    const height = maxWidth;
+    const { facingMode } = this.props;
     const isSupportedQuadro = supportedQuadro();
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    for (const d of devices) {
-      console.log(d);
-    }
-    const supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
-    console.log(supportedConstraints);
     const variants = [
-      isSupportedQuadro ? { exact, width, height } : null,
-      { exact, width },
-      (isSupportedQuadro && exact !== 'user') ? { exact: 'user', width, height } : null,
-      exact !== 'user' ? { exact: 'user', width } : null,
+      isSupportedQuadro ? { facingMode, width, height } : null,
+      { facingMode, width },
       isSupportedQuadro ? { width, height } : null,
       { width },
       {},

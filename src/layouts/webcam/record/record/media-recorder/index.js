@@ -7,11 +7,19 @@ class MediaStreamRecorder {
       if (!MediaRecorder || !MediaRecorder.isTypeSupported) {
         throw new Error('MediaRecorder is not supported');
       }
-      if (!MediaRecorder.isTypeSupported('video/webm;codecs="vp9"')) {
-        throw new Error('MediaRecorder is not supported video/webm');
+      if (MediaRecorder.isTypeSupported('video/webm;codecs="vp9"')) {
+        this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs="vp9"' });
+        return;
       }
-
-      this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs="vp9"' });
+      if (MediaRecorder.isTypeSupported('video/webm;codecs="vp8"')) {
+        this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs="vp8"' });
+        return;
+      }
+      if (MediaRecorder.isTypeSupported('video/webm')) {
+        this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        return;
+      }
+      throw new Error('MediaRecorder is not supported video/webm');
     }
 
   startRecord = async () => {
@@ -23,7 +31,9 @@ class MediaStreamRecorder {
   }
 
   stopRecord = async () => {
-    this.mediaRecorder.stop();
+    if (this.mediaRecorder.state === 'active') {
+      this.mediaRecorder.stop();
+    }
   }
 
   getRecord = async () => new Blob(this.chunks, { type: 'video/webm;codecs="vp9"' })

@@ -45,7 +45,6 @@
     box-shadow: 0px 0.5px 0px rgba(120, 97, 162, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 8px;
-
     font-weight: bold;
     margin-top: 11px;
     min-height: 3.3em;
@@ -53,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 
@@ -110,4 +109,5 @@
 
 #getid-main .phrases__title{
     font-size: 0.8em;
+    margin-bottom: 10px;
 }

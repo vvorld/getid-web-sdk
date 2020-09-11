@@ -11,7 +11,7 @@ class WebRTCRecorder {
   }
 
     initInput = async (stream) => {
-      const { localDescription } = await this.session.initSession(3);
+      const { localDescription } = await this.session.initSession(10 * 60);
       const peerConnection = new RTCPeerConnection({ });
 
       await peerConnection.setRemoteDescription(localDescription);

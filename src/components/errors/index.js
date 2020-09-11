@@ -30,7 +30,7 @@ const createErrorView = (config) => (props) => {
         {buttons && (
           <div>
             {Object.entries(buttons).map(([key, button]) => (
-              <div key={key}>
+              <div style={{ margin: '10px auto' }} key={key}>
                 <button className={`getid-button__main getid-${button.className}`} type="button" onClick={button.action(callbacks)}>
                   {button.name(dictionary)}
                 </button>
@@ -84,10 +84,14 @@ export const ErrorView = createErrorView({
   },
 });
 
-export const CameraErrorView = createErrorView({
-  header: (dictionary) => dictionary.camera_error_header,
-  subHeader: (dictionary) => dictionary.camera_error_subHeader,
+export const BrowserNotSupportedErrorView = createErrorView({
+  header: (dictionary) => dictionary.browser_error_header,
+  subHeader: (dictionary) => dictionary.browser_error_subHeader,
   children: (dictionary) => <Browsers dictionary={dictionary} />,
+});
+export const NoCameraError = createErrorView({
+  header: (dictionary) => dictionary.no_camera_error_header,
+  subHeader: (dictionary) => dictionary.no_camera_error_subHeader,
 });
 
 export const HttpErrorView = createErrorView({
@@ -99,15 +103,16 @@ export const FailError = createErrorView({
   header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_header,
   subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_subHeader,
   buttons: {
-    cancel: {
-      name: (dictionary) => dictionary.cancel_button,
-      action: (callbacks) => callbacks.onFail,
-      className: 'grey',
-    },
+
     retry: {
       name: (dictionary) => dictionary.retry_button,
       action: (callbacks) => callbacks.onSubmit,
       className: 'violet',
+    },
+    cancel: {
+      name: (dictionary) => dictionary.cancel_button,
+      action: (callbacks) => callbacks.onFail,
+      className: 'grey',
     },
   },
 });
@@ -136,5 +141,6 @@ export const CameraDisabledErrorView = createErrorView({
 FailError.props = errorProps;
 AppExistsView.props = errorProps;
 ErrorView.props = errorProps;
-CameraErrorView.props = errorProps;
+BrowserNotSupportedErrorView.props = errorProps;
 CameraDisabledErrorView.props = errorProps;
+NoCameraError.props = errorProps;

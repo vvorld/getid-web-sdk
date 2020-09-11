@@ -22,7 +22,7 @@ const post = (url, query, headers) => fetch(url, {
 const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
-export const createApi = (url, jwt) => {
+export const createApi = (url, jwt, metadata = {}) => {
   const submitData = (userData, files) => {
     const form = new FormData();
     form.append('data', JSON.stringify({
@@ -38,7 +38,7 @@ export const createApi = (url, jwt) => {
   const getTranslations = (dictionary) => post(`${url}/sdk/v1/dictionary`, { dictionary });
   const sendErrorToServer = (errorText, stack) => post(`${url}/sdk/v1/log-error`, { error: { errorText, stack } });
   const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt });
-  const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step } })
+  const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step, metadata } })
     .catch(console.log);
 
   const checkSide = async (front, back) => {

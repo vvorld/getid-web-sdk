@@ -15,6 +15,10 @@ class MediaStreamRecorder {
         this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs="vp8"' });
         return;
       }
+      if (MediaRecorder.isTypeSupported('video/webm')) {
+        this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        return;
+      }
       throw new Error('MediaRecorder is not supported video/webm');
     }
 

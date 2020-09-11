@@ -106,8 +106,8 @@ class WebcamView extends React.Component {
                 }
                 this.setState({ checking: true });
                 onCheck(blob, tryNumber)
-                  .then(({ result, code }) => {
-                    if (result) {
+                  .then(({ res, code }) => {
+                    if (res) {
                       finishStep(blob);
                     } else {
                       this.retakeDescription({ code });

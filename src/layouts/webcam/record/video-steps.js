@@ -158,6 +158,7 @@ RecordView.propTypes = {
   direction: PropTypes.string,
   blob: PropTypes.any,
   server: PropTypes.string,
+  styles: PropTypes.shape({}).isRequired,
 };
 
 RecordView.defaultProps = {

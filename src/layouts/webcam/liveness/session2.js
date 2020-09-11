@@ -27,7 +27,7 @@ function createLiveness(servers, takePhoto, onCommand) {
     throw new Error('Liveness server error');
   })();
 
-  const stop = null;
+  let stop = null;
 
   const st = () => stop && stop();
   ws.onopen = () => {

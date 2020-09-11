@@ -224,7 +224,7 @@ class Widget extends Component {
   }
 
   prevStep = () => {
-    const { step, app } = this.state;
+    const { step } = this.state;
     this.setState({
       step: step - 1,
       direction: 'back',
@@ -362,7 +362,6 @@ class Widget extends Component {
 
   render() {
     const { step, app } = this.state;
-    console.log(app.form);
     const { flow } = this;
     const currentComponent = flow[step];
     if (!currentComponent) {
@@ -394,6 +393,7 @@ Widget.propTypes = {
   api: PropTypes.shape({
     trySendEvent: PropTypes.func.isRequired,
     checkSide: PropTypes.func.isRequired,
+    checkSelfie: PropTypes.func.isRequired,
   }).isRequired,
   metadata: PropTypes.shape({}).isRequired,
   styles: PropTypes.shape({}),

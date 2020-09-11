@@ -57,7 +57,9 @@ class Form extends Component {
     this.setState({ disabled: this.isDisabled() });
   };
 
-  isDisabled = () => Object.values(this.form).some((el) => (el.invalid ? el.invalid : (!el.value && el.required)))
+  isDisabled = () => Object
+    .values(this.form)
+    .some((el) => (el.invalid ? el.invalid : (!el.value && el.required)))
 
   getExtractedValue = (name) => {
     const { extractedData } = this.props;

@@ -116,6 +116,20 @@ const Command = ({
   );
 };
 
+Command.propTypes = {
+  task: PropTypes.string,
+  messageType: PropTypes.string,
+  warning: PropTypes.string,
+  failure: PropTypes.string,
+};
+
+Command.defaultProps = {
+  task: '',
+  messageType: '',
+  warning: '',
+  failure: '',
+};
+
 class LivenessStep extends Component {
   constructor(props) {
     super(props);
@@ -155,42 +169,43 @@ class LivenessStep extends Component {
 
   startLiveness = () => {
     this.state.stopFaceSession();
-    const sessionStop = createLivenessSession(this.props.servers, this.state.takePhoto, (command, next) => {
-      switch (command.messageType) {
-        case 'failure': {
-          sessionStop();
-          this.setState({
-            command,
-            nextCommand: {
-              translate: 'again',
-              onClick: () => this.readyStep(this.state.takePhoto),
-
-            },
-          });
-          break;
+    const sessionStop = createLivenessSession(this.props.servers,
+      this.state.takePhoto,
+      (command, next) => {
+        switch (command.messageType) {
+          case 'failure': {
+            sessionStop();
+            this.setState({
+              command,
+              nextCommand: {
+                translate: 'again',
+                onClick: () => this.readyStep(this.state.takePhoto),
+              },
+            });
+            break;
+          }
+          case 'success': {
+            sessionStop();
+            this.setState({
+              command,
+              nextCommand: {
+                onClick: () => this.props.finishStep(),
+              },
+            });
+            break;
+          }
+          default: {
+            this.setState({
+              command,
+              nextCommand: {
+                translate: 'undestand',
+                onClick: next,
+              },
+            });
+            break;
+          }
         }
-        case 'success': {
-          sessionStop();
-          this.setState({
-            command,
-            nextCommand: {
-              onClick: () => this.props.finishStep(),
-            },
-          });
-          break;
-        }
-        default: {
-          this.setState({
-            command,
-            nextCommand: {
-              translate: 'undestand',
-              onClick: next,
-            },
-          });
-          break;
-        }
-      }
-    });
+      });
     this.setState({
       step: 'Command',
       nextCommand: undefined,
@@ -259,11 +274,15 @@ class LivenessStep extends Component {
 LivenessStep.propTypes = {
   prevStep: PropTypes.func,
   direction: PropTypes.string,
+  finishStep: PropTypes.func,
+  servers: PropTypes.array,
 };
 
 LivenessStep.defaultProps = {
   prevStep: null,
   direction: '',
+  finishStep: null,
+  servers: [],
 };
 
 export default LivenessStep;

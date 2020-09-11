@@ -4,7 +4,9 @@ import parse from 'html-react-parser';
 import './style.css';
 
 function Checkbox(props) {
-  const { label, onChange, value, required } = props;
+  const {
+    label, onChange, value, required,
+  } = props;
   const [currValue, setValue] = useState(value);
   return (
     <label
@@ -36,11 +38,13 @@ Checkbox.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 Checkbox.defaultProps = {
   label: '',
   value: false,
+  required: false,
   onChange: () => {},
 };
 

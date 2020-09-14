@@ -12,6 +12,8 @@ import {
   Selfie,
   Liveness,
 } from './webcam';
+import Landscape from '~/assets/icons/views/landscape.svg';
+import Translate from '~/components/blocks/translations';
 
 import Rules from './rules';
 
@@ -379,6 +381,17 @@ class Widget extends Component {
 
     return (
       <main id="getid-main" data-role="container">
+        <div className="getid-landscape_message">
+          <img
+            src={Landscape}
+            alt="mobile landscape"
+            data-role="mobile-landscape"
+          />
+          <div className="getid-header__small">
+            <Translate step="mobileCamera" element="landscape" />
+          </div>
+        </div>
+
         <div className="getid-grid__main">
           <CurrentComponent
             finishStep={finishStep}

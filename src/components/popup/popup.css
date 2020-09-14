@@ -6,6 +6,7 @@
     min-height: 100vh;
     top: 0;
 }
+
 .landscape__content{
     display: flex
 }
@@ -19,7 +20,11 @@
     width: 100%;
     height: 100%;
 }
-
+@media (orientation: landscape) {
+    #getid-main .landscape {
+        display: flex;
+    }
+}
 #getid-main .popup {
     display: flex;
     align-items: center;
@@ -32,9 +37,6 @@
         
 }
 @media (orientation: landscape) {
-    #getid-main .landscape {
-        display: flex;
-    }
     #getid-main .popup_contnet{
         display: none;
     }

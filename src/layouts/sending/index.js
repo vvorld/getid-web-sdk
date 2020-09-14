@@ -40,11 +40,12 @@ Sending.propTypes = {
   finishStep: PropTypes.func.isRequired,
   prevStep: PropTypes.func.isRequired,
   send: PropTypes.func,
-  data: PropTypes.shape({}).isRequired,
+  data: PropTypes.shape({}),
 };
 
 Sending.defaultProps = {
   send: null,
+  data: {},
 };
 
 export default Sending;

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './content.css';
 import { node, string, bool } from 'prop-types';
 
-const Content = ({ children, step, disableAnmation }) => {
+const Content = ({ children, step, disableAnimation }) => {
   const [{ visible, step: st }, setVisible] = useState({ visible: false, step });
-  const enableAnimation = (!visible || step !== st) && !disableAnmation;
+  const enableAnimation = (!visible || step !== st) && !disableAnimation;
   if (enableAnimation) {
     setTimeout(() => {
       setVisible({ visible: true, step });
@@ -20,9 +20,9 @@ const Content = ({ children, step, disableAnmation }) => {
 Content.propTypes = {
   children: node.isRequired,
   step: string.isRequired,
-  disableAnmation: bool,
+  disableAnimation: bool,
 };
 Content.defaultProps = {
-  disableAnmation: false,
+  disableAnimation: false,
 };
 export default Content;

@@ -180,7 +180,7 @@ export default (pr) => {
           step="Recording_recording"
           next={nextInfo}
           back={backInfo}
-          disableAnmation={activeLine > 0}
+          disableAnimation={activeLine > 0}
         />
       );
     }

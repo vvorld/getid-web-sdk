@@ -7,7 +7,7 @@ import './button.css';
 import Translate from '../translations';
 
 const Footer = ({
-  next, back, step, disableAnmation,
+  next, back, step, disableAnimation,
 }) => {
   if (!next) {
     next = { onClick: null };
@@ -15,8 +15,8 @@ const Footer = ({
   if (!back) {
     back = { onClick: null };
   }
-  const [{ visible, step: st }, setVisible] = useState({ visible: disableAnmation, step });
-  const enableAnimation = (!visible || step !== st) && !disableAnmation;
+  const [{ visible, step: st }, setVisible] = useState({ visible: disableAnimation, step });
+  const enableAnimation = (!visible || step !== st) && !disableAnimation;
   if (enableAnimation) {
     setTimeout(() => {
       setVisible({ visible: true, step });
@@ -86,7 +86,7 @@ Footer.propTypes = {
   }),
   step: PropTypes.string,
   style: PropTypes.shape({}),
-  disableAnmation: PropTypes.bool,
+  disableAnimation: PropTypes.bool,
 };
 
 Footer.defaultProps = {
@@ -94,7 +94,7 @@ Footer.defaultProps = {
   back: null,
   style: {},
   step: '',
-  disableAnmation: false,
+  disableAnimation: false,
 };
 
 export default Footer;

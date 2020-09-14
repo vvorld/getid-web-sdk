@@ -8,7 +8,7 @@ const StepHeader = ({
 }) => (
   <div style={{ display: 'flex' }}>
     <label style={{ flexGrow: 1, cursor: 'pointer' }}>
-      <input type="checkbox" checked={enable} onClick={() => onChange(!enable)} />
+      <input type="checkbox" checked={enable} onChange={() => onChange(!enable)} />
       {label}
     </label>
     <span style={{ color: 'blue', cursor: 'pointer' }}> [settings]</span>
@@ -50,7 +50,7 @@ const Selfie = ({ enable, onChange }) => {
 const ThankYou = ({ enable, onChange }) => (
   <div className="step">
     <label>
-      <input type="checkbox" checked={enable} onClick={() => onChange(!enable)} />
+      <input type="checkbox" checked={enable} onChange={() => onChange(!enable)} />
       Thank You
     </label>
   </div>

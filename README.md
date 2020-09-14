@@ -445,6 +445,26 @@ Example of using `dictionary` key.
  init(config, token);
 ```
 
+### Translations
+You can also change the text for each element separately.
+Only specified items will be affected. List of all elements keys you can find [`here`](src/translations/default.json).
+
+``` js
+ import { init } from 'getid-web-sdk'
+ const config = {
+   apiUrl: 'YOUR_URL',
+   translations: {
+     Form_header: 'Your form header text',
+   },
+   flow: [ { component: ['Form'] },
+           { component: ['CountryAndDocument'] },
+           { component: ['ThankYou'] } ],
+ }; 
+ 
+ const token = _your_jwt_here_;
+ init(config, token);
+```
+
 ## External libraries
 
 Current software is using external libraries, which are released under MIT license:

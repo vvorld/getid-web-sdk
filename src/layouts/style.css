@@ -223,3 +223,20 @@ main a {
 }
 /*-----------CSS RESET END---------*/
 
+
+#getid-main .landscape_message {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    flex-direction: column;
+    margin: 20px;
+}
+@media (max-height:620px) and (orientation: landscape) {
+    #getid-main .landscape_message {
+        display: flex;
+    }
+    #getid-main .grid__main {
+        display: none;
+    }
+}

@@ -77,7 +77,7 @@ const Command = ({
   }
   return (
     <div className="getid-phrases__container getid-liveness ">
-      <div className="getid-phrases__content">
+      <div className="getid-phrases__content getid-row">
         {messageType === 'taskComplete' && (
         <>
           <span className="getid-success-icon getid-command-icon" />

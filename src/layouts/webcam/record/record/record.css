@@ -54,7 +54,9 @@
     justify-content: center;
     flex-direction: column;
 }
-
+#getid-main .phrases__content.row  {
+    flex-direction: row;
+}
 
 #getid-main .phrases__container.liveness  {
    flex-direction: row-reverse;

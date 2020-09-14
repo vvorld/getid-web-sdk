@@ -54,10 +54,10 @@ class CameraBase extends Component {
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, facingMode } = variants[i];
         try {
-          return await navigator.mediaDevices.getUserMedia({
+          return [await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: { width, height, facingMode },
-          });
+          }), facingMode];
         } catch (e) {
           if (i === (variants.length - 1)) {
             throw e;
@@ -88,7 +88,7 @@ class CameraBase extends Component {
       return;
     }
     try {
-      const stream = await this.getStream(this.props.width || 1024);
+      const [stream, requestMode] = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
@@ -96,14 +96,21 @@ class CameraBase extends Component {
           try {
             const track = stream.getVideoTracks()[0];
             const settings = track.getSettings();
-            const { facingMode = [] } = track.getCapabilities();
+            const getMode = () => {
+              if (track.getCapabilities) {
+                const { facingMode = [] } = track.getCapabilities();
+                return facingMode[0] || '';
+              }
+              return requestMode;
+            };
+
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
             const {
               left, right, top, bottom,
             } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
             this.setState({
-              width, height, left, right, top, bottom, mode: facingMode[0] || '',
+              width, height, left, right, top, bottom, mode: getMode(),
             });
 
             clearInterval(intervalId);

@@ -11,7 +11,6 @@ const createOverlay = (figure, status = 'active', styles) => ({
       return () => null;
     }
     const stroke = (styles && styles['accent-color'] && status === 'active') ? 'var(--main-accent-color)' : `var(--main-${status}-border)`;
-    console.log(styles && styles['accent-color'] && status === 'active', stroke);
 
     const fwidth = right - left;
     const fheight = bottom - top;
@@ -33,9 +32,7 @@ const createOverlay = (figure, status = 'active', styles) => ({
               strokeWidth={`${Math.round(width * 0.01)}px`}
               strokeLinecap="round"
               d={`M ${width / 2}, ${top} a ${fwidth / 2},${fheight / 2} 0 1,0 1,0 z
-              
             `}
-
             />
           </>
         );

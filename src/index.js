@@ -75,13 +75,7 @@ const init = (originOptions, tokenProvider) => {
     } = result;
 
     const { verificationTypes, apiUrl } = options;
-    if (verificationTypes) {
-      if (!options.metadata) {
-        options.metadata = {};
-      }
-      options.metadata.verificationTypes = verificationTypes;
-    }
-    const api = createApi(apiUrl, token, options.metadata);
+    const api = createApi(apiUrl, token, options.metadata, verificationTypes);
     const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };

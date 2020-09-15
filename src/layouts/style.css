@@ -1,4 +1,4 @@
-:root {
+ :root {
     --main-txt-color: #1B3361;
     --main-txt-color-secondary: #999;
     --main-input-bg: #FBFBFB;
@@ -30,7 +30,7 @@
 
 
 
-main, #getid-main {
+ #getid-main main, #getid-main {
     font-family: var(--main-font-family);
     transition: var(--main-transition);
     font-size: var(--main-font-size);
@@ -39,14 +39,14 @@ main, #getid-main {
     margin: 0 auto;
 }
 
-main {
+ #getid-main {
     display: flex;
     min-width: 320px;
     max-width: 500px;
     margin: 0 auto;
 }
 
-main a {
+#getid-main main a {
     color: var(--main-accent-color);
 }
 
@@ -232,7 +232,7 @@ main a {
     flex-direction: column;
     margin: 20px;
 }
-@media (max-height:620px) and (orientation: landscape) {
+@media  (max-height:620px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
     #getid-main .landscape_message {
         display: flex;
     }

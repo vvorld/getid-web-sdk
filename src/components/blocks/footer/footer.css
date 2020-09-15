@@ -1,6 +1,5 @@
 #getid-main .footer {
     display: flex;
-    min-width: 320px;
     max-width: 500px;
     margin: 0 auto;  
     opacity: 0.3; 

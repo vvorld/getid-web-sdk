@@ -109,7 +109,7 @@ class RecordView extends React.Component {
           header: <Header step={stepName} />,
           footer: <Footer
             step={stepName}
-            next={{ onClick: () => this.props.finishStep(blob) }}
+            next={{ onClick: () => this.props.finishStep(blob), disable: !blob }}
             back={{
               onClick: () => {
                 this.createComponents();

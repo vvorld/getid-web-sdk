@@ -19,10 +19,8 @@ import Rules from './rules';
 
 import './style.css';
 
-const transformAppToApiModel = (app, api, metadata) => async () => {
-  const data = {
-    application: { metadata: metadata || {} },
-  };
+const transformAppToApiModel = (app, api) => async () => {
+  const application = {};
   const files = {
     front: app.front,
     back: app.back,
@@ -30,7 +28,7 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
     'selfie-video': app.selfieVideo,
   };
   if (app.form) {
-    data.application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
+    application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
       if (v.value && v.value.type) {
         files[key] = v.value;
         return false;
@@ -38,27 +36,27 @@ const transformAppToApiModel = (app, api, metadata) => async () => {
       return true;
     }).map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
   } else {
-    data.application.fields = [];
+    application.fields = [];
   }
   if (app.front || files.front) {
-    data.application.documents = [{
+    application.documents = [{
       issuingCountry: app.country,
       documentType: app.documentType,
       images: [],
     }];
   } else {
-    data.application.documents = [];
+    application.documents = [];
   }
-  data.application.faces = [];
+  application.faces = [];
   if (app.selfie) {
-    data.application.faces.push({ category: 'selfie', content: [] });
+    application.faces.push({ category: 'selfie', content: [] });
   }
   if (app.selfieVideo) {
-    data.application.faces.push({ category: 'selfie-video', content: [] });
+    application.faces.push({ category: 'selfie-video', content: [] });
   }
 
   await api.trySendEvent('loading', 'started');
-  const result = await api.submitData(data, files);
+  const result = await api.submitData(application, files);
   await api.trySendEvent('loading', 'completed');
   await api.trySendEvent('thank-you', 'completed');
   return result;
@@ -338,7 +336,7 @@ class Widget extends Component {
       case 'Sending': return (app, next) => [
         (props) => (
           <Sending
-            send={transformAppToApiModel(app, this.props.api, this.props.metadata)}
+            send={transformAppToApiModel(app, this.props.api)}
             {...props}
           />
         ),

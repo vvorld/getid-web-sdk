@@ -22,11 +22,13 @@ const post = (url, query, headers) => fetch(url, {
 const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
-export const createApi = (url, jwt, metadata = {}) => {
-  const submitData = (userData, files) => {
+export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
+  const submitData = (application, files) => {
     const form = new FormData();
+
+    const m = { ...metadata, verificationTypes };
     form.append('data', JSON.stringify({
-      userData,
+      userData: { application: { ...application, metadata: m } },
       jwt,
     }));
     Object.entries(files).forEach(([name, blob]) => blob && form.append(name, blob));

@@ -27,7 +27,6 @@ class CountryAndDocument extends React.Component {
     const {
       addCountriesAndDocs, countriesAndDocsList,
     } = this.props;
-
     addCountriesAndDocs(countriesAndDocsList);
     this.setFieldsValues();
   }
@@ -79,9 +78,19 @@ class CountryAndDocument extends React.Component {
     } = this.props;
 
     if (!fieldValues[currentStep] && documentData.length) {
-      documentData.forEach((field) => {
-        addField(field.name, field.value, currentStep, true, 'text');
-      });
+      const countryField = documentData.find((f) => f.name === 'Country');
+      const docTypeField = documentData.find((f) => f.name === 'DocumentType');
+
+      if (countryField && countryField.name && countryField.value) {
+        addField(countryField.name, countryField.value, currentStep, true, 'text');
+
+        if (docTypeField && docTypeField.name && docTypeField.value) {
+          addField(docTypeField.name, docTypeField.value, currentStep, true);
+        } else {
+          this.setFirstDocumentOfTheCountry(countryField.value);
+        }
+      }
+
       return;
     }
 
@@ -95,6 +104,19 @@ class CountryAndDocument extends React.Component {
     const { currentStep, addField } = this.props;
     addField('Country', undefined, currentStep, true);
   };
+
+  handleCountryChange = (event) => {
+    const { currentStep, addField } = this.props;
+    const country = event.target.value;
+    addField('Country', country, currentStep, true, 'text');
+    this.setFirstDocumentOfTheCountry(country);
+  }
+
+  setFirstDocumentOfTheCountry = (country) => {
+    const { currentStep, countriesAndDocsList, addField } = this.props;
+    const { documents } = countriesAndDocsList[country];
+    addField('DocumentType', documents[0].name, currentStep, true, 'text');
+  }
 
   setNewVal = (key) => (event) => {
     const { currentStep } = this.props;
@@ -197,7 +219,7 @@ class CountryAndDocument extends React.Component {
           <Select
             items={mapCountryValues(countriesAndDocs)}
             value={currentCountryValue}
-            onChange={this.setNewVal('Country')}
+            onChange={this.handleCountryChange}
             placeholder={placeholder}
           />
 

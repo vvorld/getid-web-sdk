@@ -68,7 +68,7 @@ class WebcamView extends React.Component {
       result, retakeCode, tryNumber,
     } = this.state;
     const mainButton = document.getElementById('main');
-    if (mainButton) document.getElementById('main').focus();
+    if (mainButton && typeof mainButton.focus === 'function') mainButton.focus();
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {
@@ -185,15 +185,19 @@ WebcamView.propTypes = {
   rules: PropTypes.string.isRequired,
   Camera: PropTypes.func.isRequired,
   Guide: PropTypes.func.isRequired,
-  prevStep: PropTypes.shape({}).isRequired,
-  finishStep: PropTypes.shape({}).isRequired,
+  prevStep: PropTypes.func.isRequired,
+  finishStep: PropTypes.func.isRequired,
   componentName: PropTypes.string.isRequired,
   onCheck: PropTypes.func.isRequired,
   enableCheckPhoto: PropTypes.bool.isRequired,
   facingMode: PropTypes.string.isRequired,
   ratio: PropTypes.number.isRequired,
   direction: PropTypes.string.isRequired,
-  blob: PropTypes.any.isRequired,
+  blob: PropTypes.any,
+};
+
+WebcamView.defaultProps = {
+  blob: null,
 };
 
 export default WebcamView;

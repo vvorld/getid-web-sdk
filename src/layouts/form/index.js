@@ -106,10 +106,10 @@ class Form extends Component {
 Form.propTypes = {
   finishStep: PropTypes.func,
   prevStep: PropTypes.func,
-  additionalData: PropTypes.arrayOf(),
-  fields: PropTypes.arrayOf(),
-  extractedData: PropTypes.arrayOf(),
-  form: PropTypes.arrayOf(),
+  additionalData: PropTypes.array,
+  fields: PropTypes.array,
+  extractedData: PropTypes.array,
+  form: PropTypes.array,
 };
 Form.defaultProps = {
   finishStep: null,

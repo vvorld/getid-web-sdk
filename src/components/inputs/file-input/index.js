@@ -100,7 +100,7 @@ FileInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
 };
@@ -109,7 +109,7 @@ FileInput.defaultProps = {
   required: false,
   name: '',
   label: '',
-  value: '',
+  value: null,
   placeholder: '',
 };
 

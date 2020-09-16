@@ -232,7 +232,7 @@
     flex-direction: column;
     margin: 20px;
 }
-@media  (max-height:620px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
+@media  (max-height:420px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
     #getid-main .landscape_message {
         display: flex;
     }

@@ -89,6 +89,9 @@ class CountryAndDocument extends React.Component {
         } else {
           this.setFirstDocumentOfTheCountry(countryField.value);
         }
+      } else {
+        this.setEmptyCountry();
+        this.setEmptyDocumentType();
       }
 
       return;

@@ -14,16 +14,16 @@ export default {
     { component: ['IdCapture'] },
     { component: ['IdCaptureBack'] },
     { component: ['ThankYou'] }],
-  // documentData: [
-  //   {
-  //     name: 'Country',
-  //     value: 'ee',
-  //   },
-  //   {
-  //     name: 'DocumentType',
-  //     value: 'passport',
-  //   },
-  // ],
+  documentData: [
+    {
+      name: 'Country',
+      value: 'ee',
+    },
+    {
+      name: 'DocumentType',
+      value: 'passport',
+    },
+  ],
   fields: [
     {
       label: 'First Name',

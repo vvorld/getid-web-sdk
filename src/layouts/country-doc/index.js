@@ -24,20 +24,27 @@ const CountryAndDocument = ({
   countryDocuments, country, documentType, finishStep, prevStep,
 }) => {
   const { translations } = useContext(TranslationsContext);
+  const getDocuments = (c) => {
+    const countryInfo = countryDocuments[c];
+    return (countryInfo && countryInfo.documents) || [];
+  };
   const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
   const [currCountry, setValue] = useState(country);
   const [currDocumentType, setDocumentType] = useState(documentType);
-  const countryInfo = countryDocuments[currCountry];
-  const documents = (countryInfo && countryInfo.documents) || [];
   const changeCountry = (countryVal) => {
     setValue(countryVal);
-    setDocumentType('');
+    const documents = getDocuments(countryVal);
+    if (documents.length) {
+      setDocumentType(documents[0].name);
+    }
   };
   const changeDocumentType = (dt) => {
     setDocumentType(dt);
   };
-  const plArr = iterArr.slice(documents.length);
+
+  const documents = getDocuments(currCountry);
+  const plArr = iterArr.slice(getDocuments(currCountry).length);
   return (
     <>
       <Header step="CountryAndDocument" />

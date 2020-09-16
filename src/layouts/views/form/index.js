@@ -11,6 +11,8 @@ import actions from '../../../store/actions';
 import { getFormValues } from '../../../store/selectors';
 import { styles } from './style';
 
+import { checkRealMimeType } from '../../../helpers/generic';
+
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -76,11 +78,28 @@ class Form extends Component {
   handleFiles = async (event) => {
     const eventTarget = event.target;
     const file = [...event.target.files][0];
+
+    const fr = new window.FileReader();
+    fr.onloadend = (e) => {
+      const arr = (new Uint8Array(e.target.result)).subarray(0, 4);
+      let header = '';
+      arr.forEach((item, index) => {
+        header += arr[index].toString(16);
+      });
+      const [isMimeType] = checkRealMimeType(header);
+      if (!isMimeType) {
+        this.changeFileData(eventTarget, null);
+        this.setErrorState(true, eventTarget.name, 'We support only JPG, PNG and PDF formats');
+      }
+    };
+    fr.readAsArrayBuffer(file);
+
     if (file && file.size / 1024 / 1024 > 6) {
       this.changeFileData(eventTarget, null);
       this.setErrorState(true, eventTarget.name, 'File size exceeded (max 6mb)');
       return;
     }
+
     this.changeFileData(eventTarget, file);
     this.setErrorState(false, eventTarget.name, '');
   };

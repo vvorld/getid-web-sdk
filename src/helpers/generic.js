@@ -18,6 +18,22 @@ export const removeFieldDupes = (fields = {}) => {
     );
 };
 
+export const checkRealMimeType = (headerString) => {
+    if (headerString === '89504e47') {
+        return [true, 'image/png'];
+    }
+
+    if (headerString.includes('ffd8ff')) {
+        return [true, 'image/jpeg'];
+    }
+
+    if (headerString === '25504446') {
+        return [true, 'application/pdf'];
+    }
+
+    return [null, 'unknown'];
+}
+
 export const checkContainerId = (options) => {
     const { containerId } = options;
     if (!containerId) {

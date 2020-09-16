@@ -1,18 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 
-const MainModule = (widgetOptions, component) => (
-  <div>
-    <TranslationsContext.Provider
-      value={{ translations: widgetOptions.translations }}
-    >
-      {component}
-    </TranslationsContext.Provider>
-  </div>
-);
+import styles from './layouts/style.css';
+
+export class ShadowView extends React.Component {
+    attachShadow = (host) => {
+      const shadowRoot = host.attachShadow({ mode: 'open' });
+      [].slice.call(host.children).forEach((child) => {
+        shadowRoot.appendChild(child);
+      });
+    }
+
+    render() {
+      const { children } = this.props;
+      return (
+        <div ref={this.attachShadow}>
+          {children}
+        </div>
+      );
+    }
+}
+
+const MainModule = (widgetOptions, component) => {
+  const { HtmlProperties } = widgetOptions;
+
+  const Main = () => (
+    <>
+      <TranslationsContext.Provider
+        value={{ translations: widgetOptions.translations }}
+      >
+        {component}
+      </TranslationsContext.Provider>
+      <style>
+        {styles}
+      </style>
+    </>
+  );
+  if (HtmlProperties && HtmlProperties.isShadowDom) {
+    return (
+      <ShadowView><Main /></ShadowView>
+    );
+  }
+
+  return (
+    <Main />
+  );
+};
 
 /**
  * Renders main widget component
@@ -24,7 +59,6 @@ export const renderMainComponent = (widgetOptions) => {
   if (container.hasChildNodes()) {
     ReactDOM.unmountComponentAtNode(container);
   }
-
   ReactDOM.render(component, container);
 };
 

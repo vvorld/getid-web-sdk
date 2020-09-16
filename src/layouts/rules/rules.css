@@ -7,7 +7,7 @@
     margin-left: 25px;
     text-align: left;
     list-style: none;
-    color: var(--main-txt-color);
+    color: var(--getid-txt-color);
 }
 
 #getid-main .rule-list {

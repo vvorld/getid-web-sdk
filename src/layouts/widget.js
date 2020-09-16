@@ -378,6 +378,7 @@ class Widget extends Component {
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
 
     return (
+        <>
       <main id="getid-main" data-role="container">
         <div className="getid-landscape_message">
           <img
@@ -398,6 +399,9 @@ class Widget extends Component {
           />
         </div>
       </main>
+          {/*<style type="text/css">{styles}</style>*/}
+
+        </>
     );
   }
 }

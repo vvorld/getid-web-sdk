@@ -1,12 +1,12 @@
 #getid-main .header__big {
     text-align: center;
-    color:var(--main-txt-color);
+    color:var(--getid-txt-color);
     margin: 0 auto;
     font-weight: bold;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    font-size: var(--main-header-size);
+    font-size: var(--getid-header-size);
     min-height: 3em;
     max-width: 350px;
 }
@@ -21,9 +21,9 @@
 }
 #getid-main .header__small * {
     line-height: 1.5em;
-    color:var(--main-txt-color);
-    font-weight: var(--main-font-weight);
-    font-size: var(--main-subheader-size);
+    color:var(--getid-txt-color);
+    font-weight: var(--getid-font-weight);
+    font-size: var(--getid-subheader-size);
 }
 
 #getid-main .animation {

@@ -12,10 +12,10 @@
 
 #getid-main .form__input-label {
     font-style: normal;
-    font-weight: var(--main-font-weight-bold);
+    font-weight: var(--getid-font-weight-bold);
     font-size: 12px;
     line-height: 100%;
-    color: var(--main-txt-color);
+    color: var(--getid-txt-color);
     display: flex;
     margin-bottom: 10px;
 }

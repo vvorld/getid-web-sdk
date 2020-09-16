@@ -3,8 +3,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: justify;
-    font-size: var(--main-font-size);
-    color: var(--main-txt-color);
+    font-size: var(--getid-font-size);
+    color: var(--getid-txt-color);
     white-space: nowrap;
 }
 
@@ -22,39 +22,39 @@
 }
 
 #getid-main .file-input__placeholder {
-    color: var(--main-txt-color-secondary);
+    color: var(--getid-txt-color-secondary);
     opacity: 1;
 }
 #getid-main .file-input {
-    font-size: var(--main-font-size);
+    font-size: var(--getid-font-size);
     /*-webkit-user-select: none; !* Chrome/Safari *!*/
     /*-moz-user-select: none; !* Firefox *!*/
     /*-ms-user-select: none; !* IE10+ *!*/
     margin: 0 auto;
-    border-radius: var(--main-border-radius);
-    border: 1px solid var(--main-input-border-color);
-    background: var(--main-input-bg);
-    transition: var(--main-transition);
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
+    transition: var(--getid-transition);
     z-index: 1;
     position: relative;
     overflow: hidden;
     display: flex;
-    width: var(--main-input-width);
+    width: var(--getid-input-width);
     padding: 10px;
     box-sizing: border-box;
     text-overflow: ellipsis;
     align-items: center;
 }
-#getid-main .file-input:hover { border: 1px solid var(--main-input-hover-border); }
+#getid-main .file-input:hover { border: 1px solid var(--getid-input-hover-border); }
 #getid-main .file-input:hover .file-input__icon path {
-    stroke: var(--main-accent-color)!important;
+    stroke: var(--getid-accent-color)!important;
 }
 
 #getid-main .file-input:hover .file-input__icon line {
-    stroke: var(--main-accent-color)!important;
+    stroke: var(--getid-accent-color)!important;
 }
 #getid-main .file-input:focus, .file-input:active {
-    border: 1px solid var(--main-input-active-border);
+    border: 1px solid var(--getid-input-active-border);
     box-shadow: none;
     outline: none;
 }

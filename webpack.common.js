@@ -38,14 +38,19 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: 'style-loader' },
+          {
+            loader: 'to-string-loader',
+          },
           {
             loader: 'css-loader',
             options: {
               modules: false,
+              importLoaders: 1,
             },
           },
-          { loader: 'postcss-loader' },
+          {
+            loader: 'postcss-loader',
+          },
         ],
       },
     ],

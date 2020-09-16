@@ -18,6 +18,7 @@ export default {
       backgroundColor: 'transparent',
       textAlign: 'left',
       lineHeight: '0',
+      minHeight: '0.1876em',
     },
   },
 };

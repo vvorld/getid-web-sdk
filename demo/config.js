@@ -19,10 +19,10 @@ export default {
       name: 'Country',
       value: 'ee',
     },
-    {
-      name: 'DocumentType',
-      value: 'passport',
-    },
+    // {
+    //   name: 'DocumentType',
+    //   value: 'passport',
+    // },
   ],
   fields: [
     {

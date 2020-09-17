@@ -30,7 +30,7 @@
 
 
 #getid-main main, #getid-main {
-    --getid-txt-color: red;
+    --getid-txt-color: #1B3361;
     --getid-txt-color-secondary: #999;
     --getid-input-bg: #FBFBFB;
     --getid-input-active-text: #1B3361;
@@ -168,6 +168,7 @@
 
 #getid-main [type=button], [type=reset], [type=submit], button {
     -webkit-appearance: button;
+    display: inline-block;
 }
 
 #getid-main .doc-type label {
@@ -237,6 +238,7 @@
 /*-----------CSS RESET---------*/
 #getid-main * {
     margin: 0;
+    border-radius: initial;
     padding: 0;
     border: 0;
     line-height: 1;
@@ -251,7 +253,14 @@
     border-collapse: collapse;
     border-spacing: 0;
     background: none;
+    display: initial;
 }
+
+
+#getid-main > button {
+    display: inline-block;
+}
+
 /*-----------CSS RESET END---------*/
 
 

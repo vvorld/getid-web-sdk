@@ -7,12 +7,12 @@ export default {
     externalId: 121212,
   },
   HtmlProperties: {
-    isShadowDom: false,
+    isShadowDom: true,
   },
   styles: {
     // 'txt-color': 'red',
-    'accent-color': 'pink',
-    'font-family': 'Helvetica',
+    '--getid-accent-color': 'pink',
+    '--getid-font-family': 'Helvetica',
   },
   translations: {
     Form_header: 'Is Custom Form Header!',

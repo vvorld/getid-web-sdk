@@ -117,6 +117,7 @@ class Widget extends Component {
     const [flow, app] = normaliseFlow(props.flow);
     app.additionalData = props.additionalData;
     app.extractedData = [];
+
     this.state = {
       step: 0,
       direction: 'forward',
@@ -376,32 +377,35 @@ class Widget extends Component {
     const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
-
+    const test = (ref) => Object.entries(this.props.styles).forEach((st) => {
+      if (!ref) return;
+      ref.style.setProperty(st[0], st[1], 'important');
+    });
     return (
-        <>
-      <main id="getid-main" data-role="container">
-        <div className="getid-landscape_message">
-          <img
-            src={Landscape}
-            alt="mobile landscape"
-            data-role="mobile-landscape"
-          />
-          <div className="getid-header__small">
-            <Translate step="mobileCamera" element="landscape" />
+      <>
+        <main ref={test} id="getid-main" data-role="container">
+          <div className="getid-landscape_message">
+            <img
+              src={Landscape}
+              alt="mobile landscape"
+              data-role="mobile-landscape"
+            />
+            <div className="getid-header__small">
+              <Translate step="mobileCamera" element="landscape" />
+            </div>
           </div>
-        </div>
 
-        <div className="getid-grid__main">
-          <CurrentComponent
-            finishStep={finishStep}
-            prevStep={prevStep}
-            {...componentProps}
-          />
-        </div>
-      </main>
-          {/*<style type="text/css">{styles}</style>*/}
+          <div className="getid-grid__main">
+            <CurrentComponent
+              finishStep={finishStep}
+              prevStep={prevStep}
+              {...componentProps}
+            />
+          </div>
+        </main>
+        {/* <style type="text/css">{styles}</style> */}
 
-        </>
+      </>
     );
   }
 }

@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 
-import styles from './layouts/style.css';
+import style from './layouts/style.css';
 
 export class ShadowView extends React.Component {
-    attachShadow = (host) => {
-      const shadowRoot = host.attachShadow({ mode: 'open' });
-      [].slice.call(host.children).forEach((child) => {
+    attachShadow = (ref) => {
+      if (!ref) return;
+      const shadowRoot = ref.attachShadow({ mode: 'open' });
+      [].slice.call(ref.children).forEach((child) => {
         shadowRoot.appendChild(child);
       });
     }
@@ -28,14 +29,14 @@ const MainModule = (widgetOptions, component) => {
 
   const Main = () => (
     <>
+      <style>
+        {style}
+      </style>
       <TranslationsContext.Provider
         value={{ translations: widgetOptions.translations }}
       >
         {component}
       </TranslationsContext.Provider>
-      <style>
-        {styles}
-      </style>
     </>
   );
   if (HtmlProperties && HtmlProperties.isShadowDom) {

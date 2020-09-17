@@ -37,13 +37,6 @@ export const addDefaultValues = () => (resp) => {
   };
 };
 
-
-export const setCss = (styles) => {
-  Object.entries(styles).forEach((style) => {
-    document.documentElement.style.setProperty(`--getid-${style[0]}`, style[1]);
-  });
-};
-
 const SUPPORTED_API_SCHEMA = '1.2.4'
 export const checkApiVersionSupport = (response) => {
     const { versions } = response;

@@ -1,8 +1,6 @@
 #getid-main .header__big {
     text-align: center;
-    color:var(--getid-txt-color);
     margin: 0 auto;
-    font-weight: bold;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -11,12 +9,16 @@
     max-width: 350px;
 }
 
+#getid-main .header__big * {
+    color:var(--getid-txt-color);
+    font-weight: bold;
+}
+
 #getid-main .header__small {
     margin: auto;
     margin-top: 20px;
     opacity: 0.8;
     text-align: center;
-    /*min-height: 3em;*/
     max-width: 400px;
 }
 #getid-main .header__small * {

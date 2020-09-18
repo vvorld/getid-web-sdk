@@ -10,7 +10,8 @@
     align-items: center;
     z-index: 1;
 }
-#getid-main .timer_dot{
+
+#getid-main .timer_dot {
     background: white;
     border-radius: 50%;
     width: 10px;
@@ -19,7 +20,7 @@
 }
 
 
-#getid-main .phrases__container  {
+#getid-main .phrases__container {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -27,18 +28,16 @@
     bottom: 10px;
     left: 10px;
     right: 10px;
-    
+
 }
 
 
-#getid-main .phrases__content  {
+#getid-main .phrases__content {
     background: #0E1C2C;
     opacity: 0.7;
     display: flex;
     justify-content: center;
     font-size: 18px;
-    line-height: 21px;
-    color: white;
     padding: 20px;
     text-align: center;
     letter-spacing: 0.192941px;
@@ -51,19 +50,23 @@
     line-height: 1.5;
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
 }
-#getid-main .phrases__content.row  {
+
+#getid-main .phrases__content * {
+    color: var(--getid-white);
+}
+
+#getid-main .phrases__content.row {
     flex-direction: row;
 }
 
-#getid-main .phrases__container.liveness  {
-   flex-direction: row-reverse;
+#getid-main .phrases__container.liveness {
+    flex-direction: row-reverse;
     align-items: center;
 }
 
-#getid-main .phrases__container.warning:after  {
+#getid-main .phrases__container.warning:after {
     margin-left: 20px;
     content: url(../../../../assets/icons/success.svg);
 }
@@ -73,43 +76,48 @@
     margin-right: 20px;
 }
 
-#getid-main .smile-icon  {
+#getid-main .smile-icon {
     content: url(../../../../assets/icons/liveness/smile.svg);
 }
-#getid-main .turnLeft-icon  {
+
+#getid-main .turnLeft-icon {
     content: url(../../../../assets/icons/liveness/turn-left.svg);
 }
-#getid-main .tiltLeft-icon  {
+
+#getid-main .tiltLeft-icon {
     content: url(../../../../assets/icons/liveness/turn-left.svg);
 }
-#getid-main .turnRight-icon  {
-    content: url(../../../../assets/icons/liveness/turn-right.svg);
-}
-#getid-main .tiltRight-icon  {
+
+#getid-main .turnRight-icon {
     content: url(../../../../assets/icons/liveness/turn-right.svg);
 }
 
-#getid-main .closeEyes-icon  {
+#getid-main .tiltRight-icon {
+    content: url(../../../../assets/icons/liveness/turn-right.svg);
+}
+
+#getid-main .closeEyes-icon {
     content: url(../../../../assets/icons/liveness/close-eyes.svg);
 }
 
-#getid-main .success-icon  {
+#getid-main .success-icon {
     content: url(../../../../assets/icons/success.svg);
 }
 
-#getid-main .fail-icon  {
-   content: url(../../../../assets/icons/error-icon.svg);
+#getid-main .fail-icon {
+    content: url(../../../../assets/icons/error-icon.svg);
 }
-#getid-main .warning-icon  {
-   content: url(../../../../assets/icons/warning.svg);
+
+#getid-main .warning-icon {
+    content: url(../../../../assets/icons/warning.svg);
 }
 
 
 #getid-main .phrases_begin {
-    transform: scaleY(0); 
+    transform: scaleY(0);
 }
 
-#getid-main .phrases__title{
+#getid-main .phrases__title {
     font-size: 0.8em;
     margin-bottom: 10px;
 }

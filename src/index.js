@@ -18,7 +18,6 @@ import {
 
 import {
   convertAnswer,
-  setCss,
   checkApiVersionSupport,
   sortCountryDocuments,
 } from './helpers/generic';
@@ -46,10 +45,6 @@ const init = (originOptions, tokenProvider) => {
   const options = { ...originOptions };
   if (!options.containerId) {
     throw new Error('Please provide container id.');
-  }
-
-  if (options.styles) {
-    setCss(options.styles);
   }
 
   const getToken = (typeof tokenProvider === 'object')

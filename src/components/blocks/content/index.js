@@ -19,10 +19,11 @@ const Content = ({ children, step, disableAnimation }) => {
 
 Content.propTypes = {
   children: node.isRequired,
-  step: string.isRequired,
+  step: string,
   disableAnimation: bool,
 };
 Content.defaultProps = {
   disableAnimation: false,
+  step: '',
 };
 export default Content;

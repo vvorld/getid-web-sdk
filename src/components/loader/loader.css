@@ -23,8 +23,8 @@
 }
 
 #getid-main .spinner.spinner3{
-     border-top: 3px solid var(--main-accent-color);
-     border-right: 5px solid var(--main-accent-color);
+     border-top: 3px solid var(--getid-accent-color);
+     border-right: 5px solid var(--getid-accent-color);
      border-radius: 50%;
      animation: rotation .8s linear infinite;
  }

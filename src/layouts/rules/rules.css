@@ -2,12 +2,13 @@
     padding: 8% 10%;
     border: solid 1px #D5D5D5;
     border-radius: 15px;
+    display: block;
 }
 #getid-main .rule-list {
     margin-left: 25px;
     text-align: left;
     list-style: none;
-    color: var(--main-txt-color);
+    color: var(--getid-txt-color);
 }
 
 #getid-main .rule-list {

@@ -1,45 +1,77 @@
- :root {
-    --main-txt-color: #1B3361;
-    --main-txt-color-secondary: #999;
-    --main-input-bg: #FBFBFB;
-    --main-input-active-text: #1B3361;
-    --main-dark-blue-text: #0E2846;
-    --main-accent-color: #9C77E0;
-    --main-input-border-color: #eee;
-    --main-input-hover-border: #CED3DD;
-    --main-input-active-border: #9C77E0;
-    --main-white: #FFFFFF;
-    --main-error-color: red;
+/*blocks*/
+@import '../components/blocks/footer/footer.css';
+@import '../components/blocks/header/style.css';
+@import '../components/blocks/footer/button.css';
+@import '../components/blocks/content/content.css';
+@import '../components/guide/guide.css';
+
+@import '../components/loader/loader.css';
+@import '../components/popup/popup.css';
+
+/*inputs*/
+@import '../components/inputs/checkbox/style.css';
+@import '../components/inputs/date-input/style.css';
+@import '../components/inputs/file-input/file-input.css';
+@import '../components/inputs/radio-button/style.css';
+
+
+/*views*/
+@import '../layouts/form/form.css';
+@import '../layouts/rules/rules.css';
+@import '../layouts/rules/rules.css';
+
+/*camera*/
+@import '../layouts/webcam/photo/camera/camera.css';
+@import '../layouts/webcam/photo/photo-preview/preview.css';
+@import '../layouts/webcam/photo/retake-description/retake.css';
+
+@import '../layouts/webcam/record/record/record.css';
+@import '../layouts/webcam/record/record/record.css';
+
+
+#getid-main main, #getid-main {
+    --getid-txt-color: #1B3361;
+    --getid-txt-color-secondary: #999;
+    --getid-input-bg: #FBFBFB;
+    --getid-input-active-text: #1B3361;
+    --getid-dark-blue-text: #0E2846;
+    --getid-accent-color: #9C77E0;
+    --getid-input-border-color: #eee;
+    --getid-input-hover-border: #CED3DD;
+    --getid-input-active-border: #9C77E0;
+    --getid-white: #FFFFFF;
+    --getid-error-color: red;
     
-    --main-error-border: #F05A7E;
-    --main-success-border: #47DAAE;
-    --main-active-border: #9C77E0;
+
+    --getid-error-border: #F05A7E;
+    --getid-success-border:#47DAAE;
+    --getid-active-border: #9C77E0;
     
-    --button-grey-bg: #F8F7FA;
-    --main-font-size: 14px;
-    --main-border-radius: 4px;
-    --main-font-weight: 400;
-    --main-font-weight-bold: 700;
-    --main-input-width: 100%;
-    --main-transition: all .3s;
-    --main-font-family: Roboto, Arial, serif;
-    --main-background-color: white;
-    --main-header-size: 24px;
-    --main-subheader-size: 18px;
+    --getid-button-grey-bg: #F8F7FA;
+    --getid-font-size: 14px;
+    --getid-border-radius: 4px;
+    --getid-font-weight: 400;
+    --getid-font-weight-bold: 700;
+    --getid-input-width: 100%;
+    --getid-transition: all .3s;
+    --getid-font-family: Roboto, Arial, serif;
+    --getid-background-color: white;
+    --getid-header-size: 24px;
+    --getid-subheader-size: 18px;
 }
 
 
 
  #getid-main main, #getid-main {
-    font-family: var(--main-font-family);
-    transition: var(--main-transition);
-    font-size: var(--main-font-size);
-    font-weight: var(--main-font-weight);
-    background-color: var(--main-background-color);
+    font-family: var(--getid-font-family);
+    transition: var(--getid-transition);
+    font-size: var(--getid-font-size);
+    font-weight: var(--getid-font-weight);
+    background-color: var(--getid-background-color);
     margin: 0 auto;
 }
 
- #getid-main {
+#getid-main {
     display: flex;
     min-width: 320px;
     max-width: 500px;
@@ -47,7 +79,7 @@
 }
 
 #getid-main main a {
-    color: var(--main-accent-color);
+    color: var(--getid-accent-color);
 }
 
 #getid-main .logo__top{
@@ -68,12 +100,12 @@
 /*-----------FORM---------*/
 
 #getid-main .input-error {
-    border: 1px solid var(--main-error-color)!important;
+    border: 1px solid var(--getid-error-color)!important;
 }
 #getid-main .error__message {
-    color: var(--main-error-color);
+    color: var(--getid-error-color);
     font-size: 11px;
-    font-weight: var(--main-font-weight);
+    font-weight: var(--getid-font-weight);
     display: flex;
     margin-top: 5px;
     flex-direction: row-reverse;
@@ -86,13 +118,13 @@
     margin: 0 auto;
     display: block;
     padding: 12px 12px;
-    border-radius: var(--main-border-radius);
-    border: 1px solid var(--main-input-border-color);
-    background: var(--main-input-bg);
-    color: var(--main-txt-color);
-    width: var(--main-input-width);
-    font-size: var(--main-font-size);
-    transition: var(--main-transition);
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
+    color: var(--getid-txt-color);
+    width: var(--getid-input-width);
+    font-size: var(--getid-font-size);
+    transition: var(--getid-transition);
     z-index: 1;
     box-sizing: border-box;
 }
@@ -105,48 +137,49 @@
     background-repeat: no-repeat;
     background-position: calc(100% - 15px) 16px;
     background-size: 10px;
-    font-size: var(--main-font-size);
-    color: var(--main-txt-color);
+    font-size: var(--getid-font-size);
+    color: var(--getid-txt-color);
 }
 
 #getid-main input:hover, #getid-main select:hover {
-    border: 1px solid var(--main-input-hover-border);
+    border: 1px solid var(--getid-input-hover-border);
 }
 
 #getid-main input:focus,
 #getid-main select:focus,
 #getid-main input:active,
 #getid-main button:active {
-    border: 1px solid var(--main-input-active-border);
+    border: 1px solid var(--getid-input-active-border);
     box-shadow: none;
     outline: none;
 }
 
 #getid-main ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--main-txt-color-secondary);
+    color: var(--getid-txt-color-secondary);
     opacity: 1; /* Firefox */
 }
 
 #getid-main :-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: var(--main-txt-color-secondary);
+    color: var(--getid-txt-color-secondary);
 }
 
 #getid-main ::-ms-input-placeholder { /* Microsoft Edge */
-    color: var(--main-txt-color-secondary);
+    color: var(--getid-txt-color-secondary);
 }
 
 #getid-main [type=button], [type=reset], [type=submit], button {
     -webkit-appearance: button;
+    display: inline-block;
 }
 
 #getid-main .doc-type label {
     margin: 0 auto;
     display: grid;
-    border-radius: var(--main-border-radius);
-    border: 1px solid var(--main-input-border-color);
-    background: var(--main-input-bg);
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
     width: 100%;
-    transition: var(--main-transition);
+    transition: var(--getid-transition);
     z-index: 1;
     grid-auto-flow: column;
     grid-template-columns: auto 1fr;
@@ -160,7 +193,7 @@
 }
 
 #getid-main .doc-type label + input[type=checkbox]:checked {
-    border: 1px solid var(--main-accent-color);
+    border: 1px solid var(--getid-accent-color);
 }
 
 /*-----------FORM END---------*/
@@ -194,7 +227,7 @@
     font-size: 15px;
     line-height: 22px;
     text-align: center;
-    color: var(--main-dark-blue-text);
+    color: var(--getid-dark-blue-text);
     opacity: 0.7;
 }
 #getid-main .browsers__list{
@@ -206,6 +239,7 @@
 /*-----------CSS RESET---------*/
 #getid-main * {
     margin: 0;
+    border-radius: initial;
     padding: 0;
     border: 0;
     line-height: 1;
@@ -220,7 +254,20 @@
     border-collapse: collapse;
     border-spacing: 0;
     background: none;
+    display: initial;
 }
+
+
+#getid-main button {
+    display: inline-block;
+}
+
+#getid-main li {
+    display: list-item;
+}
+
+
+
 /*-----------CSS RESET END---------*/
 
 

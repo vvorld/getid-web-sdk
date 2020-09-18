@@ -257,9 +257,15 @@
 }
 
 
-#getid-main > button {
+#getid-main button {
     display: inline-block;
 }
+
+#getid-main li {
+    display: list-item;
+}
+
+
 
 /*-----------CSS RESET END---------*/
 

@@ -1,31 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import retargetEvents from 'react-shadow-dom-retarget-events';
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
-
 import style from './layouts/style.css';
-
-export class ShadowView extends React.Component {
-    attachShadow = (ref) => {
-      if (!ref) return;
-      const shadowRoot = ref.attachShadow({ mode: 'open' });
-      [].slice.call(ref.children).forEach((child) => {
-        shadowRoot.appendChild(child);
-      });
-    }
-
-    render() {
-      const { children } = this.props;
-      return (
-        <div ref={this.attachShadow}>
-          {children}
-        </div>
-      );
-    }
-}
 
 const MainModule = (widgetOptions, component) => {
   const { HtmlProperties } = widgetOptions;
+
+  const attachShadow = (ref) => {
+    if (!ref) return;
+    const shadowRoot = ref.attachShadow({ mode: 'open' });
+    retargetEvents(shadowRoot);
+    [].slice.call(ref.children).forEach((child) => {
+      shadowRoot.appendChild(child);
+    });
+  };
 
   const Main = () => (
     <>
@@ -41,7 +31,7 @@ const MainModule = (widgetOptions, component) => {
   );
   if (HtmlProperties && HtmlProperties.isShadowDom) {
     return (
-      <ShadowView><Main /></ShadowView>
+      <div ref={attachShadow}><Main /></div>
     );
   }
 

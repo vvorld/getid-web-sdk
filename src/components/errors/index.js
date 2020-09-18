@@ -137,6 +137,17 @@ export const CameraDisabledErrorView = createErrorView({
     },
   },
 });
+export const ServerErrorView = createErrorView({
+  header: (dictionary) => dictionary.server_error_header,
+  subHeader: (dictionary) => dictionary.server_error_subheader,
+  buttons: {
+    retry: {
+      name: (dictionary) => dictionary.retry_button,
+      action: (callbacks) => callbacks.onRetry,
+      className: 'violet',
+    },
+  },
+});
 
 FailError.props = errorProps;
 AppExistsView.props = errorProps;

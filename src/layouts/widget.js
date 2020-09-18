@@ -314,10 +314,10 @@ class Widget extends Component {
       case 'Record': return (app, next) => [
         (props) => (
           <Record
-            server={this.props.webRtcServerUrl}
             direction={this.state.direction}
             blob={app.selfieVideo}
             styles={this.props.styles}
+            {...this.props.sdkPermissions.record || {}}
             {...props}
           />
         ),
@@ -328,6 +328,7 @@ class Widget extends Component {
           <Liveness
             styles={this.props.styles}
             direction={this.state.direction}
+            {...this.props.sdkPermissions.liveness || {}}
             {...props}
           />
         ),
@@ -415,14 +416,13 @@ Widget.propTypes = {
   styles: PropTypes.shape({}),
   flow: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
-  webRtcServerUrl: PropTypes.string,
+  sdkPermissions: PropTypes.shape({}).isRequired,
 };
 Widget.defaultProps = {
   onBack: null,
   styles: {},
   onComplete: null,
   additionalData: [],
-  webRtcServerUrl: '',
 };
 
 export default Widget;

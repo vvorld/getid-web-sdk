@@ -13,10 +13,10 @@ import CombineRecorder from './recorder';
 export default (pr) => {
   let recording = false;
   const {
-    back, phrases, server, onError, onReady,
+    back, phrases, fallbackServers, onError, onReady,
   } = pr;
 
-  const recorder = new CombineRecorder(server);
+  const recorder = new CombineRecorder(fallbackServers);
   const rerenders = [];
 
   const change = async (rec) => {
@@ -52,6 +52,7 @@ export default (pr) => {
           await recorder.initInput(el);
           onReady(this.stop);
         } catch (e) {
+          console.log(e);
           onError(e);
         }
       }

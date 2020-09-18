@@ -4,38 +4,33 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import { CameraDisabledErrorView } from '~/components/errors';
+import { CameraDisabledErrorView, ServerErrorView } from '~/components/errors';
 
 import Camera from '../photo/camera';
-import createLivenessSession from './session';
-import createLivenessSession2 from './session2';
+import createLivenessSession from './liveness-session';
+import createSelfieSession from './selfie-session';
 import createOverlay from '../photo/overlay';
-
-const mapTasks = {
-  smile: 'Smile',
-  closeEyes: 'Close your eyes',
-  turnRight: 'Turn your head to the right',
-  turnLeft: 'Turn your head to the left',
-  tiltLeft: 'Tilt your head to the left',
-  tiltRight: 'Tilt your head to the right',
-};
-
-const taskText = (task) => mapTasks[task] || task;
+import Translation from '~/components/blocks/translations';
 
 const renderWarning = (warning) => {
   switch (warning.warningType) {
     case 'otherAction': return (
-      <>
-        Expected:
-        {taskText(warning.otherAction.task) }
-        <br />
-        Detected:
-        {taskText(warning.otherAction.detected) }
-      </>
+      <div>
+        <div>
+          <Translation step="LivenessCommand" element="expected" />
+          {': '}
+          <Translation step="LivenessCommand" element={warning.otherAction.task} />
+        </div>
+        <div>
+          <Translation step="LivenessCommand" element="detected" />
+          {': '}
+          <Translation step="LivenessCommand" element={warning.otherAction.detected} />
+        </div>
+      </div>
     );
     case 'sessionError': return (
       <>
-        {warning.sessionError}
+        <Translation step="LivenessError" element={warning.sessionError} />
       </>
     );
     default: return <>{warning.warningType}</>;
@@ -45,26 +40,22 @@ const renderFailure = (failure) => {
   switch (failure.errorType) {
     case 'tooManyWarnings': return (
       <>
-        Fail: Too many warnings
+        <Translation step="LivenessError" element="tooManyWarnings" />
       </>
     );
     case 'faceDetectionError': return (
       <>
-        Fail:
-        {' '}
-        {failure.faceDetectionError}
+        <Translation step="LivenessError" element={failure.faceDetectionError} />
       </>
     );
     case 'sessionError': return (
       <>
-        {failure.sessionError}
+        <Translation step="LivenessError" element={failure.sessionError} />
       </>
     );
     default: return (
       <>
-        Fail:
-        {' '}
-        {failure.errorType}
+        <Translation step="LivenessError" element="faceDetectionError" />
       </>
     );
   }
@@ -81,13 +72,13 @@ const Command = ({
         {messageType === 'taskComplete' && (
         <>
           <span className="getid-success-icon getid-command-icon" />
-          Great!
+          <Translation step="LivenessCommand" element="success" />
         </>
         )}
         {messageType === 'task' && (
         <>
           <span className={`getid-${task}-icon getid-command-icon`} />
-          {taskText(task)}
+          <Translation step="LivenessCommand" element={task} />
         </>
         )}
         {messageType === 'warning' && (
@@ -107,7 +98,7 @@ const Command = ({
         {messageType === 'success' && (
         <>
           <span className="getid-success-icon getid-command-icon" />
-          Good! Thanks
+          <Translation step="LivenessCommand" element="thanks" />
         </>
         )}
 
@@ -141,17 +132,14 @@ class LivenessStep extends Component {
     };
   }
 
-  componentWillUnmount() {
-    if (this.state.stream) {
-      this.state.stream.getTracks().forEach((track) => track.stop());
-    }
-  }
-
-  readyStep = (takePhoto) => {
+  cameraReady = async (takePhoto) => {
     if (this.state.stopLivenessSession) {
       this.state.stopLivenessSession();
     }
-    const stopFaceSession = createLivenessSession2(this.props.servers, takePhoto, (data) => {
+    if (this.state.stopFaceSession) {
+      this.state.stopFaceSession();
+    }
+    const faceResult = (data) => {
       if (data.messageType === 'faceDetectionError') {
         if (this.state.faceIsOk) {
           this.setState({ faceIsOk: false });
@@ -159,66 +147,98 @@ class LivenessStep extends Component {
       } else if (!this.state.faceIsOk) {
         this.setState({ faceIsOk: true });
       }
-    });
+    };
+    await createSelfieSession(
+      this.props.servers,
+      takePhoto,
+      faceResult,
+      this.setServerError,
+      (stopFaceSession) => {
+        this.setState({
+          step: 'Ready',
+          takePhoto,
+          stopFaceSession,
+        });
+      },
+    );
+  }
+
+  readyStep = async () => {
     this.setState({
       step: 'Ready',
-      takePhoto,
-      stopFaceSession,
     });
   }
 
-  startLiveness = () => {
+  setServerError = (error) => {
+    this.setState({ step: 'Error', error });
+  }
+
+  componentWillUnmount() {
     if (this.state.stopFaceSession) {
       this.state.stopFaceSession();
     }
-    const sessionStop = createLivenessSession(this.props.servers,
-      this.state.takePhoto,
-      (command, next) => {
-        switch (command.messageType) {
-          case 'failure': {
-            sessionStop();
-            this.setState({
-              command,
-              nextCommand: {
-                translate: 'again',
-                onClick: () => this.readyStep(this.state.takePhoto),
-              },
-            });
-            break;
-          }
-          case 'success': {
-            sessionStop();
-            this.setState({
-              command,
-              nextCommand: {
-                onClick: () => this.props.finishStep(),
-              },
-            });
-            break;
-          }
-          default: {
-            this.setState({
-              command,
-              nextCommand: {
-                translate: 'undestand',
-                onClick: next,
-              },
-            });
-            break;
-          }
+    if (this.state.stopLivenessSession) {
+      this.state.stopLivenessSession();
+    }
+    if (this.state.stream) {
+      this.state.stream.getTracks().forEach((track) => track.stop());
+    }
+  }
+
+  startLiveness = async () => {
+    if (this.state.stopFaceSession) {
+      this.state.stopFaceSession();
+    }
+    const onCommand = (command, next) => {
+      switch (command.messageType) {
+        case 'failure': {
+          this.setState({
+            command,
+            nextCommand: {
+              translate: 'again',
+              onClick: this.readyStep,
+            },
+          });
+          break;
         }
-      });
-    this.setState({
-      step: 'Command',
-      nextCommand: undefined,
-      command: undefined,
-      stopLivenessSession: sessionStop,
-      stopFaceSession: undefined,
-    });
+        case 'success': {
+          this.setState({
+            command,
+            nextCommand: {
+              onClick: () => this.props.finishStep(),
+            },
+          });
+          break;
+        }
+        default: {
+          this.setState({
+            command,
+            nextCommand: {
+              translate: 'undestand',
+              onClick: next,
+            },
+          });
+          break;
+        }
+      }
+    };
+    await createLivenessSession(
+      this.props.servers,
+      this.state.takePhoto,
+      onCommand,
+      this.setServerError,
+      (sessionStop) => this.setState({
+        step: 'Command',
+        nextCommand: undefined,
+        command: undefined,
+        stopLivenessSession: sessionStop,
+        stopFaceSession: undefined,
+      }),
+    );
   }
 
   cameraError = (error) => {
-    this.setState(() => ({ step: 'Disabled', error }));
+    this.setState(() => ({ step: 'Error', error }));
   }
 
   render() {
@@ -229,17 +249,16 @@ class LivenessStep extends Component {
       error, step, command, faceIsOk, nextCommand,
     } = this.state;
     const stepName = `Liveness${step}`;
-
-    if (step === 'disabled') {
+    if (step === 'Error') {
+      const Error = error.name === 'server_unavailable' ? ServerErrorView : CameraDisabledErrorView;
       return (
-        <CameraDisabledErrorView
+        <Error
           error={error.name}
-          callbacks={{ onRetry: this.startLiveness }}
+          callbacks={{ onRetry: this.readyStep }}
         />
       );
     }
     const Overlay = createOverlay('rectangle', faceIsOk ? 'success' : 'error');
-
     return (
       <>
         <Header step={stepName} />
@@ -249,7 +268,7 @@ class LivenessStep extends Component {
             ratio={1}
             facingMode="user"
             Overlay={step === 'Ready' ? Overlay : () => <Command {...command} />}
-            onReady={this.readyStep}
+            onReady={this.cameraReady}
             onError={this.cameraError}
             active
           />

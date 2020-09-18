@@ -5,7 +5,7 @@ import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
-import { CameraDisabledErrorView } from '~/components/errors';
+import { CameraDisabledErrorView, ServerErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
 
@@ -30,7 +30,7 @@ class RecordView extends React.Component {
   createComponents = () => {
     const { props } = this;
     const { Camera, CameraFooter, CameraHeader } = createRecordCamera({
-      server: props.server,
+      fallbackServers: props.fallbackServers,
       phrases: props.phrases,
       onReady: this.cameraReady,
       onError: this.cameraError,
@@ -80,8 +80,9 @@ class RecordView extends React.Component {
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
+      const Error = error.name === 'webrtc' ? ServerErrorView : CameraDisabledErrorView;
       return (
-        <CameraDisabledErrorView
+        <Error
           error={error.name}
           callbacks={{ onRetry: this.showGuideStep }}
         />
@@ -157,7 +158,7 @@ RecordView.propTypes = {
   phrases: PropTypes.array,
   direction: PropTypes.string,
   blob: PropTypes.any,
-  server: PropTypes.string,
+  servers: PropTypes.array,
   styles: PropTypes.shape({}).isRequired,
 };
 
@@ -166,7 +167,7 @@ RecordView.defaultProps = {
   phrases: [],
   finishStep: null,
   direction: '',
-  server: '',
+  servers: [],
   blob: null,
 };
 

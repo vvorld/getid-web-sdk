@@ -24,18 +24,6 @@ export const convertAnswer = (params = {}) => (resp) => {
   throw Error(resp.errorMessage);
 };
 
-export const addDefaultValues = () => (resp) => {
-  const defaultValues = {
-    showOnfidoLogo: false,
-    tokenIsValid: false,
-    tokenExpiresIn: 3600,
-  };
-
-  return {
-    ...resp,
-    ...defaultValues,
-  };
-};
 
 
 export const setCss = (styles) => {

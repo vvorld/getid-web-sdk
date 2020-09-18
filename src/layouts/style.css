@@ -41,8 +41,9 @@
     --getid-white: #FFFFFF;
     --getid-error-color: red;
     
-    --getid-error-border: red;
-    --getid-success-border: green;
+
+    --getid-error-border: #F05A7E;
+    --getid-success-border:#47DAAE;
     --getid-active-border: #9C77E0;
     
     --getid-button-grey-bg: #F8F7FA;
@@ -291,7 +292,7 @@
     flex-direction: column;
     margin: 20px;
 }
-@media  (max-height:620px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
+@media  (max-height:420px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
     #getid-main .landscape_message {
         display: flex;
     }

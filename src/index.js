@@ -18,7 +18,6 @@ import {
 
 import {
   convertAnswer,
-  addDefaultValues,
   checkApiVersionSupport,
   sortCountryDocuments,
 } from './helpers/generic';
@@ -123,7 +122,7 @@ const init = (originOptions, tokenProvider) => {
     }
     const { onSortDocuments } = options;
     Promise.all([
-      api.getInfo().then(convertAnswer()).then(addDefaultValues()),
+      api.getInfo().then(convertAnswer()),
       api.getCountryAndDocList().then(convertAnswer())
         .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
           ? sortCountryDocuments(countries, onSortDocuments)
@@ -134,10 +133,12 @@ const init = (originOptions, tokenProvider) => {
       }),
 
     ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
+      console.log(info);
       if (!isSupportedApiVersion) {
         renderError('api_version_missmatch', () => <ApiVersionErrorView />);
         return;
       }
+      console.log(info, options);
       renderMainComponent({
         ...info,
         ...options,

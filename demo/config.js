@@ -59,17 +59,9 @@ export default {
     },
     {
       component: 'Record',
-      // server: 'https://mc.getid.ee',
-      server: 'https://mc2.getid.dev',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
     {
-      servers: [
-        // 'ws://74.80.245.17:6088',
-        'wss://74-80-245-17.liveness.getid.cloud:1088',
-        // 'wss://ws.getid.dev',
-        //        'ws://74.80.245.17:2088',
-      ],
       component: 'Liveness',
     },
     {

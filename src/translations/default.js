@@ -147,11 +147,30 @@ export default {
   LivenessReady_back: 'Go back',
 
   LivenessCommand_header: 'Liveness check',
-  LivenessCommand_subHeader: ' ',
+  LivenessCommand_subHeader: 'You will be asked to perform some actions. The face should be always inside the frame.',
   LivenessCommand_next: 'Go next',
   LivenessCommand_again: 'Try again',
   LivenessCommand_undestand: 'OK, i undestand',
   LivenessCommand_back: 'Go back',
+
+  LivenessError_multipleFaces: 'Multiple faces',
+  LivenessError_noFace: 'No face, please try again',
+  LivenessError_timeout: 'Timeout, please try again',
+  LivenessError_slowConnection: 'Slow connection',
+  LivenessError_tooManyFrames: 'Too many frames',
+  LivenessError_faceDetectionError: 'Face is not detected',
+  LivenessError_sessionError: 'Session error, please try again',
+
+  LivenessCommand_smile: 'Smile',
+  LivenessCommand_closeEyes: 'Close your eyes',
+  LivenessCommand_turnRight: 'Turn your head to the right',
+  LivenessCommand_turnLeft: 'Turn your head to the left',
+  LivenessCommand_tiltLeft: 'Tilt your head to the left',
+  LivenessCommand_tiltRight: 'Tilt your head to the right',
+  LivenessCommand_thanks: 'Good! Thanks',
+  LivenessCommand_expected: 'Expected',
+  LivenessCommand_detected: 'Detected',
+  LivenessCommand_success: 'Great!',
 
   // ERROR
   isFail_header: 'Cannot send data',
@@ -203,6 +222,9 @@ export default {
 
   no_camera_error_header: 'Your device has no camera',
   no_camera_error_subHeader: 'Please use device with camera',
+
+  server_error_header: 'Server is unavailable',
+  server_error_subHeader: '',
 
   error_subHeader: 'Please contact your provider for further information.',
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',

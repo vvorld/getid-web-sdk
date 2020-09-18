@@ -2,11 +2,11 @@ import WebRTCRecorder from './webrtc';
 import MediaStreamRecorder from './media-recorder';
 
 class CombineRecorder {
-  constructor(fallbackServer) {
+  constructor(fallbackServers) {
     this.recorder = new MediaStreamRecorder();
     this.sessionActive = false;
     this.stream = null;
-    this.fallbackServer = fallbackServer;
+    this.fallbackServers = fallbackServers;
   }
 
     initInput = async (el) => {
@@ -31,7 +31,7 @@ class CombineRecorder {
         await this.recorder.initInput(stream);
       } catch (e) {
         console.error(e);
-        this.recorder = new WebRTCRecorder(this.fallbackServer);
+        this.recorder = new WebRTCRecorder(this.fallbackServers);
         await this.recorder.initInput(stream);
       }
       this.stream = stream;

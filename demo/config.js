@@ -7,11 +7,12 @@ export default {
     externalId: 121212,
   },
   HtmlProperties: {
-    isShadowDom: true,
+    isShadowDom: false,
   },
   styles: {
     // 'txt-color': 'red',
     '--getid-accent-color': 'pink',
+    '--getid-input-active-border': 'pink',
     '--getid-font-family': 'Helvetica',
   },
   translations: {

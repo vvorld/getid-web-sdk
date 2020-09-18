@@ -1,5 +1,6 @@
 #getid-main .camera__container{
     position: relative;
+    display: block;
     border-radius: 10px;
     overflow: hidden;
     display: block;

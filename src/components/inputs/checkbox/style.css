@@ -5,11 +5,10 @@
     margin: 0;
     font-size: 12px;
     text-align: left;
-    color: var(--getid-dark-blue-text);
-    
 }
 #getid-main .checkbox__label * {
     line-height: 1.5;
+    color: var(--getid-dark-blue-text);
 }
 
 #getid-main input[type="checkbox"] {

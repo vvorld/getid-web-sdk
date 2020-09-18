@@ -10,7 +10,7 @@ const createOverlay = (figure, status = 'active', styles) => ({
     if (figure === 'none') {
       return () => null;
     }
-    const stroke = (styles && styles['accent-color'] && status === 'active') ? 'var(--getid-accent-color)' : `var(--getid-${status}-border)`;
+    const stroke = (styles && styles['--getid-accent-color'] && status === 'active') ? 'var(--getid-accent-color)' : `var(--getid-${status}-border)`;
 
     const fwidth = right - left;
     const fheight = bottom - top;

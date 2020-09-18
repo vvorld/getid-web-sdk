@@ -29,8 +29,8 @@ const Guide = ({ name, styles }) => {
   if (!cache[name]) {
     cache[name] = fetch(mapGuide[name]).then((r) => r.text()).then((text) => {
       let svgText = text;
-      if (styles && styles['accent-color']) {
-        transforms['rgb(156,119,224)'] = styles['accent-color'];
+      if (styles && styles['--getid-accent-color']) {
+        transforms['rgb(156,119,224)'] = styles['--getid-accent-color'];
         svgText = modifySvg(text);
       }
       const blobB = new Blob([svgText], { type: 'image/svg+xml' });
@@ -49,7 +49,7 @@ const Guide = ({ name, styles }) => {
 Guide.propTypes = {
   name: PropTypes.string.isRequired,
   styles: PropTypes.shape({
-    'accent-color': PropTypes.string,
+    '--getid-accent-color': PropTypes.string,
   }).isRequired,
 };
 

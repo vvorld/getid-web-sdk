@@ -3,10 +3,12 @@
     margin: 20px auto 0 auto;
     display: block;
     text-align: center;
-    color: var(--getid-txt-color-secondary);
     text-decoration-line: underline;
     font-size: var(--getid-font-size);
-    
+}
+
+#getid-main .btn__back * {
+    color: var(--getid-txt-color-secondary);
 }
 #getid-main .btn__back:focus, #getid-main .btn__back:active {
     outline: none;
@@ -29,15 +31,18 @@
 
 #getid-main .button__main:disabled {
     opacity: 0.38;
+    color: var(--getid-white);
 }
 
 #getid-main .button__main:active, .button__main:focus {
+    color: var(--getid-white);
     outline: none;
     box-shadow: none;
     border: none;
 }
 
 #getid-main button.button__main {
+    color: var(--getid-white);
     font-weight: var(--getid-font-weight-bold);
     text-transform: uppercase;
     font-size: 12px;
@@ -51,13 +56,15 @@
     height: 42px;
     filter: drop-shadow(0px 5px 8px rgba(14, 51, 123, 0.15));
     background: var(--getid-accent-color);
-    color: var(--getid-white);
-    /*box-shadow: 0 10px 16px #150f3830;*/
     align-self: end;
     padding: 14px 60px;
     border-radius: 8px;
     border: none;
     min-width: 250px;
+}
+
+#getid-main .button__main * {
+    color: var(--getid-white);
 }
 #getid-main button.button__main:hover{
    box-shadow: inset 0px 0px 60px #ffffff40;

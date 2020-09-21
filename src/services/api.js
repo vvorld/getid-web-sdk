@@ -1,3 +1,4 @@
+
 const createHeaders = (headers) => ({
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -27,6 +28,9 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
     const form = new FormData();
 
     const m = { ...metadata, verificationTypes };
+
+    m.clientVersion = process.env.VERSION;
+    m.platform = 'web';
     form.append('data', JSON.stringify({
       userData: { application: { ...application, metadata: m } },
       jwt,

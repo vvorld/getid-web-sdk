@@ -1,7 +1,16 @@
 #getid-main .camera__container{
     position: relative;
-    display: block;
     border-radius: 10px;
     overflow: hidden;
     display: block;
+}
+
+#getid-main .camera__video {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#getid-main .camera__overlay {
+    opacity: 0.7;
 }

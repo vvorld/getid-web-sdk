@@ -35,13 +35,6 @@ class Form extends Component {
       return '';
     };
 
-    this.props.additionalData.forEach((el) => {
-      this.form[el.name] = {
-        value: getFormValue(el),
-        required: (el.required || el.type === 'consent') || false,
-      };
-    });
-
     this.props.fields.forEach((el) => {
       this.form[el.name] = {
         value: getFormValue(el),
@@ -106,7 +99,6 @@ class Form extends Component {
 Form.propTypes = {
   finishStep: PropTypes.func,
   prevStep: PropTypes.func,
-  additionalData: PropTypes.array,
   fields: PropTypes.array,
   extractedData: PropTypes.array,
   form: PropTypes.array,
@@ -115,7 +107,6 @@ Form.defaultProps = {
   finishStep: null,
   prevStep: null,
   form: null,
-  additionalData: [],
   fields: [],
   extractedData: [],
 };

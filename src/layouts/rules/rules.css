@@ -1,12 +1,11 @@
 #getid-main .rule-list_container{
-    padding: 8% 10%;
+    padding: 6% 10%;
     border: solid 1px #D5D5D5;
     border-radius: 15px;
     display: block;
     width: 100%;
 }
 #getid-main .rule-list {
-    margin-left: 25px;
     text-align: left;
     list-style: none;
 }

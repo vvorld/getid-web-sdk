@@ -27,14 +27,19 @@ const transformAppToApiModel = (app, api) => async () => {
     selfie: app.selfie,
     'selfie-video': app.selfieVideo,
   };
-  if (app.form) {
-    application.fields = Object.entries(app.form || {}).filter(([key, v]) => {
+  if (app.form || app.additionalData) {
+    const form = app.form || {};
+
+    const additionalFields = app.additionalData.filter((x) => !form[x.category]);
+
+    const fromFields = Object.entries(app.form || {}).filter(([key, v]) => {
       if (v.value && v.value.type) {
         files[key] = v.value;
         return false;
       }
       return true;
     }).map(([key, v]) => ({ category: key, content: v.value, contentType: v.contentType }));
+    application.fields = [...additionalFields, ...fromFields];
   } else {
     application.fields = [];
   }
@@ -256,7 +261,6 @@ class Widget extends Component {
         (props) => (
           <Form
             form={app.form}
-            additionalData={app.additionalData}
             extractedData={app.extractedData}
             {...props}
           />

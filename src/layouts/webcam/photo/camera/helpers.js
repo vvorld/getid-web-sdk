@@ -1,8 +1,8 @@
 const frameRenderer = (webcam, {
   left, right, top, bottom,
 }) => (callback, reflectionEnable = false) => {
-  const additionalVOffset = top * 0.1;
-  const additionalHOffset = left * 0.1;
+  const additionalVOffset = (bottom - top) * 0.1 > top ? top : (bottom - top) * 0.1;
+  const additionalHOffset = (right - left) * 0.1 > left ? left : (right - left) * 0.1;
 
   const t = top - additionalVOffset;
   const l = left - additionalHOffset;

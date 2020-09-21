@@ -21,6 +21,7 @@ const renderWarning = (warning) => {
           {': '}
           <Translation step="LivenessCommand" element={warning.otherAction.task} />
         </div>
+        <br />
         <div>
           <Translation step="LivenessCommand" element="detected" />
           {': '}
@@ -28,82 +29,68 @@ const renderWarning = (warning) => {
         </div>
       </div>
     );
-    case 'sessionError': return (
-      <>
-        <Translation step="LivenessError" element={warning.sessionError} />
-      </>
-    );
+    case 'sessionError': return <Translation step="LivenessError" element={warning.sessionError} />;
     default: return <>{warning.warningType}</>;
   }
 };
 const renderFailure = (failure) => {
   switch (failure.errorType) {
-    case 'tooManyWarnings': return (
-      <>
-        <Translation step="LivenessError" element="tooManyWarnings" />
-      </>
-    );
-    case 'faceDetectionError': return (
-      <>
-        <Translation step="LivenessError" element={failure.faceDetectionError} />
-      </>
-    );
-    case 'sessionError': return (
-      <>
-        <Translation step="LivenessError" element={failure.sessionError} />
-      </>
-    );
-    default: return (
-      <>
-        <Translation step="LivenessError" element="faceDetectionError" />
-      </>
-    );
+    case 'tooManyWarnings': return <Translation step="LivenessError" element="tooManyWarnings" />;
+    case 'faceDetectionError': return <Translation step="LivenessError" element={failure.faceDetectionError} />;
+    case 'sessionError': return <Translation step="LivenessError" element={failure.sessionError} />;
+    default: return <Translation step="LivenessError" element="faceDetectionError" />;
   }
 };
+const Placeholder = createOverlay('none');
 const Command = ({
-  task, messageType, warning, failure,
+  task, messageType, warning, failure, ...other
 }) => {
+  console.log(other);
   if (!messageType) {
-    return null;
+    return <Placeholder {...other} />;
   }
+
   return (
-    <div className="getid-phrases__container getid-liveness ">
-      <div className="getid-phrases__content getid-row">
-        {messageType === 'taskComplete' && (
-        <>
-          <span className="getid-success-icon getid-command-icon" />
-          <Translation step="LivenessCommand" element="success" />
-        </>
-        )}
-        {messageType === 'task' && (
-        <>
-          <span className={`getid-${task}-icon getid-command-icon`} />
-          <Translation step="LivenessCommand" element={task} />
-        </>
-        )}
-        {messageType === 'warning' && (
-        <>
-          <span className="getid-warning-icon getid-command-icon" />
-          {renderWarning(warning)}
-        </>
-        )}
+    <>
+      <Placeholder {...other} />
+      <div className="getid-phrases__container getid-liveness ">
+        <div className="getid-phrases__content getid-row">
+          {messageType === 'taskComplete' && (
+          <>
+            <span className="getid-success-icon getid-command-icon" />
+            <Translation step="LivenessCommand" element="success" />
+          </>
+          )}
+          {messageType === 'task' && (
+          <>
+            <span className={`getid-${task}-icon getid-command-icon`} />
+            <Translation step="LivenessCommand" element={task} />
+          </>
+          )}
+          {messageType === 'warning' && (
+          <>
+            <span className="getid-warning-icon getid-command-icon" />
+            {renderWarning(warning)}
+          </>
+          )}
 
-        {messageType === 'failure' && (
-        <>
-          <span className="getid-fail-icon getid-command-icon" />
-          {renderFailure(failure)}
-        </>
-        )}
+          {messageType === 'failure' && (
+          <>
+            <span className="getid-fail-icon getid-command-icon" />
+            {renderFailure(failure)}
+          </>
+          )}
 
-        {messageType === 'success' && (
-        <>
-          <span className="getid-success-icon getid-command-icon" />
-          <Translation step="LivenessCommand" element="thanks" />
-        </>
-        )}
+          {messageType === 'success' && (
+          <>
+            <span className="getid-success-icon getid-command-icon" />
+            <Translation step="LivenessCommand" element="thanks" />
+          </>
+          )}
 
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -267,7 +254,7 @@ class LivenessStep extends Component {
             width={320}
             ratio={1}
             facingMode="user"
-            Overlay={step === 'Ready' ? Overlay : () => <Command {...command} />}
+            Overlay={step === 'Ready' ? Overlay : (props) => <Command {...props} {...command} />}
             onReady={this.cameraReady}
             onError={this.cameraError}
             active

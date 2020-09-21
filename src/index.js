@@ -23,6 +23,28 @@ import {
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
+const defaultSortDocuments = (country, documents) => {
+  const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'cn'];
+  const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl'];
+  const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'sk'];
+  const drivingPassportIdCountries = ['lu'];
+  const drivingIdPassportCountries = ['au'];
+
+  const idPassportDrivingDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
+  const passportIdDrivingDocuments = ['passport', 'id-card', 'driving-licence', 'residence-permit'];
+  const idDrivingPassportDocuments = ['id-card', 'driving-licence', 'passport', 'residence-permit'];
+  const drivingPassportIdDocuments = ['driving-licence', 'passport', 'id-card', 'residence-permit'];
+  const drivingIdPassportDocuments = ['driving-licence', 'id-card', 'passport', 'residence-permit'];
+
+  if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
+  if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;
+  if (passportIdDrivingCountries.includes(country)) return passportIdDrivingDocuments;
+  if (idDrivingPassportCountries.includes(country)) return idDrivingPassportDocuments;
+  if (idPassportDrivingCountries.includes(country)) return idPassportDrivingDocuments;
+
+  return documents;
+};
+
 const cameraAchievable = (options) => {
   const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
   if (!isCameraComponent) {
@@ -120,7 +142,7 @@ const init = (originOptions, tokenProvider) => {
             .toLowerCase(),
         } : el));
     }
-    const { onSortDocuments } = options;
+    const { onSortDocuments = defaultSortDocuments } = options;
     Promise.all([
       api.getInfo().then(convertAnswer()),
       api.getCountryAndDocList().then(convertAnswer())

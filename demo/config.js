@@ -1,13 +1,13 @@
 export default {
-  apiUrl: 'http://localhost:3001',
-  apiKey: '1231223',
+  apiUrl: '',
+  apiKey: '',
   containerId: 'getid-component',
   dictionary: 'en',
   metadata: {
     externalId: 121212,
   },
   HtmlProperties: {
-    isShadowDom: false,
+    isShadowDom: true,
   },
   styles: {
     // 'txt-color': 'red',

@@ -155,12 +155,10 @@ const init = (originOptions, tokenProvider) => {
       }),
 
     ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
-      console.log(info);
       if (!isSupportedApiVersion) {
         renderError('api_version_missmatch', () => <ApiVersionErrorView />);
         return;
       }
-      console.log(info, options);
       renderMainComponent({
         ...info,
         ...options,

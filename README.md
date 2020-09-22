@@ -261,15 +261,15 @@ Can be used several times in the config (multi-form)
         - consent: `boolean` (special type in case T&C/MarketingPromotion consent are required)
     
    Example:
-    ``` js
+   
         {
           label: 'Test Field',
           type: 'text',
           name: 'First name',
           required: false,
           validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
-        },
-    ```
+        }
+        
    Each field has multiple config points:
    - label -> input label
    - type -> input type

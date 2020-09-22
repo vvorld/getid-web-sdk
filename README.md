@@ -21,14 +21,14 @@
 *   [External libraries](#external-libraries)
 
 ## Overview
-The SDK provides functionality to upload user personal data to GetID server. 
-Also, this SDK provides a possibility to add a customisable form component 
-for users to enter text information about themselves or/and 
-upload (capture) ids and face photos.
+This SDK provides a configurable widget which will allow your users to capture their personal data 
+and/or face/id documents photos in order to verify their identity.
+
+In order to make it work you will need access to GetID api. Please get in touch with our [integration team](mailto:support@getid.ee?subject=[GitHub]%20Integration%with%20GetID).
+
 
 ## Getting started
 ### Requirements
-- node 12.15.0
 - browsers and features we support: 
             
 | OS | Browser | Version | Photos | 
@@ -54,112 +54,81 @@ upload (capture) ids and face photos.
 | Windows | Firefox | 78 or higher | ✔️ |
     
 ### Obtaining an API key
-In order to start using GetID SDK, you will need an API key and API url.
-In your GetID Dashboard, you can get and set API key and SDK key.
-API key - grants you access to public API calls and SDK API calls.
-SDK key - grants you access to only SDK API calls.
-For security reasons, strongly recommended use "SDK key" in your SDK.
-### Camera usage description
-The SDK uses the camera for capturing photos during verification. 
-The app is responsible for describing the reason for using the camera. 
-For better verification try to hold the document exactly within the frame 
-while capturing photo. Do not place document in inverted alignment or at an 
-angle. Please avoid too dark or bright lightning. 
-In process of capturing selfie be sure that there is no more than one face in a photo.
+In order to start using GetID SDK, you will need an **SDK KEY** and **API URL**.
+Both can be found and modified either through your GetID admin panel or via contacting our 
+[integration support](mailto:support@getid.ee?subject=[GitHub]%20Obtaining%GetID%20credentials).
+
 ## Installation
-- NPM style import
-```sh
-npm install --save getid-web-sdk
-```
-``` js
-// ES6 module import
-import {init} from 'getid-web-sdk'
+
+#### Obtaining JWT
+For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
+time you initialise the SDK. 
+To generate JWT make a post request with sdk key in header on your designated api url:
+
+``` shell script
+$ curl -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/v1/sdk/token
 ```
 
+**Build-in function.**
+
+Instead of making a request directly, you can also use function `createPublicTokenProvider`.
+It will take care of the token request.
+In this scenario, sdk key must be passed to `init` method along with SDK config and API url.
+
 ``` js
-// commonjs style require
-const getId = require('getid-web-sdk')
+const token = window.getidWebSdk.createPublicTokenProvider(apiUrl, sdkKey);
+window.getidWebSdk.init(config, token);
+``` 
+
+**Customer ID (optional)**
+
+In case you don't want your clients to complete verification more than once or for any other identification purposes
+you can pass customerId param when generating jwt token.
+
+``` shell script
+$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/v1/sdk/token
 ```
+
+or 
+``` js
+const token = window.getidWebSdk.createPublicTokenProvider(apiUrl, sdkKey, customerId);
+window.getidWebSdk.init(config, token);
+``` 
+
+**NB!** Token expires 90 minutes after creation. (length of a token's life is a matter of configuration).
+
+#### Including the library
 
 - CDN
-include sdk as regular script tag. (please contact technical support for CDN link)
+
+Include sdk link as regular script tag. 
+The latest stable build can be found in example snippet below.
+
 ``` html
-<script src='getid-web-sdk-vx.x.x.min.js'></script>
+<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v5.0.0.min.js'></script>
 ```
 
-In case you want to automatically keep up with latest version of sdk cdn script, we advice to use our [`launcher.js`](src/launcher.js)
-Just include the script in your html page, it will insert the latest script into the <head> tag of your page.
+In case you want to automatically keep up with the latest version of sdk cdn script, we advise to use our [`launcher.js`](src/launcher.js)
+Just include the script in your html page, it will insert the latest script into the <head> tag of your page. It will handle versioning and sdk script loading and init. 
 Example:
 ``` html
 <script src='launcher.min.js'></script>
 ```
 
-it will handle versioning and sdk script loading and init. 
-Load it the same way you would load with sdk init
-
+In both scenarios load the widget via window object along with sdk config and jwt token.
 ```js
 window.getidWebSdk.init(config, token);
 ```
 
-### Obtaining JWT
-For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
-time you initialise the SDK. 
-To generate JWT make a post request with api key in header on your designated api url:
-Make sure to pass the whole response object on `init` function as `token` param
-
-### Customer Id (optional)
-In case you don't want your clients to complete verification more than once you can pass customerId param when generating jwt token.
-
-``` js
-import { init } from 'getid-web-sdk'
-const config = {_your_config_here_}
-
-const token = post YOUR_SDK_SERVER_BACKEND_URL/sdk/token
-headers: {
-    apiKey: YOUR_API_KEY
-},
-body: {
-    customerId: YOUR_CUSTOMER_ID
-}
-init(config, token);
-```
-In case you are using our launcher script, initialize sdk like you would with simple sdk script
-```js
-window.getidWebSdk.init(config, token);
-```
 --------------
-Also, you can use SDK built-in function `createPublicTokenProvider` that you can import along with `init`.
-In this scenario, apiKey must be passed to `init` method along with SDK config and API url.
-
-``` js
-import { init, createPublicTokenProvider } from 'getid-web-sdk'
-const config = {_your_config_here_}
-const token = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
-init(config, token);
-```
-
-In case you are using our launcher script, 
-`createPublicTokenProvider` will be accessible via `window.getidWebSdk` object.
-```js
-const config = {_your_config_here_}
-const token = window.getidWebSdk.createPublicTokenProvider(config.apiUrl, config.apiKey, customerId)
-window.getidWebSdk.init(config, token);
-```
-
-Our team strongly encourages making a JWT call using server-side code and first option of obtaining a .
-
-
-* Tokens expire 90 minutes after creation. (length of a token's life is a matter of configuration)
 
 ### HTML markup
-In case you are planning to use getId form, place an empty element for the interface to mount itself on:
+Please place an empty div element with a respective id in your html for the component to mount into.
 ``` html
 <div id='getid-component'></div>
 ```
 
-Place the snippet in the bottom of your index file.
-
-## Initializing
+## Initialization
 
 _In order to initialize an SDK instance, simply call:_ 
 ``` js

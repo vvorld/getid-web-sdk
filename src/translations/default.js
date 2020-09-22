@@ -160,6 +160,7 @@ export default {
   LivenessError_tooManyFrames: 'Too many frames',
   LivenessError_faceDetectionError: 'Face is not detected',
   LivenessError_sessionError: 'Session error, please try again',
+  LivenessError_tooManyWarnings: 'Too many warnings, please try again',
 
   LivenessCommand_smile: 'Smile',
   LivenessCommand_closeEyes: 'Close your eyes',

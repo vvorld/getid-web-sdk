@@ -29,7 +29,7 @@
 
 
 #getid-main main, #getid-main {
-    --getid-txt-color: #1B3361;
+    --getid-txt-color: green;
     --getid-txt-color-secondary: #999;
     --getid-input-bg: #FBFBFB;
     --getid-input-active-text: #1B3361;
@@ -40,11 +40,6 @@
     --getid-input-active-border: #9C77E0;
     --getid-white: #FFFFFF;
     --getid-error-color: red;
-    
-
-    --getid-error-border: #F05A7E;
-    --getid-success-border:#47DAAE;
-    --getid-active-border: #9C77E0;
     
     --getid-button-grey-bg: #F8F7FA;
     --getid-font-size: 14px;

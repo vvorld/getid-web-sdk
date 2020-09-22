@@ -53,6 +53,7 @@
 
 #getid-main .phrases__content * {
     color: var(--getid-white);
+    word-break: break-all;
 }
 
 #getid-main .phrases__content.row {

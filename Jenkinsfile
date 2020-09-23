@@ -13,7 +13,7 @@ pipeline {
       steps {
         script {
           sh("""
-            git pull git@github.com:vvorld/automation-getid-web-sdk.git
+            git clone git@github.com:vvorld/automation-getid-web-sdk.git
             git checkout change_sdk_builder
             docker network create sdk-cluster || true
             docker-compose -p sdk_test_runner -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d

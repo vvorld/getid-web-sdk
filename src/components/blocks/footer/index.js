@@ -23,12 +23,14 @@ const Footer = ({
     }, 50);
   }
   return (
-    <div className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
-      <div className="getid-button__wrapper">
+    <div data-role="footer"
+         className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
+      <div className="getid-button__wrapper" data-role="button">
         {next.onClick
           ? (
             <button
               id="main"
+              data-role="main-button"
               autoFocus
               type="button"
               className={`getid-button__main ${next.mod ? `getid-${next.mod}` : ''}`}
@@ -53,6 +55,7 @@ const Footer = ({
         ? (
           <button
             type="button"
+            data-role="back-button"
             onClick={() => {
               setVisible({ visible: false, step });
               back.onClick();
@@ -64,7 +67,7 @@ const Footer = ({
         )
         : <button type="button" className="getid-btn__back getid-hidden">-</button>}
 
-      <footer className="getid-footer">
+      <footer data-role="getid-footer" className="getid-footer">
         <PoweredBy />
       </footer>
     </div>

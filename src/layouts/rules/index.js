@@ -13,7 +13,7 @@ export const RulesList = ({ rules }) => {
   const list = Object.keys(translations).filter((el) => el.includes(`${rules}_line_`)).map((ele) => translations[ele]);
 
   return (
-    <div className="getid-rule-list_container">
+    <div className="getid-rule-list_container" data-role="rules">
       <ul className="getid-rule-list">
         { list.map((el) => (
           <li key={el}>

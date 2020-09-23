@@ -134,7 +134,7 @@ class RecordView extends React.Component {
             <Guide name="recordingDesktop" styles={this.props.styles} />
           </div>
           {step !== 'preview' && (
-          <div className="getid-camera_content" style={display('record')}>
+          <div className="getid-camera_content" data-role="camera" style={display('record')}>
             <Camera active visible={step === 'record'} step={stepName} />
           </div>
           )}

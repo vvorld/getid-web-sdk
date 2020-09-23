@@ -12,6 +12,7 @@
 *   [Customization](#customization)
     *   [Container id](#container-id)
     *   [Dictionary](#dictionary)
+    *   [Metadata](#metadata)
     *   [HtmlProperties](#htmlProperties)
     *   [Styles](#styles)
     *   [Translations](#translations)
@@ -173,6 +174,18 @@ info about translations API please contact [integration support](mailto:support@
  }; 
 ```
 
+### Metadata
+Custom values object, mainly to upload some client specific data.
+``` js
+ const config = {
+   apiUrl: 'YOUR_URL',
+   dictionary: '_lang_key_',
+   metadata: {
+      clientIpAddress: '127.0.0.1'
+   }
+ }; 
+```
+
 ### HtmlProperties
 -> isShadowDom (boolean)
 
@@ -220,7 +233,7 @@ example:
 ```
 
 ### Translations
-You can pre-set custom translations via config as well. For the full list of translation keys please refer to `src/translations`.
+You can pre-set custom translations via config as well. For the full list of translation keys please refer to [`default.js`](src/translations/default.js).
 example: 
 ``` js
  const config = {

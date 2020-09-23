@@ -150,7 +150,7 @@ class WebcamView extends React.Component {
             <div style={display('guide')}>
               <Guide />
             </div>
-            <div className="getid-camera_content" style={display('record')}>
+            <div className="getid-camera_content" data-role="camera" style={display('record')}>
               <Camera
                 ratio={ratio}
                 visible={step === 'record'}

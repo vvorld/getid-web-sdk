@@ -4,20 +4,27 @@
 *   [Overview](#overview)
 *   [Getting started](#getting-started)
     *   [Requirements](#requirements)
-    *   [Camera usage description](#camera-usage-description)
+    *   [Obtaining an API key](#obtaining-an-api-key)
 *   [Installation](#installation)
     *   [Obtaining JWT](#obtaining-jwt)
     *   [HTML markup](#html-markup)
-*   [Initializing](#initializing)
+*   [Initialization](#initialization)
 *   [Customization](#customization)
-    *   [Callbacks](#callbacks)
-    *   [Flow](#flow)
-    *   [Fields](#fields)
-    *   [Verification Types](#verification-types)
-    *   [Supported countries and types of documents](#supported-countries-and-types-of-documents)
-    *   [Form grid](#form-grid)
-*   [Localization](#localization)
+    *   [Container id](#container-id)
     *   [Dictionary](#dictionary)
+    *   [HtmlProperties](#htmlProperties)
+    *   [Styles](#styles)
+    *   [Translations](#translations)
+    *   [Flow](#flow)
+*   [Components](#components)
+    *   [Form](#form)
+    *   [Record](#record)
+    *   [Liveness](#liveness)
+    *   [Document photo](#documentphoto)
+    *   [Selfie](#selfie)
+    *   [Thank you](#thank-you)
+*   [Verification Types](#verification-types)
+*   [Callbacks](#callbacks) 
 *   [External libraries](#external-libraries)
 
 ## Overview
@@ -31,7 +38,7 @@ In order to make it work you will need access to GetID api. Please get in touch 
 ### Requirements
 - browsers and features we support: 
             
-| OS | Browser | Version | Photos | 
+| OS | Browser | Version | Photos/Liveness/Recording | 
 | --- | --- | --- | --- |
 | iOS | Safari | 13 or higher | ✔️ |
 | iOS | Chrome | 84 or higher | ― |
@@ -59,6 +66,29 @@ Both can be found and modified either through your GetID admin panel or via cont
 [integration support](mailto:support@getid.ee?subject=[GitHub]%20Obtaining%GetID%20credentials).
 
 ## Installation
+
+#### Including the library
+
+- CDN
+
+Include sdk link as regular script tag. 
+The latest stable build can be found in example snippet below.
+
+``` html
+<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v5.min.js'></script>
+```
+
+In case you want to automatically keep up with the latest version of sdk cdn script, we advise to use our [`launcher.js`](src/launcher.js)
+Just include the script in your html page, it will insert the latest script into the <head> tag of your page. It will handle versioning and sdk script loading and init. 
+Example:
+``` html
+<script src='launcher.min.js'></script>
+```
+
+In both scenarios load the widget via window object along with sdk config and jwt token.
+```js
+window.getidWebSdk.init(config, token);
+```
 
 #### Obtaining JWT
 For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
@@ -97,29 +127,6 @@ window.getidWebSdk.init(config, token);
 
 **NB!** Token expires 90 minutes after creation. (length of a token's life is a matter of configuration).
 
-#### Including the library
-
-- CDN
-
-Include sdk link as regular script tag. 
-The latest stable build can be found in example snippet below.
-
-``` html
-<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v5.0.0.min.js'></script>
-```
-
-In case you want to automatically keep up with the latest version of sdk cdn script, we advise to use our [`launcher.js`](src/launcher.js)
-Just include the script in your html page, it will insert the latest script into the <head> tag of your page. It will handle versioning and sdk script loading and init. 
-Example:
-``` html
-<script src='launcher.min.js'></script>
-```
-
-In both scenarios load the widget via window object along with sdk config and jwt token.
-```js
-window.getidWebSdk.init(config, token);
-```
-
 --------------
 
 ### HTML markup
@@ -130,101 +137,149 @@ Please place an empty div element with a respective id in your html for the comp
 
 ## Initialization
 
-_In order to initialize an SDK instance, simply call:_ 
+_Now all has been set for sdk initialization._ 
 ``` js
-import { init } from 'getid-web-sdk'
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  [{ component: ['ThankYou'] }],
-}; 
-
-const token = _your_jwt_here_;
-init(config, token);
-```
-
-_For more sophisticated initialization with more customization check this example below:_
-
-``` js
-import { init } from 'getid-web-sdk'
-const config = {
-  apiUrl: 'YOUR_URL',
-  flow: [ { component: ['Form'] },
-          { component: ['ThankYou'] } ],
-  containerId: 'getid-component',
-  fields: [
-      {
-        type: 'text',
-        label: 'First Name',
-        name: 'First Name',
-        value: 'John',
-        required: false
-      },
-      { 
-        type: 'text',
-        label: 'Last Name',
-        name: 'Last Name',
-        value: 'Doe',
-        required: false
-      },
-      { 
-        type: 'text',
-        label: 'Email',
-        name: 'Email',
-        required: false
-      },
+  flow: [
+    {
+        component: 'Form',
+        fields: []
+    },
+    {
+        component: 'ThankYou',
+    },
   ],
-  onComplete: function(data) {
-    console.log("everything is complete" + data)
-  },
-  onFail: function(error) {
-   console.log("something went wrong" + error)
-  }
 }; 
-
-const token = _your_jwt_here_;
-init(config, token);
+window.getidWebSdk.init(config, token);
 ```
+This a simple example on how config should look like. Please go through README to learn how to customize the widget even further.
 
 ## Customization
 
-### Flow
-Flow is required parameter. You can customize which steps that will be present in your getId widget.
-Available: 
-- _Consent_ - Client gives their consent to their Personal data processing.
-- _Form_ - Form with basic personal data fields (first name, last name, email, gender etc)
-- _CountryAndDocument_ - country of document and document type selection view
-- _IdCapture_ - web camera view. can consist of up to 2 views, depending on the type of document.
-i.e in case of id card, there are two views: frond and back side.
-- _IdSelfie_ - web camera view. user will have to take a selfie.
-- _ThankYou_ - Thank you page, informs client about successful state of the validation.  
+### Container ID
+This can be anything you want, just make sure for it to match the one being specified in HTML div element.
 
-Example: 
+### Dictionary
+Example of using `dictionary` key. Comes useful if you want to preload sdk translations beforehand. For more 
+info about translations API please contact [integration support](mailto:support@getid.ee)
 
 ``` js
-import { init } from 'getid-web-sdk'
-const config = {
-  apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
-  flow: [ { component: ['Form'] },
-          { component: ['CountryAndDocument'] },
-          { component: ['ThankYou'] } ],
-}; 
-
-const token = _your_jwt_here_;
-init(config, token);
+ const config = {
+   apiUrl: 'YOUR_URL',
+   dictionary: '_lang_key_',
+   flow: []
+ }; 
 ```
 
-### Fields
-Fields are required in case `Form` step is active. On form view, you can choose which fields to show to client.
+### HtmlProperties
+-> isShadowDom (boolean)
 
-Currently, we support 4 input types:
-- text: plain `string`
-- date: Date represented as a `string` in ISO 8601 format
-- file: any format max 6MB
-- select: `string` in ISO 3166-1 alpha-2 format ([Wiki](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2))
-- checkbox: boolean
+Configuration flag to turn on/off (true/false) Shadow dom. Useful for style encapsulation.
 
+### Styles
+UI customization. You get a list of css variables that are available for customizing that you can modify accordingly.
+
+```css 
+    --getid-txt-color: main font color
+    --getid-txt-color-secondary: secondary font color
+    --getid-input-bg: input background
+    --getid-input-active-text: input text color in active state
+    --getid-dark-blue-text: another font color (mainly for inpputs and headers)
+    --getid-accent-color: widget theme color
+    --getid-input-border-color: input border color
+    --getid-input-hover-border: input border color on hover
+    --getid-input-active-border: input border color in active state
+    --getid-white: neutral color
+    --getid-error-color: error color
+    
+    --getid-button-grey-bg: secondary button background color
+    --getid-font-size: font size
+    --getid-border-radius: border radius
+    --getid-font-weight: font weight
+    --getid-font-weight-bold: font weight bold
+    --getid-input-width: width of all the inputs
+    --getid-transition: most common transition style
+    --getid-font-family: font family
+    --getid-background-color: widget background color
+    --getid-header-size: header font size
+    --getid-subheader-size: subheader font size
+```   
+
+example: 
+``` js
+ const config = {
+   apiUrl: 'YOUR_URL',
+   styles: {
+       '--getid-accent-color': 'green',
+       '--getid-input-active-border': 'limegreen',
+       '--getid-font-family': 'Helvetica',
+        },
+    }; 
+```
+
+### Translations
+You can pre-set custom translations via config as well. For the full list of translation keys please refer to `src/translations`.
+example: 
+``` js
+ const config = {
+   apiUrl: 'YOUR_URL',
+   translations: {
+            'IdSelfie_record_header': 'Make a photo'
+        },
+    }; 
+```
+
+### Flow
+Flow is a required parameter. You can customize which steps that will be present in your getId widget.
+Flow array must contain a set of objects that will match this pattern: 
+``` js
+    {
+      component: name_of_component,
+      ...{rest_of_parameters_for_the_component}
+    }
+```
+
+## Components
+
+### **Form**
+
+View that provides the client with a set of fields to enter their personal data.
+Can be used several times in the config (multi-form)
+**_Configuration props_**: 
+
+   - fields (array of objects)
+
+        You can predefine as many input fields as there is needed. 
+        Currently, we support 6 input types:
+        - text: `string`
+        - date: `string`
+        - file: `*.jpg, *.jpeg, *.png, *.pdg`, **max.size: 6MB**
+        - select: `string`
+        - checkbox: `boolean`
+        - consent: `boolean` (special type in case T&C/MarketingPromotion consent are required)
+    
+   Example:
+   
+        {
+          label: 'Test Field',
+          type: 'text',
+          name: 'First name',
+          required: false,
+          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
+        }
+        
+   Each field has multiple config points:
+   - label -> input label
+   - type -> input type
+   - name -> input name (key value for the form data)
+   - required -> boolean, is input required or not
+   - hidden -> boolean, hides the input but is not removed from the DOM. Those fields will be not accessible by the client, 
+   but included in total form result.
+   - validation -> optional function, can be used to validate input value, 
+   accepts two args => value(type: any), setError(type: function). Usage can be found in the example above.
+        
 **_Important note:_**
 
 If you want to add custom file fields on the form step, please refrain from using reserved field names such as:
@@ -238,57 +293,133 @@ document photos (front and back),
 selfie (selfie) and liveness recording (selfie video). 
 Unless you want to use those file inputs to do just that, please opt for some other naming.
 
-Optionally, you can pre-populate some fields by known values. Pass the values according to formats listed in the table above.
-You can set field's `required` option. All fields are set as `required: true` by default.
+### **Record**
 
-Also you can set already prefilled invisible fields by adding `hidden` flag to each field you want ot hide. 
-Those fields will be not accessible for client, but included in total form result
+View that gives the client option to record a video of themselves.
+**_Configuration props_**: 
 
-Example: 
-``` js
-import { init } from 'getid-web-sdk'
-const config = {
-  apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
-  flow: [ { component: ['Form'] },
-          { component: ['CountryAndDocument'] },
-          { component: ['ThankYou'] } ],
-  fields: [
-     // pre-populated and not visible
-      {
-        type: 'text',
-        title: 'First Name',
-        value: 'John',
-        hidden: true,
-        required: false
-      },
-      // this one client will have to fill in
-      {
-        type: 'select',
-        title: 'Country',
-        required: true
-      },
-  ],
-}; 
+- phrases (array of strings)
 
-const token = _your_jwt_here_;
-init(config, token);
-```
+    If you want your client to say something specific on the camera, the instructions on what to say can be passed through 
+    phrases array.
+    
+    example: 
+    
+    ``` js
+     const config = {
+       apiUrl: 'YOUR_URL',
+           {
+                 component: 'Record',
+                 phrases: ['I would like to get the loan from...', 'I agree to T&C...'],
+           },
+        }
+    ```
+### **Liveness**
+
+View that gives the client option to pass the liveness check.
+
+example: 
+
+     const config = {
+       apiUrl: 'YOUR_URL',
+           {
+                 component: 'Liveness', 
+           },
+        }
+        
+### **DocumentPhoto**
+
+View that gives the client option to take photos of the ID document.
+
+**_Configuration props_**: 
+
+- showRules (boolean)
+
+    Enables of disables the screen with the list of rules 
+    (main purpose is to guide the client through the process to avoid bad quality photos)
+- interactive (boolean)
+
+    Enables of disables the screen with the option to pick document country and document type.
+    Both document country and document type can be pre-filled via the config as well. See the example below.
+- enableCheckPhoto (boolean)
+    
+    Enables of disables the "on the go" document photo check. 
+    Is useful to eliminate bad quality photos/incorrect photos right after the client took them.
+
+example: 
+    
+     const config = {
+       apiUrl: 'YOUR_URL',
+          {
+                component: 'DocumentPhoto',
+                showRules: true,
+                interactive: true,
+                enableCheckPhoto: true,
+          },
+          documentData: [
+           {
+             name: 'Country',
+             value: 'uk',
+           },
+           {
+             name: 'DocumentType',
+             value: 'passport',
+           },
+         ],
+        }
+
+### **Selfie**
+This view allows the client ot take a photo of themselves.
+
+**_Configuration props_**: 
+
+- showRules (boolean)
+
+    Enables of disables the screen with the list of rules 
+    (main purpose is to guide the client through the process to avoid bad quality photos)
+- enableCheckPhoto (boolean)
+    
+    Enables of disables the "on the go" document photo check. 
+    Is useful to eliminate bad quality photos/incorrect photos right after the client took them.
+    
+example: 
+    
+     const config = {
+       apiUrl: 'YOUR_URL',
+       {
+            component: 'Selfie',
+            showRules: true,
+            enableCheckPhoto: true,
+       },
+     }
+### **Thank you**
+Final view, concludes the flow.
+    
+example: 
+    
+     const config = {
+       apiUrl: 'YOUR_URL',
+       {
+            component: 'ThankYou',
+       },
+     }
 
 ### Callbacks
-All callbacks are optional, you can specify yours on `init` call. 
-getId web SDK allows several callbacks:
-- **onComplete** function - callback executed on Success event (client has been successfully verified)
-- **onError** function - callback executed on fail event (client has not been successfully verified) - we will tell you why in `error.message` - now it's up to you to handle this accordingly
-- **OnExists** function - callback executed when we detect existing application with id that was passed on init
+All callbacks are optional.
+
+- **onComplete** = ({ id }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
+- **onFail** = (error) => callback executed on fail event: 
+    - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
+    - Widget failed to render successfully - in this case callback will be called automatically
+accepts Error object as params, so it's up to you to handle this accordingly if needed.
+- **OnExists** function - callback executed when we detect existing application with id that was passed on init (customerId)
+- **OnBack** function - callback executed on clicking on `Back` button
 - **onSortDocuments** function - callback executing for sorting or filtering supported documents list. Function takes two parameters: country - string in ALPHA-2 format(lowercase) and documents: array of supported document types for current country. You should return an array of desired document types(in desired order) for every country if you don't want to display some countries just return empty array.
 
 Example:
 ``` js
-import { init } from 'getid-web-sdk'
 const config = {
   apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
   onComplete: function(data) {
     console.log("everything is complete" + data)
   },
@@ -304,112 +435,20 @@ const config = {
    return [];
   }
 }; 
-
-const token = _your_jwt_here_;
-init(config, token);
 ```
 
 ### Verification types
 You may also configure desirable types of verification by simple passing a
-``` verificationTypes``` (array of strings) property in config. 
+``` verificationTypes``` (array of strings) property in the config. 
+For more info about verification types please contact [integration support](mailto:support@getid.ee).
 
 Example: 
 ``` js
-import { init } from 'getid-web-sdk'
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  verificationTypes: ['F', 'E', 'W'],
+  verificationTypes: ['face-mathing', 'data-extraction', 'watchlists'],
 }; 
-
-const token = _your_jwt_here_;
-init(config, token);
-```
-Where 'F' stands for 'face matching', 'E' stands for 'extraction' and 'W' stands for watchlists.
-
-### Supported countries and types of documents
-In process of passing flow you have to choose one of the offered document types. Depending on country user is allowed to select one or other document type. 
-You can pass user's document data via sdk init method.
-This will pre-fill document and country view fields with passed params.
-In case passed values do not match getId supported list of countries and/or documents, 
-sdk will proceed with empty values, and client will be able to try to select other options.
- 
-Console will show error `This country is not supported`
-or `This document type is not supported.`  
- 
-For now we mostly support these documents:
- - passport, 
- - id-card, 
- - driving-licence, 
- - residence-permit.
- 
-Example: 
- ``` js
- import { init } from 'getid-web-sdk'
- const config = {
-   apiUrl: 'YOUR_URL',
-   containerId: 'getid-component',
-   flow: [ { component: ['Form'] },
-           { component: ['CountryAndDocument'] },
-           { component: ['ThankYou'] } ],
-   documentData: [
-    {
-      name: 'Country',
-      value: 'ee',
-    },
-    {
-      name: 'DocumentType',
-      value: 'passport',
-    },
-  ],
- }; 
- 
- const token = _your_jwt_here_;
- init(config, token);
- ```
-
-For some documents (`internal-passport`) you will have to capture photo from both sides (front and back).
-
-### Form grid
-You can also specify form width within the config
-
-Types are: `narrow` or `wide`
-
-Example: 
-``` js
- import { init } from 'getid-web-sdk'
- const config = {
-   apiUrl: 'YOUR_URL',
-   containerId: 'getid-component',
-   flow: [ { component: ['Form'] },
-           { component: ['CountryAndDocument'] },
-           { component: ['ThankYou'] } ],
-   formType: 'narrow',
- }; 
- 
- const token = _your_jwt_here_;
- init(config, token);
-```
-
-## Localization
-Sdk can be localised. 
-Please contact technical support for more details.
-
-### Dictionary
-Example of using `dictionary` key.
-
-``` js
- import { init } from 'getid-web-sdk'
- const config = {
-   apiUrl: 'YOUR_URL',
-   dictionary: '_lang_key_',
-   flow: [ { component: ['Form'] },
-           { component: ['CountryAndDocument'] },
-           { component: ['ThankYou'] } ],
- }; 
- 
- const token = _your_jwt_here_;
- init(config, token);
 ```
 
 ## External libraries

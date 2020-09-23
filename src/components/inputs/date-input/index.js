@@ -42,7 +42,7 @@ const parseDate = (date) => {
 };
 
 function DateInput({
-  required, value, onChange, label, min, max,
+  required, value, onChange, label, min, max, enableControls,
 }) {
   const months = getMonths(required);
   const [y, m, d] = parseDate(value);
@@ -99,9 +99,25 @@ function DateInput({
   };
   const dayLabel = `${getConst('day')}${required ? '*' : ''}`;
   const yearLabel = `${getConst('year')}${required ? '*' : ''}`;
+
+  const paste = async () => {
+    const text = await navigator.clipboard.readText();
+    const [yy, mm, dd] = parseDate(text);
+    if (yy !== 0 && mm !== 0 && dd !== 0) {
+      setYear(yy);
+      setMonth(mm);
+      setDay(dd);
+    }
+  };
   return (
     <>
-      {label && <label className="getid-form__input-label">{label}</label>}
+      {label && (
+      <label className="getid-form__input-label">
+        {label}
+        {enableControls && <span className="getid-form__input-action" onClick={paste}>Paste</span>}
+      </label>
+      )}
+
       <div className="getid-form__date-input">
         <select value={day} onChange={(e) => change(undefined, undefined, +e.target.value)}>
           <option value="0">{dayLabel}</option>
@@ -126,6 +142,7 @@ DateInput.propTypes = {
   label: PropTypes.string,
   min: PropTypes.any,
   max: PropTypes.any,
+  enableControls: PropTypes.bool,
 };
 
 DateInput.defaultProps = {
@@ -135,6 +152,7 @@ DateInput.defaultProps = {
   label: '',
   min: null,
   max: null,
+  enableControls: false,
 };
 
 export default DateInput;

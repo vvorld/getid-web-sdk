@@ -7,6 +7,8 @@
     font-size: var(--getid-font-size);
     color: var(--getid-txt-color);
     white-space: nowrap;
+    width: 100%;
+    cursor: pointer;
 }
 
 #getid-main .form__input-tooltip{
@@ -65,9 +67,4 @@
     overflow: hidden;
     position: absolute;
     z-index: -1;
-}
-#getid-main .file-input__label{
-    width: 100%;
-    margin-top: 5px;
-    cursor: pointer;
 }

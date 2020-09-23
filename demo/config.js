@@ -27,13 +27,18 @@ export default {
           type: 'text',
           name: 'First name',
           required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
+          value: '',
+          mask: {
+            regexp: '^[a-zA-Z0-9 ]+$',
+            message: 'Only latin symbols',
+          },
         },
         {
           label: 'Last Name',
           type: 'text',
           name: 'Last name',
           required: false,
+          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         },
         {
           placeholder: 'Document front side',

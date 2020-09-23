@@ -33,7 +33,7 @@ pipeline {
             label:"build sdk"
           )
           sh(
-            script:"docker run --rm sdk_build > automation-getid-web-sdk/sdk-server/assets/getid-web-sdk-latest-build.min.js",
+            script:"mkdir automation-getid-web-sdk/sdk-server/assets && docker run --rm sdk_build > automation-getid-web-sdk/sdk-server/assets/getid-web-sdk-latest-build.min.js",
             label:"getting sdk.min.js"
           )
           sh(

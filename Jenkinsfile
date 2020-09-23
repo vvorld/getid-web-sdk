@@ -62,9 +62,9 @@ pipeline {
           sh("""
             docker rm network sdk-cluster || true
             docker rm -f test_sdk_runner || true
-            docker rmi -f test_runner || true
+            docker rmi -f \$(docker images --format {{.Repository}} | grep test_runner) || true
             docker rm -f sdk_build || true
-            docker rmi -f sdk_build || true
+            docker rmi -f \$(docker images --format {{.Repository}} | grep sdk_build) || true
             docker rm -f \$(docker ps -qaf name=sdk_test_runner) || true
           """
           )

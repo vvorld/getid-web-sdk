@@ -48,7 +48,7 @@ pipeline {
       steps {
         script {
           sh(
-            script:"docker run test_sdk_runner",
+            script:"docker run test_sdk_runner --network sdk-cluster",
             label:"run tests"
           )
         }

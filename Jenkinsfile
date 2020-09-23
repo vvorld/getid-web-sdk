@@ -12,15 +12,34 @@ pipeline {
       agent { label 'new-ui-tests' }
       steps {
         script {
-          sh("""
-            git clone git@github.com:vvorld/automation-getid-web-sdk.git
-            cd automation-getid-web-sdk && git checkout change_sdk_builder  && ls -la && cd ..
-            docker network create sdk-cluster || true
-            docker-compose -p sdk_test_runner -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d
-            docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build .
-            docker run --rm sdk_build > sdk-server/assets/getid-web-sdk-latest-build.min.js
-            docker build -f automation-getid-web-sdk/Dockerfile_test_runner_ci --network sdk-cluster -t test_sdk_runner automation-getid-web-sdk
-          """)
+          sh(
+            script:"git clone git@github.com:vvorld/automation-getid-web-sdk.git",
+            label:"clone tests repo"
+          )
+          sh(
+            script:"cd automation-getid-web-sdk && git checkout change_sdk_builder && cd ..",
+            label:"temporary step"
+          )
+          sh(
+            script:"docker network create sdk-cluster || true",
+            label:"network creation"
+          )
+          sh(
+            script:"docker-compose -p sdk_test_runner -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d",
+            label:"app selenium and sdk-server"
+          )
+          sh(
+            script:"docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build .",
+            label:"build sdk"
+          )
+          sh(
+            script:"docker run --rm sdk_build > automation-getid-web-sdk/sdk-server/assets/getid-web-sdk-latest-build.min.js",
+            label:"getting sdk.min.js"
+          )
+          sh(
+            script:"docker build -f automation-getid-web-sdk/Dockerfile_test_runner_ci --network sdk-cluster -t test_sdk_runner automation-getid-web-sdk",
+            label:"build test_runner"
+          )
         }
       }
     }

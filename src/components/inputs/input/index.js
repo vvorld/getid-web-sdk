@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { instanceOf } from 'prop-types';
 
 const defaultValidation = (value, isRequired) => {
   if (!value && isRequired) {
@@ -9,31 +9,30 @@ const defaultValidation = (value, isRequired) => {
 };
 
 const Input = ({
-  name, label, value, onChange, required, validation,
+  name, label, value, onChange, required, validation, mask, ...other
 }) => {
   const placeholder = label + (required ? '*' : '');
-  const [currValue, setValue] = useState(value);
-  const [error, setError] = useState(null);
 
-  const validate = (checkValue) => {
+  const validate = () => {
     if (validation && typeof validation === 'function') {
-      validation(checkValue, setError);
-      return;
+      let err = null;
+      validation(value, (e) => err = e);
+      return err;
     }
-    const errorMessage = defaultValidation(checkValue, required);
-    setError(errorMessage);
+    if (mask && mask.regexp) {
+      const regex = new RegExp(mask.regexp);
+      if (!regex.test(value)) {
+        return mask.message || 'Error';
+      }
+      return null;
+    }
+    return defaultValidation(value, required);
   };
 
-  useEffect(() => {
-    if (currValue) {
-      validate(currValue);
-    }
-    onChange(currValue, !!error);
-  }, [currValue, error]);
-
+  const error = value ? validate(value) : null;
   const changeVal = (e) => {
     const newValue = e.target.value;
-    setValue(newValue);
+    onChange(newValue, !!validate(value));
   };
 
   return (
@@ -44,22 +43,13 @@ const Input = ({
         placeholder={placeholder}
         required={required}
         className={error && 'getid-input-error'}
-        value={currValue}
+        value={value}
         onChange={changeVal}
         key={`input-${label}`}
       />
       {error && <span className="getid-error__message">{error }</span>}
     </div>
   );
-};
-
-Input.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  required: PropTypes.bool,
-  validation: PropTypes.func,
 };
 
 Input.defaultProps = {

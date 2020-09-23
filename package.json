@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "5.0.0-next",
+  "version": "1.0.0-demo-sdk",
   "main": "./lib/bundle.js",
   "author": "GetID",
   "description": "GetID Web SDK",

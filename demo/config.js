@@ -6,6 +6,7 @@ export default {
   metadata: {
     externalId: 121212,
   },
+  isLanguageSwitch: false,
   HtmlProperties: {
     isShadowDom: false,
   },

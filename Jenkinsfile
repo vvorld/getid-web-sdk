@@ -37,7 +37,7 @@ pipeline {
             label:"getting sdk.min.js"
           )
           sh(
-            script:"docker build -f automation-getid-web-sdk/Dockerfile_test_runner_ci --network sdk-cluster -t test_sdk_runner automation-getid-web-sdk",
+            script:"docker build -f automation-getid-web-sdk/Dockerfile_test_runner_ci -t test_sdk_runner automation-getid-web-sdk",
             label:"build test_runner"
           )
         }

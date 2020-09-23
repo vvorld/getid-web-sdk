@@ -28,6 +28,8 @@ function supportedQuadro() {
 class CameraBase extends Component {
   constructor(props) {
     super(props);
+    this.devices = [];
+    this.cameraIndex = 0;
     this.state = {
       width: 0,
       height: 0,
@@ -49,14 +51,29 @@ class CameraBase extends Component {
     }
   }
 
+  setDevice = () => {
+    if(this.devices.length > 1) {
+      this.cameraIndex += 1;
+      if (!this.devices[this.cameraIndex]) {
+        this.cameraIndex = 0;
+      }
+      console.log(this.cameraIndex)
+      this.stopRecord();
+      this.setSrc(document.getElementsByClassName('getid-camera__video')[0]);
+    }
+  }
+
   getStream = async (maxWidth) => {
     const createStream = async (variants) => {
+      const id = (this.devices[this.cameraIndex] && this.devices[this.cameraIndex].deviceId) || '';
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, facingMode } = variants[i];
         try {
           return [await navigator.mediaDevices.getUserMedia({
             audio: false,
-            video: { width, height, facingMode },
+            video: {
+              width, height, facingMode, deviceId: id,
+            },
           }), facingMode];
         } catch (e) {
           if (i === (variants.length - 1)) {
@@ -80,6 +97,20 @@ class CameraBase extends Component {
       {},
     ].filter((x) => x);
     return createStream(variants);
+  }
+
+  checkDevices = () => {
+    navigator.mediaDevices.enumerateDevices()
+      .then((devices) => {
+        devices.forEach((device) => {
+          if (device.kind === 'videoinput') {
+            this.devices.push(device);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(`${err.name}: ${err.message}`);
+      });
   }
 
   setSrc = async (ref) => {

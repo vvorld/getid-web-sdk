@@ -67,7 +67,7 @@ export default {
       interactive: true,
       enableCheckPhoto: true,
     },
-    { component: 'Selfie', showRules: true, enableCheckPhoto: true },
+    { component: 'Selfie', showRules: false, enableCheckPhoto: true },
     { component: 'ThankYou' },
   ],
   onComplete({ id }) {

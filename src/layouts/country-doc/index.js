@@ -75,7 +75,7 @@ const CountryAndDocument = ({
               </div>
             ))}
             {plArr.map((x) => (
-              <div key={x} className="getid-form__input-wrapper getid-form__input-hiiden">
+              <div key={x} className="getid-form__input-wrapper getid-form__input-hidden">
                 <Radiobutton />
               </div>
             ))}

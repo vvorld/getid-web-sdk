@@ -1,6 +1,6 @@
 export default {
-  apiUrl: '',
-  apiKey: '',
+  apiUrl: 'http://localhost:3001',
+  apiKey: '1231223',
   containerId: 'getid-component',
   dictionary: 'en',
   metadata: {
@@ -12,7 +12,6 @@ export default {
   styles: {
     // 'txt-color': 'red',
     '--getid-accent-color': 'pink',
-    '--getid-input-active-border': 'pink',
     '--getid-font-family': 'Helvetica',
   },
   translations: {
@@ -34,8 +33,6 @@ export default {
           type: 'text',
           name: 'Last name',
           required: false,
-          // validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
-
         },
         {
           placeholder: 'Document front side',
@@ -48,6 +45,7 @@ export default {
           type: 'date',
           name: 'Date of birth',
           required: false,
+          enableControls: true,
         },
         {
           label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
@@ -61,9 +59,7 @@ export default {
       component: 'Record',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
-    {
-      component: 'Liveness',
-    },
+    { component: 'Liveness' },
     {
       component: 'DocumentPhoto',
       showRules: true,
@@ -71,47 +67,11 @@ export default {
       enableCheckPhoto: true,
     },
     { component: 'Selfie', showRules: true, enableCheckPhoto: true },
-
-    // { component: 'Selfie' },
-    // {
-    //   component: 'Form',
-    //   fields: [
-    //     {
-    //       label: 'First Name',
-    //       type: 'text',
-    //       value: 'text',
-    //       name: 'First name',
-    //       required: true,
-    //     },
-    //     {
-    //       placeholder: 'Document front side',
-    //       type: 'file',
-    //       name: 'test',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'Last Name',
-    //       type: 'text',
-    //       name: 'Last name',
-    //       required: true,
-    //     },
-    //     {
-    //       label: 'Date Of Birth',
-    //       type: 'date',
-    //       name: 'Date of birth',
-    //       min: 'now',
-    //     },
-    //     {
-    //       label: 'I have read and understand <a href="https://getid.ee">Terms of use</a> of GetID&nbspOÜ.',
-    //       type: 'consent',
-    //       name: 'privacy',
-    //     },
-    //   ],
-    // },
-    { component: 'ThankYou' }],
+    { component: 'ThankYou' },
+  ],
   onComplete({ id }) {
     alert(id);
-    window.location.reload();
+    // window.location.reload();
   },
   // onFail(error) {
   //   console.log(error.message);
@@ -121,26 +81,5 @@ export default {
   },
   onBack() {
     alert('back');
-  },
-  onSortDocuments(country, documents) {
-    const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'cn'];
-    const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl'];
-    const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'sk'];
-    const drivingPassportIdCountries = ['lu'];
-    const drivingIdPassportCountries = ['au'];
-
-    const idPassportDrivingDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
-    const passportIdDrivingDocuments = ['passport', 'id-card', 'driving-licence', 'residence-permit'];
-    const idDrivingPassportDocuments = ['id-card', 'driving-licence', 'passport', 'residence-permit'];
-    const drivingPassportIdDocuments = ['driving-licence', 'passport', 'id-card', 'residence-permit'];
-    const drivingIdPassportDocuments = ['driving-licence', 'id-card', 'passport', 'residence-permit'];
-
-    if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
-    if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;
-    if (passportIdDrivingCountries.includes(country)) return passportIdDrivingDocuments;
-    if (idDrivingPassportCountries.includes(country)) return idDrivingPassportDocuments;
-    if (idPassportDrivingCountries.includes(country)) return idPassportDrivingDocuments;
-
-    return passportIdDrivingDocuments;
   },
 };

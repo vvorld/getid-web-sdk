@@ -24,8 +24,6 @@ const transformAppToApiModel = (app, api) => async () => {
   const files = {
     front: app.front,
     back: app.back,
-    selfie: app.selfie,
-    'selfie-video': app.selfieVideo,
   };
   if (app.form || app.additionalData) {
     const form = app.form || {};
@@ -54,10 +52,18 @@ const transformAppToApiModel = (app, api) => async () => {
   }
   application.faces = [];
   if (app.selfie) {
+    files.selfie = app.selfie;
     application.faces.push({ category: 'selfie', content: [] });
   }
-  if (app.selfieVideo) {
-    application.faces.push({ category: 'selfie-video', content: [] });
+  if (app.record) {
+    files.record = app.record;
+    application.faces.push({ category: 'record', content: [] });
+  }
+  if (app.liveness) {
+    files['liveness-video'] = app.liveness.video;
+    application.faces.push({ category: 'liveness-video', content: [] });
+    files['liveness-face'] = app.liveness.fullFace;
+    application.faces.push({ category: 'liveness-face', content: [] });
   }
 
   await api.trySendEvent('loading', 'started');
@@ -320,13 +326,13 @@ class Widget extends Component {
         (props) => (
           <Record
             direction={this.state.direction}
-            blob={app.selfieVideo}
+            blob={app.record}
             styles={this.props.styles}
             {...this.props.sdkPermissions.record || {}}
             {...props}
           />
         ),
-        (selfieVideo) => next({ selfieVideo }, 'record'),
+        (record) => next({ record }, 'record'),
       ];
       case 'Liveness': return (app, next) => [
         (props) => (
@@ -337,7 +343,7 @@ class Widget extends Component {
             {...props}
           />
         ),
-        () => next({ }, 'liveness'),
+        ({ artifacts }) => next({ liveness: artifacts }, 'liveness'),
       ];
       case 'Sending': return (app, next) => [
         (props) => (

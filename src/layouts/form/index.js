@@ -79,7 +79,7 @@ class Form extends Component {
               <div key={field.name} className="getid-form__input-wrapper">
                 <InputRenderer
                   {...field}
-                  value={this.form[field.name].value}
+                  {...this.form[field.name]}
                   required={(field.required || field.type === 'consent') || false}
                   onChange={this.handleChange}
                 />

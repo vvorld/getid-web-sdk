@@ -9,7 +9,7 @@ const defaultValidation = (value, isRequired) => {
 };
 
 const Input = ({
-  name, label, value, onChange, required, validation, mask, ...other
+  name, label, value, onChange, required, validation, mask, invalid,
 }) => {
   const placeholder = label + (required ? '*' : '');
 
@@ -34,6 +34,9 @@ const Input = ({
     const newValue = e.target.value;
     onChange(newValue, !!validate(value));
   };
+  if (!!invalid !== !!error) {
+    onChange(value, !!error);
+  }
 
   return (
     <div>

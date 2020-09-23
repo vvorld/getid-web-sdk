@@ -7,7 +7,7 @@ export default {
     externalId: 121212,
   },
   HtmlProperties: {
-    isShadowDom: true,
+    isShadowDom: false,
   },
   styles: {
     // 'txt-color': 'red',

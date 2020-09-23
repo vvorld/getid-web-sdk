@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 import style from './layouts/style.css';
+import En from '~/translations/default';
+import Ru from '~/translations/ru';
 
 const MainModule = (widgetOptions, component) => {
   const { HtmlProperties } = widgetOptions;
@@ -17,18 +19,36 @@ const MainModule = (widgetOptions, component) => {
     });
   };
 
-  const Main = () => (
-    <>
-      <style>
-        {style}
-      </style>
-      <TranslationsContext.Provider
-        value={{ translations: widgetOptions.translations }}
-      >
-        {component}
-      </TranslationsContext.Provider>
-    </>
-  );
+  const Main = () => {
+    const [ctx, setCxt] = useState(widgetOptions.translations);
+    const setContext = () => {
+      const { value } = document.getElementById('test');
+      const mapContext = {
+        en: En,
+        ru: Ru,
+      };
+      setCxt(mapContext[value]);
+    };
+    return (
+      <>
+        <style>
+          {style}
+        </style>
+        <div>
+          <select id="test" onChange={setContext}>
+            <option value="en">en</option>
+            <option value="ru">ru</option>
+          </select>
+        </div>
+        <TranslationsContext.Provider
+          value={{ translations: ctx }}
+        >
+          {component}
+        </TranslationsContext.Provider>
+      </>
+    );
+  };
+
   if (HtmlProperties && HtmlProperties.isShadowDom) {
     return (
       <div ref={attachShadow}><Main /></div>

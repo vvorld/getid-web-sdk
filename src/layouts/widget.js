@@ -122,7 +122,6 @@ class Widget extends Component {
     const [flow, app] = normaliseFlow(props.flow);
     app.additionalData = props.additionalData;
     app.extractedData = [];
-
     this.state = {
       step: 0,
       direction: 'forward',
@@ -382,13 +381,14 @@ class Widget extends Component {
     const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
-    const test = (ref) => Object.entries(this.props.styles).forEach((st) => {
+    const stylesRef = (ref) => Object.entries(this.props.styles).forEach((st) => {
       if (!ref) return;
       ref.style.setProperty(st[0], st[1], 'important');
     });
+
     return (
       <>
-        <main ref={test} id="getid-main" data-role="container">
+        <main ref={stylesRef} id="getid-main" data-role="container">
           <div className="getid-landscape_message">
             <img
               src={Landscape}
@@ -408,8 +408,6 @@ class Widget extends Component {
             />
           </div>
         </main>
-        {/* <style type="text/css">{styles}</style> */}
-
       </>
     );
   }

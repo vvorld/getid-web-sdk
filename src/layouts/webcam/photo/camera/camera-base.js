@@ -51,15 +51,13 @@ class CameraBase extends Component {
     }
   }
 
-  setDevice = () => {
-    if(this.devices.length > 1) {
+  setDevice = async () => {
+    if (this.devices.length > 1) {
       this.cameraIndex += 1;
       if (!this.devices[this.cameraIndex]) {
         this.cameraIndex = 0;
       }
-      console.log(this.cameraIndex)
-      this.stopRecord();
-      this.setSrc(document.getElementsByClassName('getid-camera__video')[0]);
+      await this.setSrc(document.getElementsByClassName('getid-camera__video')[0]);
     }
   }
 
@@ -121,6 +119,7 @@ class CameraBase extends Component {
     try {
       const [stream, requestMode] = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
+      this.stopRecord();
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
@@ -137,6 +136,7 @@ class CameraBase extends Component {
 
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
+
             const {
               left, right, top, bottom,
             } = calculateMaskPoition(width, height, this.props.ratio, 0.8);

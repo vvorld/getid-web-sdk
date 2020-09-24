@@ -1,12 +1,7 @@
 import React from 'react';
-import { setCss } from '~/helpers/generic';
-import { darkTheme } from '~/dark-theme';
-
 import Form from './index';
 
 export default { title: 'Layouts|Form' };
-
-setCss(darkTheme);
 
 const fields = [
   {

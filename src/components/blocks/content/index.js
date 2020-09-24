@@ -11,7 +11,8 @@ const Content = ({ children, step, disableAnimation }) => {
     }, 50);
   }
   return (
-    <div className={`getid-content__container getid-animation${!enableAnimation ? ' getid-visible_2' : ''}`}>
+    <div data-role="content"
+         className={`getid-content__container getid-animation${!enableAnimation ? ' getid-visible_2' : ''}`}>
       {children}
     </div>
   );

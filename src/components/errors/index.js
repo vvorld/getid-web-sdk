@@ -23,7 +23,7 @@ const createErrorView = (config) => (props) => {
           <div className="getid-header__big">
             {config.header(dictionary, error)}
           </div>
-          <div className="getid-header__small">
+          <div className="getid-header__small" data-role="error">
             {config.subHeader(dictionary, error)}
           </div>
         </div>

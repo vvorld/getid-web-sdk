@@ -49,7 +49,7 @@ const CountryAndDocument = ({
     <>
       <Header step="CountryAndDocument" />
       <Content step="CountryAndDocument">
-        <form className="getid-form__body">
+        <form className="getid-form__body" data-role="block-country-and-document">
           <div>
             <select
               value={currCountry}

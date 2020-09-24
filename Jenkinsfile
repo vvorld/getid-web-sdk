@@ -2,7 +2,9 @@ def projectName = 'ui-tests'
 def build_url = "${BUILD_URL}"
 def build_number = "${BUILD_NUMBER}"
 def build_branch = "${BRANCH_NAME}"
-def unique_pattern = "${BUILD_NUMBER}-${BRANCH_NAME}"
+def unique_pattern_name = "${BUILD_NUMBER}-${BRANCH_NAME}"
+def unique_pattern = $unique_pattern_name.replace("/", "")
+
 
 pipeline {
   agent none

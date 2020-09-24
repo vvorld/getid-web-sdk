@@ -3,7 +3,6 @@ export default {
   apiKey: 'Qm64AQyks8dmkcNb',
   containerId: 'getid-component',
   dictionary: 'en',
-  isLanguageSwitch: false,
   HtmlProperties: {
     isShadowDom: false,
   },

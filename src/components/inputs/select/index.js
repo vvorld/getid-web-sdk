@@ -7,6 +7,7 @@ const Select = (props) => {
   } = props;
   const [currValue, setValue] = useState(value || '');
   const pl = placeholder + (required ? '*' : '');
+  console.log(options)
   return (
     <>
       {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}

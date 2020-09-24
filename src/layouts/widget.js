@@ -327,7 +327,7 @@ class Widget extends Component {
             direction={this.state.direction}
             blob={app.record}
             styles={this.props.styles}
-            {...this.props.sdkPermissions.record || {}}
+            {...this.props.sdkPermissions.recordParams || {}}
             {...props}
           />
         ),
@@ -338,7 +338,7 @@ class Widget extends Component {
           <Liveness
             styles={this.props.styles}
             direction={this.state.direction}
-            {...this.props.sdkPermissions.liveness || {}}
+            {...this.props.sdkPermissions.livenessParams || {}}
             {...props}
           />
         ),

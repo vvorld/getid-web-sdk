@@ -17,10 +17,6 @@ pipeline {
             label:"clone tests repo"
           )
           sh(
-            script:"cd automation-getid-web-sdk && git checkout change_sdk_builder && cd ..",
-            label:"temporary step"
-          )
-          sh(
             script:"docker network create sdk-cluster || true",
             label:"network creation"
           )

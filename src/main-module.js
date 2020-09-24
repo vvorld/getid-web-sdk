@@ -4,16 +4,9 @@ import retargetEvents from 'react-shadow-dom-retarget-events';
 import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 import style from './layouts/style.css';
-import En from '~/translations/default';
-import Ru from '~/translations/ru';
-
-const mapContext = {
-  en: En,
-  ru: Ru,
-};
 
 const MainModule = (widgetOptions, component) => {
-  const { HtmlProperties, isLanguageSwitch } = widgetOptions;
+  const { HtmlProperties } = widgetOptions;
 
   const attachShadow = (ref) => {
     if (!ref) return;
@@ -24,34 +17,18 @@ const MainModule = (widgetOptions, component) => {
     });
   };
 
-  const Main = () => {
-    const [ctx, setCxt] = useState(widgetOptions.translations);
-    const setContext = () => {
-      const { value } = document.getElementById('language-switch');
-      setCxt(mapContext[value] || widgetOptions.translations);
-    };
-    return (
-      <>
-        <style>
-          {style}
-        </style>
-        {isLanguageSwitch && (
-        <div>
-          <select id="language-switch" onChange={setContext}>
-            <option value="en">en</option>
-            <option value="ru">ru</option>
-            <option value="nl">nl</option>
-          </select>
-        </div>
-        )}
-        <TranslationsContext.Provider
-          value={{ translations: ctx }}
-        >
-          {component}
-        </TranslationsContext.Provider>
-      </>
-    );
-  };
+  const Main = () => (
+    <>
+      <style>
+        {style}
+      </style>
+      <TranslationsContext.Provider
+        value={{ translations: widgetOptions.translations }}
+      >
+        {component}
+      </TranslationsContext.Provider>
+    </>
+  );
 
   if (HtmlProperties && HtmlProperties.isShadowDom) {
     return (

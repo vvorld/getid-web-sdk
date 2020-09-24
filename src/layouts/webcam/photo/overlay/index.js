@@ -19,7 +19,7 @@ const createOverlay = (figure, status = 'active', styles) => ({
       case 'ellips': {
         return () => (
           <>
-            <g fillRule="evenodd" fill="var(--getid-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
+            <g fillRule="evenodd" fill="var(--getid-txt-color)" opacity="0.5" strokeWidth="3">
 
               <path
                 d={`M0,0  h${width}  v${height} h-${width} z
@@ -41,7 +41,7 @@ const createOverlay = (figure, status = 'active', styles) => ({
         const r = Math.round(width * 0.05);
         return () => (
           <>
-            <g fillRule="evenodd" fill="var(--getid-txt-color)" opacity="0.5" stroke="black" strokeWidth="3">
+            <g fillRule="evenodd" fill="var(--getid-txt-color)" opacity="0.5" strokeWidth="3">
 
               <path
                 d={`M0,0  h${width}  v${height} h-${width} z

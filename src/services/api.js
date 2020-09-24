@@ -1,4 +1,3 @@
-
 const createHeaders = (headers) => ({
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -12,7 +11,12 @@ const postFormData = (url, body, token) => fetch(url, {
     Authorization: `Bearer ${token}`,
   },
   body,
-}).then((res) => res.json());
+}).then((res) => {
+  if (res.status !== 200) {
+    throw new Error('server_internal_error');
+  }
+  return res.json();
+});
 
 const post = (url, query, headers) => fetch(url, {
   method: 'POST',
@@ -24,27 +28,27 @@ const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
 export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
+  const m = { ...metadata, clientVersion: process.env.VERSION, platform: 'web' };
   const submitData = (application, files) => {
     const form = new FormData();
-
-    const m = { ...metadata, verificationTypes };
-
-    m.clientVersion = process.env.VERSION;
-    m.platform = 'web';
     form.append('data', JSON.stringify({
-      userData: { application: { ...application, metadata: m } },
+      userData: { application: { ...application, metadata: { ...m, verificationTypes } } },
       jwt,
     }));
     Object.entries(files).forEach(([name, blob]) => blob && form.append(name, blob));
     return postFormData(`${url}/sdk/v1/verify-data`, form);
   };
 
-  const getInfo = () => post(`${url}/sdk/v1/configuration`, { jwt });
+  const getInfo = () => post(`${url}/sdk/v1/configuration`, { jwt }).then((x) => {
+    m.sessionId = x.sessionId;
+    m.traceId = x.traceId;
+    return x;
+  });
   const getCountryAndDocList = () => get(`${url}/sdk/v1/supported-documents`);
   const getTranslations = (dictionary) => post(`${url}/sdk/v1/dictionary`, { dictionary });
   const sendErrorToServer = (errorText, stack) => post(`${url}/sdk/v1/log-error`, { error: { errorText, stack } });
   const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt });
-  const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step, metadata } })
+  const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step, metadata: m } })
     .catch(console.log);
 
   const checkSide = async (front, back) => {
@@ -55,6 +59,7 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
     if (back) {
       form.append('back', back, 'back');
     }
+    form.append('metadata', JSON.stringify(m));
     return postFormData(`${url}/sdk/v1/document`, form, jwt);
   };
 
@@ -63,6 +68,7 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
     if (selfie) {
       form.append('selfie', selfie, 'selfie');
     }
+    form.append('metadata', JSON.stringify(m));
     return postFormData(`${url}/sdk/v1/selfie`, form, jwt);
   };
 

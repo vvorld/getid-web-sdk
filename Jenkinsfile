@@ -25,10 +25,6 @@ pipeline {
             label:"network creation"
           )
           sh(
-            script:"docker-compose -p sdk_test_runner-${unique_pattern} -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d",
-            label:"app selenium and sdk-server"
-          )
-          sh(
             script:"docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build-${unique_pattern} .",
             label:"build sdk"
           )
@@ -37,7 +33,11 @@ pipeline {
             label:"getting sdk.min.js"
           )
           sh(
-            script:"docker build -f automation-getid-web-sdk/Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} automation-getid-web-sdk",
+            script:"docker-compose -p sdk_test_runner-${unique_pattern} -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d",
+            label:"app selenium and sdk-server"
+          )
+          sh(
+            script:"cd automation-getid-web-sdk && docker build -f Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} automation-getid-web-sdk",
             label:"build test_runner"
           )
         }
@@ -48,7 +48,7 @@ pipeline {
       steps {
         script {
           sh(
-            script:"docker run --network sdk-cluster test_sdk_runner-${unique_pattern}",
+            script:"docker run --network sdk-cluster -v automation-getid-web-sdk:/automation test_sdk_runner-${unique_pattern}",
             label:"run tests"
           )
         }

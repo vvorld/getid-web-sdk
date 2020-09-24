@@ -37,7 +37,7 @@ pipeline {
             label:"app selenium and sdk-server"
           )
           sh(
-            script:"cd automation-getid-web-sdk && docker build -f Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} automation-getid-web-sdk",
+            script:"cd automation-getid-web-sdk && docker build -f Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} .",
             label:"build test_runner"
           )
         }

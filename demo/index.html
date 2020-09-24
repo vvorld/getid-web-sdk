@@ -64,13 +64,14 @@
     }
 
     .controls_container {
+      overflow: scroll;
       flex-grow: 1;
       background: aliceblue;
       padding: 20px;
       border: solid 1px gray;
       border-radius: 10px 0px 0px 10px;
       box-sizing: border-box;
-      min-height: calc(100vh - 40px);
+      height: calc(100vh - 40px);
       max-width: 100%;
     }
 
@@ -112,7 +113,7 @@
       flex-grow: 1;
       padding: 20px;
       background: white;
-      /*max-height: 100vh;*/
+      max-height: 100vh;
     }
   </style>
   <div id="getid-component"></div>

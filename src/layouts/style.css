@@ -1,0 +1,306 @@
+/*blocks*/
+@import '../components/blocks/footer/footer.css';
+@import '../components/blocks/header/style.css';
+@import '../components/blocks/footer/button.css';
+@import '../components/blocks/content/content.css';
+@import '../components/guide/guide.css';
+
+@import '../components/loader/loader.css';
+@import '../components/popup/popup.css';
+
+/*inputs*/
+@import '../components/inputs/checkbox/style.css';
+@import '../components/inputs/date-input/style.css';
+@import '../components/inputs/file-input/file-input.css';
+@import '../components/inputs/radio-button/style.css';
+
+
+/*views*/
+@import '../layouts/form/form.css';
+@import '../layouts/rules/rules.css';
+
+/*camera*/
+@import '../layouts/webcam/photo/camera/camera.css';
+@import '../layouts/webcam/photo/photo-preview/preview.css';
+@import '../layouts/webcam/photo/retake-description/retake.css';
+
+@import '../layouts/webcam/record/record/record.css';
+@import '../layouts/webcam/record/record/record.css';
+
+
+#getid-main main, #getid-main {
+    --getid-txt-color: #1B3361;
+    --getid-txt-color-secondary: #999;
+    --getid-action-color: #9C77E0;
+   
+    --getid-input-bg: #FBFBFB;
+    --getid-input-active-text: #1B3361;
+    --getid-dark-blue-text: #0E2846;
+    --getid-accent-color: #9C77E0;
+    --getid-input-border-color: #eee;
+
+    --getid-error-border: #F05A7E;
+    --getid-success-border:#47DAAE;
+    --getid-active-border: #9C77E0;
+    
+
+    --getid-input-hover-border: #CED3DD;
+    --getid-input-active-border: #9C77E0;
+    --getid-white: #FFFFFF;
+    --getid-error-color: red;
+
+    
+    --getid-button-grey-bg: #F8F7FA;
+    --getid-font-size: 14px;
+    --getid-border-radius: 4px;
+    --getid-font-weight: 400;
+    --getid-font-weight-bold: 700;
+    --getid-input-width: 100%;
+    --getid-transition: all .3s;
+    --getid-font-family: Roboto, Arial, serif;
+    --getid-background-color: white;
+    --getid-header-size: 24px;
+    --getid-subheader-size: 18px;
+}
+
+
+
+ #getid-main main, #getid-main {
+    font-family: var(--getid-font-family);
+    transition: var(--getid-transition);
+    font-size: var(--getid-font-size);
+    font-weight: var(--getid-font-weight);
+    background-color: var(--getid-background-color);
+    margin: 0 auto;
+}
+
+#getid-main {
+    display: flex;
+    min-width: 320px;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+#getid-main main a {
+    color: var(--getid-accent-color);
+}
+
+#getid-main .logo__top{
+    margin-bottom: 40px;
+}
+
+#getid-main .grid__main {
+    width: 100%;
+    display: grid;
+    grid-row-gap: 30px;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-columns: 1fr;
+    min-height: 504px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/*-----------FORM---------*/
+
+#getid-main .input-error {
+    border: 1px solid var(--getid-error-color)!important;
+}
+#getid-main .error__message {
+    color: var(--getid-error-color);
+    font-size: 11px;
+    font-weight: var(--getid-font-weight);
+    display: flex;
+    margin-top: 5px;
+    flex-direction: row-reverse;
+    opacity: 0.7;
+    text-align: right;
+    word-break: break-all;
+}
+
+#getid-main input[type='text'], #getid-main select, #getid-main .doc-pick {
+    margin: 0 auto;
+    display: block;
+    padding: 12px 12px;
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
+    color: var(--getid-txt-color);
+    width: var(--getid-input-width);
+    font-size: var(--getid-font-size);
+    transition: var(--getid-transition);
+    z-index: 1;
+    box-sizing: border-box;
+}
+
+#getid-main select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url(../assets/icons/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 15px) 16px;
+    background-size: 10px;
+    font-size: var(--getid-font-size);
+    color: var(--getid-txt-color);
+}
+
+#getid-main input:hover, #getid-main select:hover {
+    border: 1px solid var(--getid-input-hover-border);
+}
+
+#getid-main input:focus,
+#getid-main select:focus,
+#getid-main input:active,
+#getid-main button:active {
+    border: 1px solid var(--getid-input-active-border);
+    box-shadow: none;
+    outline: none;
+}
+
+#getid-main ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--getid-txt-color-secondary);
+    opacity: 1; /* Firefox */
+}
+
+#getid-main :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--getid-txt-color-secondary);
+}
+
+#getid-main ::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--getid-txt-color-secondary);
+}
+
+#getid-main [type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+    display: inline-block;
+    color: var(--getid-white);
+}
+
+#getid-main .doc-type label {
+    margin: 0 auto;
+    display: grid;
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
+    width: 100%;
+    transition: var(--getid-transition);
+    z-index: 1;
+    grid-auto-flow: column;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    cursor: pointer;
+}
+
+#getid-main .doc-type input#checkbox {
+    width: auto;
+    margin: 0 10px;
+}
+
+#getid-main .doc-type label + input[type=checkbox]:checked {
+    border: 1px solid var(--getid-accent-color);
+}
+
+/*-----------FORM END---------*/
+
+/*-----------VIDEO---------*/
+#getid-main .camera_content {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+
+/*-----------VIDEO END---------*/
+
+/*-----------FOOTER---------*/
+#getid-main .browsers button {
+    margin-top: 20px;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    width: 33%;
+}
+
+
+
+#getid-main .browsers p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: center;
+    color: var(--getid-dark-blue-text);
+    opacity: 0.7;
+}
+#getid-main .browsers__list{
+    max-width: 300px;
+    margin: auto;
+}
+/*-----------FOOTER END---------*/
+
+/*-----------CSS RESET---------*/
+#getid-main * {
+    margin: 0;
+    border-radius: initial;
+    padding: 0;
+    border: 0;
+    line-height: 1;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    outline: 0;
+    font-family: Roboto, Arial, serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: inherit;
+    text-decoration: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: none;
+    font-variant: initial;
+    display: initial;
+    min-height: auto;
+    color: initial;
+    width: auto;
+    letter-spacing: normal;
+    box-shadow: none;
+    opacity: initial;
+}
+
+
+#getid-main button {
+    display: inline-block;
+    color: var(--getid-white);
+}
+
+#getid-main video {
+    width: 100%;
+}
+
+#getid-main li {
+    display: list-item;
+}
+
+
+
+/*-----------CSS RESET END---------*/
+
+
+#getid-main .landscape_message {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    flex-direction: column;
+    margin: 20px;
+}
+@media  (max-height:420px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
+    #getid-main .landscape_message {
+        display: flex;
+    }
+    #getid-main .grid__main {
+        display: none;
+    }
+}

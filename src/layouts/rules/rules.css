@@ -1,0 +1,27 @@
+#getid-main .rule-list_container{
+    padding: 25px 50px;
+    border: solid 1px #D5D5D5;
+    border-radius: 15px;
+    display: block;
+    width: 100%;
+}
+#getid-main .rule-list {
+    text-align: left;
+    list-style: none;
+}
+
+#getid-main .rule-list * {
+    color: var(--getid-txt-color);
+}
+
+#getid-main .rule-list {
+    list-style-image: url(../../assets/icons/checkmark.svg);
+}
+
+#getid-main .rule-list li {
+    margin-bottom: 20px;
+}
+
+#getid-main .rule-list li:last-child {
+    margin-bottom: 0;
+}

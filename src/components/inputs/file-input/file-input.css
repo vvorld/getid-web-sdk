@@ -1,0 +1,70 @@
+#getid-main .file-input__label{
+    flex-grow: 1;
+    border: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: justify;
+    font-size: var(--getid-font-size);
+    color: var(--getid-txt-color);
+    white-space: nowrap;
+    width: 100%;
+    cursor: pointer;
+}
+
+#getid-main .form__input-tooltip{
+    color: #8D99B0;
+    opacity: 0.7;
+    font-size: 12px;
+    display: block;
+    line-height: 14px;
+    text-align: left;
+}
+#getid-main .file-input__icon {
+    cursor: pointer;
+    width: 18px;
+    min-width: 18px;
+}
+
+#getid-main .file-input__placeholder {
+    color: var(--getid-txt-color-secondary);
+    opacity: 1;
+}
+#getid-main .file-input {
+    font-size: var(--getid-font-size);
+    margin: 0 auto;
+    border-radius: var(--getid-border-radius);
+    border: 1px solid var(--getid-input-border-color);
+    background: var(--getid-input-bg);
+    transition: var(--getid-transition);
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    width: var(--getid-input-width);
+    padding: 10px;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+#getid-main .file-input:hover { border: 1px solid var(--getid-input-hover-border); }
+#getid-main .file-input:hover .file-input__icon path {
+    stroke: var(--getid-accent-color)!important;
+}
+
+#getid-main .file-input:hover .file-input__icon line {
+    stroke: var(--getid-accent-color)!important;
+}
+#getid-main .file-input:focus, .file-input:active {
+    border: 1px solid var(--getid-input-active-border);
+    box-shadow: none;
+    outline: none;
+}
+
+#getid-main .file-input__generic{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}

@@ -1,46 +1,40 @@
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
-import clsx from 'clsx';
 import React from 'react';
 import PropTypes from 'prop-types';
-import RadioButtonStyles from './style';
+import './style.css';
 
-const Radiobutton = (props) => {
-  const classes = RadioButtonStyles();
-  const classname = classes.label + (props.selectedvalue === props.value ? ' selectedVal' : '');
-
-  return (
-    <FormControlLabel
-      data-role={`radiogroup-${props.value}`}
-      value={props.value}
-      key={`label-${props.value}`}
-      className={classname}
-      labelPlacement="start"
-      {...props}
-      control={(
-        <Radio
-          data-role="radioBtn"
-          classes={{
-            root: classes.root,
-          }}
-          disableRipple
-          key={`radio-${props.value}`}
-          checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-          icon={<span className={classes.icon} />}
-        />
-)}
+const Radiobutton = (props) => (
+  <label
+    htmlFor={props.name}
+    data-role={`radiogroup-${props.value}`}
+    key={`label-${props.value}`}
+    className="getid-radio-button__label"
+    {...props}
+  >
+    <input
+      onChange={props.onChange}
+      checked={props.checked && 'checked'}
+      type="radio"
+      id={props.name}
+      data-role="radioBtn"
+      key={`radio-${props.value}`}
     />
-  );
-};
+    <span className="getid-radio-button__input" />
+    {props.name}
+  </label>
+);
 
 Radiobutton.propTypes = {
   value: PropTypes.any,
-  selectedvalue: PropTypes.string,
+  checked: PropTypes.bool,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 Radiobutton.defaultProps = {
   value: null,
-  selectedvalue: null,
+  name: '',
+  checked: false,
+  onChange: () => {},
 };
 
 export default Radiobutton;

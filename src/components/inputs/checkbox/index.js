@@ -1,37 +1,51 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import React from 'react';
-import clsx from 'clsx';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormControlLabel } from '@material-ui/core';
 import parse from 'html-react-parser';
-import customCheckbox from './style';
+import './style.css';
 
-function CustomCheckbox(props) {
-  const classes = customCheckbox();
-
+function Checkbox(props) {
+  const {
+    label, onChange, value, required,
+  } = props;
+  const [currValue, setValue] = useState(value);
   return (
-    <FormControlLabel
+    <label
+      className="getid-checkbox__label"
       data-role="checkbox"
-      key={`control-${props.label}`}
-      control={(
-        <Checkbox
-          disableRipple
-          checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-          icon={<span className={classes.icon} />}
-          {...props}
-        />
-          )}
-      label={<div className={classes.label}>{parse(props.label)}</div>}
-    />
+      key={`control-${label}`}
+    >
+      <input
+        checked={currValue}
+        type="checkbox"
+        onChange={
+          (e) => {
+            const newValue = e.target.checked;
+            const invalid = required && newValue === false;
+            onChange(newValue, invalid);
+            setValue(newValue);
+          }
+        }
+      />
+      <span className="getid-checkbox__input" />
+      <span>
+        {parse(label)}
+      </span>
+    </label>
   );
 }
 
-CustomCheckbox.propTypes = {
+Checkbox.propTypes = {
   label: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
-CustomCheckbox.defaultProps = {
+Checkbox.defaultProps = {
   label: '',
+  value: false,
+  required: false,
+  onChange: () => {},
 };
 
-export default CustomCheckbox;
+export default Checkbox;

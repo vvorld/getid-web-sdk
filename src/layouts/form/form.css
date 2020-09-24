@@ -1,0 +1,28 @@
+#getid-main .form__body {
+    width: 300px;
+    margin:0 auto;
+    display: block;
+}
+
+#getid-main .form__input-wrapper {
+    margin-bottom: 15px;
+    display: block;
+}
+#getid-main .form__input-hidden {
+     visibility: hidden;
+}
+
+#getid-main .form__input-label {
+    font-style: normal;
+    font-weight: var(--getid-font-weight-bold);
+    font-size: 12px;
+    line-height: 100%;
+    color: var(--getid-txt-color);
+    display: flex;
+    margin-bottom: 10px;
+}
+#getid-main .form__input-action {
+    text-decoration: underline;
+    color: var(--getid-action-color);
+    margin-left: 10px;
+}

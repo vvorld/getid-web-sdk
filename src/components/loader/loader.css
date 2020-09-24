@@ -1,0 +1,39 @@
+#getid-main .cell {
+    width: 100%;
+}
+#getid-main .wrapper{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background: transparent;
+}
+
+#getid-main .wrapper:after{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 0.2rem;
+    text-align: center;
+    background: white;
+}
+
+#getid-main .spinner{
+    width: 3rem;
+    height: 3rem;
+}
+
+#getid-main .spinner.spinner3{
+     border-top: 3px solid var(--getid-accent-color);
+     border-right: 5px solid var(--getid-accent-color);
+     border-radius: 50%;
+     animation: rotation .8s linear infinite;
+ }
+
+@keyframes rotation{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,32 @@
+#getid-main .footer {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;  
+    opacity: 0.3; 
+    margin-top: 40px;
+}
+#getid-main .footer__container {
+    margin: 10px;
+}
+#getid-main .footer_additional {
+    background-color: #F8F7FA;
+    color: black;
+    box-shadow: none;   
+}
+
+#getid-main .footer_button {
+    margin: 20px auto;
+    width: 50%;
+    max-width: 250px;
+    padding: 14px;
+}
+#getid-main .placeholder{
+    margin: 20px auto;
+    width: 50%;
+    max-width: 250px;
+    padding: 14px;
+}
+
+#getid-main .footer img {
+    margin: 0 auto;
+}

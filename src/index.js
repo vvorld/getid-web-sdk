@@ -2,52 +2,71 @@ import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import './polyfills/toBlob.polyfill';
-import { renderMainComponent } from './main-module';
+
+import React from 'react';
+import { renderMainComponent, renderComponent } from './main-module';
 import { createApi, getApiVersions } from './services/api';
-import defaultTranslations from './translations/default.json';
+import defaultTranslations from './translations/default';
 import { createPublicTokenProvider } from './helpers/token-provider';
-import mapApiErrors from './constants/error-mapping';
+
 import {
-  removeFieldDupes,
-  checkContainerId,
+  BrowserNotSupportedErrorView,
+  NoCameraError,
+  ErrorView, AppExistsView, HttpErrorView,
+  ApiVersionErrorView,
+} from './components/errors';
+
+import {
   convertAnswer,
-  addDefaultValues,
   checkApiVersionSupport,
   sortCountryDocuments,
 } from './helpers/generic';
 import cameraViews from './constants/camera-views';
 
-const supportedBrowsers = require('../supportedBrowsers');
+const defaultSortDocuments = (country, documents) => {
+  const idPassportDrivingCountries = ['at', 'be', 'bg', 'de', 'ee', 'fi', 'fr', 'gb', 'gr', 'hu', 'ie', 'is', 'it', 'lv', 'mt', 'no', 'pt', 'ro', 'se', 'si', 'cn'];
+  const passportIdDrivingCountries = ['cy', 'li', 'lt', 'nl'];
+  const idDrivingPassportCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'sk'];
+  const drivingPassportIdCountries = ['lu'];
+  const drivingIdPassportCountries = ['au'];
 
-if (!supportedBrowsers.test(navigator.userAgent)) {
-  console.log('Your browser is not supported.');
-}
+  const idPassportDrivingDocuments = ['id-card', 'passport', 'driving-licence', 'residence-permit'];
+  const passportIdDrivingDocuments = ['passport', 'id-card', 'driving-licence', 'residence-permit'];
+  const idDrivingPassportDocuments = ['id-card', 'driving-licence', 'passport', 'residence-permit'];
+  const drivingPassportIdDocuments = ['driving-licence', 'passport', 'id-card', 'residence-permit'];
+  const drivingIdPassportDocuments = ['driving-licence', 'id-card', 'passport', 'residence-permit'];
+
+  if (drivingPassportIdCountries.includes(country)) return drivingPassportIdDocuments;
+  if (drivingIdPassportCountries.includes(country)) return drivingIdPassportDocuments;
+  if (passportIdDrivingCountries.includes(country)) return passportIdDrivingDocuments;
+  if (idDrivingPassportCountries.includes(country)) return idDrivingPassportDocuments;
+  if (idPassportDrivingCountries.includes(country)) return idPassportDrivingDocuments;
+
+  return documents;
+};
+
+const cameraAchievable = (options) => {
+  const isCameraComponent = options.flow.some((view) => cameraViews.includes(view.component));
+  if (!isCameraComponent) {
+    return true;
+  }
+  const isIOSChrome = navigator.userAgent.match('CriOS');
+  return ((navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) && !isIOSChrome);
+};
+
+const cameraExist = async () => {
+  const divices = await navigator.mediaDevices.enumerateDevices();
+  return !!(divices && divices.find((x) => x.kind === 'videoinput'));
+};
 
 /**
- * @param options - sdk config object
+ * @param originOptions - sdk config object
  * @param tokenProvider - object with token or function, depends on usage
  */
-const init = (options, tokenProvider) => {
-  checkContainerId(options);
-  const found = options.flow
-    .some((view) => view.component
-      .some((step) => cameraViews.includes(step)));
-
-  if (found) {
-    if (!navigator.mediaDevices
-      || !navigator.mediaDevices.enumerateDevices
-      || !navigator.mediaDevices.getUserMedia) {
-      if (options.onFail && typeof options.onFail === 'function') {
-        const error = new Error('mediaDevices_no_supported');
-        options.onFail(error);
-        return;
-      }
-      const config = {
-        ...options, cameraNoSupported: true, translations: defaultTranslations,
-      };
-      renderMainComponent(config);
-      return;
-    }
+const init = (originOptions, tokenProvider) => {
+  const options = { ...originOptions };
+  if (!options.containerId) {
+    throw new Error('Please provide container id.');
   }
 
   const getToken = (typeof tokenProvider === 'object')
@@ -66,73 +85,86 @@ const init = (options, tokenProvider) => {
     throw new Error(tokenProviderError);
   }
 
-  tokenPromise.then((result) => {
-    const { errorMessage, token, statusCode } = result;
-    const { metadata, verificationTypes, apiUrl } = options;
-    const api = createApi(apiUrl, token, verificationTypes, metadata);
+  tokenPromise.then(async (result) => {
+    const {
+      token, exists, errorMessage, responseCode,
+    } = result;
 
-    const config = {
-      ...options, api, translations: defaultTranslations, errorMessage,
+    const { verificationTypes, apiUrl } = options;
+    const api = createApi(apiUrl, token, options.metadata, verificationTypes);
+    const responseTranslations = await api.getTranslations(options.dictionary).then(convertAnswer({ field: 'translations', default: {} }));
+    const customTranslations = options.translations || {};
+    const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
+
+    const renderError = (code, Error) => {
+      if (options.onFail && typeof options.onFail === 'function') {
+        const error = new Error(code);
+        options.onFail(error);
+        return;
+      }
+      renderComponent({
+        ...options,
+        translations,
+      },
+        <Error />);
     };
-    const { onSortDocuments } = config;
 
-    if (config.documentData) {
-      config.documentData = config.documentData
-        .map((el) => (el.value ? { ...el, value: el.value.toLowerCase() } : el));
-    }
-
-    if (errorMessage || statusCode) {
-      renderMainComponent({ ...config, statusCode, errorMessage });
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (window.location.protocol !== 'https:' && !isLocalhost) {
+      renderError('schema_missmatch', HttpErrorView);
       return;
     }
 
+    if (!cameraAchievable(options)) {
+      renderError('mediaDevices_no_supported', BrowserNotSupportedErrorView);
+      return;
+    }
+    if (!cameraExist(options)) {
+      renderError('no_camera', NoCameraError);
+      return;
+    }
+
+    if (responseCode !== 200 && errorMessage) {
+      renderError(errorMessage, ErrorView);
+      return;
+    }
+
+    if (responseCode !== 200 || exists) {
+      renderError('app_exist', () => <AppExistsView callbacks={{ onExists: options.onExists }} />);
+      return;
+    }
+
+    if (options.documentData) {
+      options.documentData = options.documentData
+        .map((el) => (el.value ? {
+          ...el,
+          value: el.value
+            .toLowerCase(),
+        } : el));
+    }
+    const { onSortDocuments = defaultSortDocuments } = options;
     Promise.all([
-      removeFieldDupes(config.fields),
-      api.getInfo().then(convertAnswer()).then(addDefaultValues()),
-      api.getTranslations(config.dictionary).then(convertAnswer({ field: 'translations', default: {} })),
+      api.getInfo().then(convertAnswer()),
+      api.getCountryAndDocList().then(convertAnswer())
+        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
+          ? sortCountryDocuments(countries, onSortDocuments)
+          : countries)),
       getApiVersions(apiUrl).then(checkApiVersionSupport).catch((error) => {
         console.log(`Can't get supported api versions ${error}`);
         return true;
       }),
-      api.getCountryAndDocList()
-        .then(({ countries }) => (onSortDocuments && typeof onSortDocuments === 'function'
-          ? sortCountryDocuments(countries, onSortDocuments)
-          : countries)),
-      api.verifyToken().then(convertAnswer()),
-    ]).then(([
-      filteredFields,
-      info,
-      responseTranslations,
-      isSupportedApiVersion,
-      countriesAndDocsList]) => {
-      const { showOnfidoLogo, sdkPermissions } = info;
-      const customTranslations = options.translations || {};
-      const translations = {
-        ...defaultTranslations,
-        ...responseTranslations,
-        ...customTranslations,
-      };
-      config.fields = filteredFields;
 
+    ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
+      if (!isSupportedApiVersion) {
+        renderError('api_version_missmatch', () => <ApiVersionErrorView />);
+        return;
+      }
       renderMainComponent({
-        ...config,
-        translations,
-        showOnfidoLogo,
-        sdkPermissions,
-        isSupportedApiVersion,
-        countriesAndDocsList,
-      });
-    }).catch((e) => {
-      const translations = {
-        ...defaultTranslations,
-        ...options.translations || {},
-      };
-      renderMainComponent({
+        ...info,
         ...options,
-        api,
-        statusCode: e.statusCode,
+        countryDocuments,
         translations,
-        errorMessage: mapApiErrors[e.message] || 'token_invalid',
+        api,
       });
     });
   });

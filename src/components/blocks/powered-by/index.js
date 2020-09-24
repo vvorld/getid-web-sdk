@@ -1,15 +1,8 @@
 import React from 'react';
-import poweredByStyles from './style';
-import getidLogo from '../../../assets/icons/getid-small.svg';
+import getidLogo from '~/assets/icons/poweredby.svg';
 
-const PoweredBy = () => {
-  const classes = poweredByStyles();
-  return (
-    <div className={classes.block}>
-      <span className={classes.text}>Powered by</span>
-      <img src={getidLogo} alt="getid" data-role="getidLogo" />
-    </div>
-  );
-};
+const PoweredBy = () => (
+  <img className="getid-powered_by" style={{ width: 'auto' }} src={getidLogo} alt="getid" />
+);
 
 export default PoweredBy;

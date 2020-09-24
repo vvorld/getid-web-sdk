@@ -1,20 +1,19 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const { version } = require('./package');
 
 module.exports = {
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './demo/index.html',
-    }),
-  ],
   resolve: {
     extensions: ['*', '.js', '.jsx'],
+    alias: {
+      '~': path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js?$/,
-        include: path.resolve(__dirname, 'src'),
+        test: /\.js[x]?$/,
+        include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'demo')],
         exclude: /node_modules/,
         use: [
           {
@@ -34,10 +33,35 @@ module.exports = {
         test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 100000,
           name: '[name].[ext]',
         },
       },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'to-string-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
+      },
     ],
   },
+  plugins: [
+    new DefinePlugin({
+      'process.env': {
+        VERSION: JSON.stringify(version),
+      },
+    }),
+  ],
 };

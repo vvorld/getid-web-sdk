@@ -1,77 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import { ThemeProvider, jssPreset, StylesProvider } from '@material-ui/styles';
-import { Provider } from 'react-redux';
-import { create } from 'jss';
-import root from 'react-shadow';
-import store from './store/store';
-import actions from './store/actions';
-
-import MainTheme from './theme';
+import retargetEvents from 'react-shadow-dom-retarget-events';
 import TranslationsContext from './context/TranslationsContext';
-import Main from './layouts/Main';
-import ErrorBoundary from './layouts/ErrorBoundary';
+import Widget from './layouts/widget';
+import style from './layouts/style.css';
+import En from '~/translations/default';
+import Ru from '~/translations/ru';
 
-class WrappedJssComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.containerRef = null;
-    this.state = {
-      jss: null,
-    };
-  }
-
-  setRefAndCreateJss = (ref) => {
-    if (ref && !this.state.jss) {
-      const createdJssWithRef = create({ ...jssPreset(), insertionPoint: ref });
-      this.containerRef = ref;
-      this.setState({ jss: createdJssWithRef });
-    }
-  }
-
-  render() {
-    const { jss } = this.state;
-    const { children } = this.props;
-    return (
-      <root.div>
-        <div>
-          <div ref={(ref) => this.setRefAndCreateJss(ref)}>
-            {jss && (
-            <StylesProvider jss={jss}>
-              <ThemeProvider theme={MainTheme(() => this.containerRef)}>
-                {children}
-              </ThemeProvider>
-            </StylesProvider>
-            )}
-          </div>
-        </div>
-      </root.div>
-    );
-  }
-}
-
-WrappedJssComponent.propTypes = {
-  children: PropTypes.node.isRequired,
+const mapContext = {
+  en: En,
+  ru: Ru,
 };
 
-const MainModule = (widgetOptions) => (
-  <div>
-    <WrappedJssComponent>
-      <Provider store={store}>
+const MainModule = (widgetOptions, component) => {
+  const { HtmlProperties, isLanguageSwitch } = widgetOptions;
+
+  const attachShadow = (ref) => {
+    if (!ref) return;
+    const shadowRoot = ref.attachShadow({ mode: 'open' });
+    retargetEvents(shadowRoot);
+    [].slice.call(ref.children).forEach((child) => {
+      shadowRoot.appendChild(child);
+    });
+  };
+
+  const Main = () => {
+    const [ctx, setCxt] = useState(widgetOptions.translations);
+    const setContext = () => {
+      const { value } = document.getElementById('language-switch');
+      setCxt(mapContext[value] || widgetOptions.translations);
+    };
+    return (
+      <>
+        <style>
+          {style}
+        </style>
+        {isLanguageSwitch && (
+        <div>
+          <select id="language-switch" onChange={setContext}>
+            <option value="en">en</option>
+            <option value="ru">ru</option>
+            <option value="nl">nl</option>
+          </select>
+        </div>
+        )}
         <TranslationsContext.Provider
-          value={{ translations: widgetOptions.translations }}
+          value={{ translations: ctx }}
         >
-          <ErrorBoundary>
-            <Main
-              {...widgetOptions}
-            />
-          </ErrorBoundary>
+          {component}
         </TranslationsContext.Provider>
-      </Provider>
-    </WrappedJssComponent>
-  </div>
-);
+      </>
+    );
+  };
+
+  if (HtmlProperties && HtmlProperties.isShadowDom) {
+    return (
+      <div ref={attachShadow}><Main /></div>
+    );
+  }
+
+  return (
+    <Main />
+  );
+};
 
 /**
  * Renders main widget component
@@ -79,12 +70,20 @@ const MainModule = (widgetOptions) => (
  */
 export const renderMainComponent = (widgetOptions) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const component = MainModule(widgetOptions, store);
-
+  const component = MainModule(widgetOptions, <Widget {...widgetOptions} />);
   if (container.hasChildNodes()) {
-    store.dispatch(actions.resetStore());
     ReactDOM.unmountComponentAtNode(container);
   }
-
   ReactDOM.render(component, container);
+};
+
+/**
+ * Renders additional components
+ * @param widgetOptions
+ * @param component
+ */
+export const renderComponent = (widgetOptions, component) => {
+  const container = document.getElementById(widgetOptions.containerId);
+  const componentView = MainModule(widgetOptions, component);
+  ReactDOM.render(componentView, container);
 };

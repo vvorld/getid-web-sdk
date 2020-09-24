@@ -1,0 +1,52 @@
+#getid-main .checkbox__label {
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    margin: 0;
+    font-size: 12px;
+    text-align: left;
+}
+#getid-main .checkbox__label * {
+    line-height: 1.5;
+    color: var(--getid-dark-blue-text);
+}
+
+#getid-main input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+#getid-main .checkbox__input {
+    margin-right: 12px;
+}
+
+#getid-main .checkbox__input {
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    background-color: var(--getid-white);
+    border: 1px solid #CED3DD;
+    box-sizing: border-box;
+    border-radius: var(--getid-border-radius);
+}
+
+#getid-main .checkbox__label:hover input ~ .checkbox__input {
+    background-color: var(--getid-input-bg);
+}
+
+#getid-main .checkbox__label input:checked ~ .checkbox__input {
+    border: 1px solid var(--getid-accent-color);
+    background-color: var(--getid-accent-color);
+}
+
+#getid-main .checkbox__input:after {
+    content: url(../../../assets/icons/checkbox-checkmax.svg);
+    padding-left: 2px;
+    display: none;
+}
+
+#getid-main .checkbox__label input:checked ~ .checkbox__input:after {
+    display: block;
+}
+

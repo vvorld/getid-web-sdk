@@ -1,0 +1,6 @@
+#getid-main .content__container {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -1,0 +1,13 @@
+#getid-main .retake_message {
+    text-align: center;
+    width: 100%;
+    border: solid 1px #F05A7E;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    display: block;
+}
+
+#getid-main .retake_message  * {
+    color: #F05A7E;
+}

@@ -1,0 +1,96 @@
+#getid-main .btn__back {
+    cursor: pointer;
+    margin: 20px auto 0 auto;
+    display: block;
+    text-align: center;
+    text-decoration-line: underline;
+    font-size: var(--getid-font-size);
+}
+
+#getid-main .btn__back * {
+    color: var(--getid-txt-color-secondary);
+}
+#getid-main .btn__back:focus, #getid-main .btn__back:active {
+    outline: none;
+    border: none;
+}
+#getid-main .button__wrapper {
+    margin: auto;
+    display: block;
+}
+
+#getid-main .btn__back:hover {
+    color: var(--getid-accent-color);
+}
+
+#getid-main .button__main.violet:focus {
+    border: 1px solid var(--getid-accent-color);
+    box-shadow: none;
+}
+
+
+#getid-main .button__main:disabled {
+    opacity: 0.38;
+    color: var(--getid-white);
+}
+
+#getid-main .button__main:active, .button__main:focus {
+    color: var(--getid-white);
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+#getid-main button.button__main {
+
+    font-size: 12px;
+    letter-spacing: 1px;
+    transition: var(--getid-transition);
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    top:0;
+    height: 42px;
+    filter: drop-shadow(0px 5px 8px rgba(14, 51, 123, 0.15));
+    background: var(--getid-accent-color);
+    align-self: end;
+    padding: 14px 60px;
+    border-radius: 8px;
+    border: none;
+    min-width: 250px;
+}
+
+#getid-main .button__main * {
+    color: var(--getid-white);
+    text-decoration: none;
+    font-weight: var(--getid-font-weight-bold);
+    text-transform: uppercase;
+}
+#getid-main button.button__main:hover{
+   box-shadow: inset 0px 0px 60px #ffffff40;
+}
+ 
+
+/* TODO */
+#getid-main .button__main.record {
+    background:red;
+    color: var(--getid-white);
+    padding: 0 20px;
+}
+/* OK */
+#getid-main .button__main.ok {
+    background:green;
+    color: var(--getid-white);
+}
+
+#getid-main .button__main.grey {
+    background: var(--getid-button-grey-bg);
+    color: var(--getid-txt-color);
+    filter: none;
+}
+#getid-main .button__main.grey:hover {
+    filter: drop-shadow(0px 15px 18px rgba(14, 51, 123, 0.15));
+}
+#getid-main .hidden{
+    visibility: hidden;
+}

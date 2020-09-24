@@ -1,0 +1,49 @@
+#getid-main .header__big {
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: var(--getid-header-size);
+    min-height: 3em;
+    max-width: 350px;
+}
+
+#getid-main .header__big * {
+    color:var(--getid-txt-color);
+    font-weight: bold;
+}
+
+#getid-main .header__small {
+    margin: auto;
+    margin-top: 20px;
+    opacity: 0.8;
+    text-align: center;
+    max-width: 400px;
+}
+#getid-main .header__small * {
+    line-height: 1.5em;
+    color:var(--getid-txt-color);
+    font-weight: var(--getid-font-weight);
+    font-size: var(--getid-subheader-size);
+}
+
+#getid-main .animation {
+    opacity: 0;
+}
+#getid-main .visible_1 {
+    opacity: 1;
+    transition: .3s opacity;
+    transition-delay: .3s;
+}
+#getid-main .visible_2 {
+    opacity: 1;
+    transition: .3s opacity;
+    transition-delay:  .6s;
+}
+#getid-main .visible_3 {
+    opacity: 1;
+    transition: .3s opacity;
+    transition-delay:  .9s;
+}
+

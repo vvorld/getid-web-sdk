@@ -1,15 +1,103 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
-import { isMobile } from '../../../helpers/generic';
-import DesktopFooter from './desktop-footer/desktop-footer';
-import MobileFooter from './mobile-footer/mobile-footer';
+/* eslint-disable no-param-reassign */
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import PoweredBy from '../powered-by/index';
+import './footer.css';
+import './button.css';
+import Translate from '../translations';
 
-const Footer = (props) => (
-  <Grid container justify="center" alignItems="center">
-    <Grid xs={11} sm={9} item md={12}>
-      { isMobile() ? <MobileFooter {...props} /> : <DesktopFooter {...props} /> }
-    </Grid>
-  </Grid>
-);
+const Footer = ({
+  next, back, step, disableAnimation,
+}) => {
+  if (!next) {
+    next = { onClick: null };
+  }
+  if (!back) {
+    back = { onClick: null };
+  }
+  const [{ visible, step: st }, setVisible] = useState({ visible: disableAnimation, step });
+  const enableAnimation = (!visible || step !== st) && !disableAnimation;
+  if (enableAnimation) {
+    setTimeout(() => {
+      setVisible({ visible: true, step });
+    }, 50);
+  }
+  return (
+    <div data-role="footer"
+         className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
+      <div className="getid-button__wrapper" data-role="button">
+        {next.onClick
+          ? (
+            <button
+              id="main"
+              data-role="main-button"
+              autoFocus
+              type="button"
+              className={`getid-button__main ${next.mod ? `getid-${next.mod}` : ''}`}
+              disabled={next.disable}
+              onClick={() => {
+                setVisible({ visible: false, step });
+                next.onClick();
+              }}
+            >
+              {next.icon}
+              <Translate step={step} element={next.translate || 'next'} />
+            </button>
+          )
+          : (
+            <div className="getid-hidden">
+              <button type="button" className="getid-button__main">-</button>
+            </div>
+          )}
+      </div>
+
+      {back.onClick
+        ? (
+          <button
+            type="button"
+            data-role="back-button"
+            onClick={() => {
+              setVisible({ visible: false, step });
+              back.onClick();
+            }}
+            className="getid-btn__back"
+          >
+            <Translate step={step} element={back.translate || 'back'} />
+          </button>
+        )
+        : <button type="button" className="getid-btn__back getid-hidden">-</button>}
+
+      <footer data-role="getid-footer" className="getid-footer">
+        <PoweredBy />
+      </footer>
+    </div>
+  );
+};
+
+Footer.propTypes = {
+  next: PropTypes.shape({
+    translate: PropTypes.string,
+    disable: PropTypes.bool,
+    onClick: PropTypes.func,
+    mod: PropTypes.string,
+    icon: PropTypes.node,
+  }),
+  back: PropTypes.shape({
+    onClick: PropTypes.func,
+    translate: PropTypes.string,
+
+  }),
+  step: PropTypes.string,
+  style: PropTypes.shape({}),
+  disableAnimation: PropTypes.bool,
+};
+
+Footer.defaultProps = {
+  next: null,
+  back: null,
+  style: {},
+  step: '',
+  disableAnimation: false,
+};
 
 export default Footer;

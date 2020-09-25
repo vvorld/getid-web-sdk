@@ -112,21 +112,21 @@ function DateInput({
   return (
     <>
       {label && (
-      <label className="getid-form__input-label">
+      <label className="getid-form__input-label" data-role="date-label">
         {label}
         {enableControls && <span className="getid-form__input-action" onClick={paste}>Paste</span>}
       </label>
       )}
 
-      <div className="getid-form__date-input">
-        <select value={day} onChange={(e) => change(undefined, undefined, +e.target.value)}>
+      <div className="getid-form__date-input" data-role="date-block">
+        <select data-role="day" value={day} onChange={(e) => change(undefined, undefined, +e.target.value)}>
           <option value="0">{dayLabel}</option>
           {monthDays.map((x) => <option key={x} value={x}>{x}</option>)}
         </select>
-        <select value={month} onChange={(e) => change(undefined, +e.target.value, undefined)}>
+        <select data-role="month" value={month} onChange={(e) => change(undefined, +e.target.value, undefined)}>
           {months.map((x, n) => <option key={x.name} value={n}>{x.name}</option>)}
         </select>
-        <select value={year} onChange={(e) => change(+e.target.value, undefined, undefined)}>
+        <select data-role="year" value={year} onChange={(e) => change(+e.target.value, undefined, undefined)}>
           <option value="0">{yearLabel}</option>
           {formatYears().map((x) => <option key={x} value={x}>{x}</option>)}
         </select>

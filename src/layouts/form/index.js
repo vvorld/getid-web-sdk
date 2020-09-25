@@ -74,12 +74,12 @@ class Form extends Component {
       <>
         <Header step="Form" />
         <Content step="Form">
-          <form className="getid-form__body " data-role="blockForm">
+          <form className="getid-form__body " data-role="block-form">
             {fields.map((field) => (
-              <div key={field.name} className="getid-form__input-wrapper">
+              <div key={field.name} className="getid-form__input-wrapper" data-role="input-wrapper">
                 <InputRenderer
                   {...field}
-                  value={this.form[field.name].value}
+                  {...this.form[field.name]}
                   required={(field.required || field.type === 'consent') || false}
                   onChange={this.handleChange}
                 />

@@ -8,7 +8,7 @@
     margin-bottom: 15px;
     display: block;
 }
-#getid-main .form__input-hiiden {
+#getid-main .form__input-hidden {
      visibility: hidden;
 }
 
@@ -20,4 +20,9 @@
     color: var(--getid-txt-color);
     display: flex;
     margin-bottom: 10px;
+}
+#getid-main .form__input-action {
+    text-decoration: underline;
+    color: var(--getid-action-color);
+    margin-left: 10px;
 }

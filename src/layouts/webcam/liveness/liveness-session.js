@@ -41,6 +41,7 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
 
     let stop = () => {};
 
+    ws.send('needArtifacts');
     ws.send('giveMeTask');
     ws.onclose = (e) => {
       console.log('facing WS close', e);
@@ -56,36 +57,53 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       err.name = 'server_unavailable';
       onError(err);
     };
+    let waitBinnary = false;
+    let binnaryKind = '';
+    const artifacts = {};
     ws.onmessage = (event) => {
       stop();
+      if (waitBinnary) {
+        waitBinnary = false;
+        artifacts[binnaryKind] = event.data;
+        return;
+      }
       const data = JSON.parse(event.data);
-      console.log(data);
-      if (data.messageType === 'taskComplete') {
-        onCommand(data);
-        setTimeout(() => {
-          ws.send('giveMeTask');
-        }, 2000);
-      }
-      if (data.messageType === 'success') {
-        onCommand(data);
-        ws.onclose();
-        console.log('liveness success');
+
+      switch (data.messageType) {
+        case 'taskComplete':
+          onCommand(data);
+          setTimeout(() => {
+            ws.send('giveMeTask');
+          }, 2000);
+          return;
+        case 'success':
+          data.artifacts = artifacts;
+          onCommand(data);
+          ws.onclose();
+          console.log('liveness success');
+          return;
+        case 'task':
+          onCommand(data);
+          stop = photosLoop(ws, takePhoto);
+          return;
+        case 'warning':
+          onCommand(data, () => ws.send('giveMeTask'));
+          return;
+        case 'failure':
+          console.log('liveness failure');
+          onCommand(data);
+          ws.onclose();
+          return;
+        case 'artifactInfo':
+          waitBinnary = true;
+          binnaryKind = data.artifactInfo.kind;
+          return;
+        default:
+          console.error('Wrong event:', data);
+          break;
       }
 
-      if (data.messageType === 'task') {
-        onCommand(data);
-        stop = photosLoop(ws, takePhoto);
-      }
-
-      if (data.messageType === 'warning') {
-        onCommand(data, () => ws.send('giveMeTask'));
-      }
-
-      if (data.messageType === 'failure') {
-        console.log('liveness failure');
-        onCommand(data);
-        ws.onclose();
-      }
+      console.log('artefatc', data);
     };
     return () => {
       console.log('facing WS our close');

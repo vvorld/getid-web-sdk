@@ -28,6 +28,8 @@ function supportedQuadro() {
 class CameraBase extends Component {
   constructor(props) {
     super(props);
+    this.devices = [];
+    this.cameraIndex = 0;
     this.state = {
       width: 0,
       height: 0,
@@ -49,14 +51,27 @@ class CameraBase extends Component {
     }
   }
 
+  setDevice = async () => {
+    if (this.devices.length > 1) {
+      this.cameraIndex += 1;
+      if (!this.devices[this.cameraIndex]) {
+        this.cameraIndex = 0;
+      }
+      await this.setSrc(document.getElementsByClassName('getid-camera__video')[0]);
+    }
+  }
+
   getStream = async (maxWidth) => {
     const createStream = async (variants) => {
+      const id = (this.devices[this.cameraIndex] && this.devices[this.cameraIndex].deviceId) || '';
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, facingMode } = variants[i];
         try {
           return [await navigator.mediaDevices.getUserMedia({
             audio: false,
-            video: { width, height, facingMode },
+            video: {
+              width, height, facingMode, deviceId: id,
+            },
           }), facingMode];
         } catch (e) {
           if (i === (variants.length - 1)) {
@@ -82,6 +97,20 @@ class CameraBase extends Component {
     return createStream(variants);
   }
 
+  checkDevices = () => {
+    navigator.mediaDevices.enumerateDevices()
+      .then((devices) => {
+        devices.forEach((device) => {
+          if (device.kind === 'videoinput') {
+            this.devices.push(device);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(`${err.name}: ${err.message}`);
+      });
+  }
+
   setSrc = async (ref) => {
     this.ref = ref;
     if (!ref) {
@@ -90,6 +119,7 @@ class CameraBase extends Component {
     try {
       const [stream, requestMode] = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
+      this.stopRecord();
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
@@ -106,6 +136,7 @@ class CameraBase extends Component {
 
             const height = this.ref.videoHeight || settings.height;
             const width = this.ref.videoWidth || settings.width;
+
             const {
               left, right, top, bottom,
             } = calculateMaskPoition(width, height, this.props.ratio, 0.8);

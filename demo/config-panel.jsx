@@ -11,7 +11,6 @@ const StepHeader = ({
       <input type="checkbox" checked={enable} onChange={() => onChange(!enable)} />
       {label}
     </label>
-    <span style={{ color: 'blue', cursor: 'pointer' }}> [settings]</span>
   </div>
 );
 
@@ -139,15 +138,15 @@ class ConfigPanel extends Component {
     };
   }
 
-  try = () => {
+  try = (flow) => {
     const { customerId } = this.state;
-    const config = this.generateConfig();
+    const config = this.generateConfig(flow);
     const tokenProvider = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
     init(config, tokenProvider);
   }
 
-  generateConfig = () => {
-    const { defaultCfg, flow } = this.state;
+  generateConfig = (flow) => {
+    const { defaultCfg } = this.state;
     const cfg = { ...defaultCfg };
     cfg.flow = cfg.flow.filter((x) => flow[x.component]);
     return cfg;
@@ -158,11 +157,16 @@ class ConfigPanel extends Component {
     const flow = { ...currFlow, [name]: enable };
     window.localStorage.setItem('flow_config', JSON.stringify(flow));
     this.setState({ flow });
+    this.try(flow);
+  }
+
+  componentWillMount() {
+    this.try(this.state.flow);
   }
 
   render() {
     const { flow } = this.state;
-    const config = this.generateConfig();
+    const config = this.generateConfig(flow);
     return (
       <>
         <div className="controls_container">
@@ -182,7 +186,6 @@ class ConfigPanel extends Component {
           </div>
 
         </div>
-        <button className="try_button" onClick={this.try}>>></button>
       </>
     );
   }

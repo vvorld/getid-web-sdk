@@ -1,5 +1,5 @@
 export default {
-  CountryAndDocument_header: 'Choose document type',
+  CountryAndDocument_header: 'Выберите тип документа',
   CountryAndDocument_subHeader: 'Carefully choose document type of document you want to provide for identification',
   CountryAndDocument_next: 'Go next',
   CountryAndDocument_back: 'Go back',
@@ -63,7 +63,7 @@ export default {
   IdCaptureBack_retake_description_next: 'Retake',
   IdCaptureBack_retake_description_back: 'Continue',
 
-  Form_header: 'Profile data',
+  Form_header: 'Личные данные',
   Form_subHeader: 'Please provide personal details same as on your ID Document',
   Form_next: 'Go next',
   Form_back: 'Go back',

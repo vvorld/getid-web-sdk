@@ -31,20 +31,24 @@
 #getid-main main, #getid-main {
     --getid-txt-color: #1B3361;
     --getid-txt-color-secondary: #999;
+    --getid-action-color: #9C77E0;
+   
     --getid-input-bg: #FBFBFB;
     --getid-input-active-text: #1B3361;
     --getid-dark-blue-text: #0E2846;
     --getid-accent-color: #9C77E0;
     --getid-input-border-color: #eee;
-    --getid-input-hover-border: #CED3DD;
-    --getid-input-active-border: #9C77E0;
-    --getid-white: #FFFFFF;
-    --getid-error-color: red;
-    
 
     --getid-error-border: #F05A7E;
     --getid-success-border:#47DAAE;
     --getid-active-border: #9C77E0;
+    
+
+    --getid-input-hover-border: #CED3DD;
+    --getid-input-active-border: #9C77E0;
+    --getid-white: #FFFFFF;
+    --getid-error-color: red;
+
     
     --getid-button-grey-bg: #F8F7FA;
     --getid-font-size: 14px;

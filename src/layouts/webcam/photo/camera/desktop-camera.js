@@ -7,8 +7,13 @@ class DesktopCamera extends CameraBase {
     this.stopRecord();
   }
 
+  componentDidMount() {
+    this.checkDevices();
+  }
+
   render() {
     const { Overlay } = this.props;
+
     const {
       width, height, left,
       top,
@@ -16,6 +21,7 @@ class DesktopCamera extends CameraBase {
       right,
       mode,
     } = this.state;
+
     return (
       <div className="getid-camera__container">
         <video
@@ -26,6 +32,17 @@ class DesktopCamera extends CameraBase {
           muted
           autoPlay
         />
+        {/*{(this.devices && this.devices.length > 1) && (*/}
+        {/*<button*/}
+        {/*  type="button"*/}
+        {/*  style={{*/}
+        {/*    position: 'absolute', zIndex: '100', top: '5px', right: '5px',*/}
+        {/*  }}*/}
+        {/*  onClick={this.setDevice}*/}
+        {/*>*/}
+        {/*  check cams*/}
+        {/*</button>*/}
+        {/*)}*/}
         {Overlay && (
         <Overlay
           width={width}

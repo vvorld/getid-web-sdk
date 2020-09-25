@@ -192,7 +192,7 @@ class LivenessStep extends Component {
           this.setState({
             command,
             nextCommand: {
-              onClick: () => this.props.finishStep(),
+              onClick: () => this.props.finishStep({ artifacts: command.artifacts }),
             },
           });
           break;

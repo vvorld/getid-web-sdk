@@ -25,6 +25,10 @@ pipeline {
             label:"network creation"
           )
           sh(
+            script:"cat automation-getid-web-sdk/run_nose_command.sh",
+            label:"build sdk"
+          )
+          sh(
             script:"docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build-${unique_pattern} .",
             label:"build sdk"
           )

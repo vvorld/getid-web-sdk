@@ -274,7 +274,7 @@ Can be used several times in the config (multi-form)
         - date: `string`
         - file: `*.jpg, *.jpeg, *.png, *.pdg`, **max.size: 6MB**
         - select: `string`
-        - checkbox: `boolean`
+        - bool: `boolean` (form of checkbox input)
         - consent: `boolean` (special type in case T&C/MarketingPromotion consent are required)
     
    Example:

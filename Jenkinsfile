@@ -50,11 +50,13 @@ pipeline {
     stage('Unit tests') {
       agent { label 'new-ui-tests' }
       steps {
-        script {
-          sh(
-            script:"pwd && docker run --network sdk-cluster -v automation-getid-web-sdk:/automation test_sdk_runner-${unique_pattern}",
-            label:"run tests"
-          )
+        script { 
+          dir("$WORKSPACE/automation-getid-web-sdk"){
+            sh(
+              script:"docker run --network sdk-cluster -v \$(pwd):/automation test_sdk_runner-${unique_pattern}",
+              label:"run tests"
+            )
+          }
         }
       }
     }

@@ -50,7 +50,7 @@ const CountryAndDocument = ({
       <Header step="CountryAndDocument" />
       <Content step="CountryAndDocument">
         <form className="getid-form__body" data-role="block-country-and-document">
-          <div>
+          <div data-role="countries">
             <select
               value={currCountry}
               onChange={(e) => changeCountry(e.target.value)}
@@ -64,7 +64,7 @@ const CountryAndDocument = ({
             </select>
 
           </div>
-          <div>
+          <div data-role="documents">
             {documents && documents.map((docType) => (
               <div key={docType.name} className="getid-form__input-wrapper">
                 <Radiobutton

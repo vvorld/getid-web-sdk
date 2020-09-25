@@ -428,7 +428,7 @@ Widget.propTypes = {
     checkSide: PropTypes.func.isRequired,
     checkSelfie: PropTypes.func.isRequired,
   }).isRequired,
-  metadata: PropTypes.shape({}).isRequired,
+  metadata: PropTypes.shape({}),
   styles: PropTypes.shape({}),
   flow: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
@@ -439,6 +439,7 @@ Widget.defaultProps = {
   styles: {},
   onComplete: null,
   additionalData: [],
+  metadata: {},
 };
 
 export default Widget;

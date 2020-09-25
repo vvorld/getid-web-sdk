@@ -48,7 +48,7 @@ pipeline {
       steps {
         script {
           sh(
-            script:"docker run --network sdk-cluster -v automation-getid-web-sdk:/automation test_sdk_runner-${unique_pattern}",
+            script:"pwd && docker run --network sdk-cluster -v automation-getid-web-sdk:/automation test_sdk_runner-${unique_pattern}",
             label:"run tests"
           )
         }

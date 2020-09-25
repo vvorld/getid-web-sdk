@@ -37,7 +37,7 @@ pipeline {
             label:"getting sdk.min.js"
           )
           sh(
-            script:"docker-compose -p sdk_test_runner-${unique_pattern} -f automation-getid-web-sdk/docker-compose-jenkins.yaml up --build -d",
+            script:"cd automation-getid-web-sdk && docker-compose -p sdk_test_runner-${unique_pattern} -f docker-compose-jenkins.yaml up --build -d",
             label:"app selenium and sdk-server"
           )
           sh(

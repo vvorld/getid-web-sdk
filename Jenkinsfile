@@ -16,34 +16,40 @@ pipeline {
       agent { label 'new-ui-tests' }
       steps {
         script {
-          sh(
-            script:"git clone git@github.com:vvorld/automation-getid-web-sdk.git",
-            label:"clone tests repo"
-          )
-          sh(
-            script:"docker network create sdk-cluster || true",
-            label:"network creation"
-          )
-          sh(
-            script:"cat automation-getid-web-sdk/run_nose_command.sh",
-            label:"build sdk"
-          )
-          sh(
-            script:"docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build-${unique_pattern} .",
-            label:"build sdk"
-          )
-          sh(
-            script:"mkdir automation-getid-web-sdk/sdk-server/assets && docker run --rm sdk_build-${unique_pattern} > automation-getid-web-sdk/sdk-server/assets/getid-web-sdk-latest-build.min.js",
-            label:"getting sdk.min.js"
-          )
-          sh(
-            script:"cd automation-getid-web-sdk && docker-compose -p sdk_test_runner-${unique_pattern} -f docker-compose-jenkins.yaml up --build -d",
-            label:"app selenium and sdk-server"
-          )
-          sh(
-            script:"cd automation-getid-web-sdk && docker build -f Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} .",
-            label:"build test_runner"
-          )
+          docker.withRegistry('', 'dockerhub_id') {
+            sh(
+              script: "docker pull getid/automation-framework:latest",
+              label: "pulling latest automation lib"
+            )
+            sh(
+              script:"git clone git@github.com:vvorld/automation-getid-web-sdk.git",
+              label:"clone tests repo"
+            )
+            sh(
+              script:"docker network create sdk-cluster || true",
+              label:"network creation"
+            )
+            sh(
+              script:"cat automation-getid-web-sdk/run_nose_command.sh",
+              label:"build sdk"
+            )
+            sh(
+              script:"docker build -f automation-getid-web-sdk/Dockerfile_SDK_BUILD -t sdk_build-${unique_pattern} .",
+              label:"build sdk"
+            )
+            sh(
+              script:"mkdir automation-getid-web-sdk/sdk-server/assets && docker run --rm sdk_build-${unique_pattern} > automation-getid-web-sdk/sdk-server/assets/getid-web-sdk-latest-build.min.js",
+              label:"getting sdk.min.js"
+            )
+            sh(
+              script:"cd automation-getid-web-sdk && docker-compose -p sdk_test_runner-${unique_pattern} -f docker-compose-jenkins.yaml up --build -d",
+              label:"app selenium and sdk-server"
+            )
+            sh(
+              script:"cd automation-getid-web-sdk && docker build -f Dockerfile_test_runner_ci -t test_sdk_runner-${unique_pattern} .",
+              label:"build test_runner"
+            )
+          }
         }
       }
     }

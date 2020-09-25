@@ -11,9 +11,7 @@ import { createPublicTokenProvider } from './helpers/token-provider';
 
 import {
   BrowserNotSupportedErrorView,
-  NoCameraError,
-  ErrorView, AppExistsView, HttpErrorView,
-  ApiVersionErrorView,
+  ErrorView,
 } from './components/errors';
 
 import {
@@ -65,24 +63,39 @@ const cameraExist = async () => {
  */
 const init = (originOptions, tokenProvider) => {
   const options = { ...originOptions };
-  if (!options.containerId) {
-    throw new Error('Please provide container id.');
+
+  const renderError = (code, translations = defaultTranslations, Error = ErrorView) => {
+    if (options.onFail && typeof options.onFail === 'function') {
+      options.onFail({
+        code,
+        message: translations[`${code}_error`] || 'internal error',
+      });
+    }
+    renderComponent({
+      ...options,
+      translations,
+    }, <Error error={code} />);
+  };
+
+  if (!options.containerId || !document.getElementById(options.containerId)) {
+    renderError('container_missmatch');
+    return;
   }
 
   const getToken = (typeof tokenProvider === 'object')
     ? () => new Promise(((resolve) => resolve(tokenProvider)))
     : tokenProvider;
 
-  const tokenProviderError = 'token provider must be a function that returns promise or jwt response object';
-
   if (typeof getToken !== 'function') {
-    throw new Error(tokenProviderError);
+    renderError('token_missmatch');
+    return;
   }
 
   const tokenPromise = getToken();
 
   if (typeof tokenPromise.then !== 'function') {
-    throw new Error(tokenProviderError);
+    renderError('token_missmatch');
+    return;
   }
 
   tokenPromise.then(async (result) => {
@@ -96,51 +109,36 @@ const init = (originOptions, tokenProvider) => {
     const customTranslations = options.translations || {};
     const translations = { ...defaultTranslations, ...responseTranslations, ...customTranslations };
 
-    const renderError = (code, Error) => {
-      if (options.onFail && typeof options.onFail === 'function') {
-        const error = new Error(code);
-        options.onFail(error);
-        return;
-      }
-      renderComponent({
-        ...options,
-        translations,
-      },
-        <Error />);
-    };
-
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     if (window.location.protocol !== 'https:' && !isLocalhost) {
-      renderError('schema_missmatch', HttpErrorView);
+      renderError('schema_missmatch', translations);
       return;
     }
 
     if (!cameraAchievable(options)) {
-      renderError('mediaDevices_no_supported', BrowserNotSupportedErrorView);
+      renderError('browser_not_supported', translations, BrowserNotSupportedErrorView);
       return;
     }
     if (!cameraExist(options)) {
-      renderError('no_camera', NoCameraError);
+      renderError('no_camera', translations);
       return;
     }
 
     if (responseCode !== 200 && errorMessage) {
-      renderError(errorMessage, ErrorView);
+      renderError(errorMessage, translations);
       return;
     }
 
     if (responseCode !== 200 || exists) {
-      renderError('app_exist', () => <AppExistsView callbacks={{ onExists: options.onExists }} />);
+      renderError('app_exists', translations);
       return;
     }
 
     if (options.documentData) {
-      options.documentData = options.documentData
-        .map((el) => (el.value ? {
-          ...el,
-          value: el.value
-            .toLowerCase(),
-        } : el));
+      options.documentData = options.documentData.map((el) => (el.value ? {
+        ...el,
+        value: el.value.toLowerCase(),
+      } : el));
     }
     const { onSortDocuments = defaultSortDocuments } = options;
     Promise.all([
@@ -156,7 +154,7 @@ const init = (originOptions, tokenProvider) => {
 
     ]).then(([info, countryDocuments, isSupportedApiVersion]) => {
       if (!isSupportedApiVersion) {
-        renderError('api_version_missmatch', () => <ApiVersionErrorView />);
+        renderError('api_version_missmatch', translations);
         return;
       }
       renderMainComponent({
@@ -167,6 +165,9 @@ const init = (originOptions, tokenProvider) => {
         api,
       });
     });
+  }).catch((e) => {
+    console.error(e);
+    renderError('internal_error');
   });
 };
 

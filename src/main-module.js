@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 import TranslationsContext from './context/TranslationsContext';
@@ -61,6 +61,10 @@ export const renderMainComponent = (widgetOptions) => {
  */
 export const renderComponent = (widgetOptions, component) => {
   const container = document.getElementById(widgetOptions.containerId);
-  const componentView = MainModule(widgetOptions, component);
-  ReactDOM.render(componentView, container);
+  if (container) {
+    const componentView = MainModule(widgetOptions, component);
+    ReactDOM.render(componentView, container);
+  } else {
+    console.error(`container #${widgetOptions.containerId} not found`);
+  }
 };

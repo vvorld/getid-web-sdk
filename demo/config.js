@@ -15,7 +15,6 @@ export default {
           type: 'text',
           name: 'First name',
           required: false,
-          value: '',
           mask: {
             regexp: '^[a-zA-Z0-9 ]+$',
             message: 'Only latin symbols',
@@ -46,15 +45,22 @@ export default {
       showRules: true,
       interactive: true,
       enableCheckPhoto: true,
+      country: 'ee',
+      documentType: 'id-card',
     },
     {
       component: 'Record',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
     { component: 'Liveness' },
-
     { component: 'Selfie', showRules: false, enableCheckPhoto: true },
     { component: 'ThankYou' },
+  ],
+  additionalData: [
+    {
+      name: 'First name',
+      value: 'Gerus Artem',
+    },
   ],
   onComplete({ id }) {
     alert(id);

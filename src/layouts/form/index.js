@@ -22,6 +22,10 @@ class Form extends Component {
       if (f && f.value) {
         return f.value;
       }
+      const f1 = (this.form || {})[name];
+      if (f1 && f1.value) {
+        return f1.value;
+      }
       if (value) {
         return value;
       }
@@ -34,6 +38,13 @@ class Form extends Component {
       }
       return '';
     };
+
+    (this.props.additionalData || []).forEach((el) => {
+      this.form[el.name] = {
+        value: getFormValue(el),
+        required: (el.required || el.type === 'consent') || false,
+      };
+    });
 
     this.props.fields.forEach((el) => {
       this.form[el.name] = {
@@ -102,6 +113,7 @@ Form.propTypes = {
   fields: PropTypes.array,
   extractedData: PropTypes.array,
   form: PropTypes.array,
+  additionalData: PropTypes.array,
 };
 Form.defaultProps = {
   finishStep: null,
@@ -109,6 +121,7 @@ Form.defaultProps = {
   form: null,
   fields: [],
   extractedData: [],
+  additionalData: [],
 };
 
 export default Form;

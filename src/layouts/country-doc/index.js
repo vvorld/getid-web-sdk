@@ -28,7 +28,6 @@ const CountryAndDocument = ({
     const countryInfo = countryDocuments[c];
     return (countryInfo && countryInfo.documents) || [];
   };
-  const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
   const [currCountry, setValue] = useState(country);
   const [currDocumentType, setDocumentType] = useState(documentType);
@@ -54,7 +53,7 @@ const CountryAndDocument = ({
             <select
               value={currCountry}
               onChange={(e) => changeCountry(e.target.value)}
-              placeholder={placeholder}
+              placeholder={translations.CountryAndDocument_countryPlaceholder}
               className="getid-form__input-wrapper"
             >
               <option value="">Country</option>

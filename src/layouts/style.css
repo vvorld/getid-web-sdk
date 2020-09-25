@@ -225,6 +225,9 @@
 }
 
 
+#getid-main .browsers {
+    display: inherit;
+}
 
 #getid-main .browsers p {
     font-style: normal;

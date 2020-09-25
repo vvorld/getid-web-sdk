@@ -267,6 +267,7 @@ class Widget extends Component {
           <Form
             form={app.form}
             extractedData={app.extractedData}
+            additionalData={app.additionalData}
             {...props}
           />
         ),

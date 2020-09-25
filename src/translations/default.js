@@ -3,6 +3,7 @@ export default {
   CountryAndDocument_subHeader: 'Carefully choose document type of document you want to provide for identification',
   CountryAndDocument_next: 'Go next',
   CountryAndDocument_back: 'Go back',
+  CountryAndDocument_countryPlaceholder: 'Choose country',
 
   PhotoRules_header: 'Take a front side picture of ID Document',
   PhotoRules_subHeader: ' ',
@@ -67,6 +68,7 @@ export default {
   Form_subHeader: 'Please provide personal details same as on your ID Document',
   Form_next: 'Go next',
   Form_back: 'Go back',
+  Form_FileTooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
 
   Const_day: 'Day',
   Const_year: 'Year',
@@ -174,20 +176,76 @@ export default {
   LivenessCommand_success: 'Great!',
 
   // ERROR
-  isFail_header: 'Cannot send data',
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
   retake_description_selfie_unknown: 'Selfie can not be identified',
   retake_description_selfie_error: 'Selfie can not be identified',
   retake_description_front_side_missing: 'Front side wasn\'t recognized.',
   retake_description_back_side_missing: 'Back side wasn\'t recognized.',
+
+  // container ID  is not provided
+  container_missmatch_error: 'Please provide container id.',
+
+  // token is not provided
+  token_missmatch_error: 'Token provider must be a function that returns promise or jwt response object',
+
+  // schema_missmatch
+  schema_missmatch_error: 'Insecure protocol detected',
+  schema_missmatch_error_header: 'Insecure protocol detected',
+  schema_missmatch_error_subHeader: 'Please use https protocol',
+
+  // Broswer not supported
+  browser_not_supported_error: 'Browser is not supported',
+  browser_not_supported_error_header: 'Browser is not supported',
+  browser_not_supported_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
+
+  // Device doesn't have camera
+  no_camera_error: 'Device has no camera',
+  no_camera_error_header: 'Your device has no camera',
+  no_camera_error_subHeader: 'Please use device with camera',
+
+  // Server return 400
   '400_header': 'Bad request',
-  '500_header': 'Service is unavailable',
-  isFail_subHeader: 'Error occurs when you try to send data to the server.',
   '400_subHeader': 'Try again or contact the support team.',
+
+  // Server return 500
+  '500_header': 'Service is unavailable',
   '500_subHeader': 'Try again or contact the support team.',
-  camera_access_tooltip: 'Make sure camera is enabled and browser has access to it.',
-  'CountryAndDocument_country-placeholder': 'Choose country',
+
+  // App Exist application
+  app_exists_error: 'Application already exists.',
+  app_exists_error_header: 'Application already exists.',
+  app_exists_error_subHeader: 'Please contact your provider for further information.',
+
+  // Api version missmatch
+  api_version_missmatch_error: 'Sdk version not compatible with current api version',
+  api_version_missmatch_error_header: 'Your sdk version not compatible with current api version',
+  api_version_missmatch_error_subHeader: 'Please update your sdk version',
+
+  // We don't know what to do
+  default_error: 'Internal error',
+  default_error_header: 'Something was wrong',
+  default_error_subHeader: 'Please contact your provider for further information.',
+
+  // Server is not unavailable (liveness or recording fallback)
+  server_error: 'Server is unavailable',
+  server_error_header: 'Server is unavailable',
+  server_error_subHeader: '',
+
+  // Application didn't send
+  isFail_error: 'Cannot create application',
+  isFail_error_header: 'Cannot send data',
+  isFail_error_subHeader: 'Error occurs when you try to send data to the server.',
+
+  camera_error_not_found: 'No available devices were found',
+  camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
+  camera_error_generic: 'To make a photo you need to give access for webcam',
+  camera_error_another_browser: 'Use another browser',
+  camera_error_next: 'Try again',
+  camera_error_header: 'Camera is not supported',
+
+  // ERROR BUTTONS
+
   button_next: 'next',
   button_back: 'back',
   button_submit: 'submit',
@@ -197,36 +255,8 @@ export default {
   choose_flow_button: 'Choose Flow',
   retry_button: 'Retry',
   cancel_button: 'Cancel',
-  exists_header: 'Application already exists.',
-  exists_subHeader: 'Please contact your provider for further information.',
-  done_button: 'Done',
-  file_input_tooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
-  button_make_photo: 'make photo',
-  guide_accept: 'Ok, got it',
-  photo_tip: 'Please use <b>Spacebar</b> key to make photo',
-  error_header: 'Something was wrong',
 
-  http_error_header: 'Insecure protocol detected',
-  http_error_subHeader: 'Please use https protocol',
-
-  apiVersion_error_header: 'Your sdk version not compatible with current api version',
-  apiVersion_error_subHeader: 'Please update your sdk version',
-
-  browser_error_header: 'Browser is not supported',
-  browser_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
-  camera_error_not_found: 'No available devices were found',
-  camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
-  camera_error_generic: 'To make a photo you need to give access for webcam',
-  camera_error_another_browser: 'Use another browser',
-  camera_error_next: 'Try again',
-  camera_error_header: 'Camera is not supported',
-
-  no_camera_error_header: 'Your device has no camera',
-  no_camera_error_subHeader: 'Please use device with camera',
-
-  server_error_header: 'Server is unavailable',
-  server_error_subHeader: '',
-
-  error_subHeader: 'Please contact your provider for further information.',
+  // OTHER
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
+
 };

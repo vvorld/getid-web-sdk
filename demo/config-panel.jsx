@@ -1,6 +1,5 @@
 import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { init, createPublicTokenProvider } from '../src/index';
 import defConfig from './config';
 
 const StepHeader = ({
@@ -141,8 +140,7 @@ class ConfigPanel extends Component {
   try = (flow) => {
     const { customerId } = this.state;
     const config = this.generateConfig(flow);
-    const tokenProvider = createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
-    init(config, tokenProvider);
+    this.props.render(config);
   }
 
   generateConfig = (flow) => {
@@ -192,7 +190,7 @@ class ConfigPanel extends Component {
 }
 
 // eslint-disable-next-line react/no-render-return-value
-export default (id) => ReactDOM.render(
-  <ConfigPanel />,
+export default (id, render) => ReactDOM.render(
+  <ConfigPanel render={render} />,
   document.getElementById(id),
 );

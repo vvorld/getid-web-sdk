@@ -55,38 +55,14 @@ const errorProps = {
   callbacks: PropTypes.object,
 };
 
-export const AppExistsView = createErrorView({
-  header: (dictionary) => dictionary.exists_header,
-  subHeader: (dictionary) => dictionary.exists_subHeader,
-  buttons: {
-    done: {
-      name: (dictionary) => dictionary.done_button,
-      action: (callbacks) => callbacks.onExists,
-      className: 'violet',
-    },
-  },
-});
-
-export const ApiVersionErrorView = createErrorView({
-  header: (dictionary) => dictionary.apiVersion_error_header,
-  subHeader: (dictionary) => dictionary.apiVersion_error_subHeader,
-});
-
 export const ErrorView = createErrorView({
-  header: (dictionary) => dictionary.error_header,
-  subHeader: (dictionary) => dictionary.error_subHeader,
-  buttons: {
-    done: {
-      name: (dictionary) => dictionary.done_button,
-      action: (callbacks) => callbacks.onFail,
-      className: 'violet',
-    },
-  },
+  header: (dictionary, error) => (dictionary[`${error}_error_header`] || dictionary.default_error_header),
+  subHeader: (dictionary, error) => (dictionary[`${error}_error_subHeader`] || dictionary.default_error_subHeader),
 });
 
 export const BrowserNotSupportedErrorView = createErrorView({
-  header: (dictionary) => dictionary.browser_error_header,
-  subHeader: (dictionary) => dictionary.browser_error_subHeader,
+  header: (dictionary) => dictionary.browser_not_supported_error_header,
+  subHeader: (dictionary) => dictionary.browser_not_supported_error_subHeader,
   children: (dictionary) => <Browsers dictionary={dictionary} />,
 });
 export const NoCameraError = createErrorView({
@@ -94,14 +70,9 @@ export const NoCameraError = createErrorView({
   subHeader: (dictionary) => dictionary.no_camera_error_subHeader,
 });
 
-export const HttpErrorView = createErrorView({
-  header: (dictionary) => dictionary.http_error_header,
-  subHeader: (dictionary) => dictionary.http_error_subHeader,
-});
-
 export const FailError = createErrorView({
-  header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_header,
-  subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_subHeader,
+  header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_error_header,
+  subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_error_subHeader,
   buttons: {
 
     retry: {
@@ -150,7 +121,6 @@ export const ServerErrorView = createErrorView({
 });
 
 FailError.props = errorProps;
-AppExistsView.props = errorProps;
 ErrorView.props = errorProps;
 BrowserNotSupportedErrorView.props = errorProps;
 CameraDisabledErrorView.props = errorProps;

@@ -5,6 +5,15 @@ def build_branch = "${BRANCH_NAME}"
 def unique_pattern_name = "${BUILD_NUMBER}-${BRANCH_NAME}"
 def unique_pattern = unique_pattern_name.replace("/", "")
 
+def testGrCdata(branch, gitURL, jenkinsURL){
+  gitURL = gitURL.substring(0, gitURL.lastIndexOf('.'))
+  if (branch.startsWith("PR-")) {
+    gitURL = "$gitURL/pull/" + branch.substring(3, branch.length())
+  } else {
+    gitURL = "$gitURL/tree/$branch"
+  }
+  return "{\"Git\":\"${gitURL}\",\"Jenkins\":\"${jenkinsURL}\"}"
+}
 
 pipeline {
   agent none
@@ -57,9 +66,10 @@ pipeline {
       agent { label 'new-ui-tests' }
       steps {
         script { 
+          cdata = testGrCdata(build_branch, GIT_URL, RUN_DISPLAY_URL)
           dir("$WORKSPACE/automation-getid-web-sdk"){
             sh(
-              script:"docker run --network sdk-cluster -v \$(pwd):/automation test_sdk_runner-${unique_pattern}",
+              script:"docker run --network sdk-cluster -v \$(pwd):/automation -e CDATA='$cdata' test_sdk_runner-${unique_pattern}",
               label:"run tests"
             )
           }

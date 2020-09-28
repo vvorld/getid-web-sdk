@@ -20,3 +20,16 @@
     bottom: 0;
     height: 100%;
 }
+
+#getid-main .camera__request {
+    position: absolute;
+    z-index: 100;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+#getid-main .camera__request:active {
+    outline: none;
+    border: none;
+}

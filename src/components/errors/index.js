@@ -13,24 +13,23 @@ const createErrorView = (config) => (props) => {
   } = props;
 
   const { translations: dictionary } = useContext(TranslationsContext);
-
   return (
     <>
       <Header step={`${error}_error`} />
       <Content step={`${error}_error`}>
-        <div><img alt="error" src={ErrorIcon} /></div>
+        {config.children
+          ? config.children(dictionary)
+          : <div><img alt="error" src={ErrorIcon} /></div> }
 
         {/*
-        const { abilityToSwitch } = config;
-        const switchDevice = () => {};
         abilityToSwitch && (
           <div style={{ margin: '10px auto' }}>
             <button className="getid-button__main" type="button" onClick={switchDevice}>
               Change device and continue
             </button>
           </div>
-          ) */}
-        {config.children && config.children(dictionary)}
+        )
+        */}
 
       </Content>
 
@@ -54,7 +53,7 @@ export const ErrorView = createErrorView({
 });
 
 export const BrowserNotSupportedErrorView = createErrorView({
-  children: (dictionary) => <Browsers dictionary={dictionary} />,
+  children: () => <Browsers />,
   abilityToSwitch: true,
 });
 

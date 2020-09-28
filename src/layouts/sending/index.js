@@ -21,7 +21,7 @@ const Sending = ({ send, finishStep, prevStep }) => {
       {sending
         ? (
           <Loader>
-            Send....
+            Send...
           </Loader>
         )
         : (

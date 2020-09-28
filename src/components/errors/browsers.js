@@ -29,8 +29,8 @@ const icons = [
 
 const Browsers = () => (
   <div className="getid-browsers">
-    <div style={{ fontWeight: 'bold' }} className="getid-header__small">
-      <Translate step="camera_error" element="another_browser" />
+    <div className="getid-header__small">
+      <Translate style={{ fontWeight: 'bold' }} step="browser_not_supported_error" element="variants" />
     </div>
     <div className="getid-browsers__list">
       {

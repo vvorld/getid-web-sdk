@@ -126,9 +126,10 @@ class CameraBase extends Component {
       return;
     }
     try {
+      this.stopRecord();
       const [stream, requestMode] = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
-      this.stopRecord();
+
       this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {

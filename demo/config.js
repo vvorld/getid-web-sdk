@@ -59,7 +59,11 @@ export default {
   additionalData: [
     {
       value: 'Gerus Artem',
-      category: 'First name',
+      name: 'First name',
+    },
+    {
+      value: 'Test',
+      name: 'Test',
     },
   ],
   onComplete({ id }) {

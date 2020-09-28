@@ -26,7 +26,9 @@ const transformAppToApiModel = (app, api) => async () => {
   if (app.form || app.additionalData) {
     const form = app.form || {};
 
-    const additionalFields = app.additionalData.filter((x) => !form[x.category]);
+    const additionalFields = app.additionalData
+      .filter((x) => !form[x.name])
+      .map((x) => ({ category: x.name, content: x.value }));
 
     const fromFields = Object.entries(app.form || {}).filter(([key, v]) => {
       if (v.value && v.value.type) {

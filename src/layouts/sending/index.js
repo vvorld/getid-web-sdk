@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Loader from '~/components/loader/loader';
 import { ErrorView } from '~/components/errors';
 

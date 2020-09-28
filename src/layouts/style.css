@@ -241,6 +241,18 @@
     opacity: 0.7;
     max-width: 300px;
     margin: auto;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+}
+#getid-main .browsers__list button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#getid-main .browsers__list p{
+    margin: 10px;
 }
 /*-----------FOOTER END---------*/
 

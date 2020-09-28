@@ -197,7 +197,7 @@ export default {
   // Broswer not supported
   browser_not_supported_error: 'Browser is not supported',
   browser_not_supported_error_header: 'Browser is not supported',
-  browser_not_supported_error_variants: 'Use another browser',
+  browser_not_supported_error_variants: 'Use another browser:',
   browser_not_supported_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
 
   // Device doesn't have camera

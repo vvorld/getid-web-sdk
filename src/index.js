@@ -102,7 +102,7 @@ const init = async (originOptions, tokenProvider) => {
 
     const api = createApi(apiUrl, token, options.metadata, verificationTypes);
 
-    const [info, countryDocuments, isSupportedApiVersion] = await Promise.all([
+    const [info, countryDocuments, isSupportedApiVersion, verifyToken] = await Promise.all([
       api.getInfo(),
       api.getCountryAndDocList()
         .then(({ countries }) => sortCountryDocuments(countries, options.onSortDocuments)),
@@ -111,11 +111,17 @@ const init = async (originOptions, tokenProvider) => {
           console.log(`Can't get supported api versions ${error}`);
           return true;
         }),
+      api.verifyToken(),
     ]);
     if (!isSupportedApiVersion) {
       renderError('api_version_missmatch', translations);
       return;
     }
+    if (verifyToken.responseCode !== 200 && verifyToken.statusCode) {
+      renderError(verifyToken.statusCode, translations);
+      return;
+    }
+
     renderGetID(options, translations, <Widget
       {...options}
       {...info}

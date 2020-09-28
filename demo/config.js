@@ -6,6 +6,7 @@ export default {
   htmlProperties: {
     isShadowDom: false,
   },
+  translations: {},
   flow: [
     {
       component: 'Form',

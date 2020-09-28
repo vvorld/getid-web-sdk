@@ -3,7 +3,7 @@ export default {
   apiKey: 'Qm64AQyks8dmkcNb',
   containerId: 'getid-component',
   dictionary: 'en',
-  HtmlProperties: {
+  htmlProperties: {
     isShadowDom: false,
   },
   flow: [
@@ -58,8 +58,8 @@ export default {
   ],
   additionalData: [
     {
-      name: 'First name',
       value: 'Gerus Artem',
+      category: 'First name',
     },
   ],
   onComplete({ id }) {
@@ -67,9 +67,6 @@ export default {
   },
   onFail(error) {
     console.log(error);
-  },
-  onExists() {
-    console.log('exists');
   },
   onBack() {
     alert('back');

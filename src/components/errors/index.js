@@ -2,126 +2,61 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import TranslationsContext from '~/context/TranslationsContext';
 import ErrorIcon from '~/assets/icons/views/error-icon.svg';
-import PoweredBy from '~/components/blocks/powered-by';
 import Browsers from './browsers';
+import Footer from '~/components/blocks/footer';
+import Header from '~/components/blocks/header/header';
+import Content from '~/components/blocks/content';
 
 const createErrorView = (config) => (props) => {
   const {
-    callbacks, error, submitAttempts,
+    error, onRetry, onCancel,
   } = props;
 
   const { translations: dictionary } = useContext(TranslationsContext);
 
-  const { buttons } = config;
-  if (submitAttempts < 0) { delete buttons.retry; }
-
   return (
-    <main id="getid-main" data-role="container">
-      <div className="getid-grid__main">
+    <>
+      <Header step={`${error}_error`} />
+      <Content step={`${error}_error`}>
         <div><img alt="error" src={ErrorIcon} /></div>
-        <div style={{ margin: '50px auto' }} className="getid-header__container">
-          <div className="getid-header__big">
-            {config.header(dictionary, error)}
+
+        {/*
+        const { abilityToSwitch } = config;
+        const switchDevice = () => {};
+        abilityToSwitch && (
+          <div style={{ margin: '10px auto' }}>
+            <button className="getid-button__main" type="button" onClick={switchDevice}>
+              Change device and continue
+            </button>
           </div>
-          <div className="getid-header__small" data-role="error">
-            {config.subHeader(dictionary, error)}
-          </div>
-        </div>
-        {buttons && (
-          <div>
-            {Object.entries(buttons).map(([key, button]) => (
-              <div style={{ margin: '10px auto' }} key={key}>
-                <button className={`getid-button__main getid-${button.className}`} type="button" onClick={button.action(callbacks)}>
-                  {button.name(dictionary)}
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+          ) */}
         {config.children && config.children(dictionary)}
-        {buttons && (
-          <footer className="getid-footer">
-            <PoweredBy />
-          </footer>
-        )}
-      </div>
-    </main>
+
+      </Content>
+
+      <Footer
+        step="error"
+        next={{ onClick: onRetry }}
+        back={{ onClick: onCancel }}
+      />
+
+    </>
   );
 };
 
 const errorProps = {
   condition: PropTypes.string,
-  submitAttempts: PropTypes.number,
   callbacks: PropTypes.object,
 };
 
 export const ErrorView = createErrorView({
-  header: (dictionary, error) => (dictionary[`${error}_error_header`] || dictionary.default_error_header),
-  subHeader: (dictionary, error) => (dictionary[`${error}_error_subHeader`] || dictionary.default_error_subHeader),
+  abilityToSwitch: true,
 });
 
 export const BrowserNotSupportedErrorView = createErrorView({
-  header: (dictionary) => dictionary.browser_not_supported_error_header,
-  subHeader: (dictionary) => dictionary.browser_not_supported_error_subHeader,
   children: (dictionary) => <Browsers dictionary={dictionary} />,
-});
-export const NoCameraError = createErrorView({
-  header: (dictionary) => dictionary.no_camera_error_header,
-  subHeader: (dictionary) => dictionary.no_camera_error_subHeader,
+  abilityToSwitch: true,
 });
 
-export const FailError = createErrorView({
-  header: (dictionary, error) => dictionary[`${error}_header`] || dictionary.isFail_error_header,
-  subHeader: (dictionary, error) => dictionary[`${error}_subHeader`] || dictionary.isFail_error_subHeader,
-  buttons: {
-
-    retry: {
-      name: (dictionary) => dictionary.retry_button,
-      action: (callbacks) => callbacks.onSubmit,
-      className: 'violet',
-    },
-    cancel: {
-      name: (dictionary) => dictionary.cancel_button,
-      action: (callbacks) => callbacks.onFail,
-      className: 'grey',
-    },
-  },
-});
-
-const getErrorText = (dictionary, name) => {
-  if (name === 'NotAllowedError') {
-    return dictionary.camera_error_not_allowed;
-  }
-  if (name === 'NotFoundError') {
-    return dictionary.camera_error_not_found;
-  }
-  return dictionary.camera_error_generic;
-};
-export const CameraDisabledErrorView = createErrorView({
-  header: (dictionary) => dictionary.camera_error_header,
-  subHeader: getErrorText,
-  buttons: {
-    retry: {
-      name: (dictionary) => dictionary.retry_button,
-      action: (callbacks) => callbacks.onRetry,
-      className: 'violet',
-    },
-  },
-});
-export const ServerErrorView = createErrorView({
-  header: (dictionary) => dictionary.server_error_header,
-  subHeader: (dictionary) => dictionary.server_error_subheader,
-  buttons: {
-    retry: {
-      name: (dictionary) => dictionary.retry_button,
-      action: (callbacks) => callbacks.onRetry,
-      className: 'violet',
-    },
-  },
-});
-
-FailError.props = errorProps;
 ErrorView.props = errorProps;
 BrowserNotSupportedErrorView.props = errorProps;
-CameraDisabledErrorView.props = errorProps;
-NoCameraError.props = errorProps;

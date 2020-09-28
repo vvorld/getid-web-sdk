@@ -25,6 +25,15 @@ function supportedQuadro() {
   }
   return true;
 }
+const getError = (name) => {
+  if (name === 'NotAllowedError') {
+    return 'camera_not_allowed';
+  }
+  if (name === 'NotFoundError') {
+    return 'no_camera';
+  }
+  return 'camera_generic';
+};
 class CameraBase extends Component {
   constructor(props) {
     super(props);
@@ -151,13 +160,13 @@ class CameraBase extends Component {
             }));
           } catch (e) {
             console.error(e);
-            this.props.onError(e);
+            this.props.onError(getError(e.name));
           }
         }
       }, 100);
     } catch (err) {
       console.error(err);
-      this.props.onError(err);
+      this.props.onError(getError(err.name));
     }
   }
 }

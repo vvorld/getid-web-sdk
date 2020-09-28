@@ -25,7 +25,7 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
 async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
   const createSerever = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
-    const ws = new WebSocket(`${address}/liveness`);
+    const ws = new WebSocket(`${address}/0.3/liveness`);
     let resolve = null;
     let reject = null;
 
@@ -53,9 +53,7 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       console.error(e);
       ws.onclose();
       clearTimeout(timeout);
-      const err = new Error('Liveness server error');
-      err.name = 'server_unavailable';
-      onError(err);
+      onError('server_unavailable');
     };
     let waitBinnary = false;
     let binnaryKind = '';
@@ -119,9 +117,7 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       console.error(e);
     }
   }
-  const err = new Error('Liveness server error');
-  err.name = 'server_unavailable';
-  onError(err);
+  onError('server_unavailable');
 }
 
 export default createLiveness;

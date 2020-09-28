@@ -13,7 +13,7 @@
     *   [Container id](#container-id)
     *   [Dictionary](#dictionary)
     *   [Metadata](#metadata)
-    *   [HtmlProperties](#htmlProperties)
+    *   [htmlProperties](#htmlProperties)
     *   [Styles](#styles)
     *   [Translations](#translations)
     *   [Flow](#flow)

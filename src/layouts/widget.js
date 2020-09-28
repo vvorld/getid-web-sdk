@@ -12,8 +12,6 @@ import {
   Selfie,
   Liveness,
 } from './webcam';
-import Landscape from '~/assets/icons/views/landscape.svg';
-import Translate from '~/components/blocks/translations';
 
 import Rules from './rules';
 
@@ -388,34 +386,13 @@ class Widget extends Component {
     const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
     const prevStep = step > 0 ? this.prevStep : this.props.onBack;
-    const stylesRef = (ref) => Object.entries(this.props.styles).forEach((st) => {
-      if (!ref) return;
-      ref.style.setProperty(st[0], st[1], 'important');
-    });
 
     return (
-      <>
-        <main ref={stylesRef} id="getid-main" data-role="container">
-          <div className="getid-landscape_message">
-            <img
-              src={Landscape}
-              alt="mobile landscape"
-              data-role="mobile-landscape"
-            />
-            <div className="getid-header__small">
-              <Translate step="mobileCamera" element="landscape" />
-            </div>
-          </div>
-
-          <div className="getid-grid__main">
-            <CurrentComponent
-              finishStep={finishStep}
-              prevStep={prevStep}
-              {...componentProps}
-            />
-          </div>
-        </main>
-      </>
+      <CurrentComponent
+        finishStep={finishStep}
+        prevStep={prevStep}
+        {...componentProps}
+      />
     );
   }
 }

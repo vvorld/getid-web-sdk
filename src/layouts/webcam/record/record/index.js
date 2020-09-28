@@ -10,6 +10,15 @@ import Timer from './timer';
 import Translate from '~/components/blocks/translations';
 import CombineRecorder from './recorder';
 
+const getError = (name) => {
+  if (name === 'NotAllowedError') {
+    return 'camera_not_allowed';
+  }
+  if (name === 'NotFoundError') {
+    return 'no_camera';
+  }
+  return 'camera_generic';
+};
 export default (pr) => {
   let recording = false;
   const {
@@ -53,7 +62,7 @@ export default (pr) => {
           onReady(this.stop);
         } catch (e) {
           console.log(e);
-          onError(e);
+          onError(e.name ? getError(e.name) : e);
         }
       }
     }

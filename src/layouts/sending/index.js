@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Loader from '~/components/loader/loader';
-import { FailError } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 const Sending = ({ send, finishStep, prevStep }) => {
   const [count, setCount] = useState(0);
@@ -26,10 +26,12 @@ const Sending = ({ send, finishStep, prevStep }) => {
           </Loader>
         )
         : (
-          <FailError callbacks={{
-            onFail: () => prevStep(),
-            onSubmit: () => sendData(),
-          }}
+          <ErrorView
+            error="isFail"
+            callbacks={{
+              onCancel: () => prevStep(),
+              onRetry: () => sendData(),
+            }}
           />
         )}
     </div>

@@ -6,7 +6,6 @@
 @import '../components/guide/guide.css';
 
 @import '../components/loader/loader.css';
-@import '../components/popup/popup.css';
 
 /*inputs*/
 @import '../components/inputs/checkbox/style.css';
@@ -271,7 +270,9 @@
     box-shadow: none;
     opacity: initial;
 }
-
+#getid-main style {
+    display: none !important;
+}
 
 #getid-main button {
     display: inline-block;

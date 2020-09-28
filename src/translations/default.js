@@ -204,13 +204,27 @@ export default {
   no_camera_error_header: 'Your device has no camera',
   no_camera_error_subHeader: 'Please use device with camera',
 
+  camera_not_allowed_error: 'Failed to access your camera',
+  camera_not_allowed_error_header: 'Camera is not supported',
+  camera_not_allowed_error_subHeader: 'Web camera access in your browser settings.',
+
+  camera_generic_error: 'Failed to access your camera',
+  camera_generic_error_header: 'Camera is not supported',
+  camera_generic_error_subHeader: 'To make a photo you need to give access for webcam',
+
+  sdkkey_invalid_error_header: 'Wrong SDK key',
+  sdkkey_invalid_error_error_header: 'Wrong SDK key',
+  sdkkey_invalid_error_subHeader: 'Please contact your provider for further information.',
+
   // Server return 400
-  '400_header': 'Bad request',
-  '400_subHeader': 'Try again or contact the support team.',
+  '400_error': 'Service is unavailable',
+  '400_error_header': 'Bad request',
+  '400_error_subHeader': 'Try again or contact the support team.',
 
   // Server return 500
-  '500_header': 'Service is unavailable',
-  '500_subHeader': 'Try again or contact the support team.',
+  '500_error': 'Service is unavailable',
+  '500_error_header': 'Service is unavailable',
+  '500_error_subHeader': 'Try again or contact the support team.',
 
   // App Exist application
   app_exists_error: 'Application already exists.',
@@ -228,33 +242,18 @@ export default {
   default_error_subHeader: 'Please contact your provider for further information.',
 
   // Server is not unavailable (liveness or recording fallback)
-  server_error: 'Server is unavailable',
-  server_error_header: 'Server is unavailable',
-  server_error_subHeader: '',
+  server_unavailable_error: 'Server is unavailable',
+  server_unavailable_error_header: 'Server is unavailable',
+  server_unavailable_error_subHeader: 'Please contact your provider for further information.',
 
   // Application didn't send
   isFail_error: 'Cannot create application',
   isFail_error_header: 'Cannot send data',
   isFail_error_subHeader: 'Error occurs when you try to send data to the server.',
 
-  camera_error_not_found: 'No available devices were found',
-  camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
-  camera_error_generic: 'To make a photo you need to give access for webcam',
-  camera_error_another_browser: 'Use another browser',
-  camera_error_next: 'Try again',
-  camera_error_header: 'Camera is not supported',
-
   // ERROR BUTTONS
-
-  button_next: 'next',
-  button_back: 'back',
-  button_submit: 'submit',
-  button_retake: 'retake',
-  button_agree: 'I agree',
-  button_start_over: 'start over',
-  choose_flow_button: 'Choose Flow',
-  retry_button: 'Retry',
-  cancel_button: 'Cancel',
+  error_next: 'Retry',
+  error_back: 'Cancel',
 
   // OTHER
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',

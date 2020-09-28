@@ -5,7 +5,7 @@ import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
-import { CameraDisabledErrorView, ServerErrorView } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
 
@@ -80,11 +80,10 @@ class RecordView extends React.Component {
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      const Error = error.name === 'webrtc' ? ServerErrorView : CameraDisabledErrorView;
       return (
-        <Error
-          error={error.name}
-          callbacks={{ onRetry: this.showGuideStep }}
+        <ErrorView
+          error={error}
+          onRetry={this.showGuideStep}
         />
       );
     }

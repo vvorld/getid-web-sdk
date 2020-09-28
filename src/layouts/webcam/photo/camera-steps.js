@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import { CameraDisabledErrorView } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 import PreviewForm from './photo-preview';
 import RetakeDescription from './retake-description';
@@ -72,7 +72,7 @@ class WebcamView extends React.Component {
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {
-      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: () => this.setStep('guide') }} />;
+      return <ErrorView error={error} onRetry={() => this.setStep('guide')} />;
     }
 
     const layout = (() => {

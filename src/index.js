@@ -21,8 +21,9 @@ export const renderGetID = (widgetOptions, translations, content) => {
     if (container.hasChildNodes()) {
       ReactDOM.unmountComponentAtNode(container);
     }
+
     ReactDOM.render(
-      <Container translations={translations} {...widgetOptions}>
+      <Container {...widgetOptions} translations={translations}>
         {content}
       </Container>, container,
     );

@@ -77,15 +77,10 @@ const init = async (originOptions, tokenProvider) => {
       return;
     }
     const {
-      token, exists, responseCode, statusCode,
+      token, responseCode, statusCode,
     } = tokenResult;
     if (responseCode !== 200 && statusCode) {
       renderError(statusCode, translations);
-      return;
-    }
-
-    if (responseCode !== 200 || exists) {
-      renderError('app_exists', translations);
       return;
     }
 
@@ -128,7 +123,7 @@ const init = async (originOptions, tokenProvider) => {
     />);
   } catch (e) {
     console.error(e);
-    renderError('internal_error');
+    renderError('internal');
   }
 };
 

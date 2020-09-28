@@ -227,19 +227,14 @@ export default {
   '500_error_subHeader': 'Try again or contact the support team.',
 
   // App Exist application
-  app_exists_error: 'Application already exists.',
-  app_exists_error_header: 'Application already exists.',
-  app_exists_error_subHeader: 'Please contact your provider for further information.',
+  customerid_exists_error: 'Application already exists.',
+  customerid_exists_error_header: 'Application already exists.',
+  customerid_exists_error_subHeader: 'Please contact your provider for further information.',
 
   // Api version missmatch
   api_version_missmatch_error: 'Sdk version not compatible with current api version',
   api_version_missmatch_error_header: 'Your sdk version not compatible with current api version',
   api_version_missmatch_error_subHeader: 'Please update your sdk version',
-
-  // We don't know what to do
-  default_error: 'Internal error',
-  default_error_header: 'Something was wrong',
-  default_error_subHeader: 'Please contact your provider for further information.',
 
   // Server is not unavailable (liveness or recording fallback)
   server_unavailable_error: 'Server is unavailable',
@@ -250,6 +245,11 @@ export default {
   isFail_error: 'Cannot create application',
   isFail_error_header: 'Cannot send data',
   isFail_error_subHeader: 'Error occurs when you try to send data to the server.',
+
+  // We don't know what to do
+  internal_error: 'Internal error',
+  internal_error_header: 'Something was wrong',
+  internal_error_subHeader: 'Please contact your provider for further information.',
 
   // ERROR BUTTONS
   error_next: 'Retry',

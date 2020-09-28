@@ -11,11 +11,13 @@ const postFormData = (url, body, token) => fetch(url, {
     Authorization: `Bearer ${token}`,
   },
   body,
+}).then((res) => res.json()).catch((e) => {
+  throw ({ status: 500, statusCode: 'internal' });
 }).then((res) => {
-  if (res.status !== 200) {
-    throw new Error('server_internal_error');
+  if (res.responseCode !== 200) {
+    throw res;
   }
-  return res.json();
+  return res;
 });
 
 const post = (url, query, headers) => fetch(url, {

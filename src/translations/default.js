@@ -97,7 +97,7 @@ export default {
   IdSelfie_guide_back: 'Go back',
 
   IdSelfie_preview_header: 'Captured selfie',
-  IdSelfie_preview_subHeader: ' ',
+  IdSelfie_preview_subHeader: 'Is your face clearly visible?',
   IdSelfie_preview_next: 'Yes, continue',
   IdSelfie_preview_back: 'No, retake',
 

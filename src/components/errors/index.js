@@ -11,7 +11,6 @@ const createErrorView = (config) => (props) => {
   const {
     error, onRetry, onCancel, failCallback,
   } = props;
-
   // const { switchDevice } = useContext(TranslationsContext);
   // && 'changedevice_button'
   return (
@@ -27,7 +26,7 @@ const createErrorView = (config) => (props) => {
         step="error"
         next={{
           onClick: onRetry || failCallback,
-          translate: onRetry ? 'error_next' : 'error_finish',
+          translate: onRetry ? 'next' : 'finish',
         }}
         back={{ onClick: onCancel }}
       />

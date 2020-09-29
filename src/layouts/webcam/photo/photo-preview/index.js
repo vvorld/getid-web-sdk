@@ -16,7 +16,7 @@ const PreviewForm = ({ blob, ratio, checking }) => {
   return (
     <div
       className="getid-camera__container"
-      data-role="cameraPreview"
+      data-role="camera-preview"
     >
       {checking && (
       <div className="getid-image__container">
@@ -28,7 +28,7 @@ const PreviewForm = ({ blob, ratio, checking }) => {
         src={imageSrc}
         style={{ maxWidth: `${fwidth}%` }}
         alt="current"
-        data-role="cameraPreviewImg"
+        data-role="camera-preview-img"
       />
     </div>
   );

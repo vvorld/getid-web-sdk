@@ -37,6 +37,7 @@ class DesktopCamera extends CameraBase {
       <div className="getid-camera__container">
         <video
           className="getid-camera__video"
+          data-role="video"
           style={{ transform: mode !== 'environment' ? 'scale(-1, 1)' : undefined }}
           playsInline
           ref={this.setSrc}

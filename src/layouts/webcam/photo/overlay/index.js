@@ -84,6 +84,7 @@ const createOverlay = (figure, status = 'active', styles) => ({
   return (
     <svg
       className="getid-camera__overlay"
+      data-role="camera-overlay"
       style={style}
       width="100%"
       viewBox={`0 0 ${width} ${height}`}

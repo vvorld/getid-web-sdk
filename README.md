@@ -292,8 +292,6 @@ Can be used several times in the config (multi-form)
    - type -> input type
    - name -> input name (key value for the form data)
    - required -> boolean, is input required or not
-   - hidden -> boolean, hides the input but is not removed from the DOM. Those fields will be not accessible by the client, 
-   but included in total form result.
    - validation -> optional function, can be used to validate input value, 
    accepts two args => value(type: any), setError(type: function). Usage can be found in the example above.
         

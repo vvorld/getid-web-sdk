@@ -16,7 +16,6 @@ const PreviewForm = ({ blob, ratio, checking }) => {
   return (
     <div
       className="getid-camera__container"
-      data-role="camera-preview"
     >
       {checking && (
       <div className="getid-image__container">

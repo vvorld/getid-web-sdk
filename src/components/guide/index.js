@@ -40,7 +40,7 @@ const Guide = ({ name, styles }) => {
   cache[name].then(setBlob);
 
   return (
-    <div className="getid-guide__container" data-role="guide">
+    <div className="getid-guide__container">
       <img alt="guide" className="getid-guide__img" src={blob} />
     </div>
   );

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import retargetEvents from 'react-shadow-dom-retarget-events';
 
 import TranslationsContext from '~/context/TranslationsContext';
 import Landscape from '~/assets/icons/views/landscape.svg';
 import Translate from '~/components/blocks/translations';
 import style from '~/layouts/style.css';
+import ChangeDevice from '~/components/change-device';
 
 const attachShadow = (ref) => {
   if (!ref) return;
@@ -16,14 +17,17 @@ const attachShadow = (ref) => {
 };
 
 export default ({
-  htmlProperties, children, translations, styles,
+  children, ...config
 }) => {
+  const { translations, styles, htmlProperties } = config;
   const stylesRef = (ref) => Object.entries(styles || {}).forEach((st) => {
     if (!ref) return;
     ref.style.setProperty(st[0], st[1], 'important');
   });
+  const [switchMode, setSwitchMode] = useState(false);
+  const switchDevice = () => setSwitchMode(true);
   const renderGetID = () => (
-    <TranslationsContext.Provider value={{ translations }}>
+    <TranslationsContext.Provider value={{ translations, switchDevice }}>
       <main ref={stylesRef} id="getid-main" data-role="container">
         <style>{style}</style>
         <div className="getid-landscape_message">
@@ -38,7 +42,15 @@ export default ({
         </div>
 
         <div className="getid-grid__main">
-          {children}
+          {!switchMode
+            ? children
+            : (
+              <ChangeDevice
+                config={config}
+                onBack={() => setSwitchMode(false)}
+              />
+            )}
+
         </div>
       </main>
     </TranslationsContext.Provider>

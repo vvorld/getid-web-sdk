@@ -14,10 +14,32 @@
     color: var(--getid-txt-color);
 }
 
-#getid-main .rule-list {
+#getid-main ul.rule-list {
     list-style-image: url(../../assets/icons/checkmark.svg);
 }
 
+#getid-main ol.rule-list {
+    counter-reset: my-awesome-counter;
+}
+
+#getid-main ol.rule-list li {
+  counter-increment: my-awesome-counter;
+  margin: 0.25rem;
+}
+#getid-main ol.rule-list li::before {
+  content: counter(my-awesome-counter);
+  background: var(--getid-accent-color);
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 1.4rem;
+  color : white; 
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
 #getid-main .rule-list li {
     margin-bottom: 20px;
 }

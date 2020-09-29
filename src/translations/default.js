@@ -175,6 +175,18 @@ export default {
   LivenessCommand_detected: 'Detected',
   LivenessCommand_success: 'Great!',
 
+  ChangeDevice_header: 'Continue on your phone',
+  ChangeDevice_subHeader: 'Here\'s how to do it:',
+  ChangeDevice_next: 'get secure link',
+  ChangeDevice_back: 'back',
+  ChangeDevice_line_1: 'Send a secure link to your phone',
+  ChangeDevice_line_2: 'Open the link and complete the tasks',
+  ChangeDevice_line_3: 'Check back here to finish the submission',
+
+  MagicLink_header: 'Get your secure link',
+  MagicLink_subHeader: 'Open your smartphone camera with Photo mode and hover it on a QR code you see bellow',
+  MagicLink_back: 'Back',
+
   // ERROR
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
@@ -255,6 +267,9 @@ export default {
   // ERROR BUTTONS
   error_next: 'Retry',
   error_back: 'Cancel',
+  error_finish: 'Ok',
+
+  error_changedevice_button: 'Change device and continue',
 
   // OTHER
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',

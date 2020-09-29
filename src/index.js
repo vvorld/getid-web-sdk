@@ -54,10 +54,10 @@ const init = async (originOptions, tokenProvider) => {
   const options = { ...originOptions };
 
   const renderError = (code, translations = defaultTranslations, Error = ErrorView) => {
-    if (options.onFail && typeof options.onFail === 'function') {
-      options.onFail({ code, message: translations[`${code}_error`] || 'internal error' });
-    }
-    renderGetID(options, translations, <Error error={code} />);
+    const failCallback = options.onFail && typeof options.onFail === 'function'
+      ? () => options.onFail({ code, message: translations[`${code}_error`] || 'internal error' })
+      : null;
+    renderGetID(options, translations, <Error error={code} failCallback={failCallback} />);
   };
 
   if (!options.containerId || !document.getElementById(options.containerId)) {

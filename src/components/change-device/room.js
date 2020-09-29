@@ -68,10 +68,12 @@ class WSRoom {
   onError = (evt) => {}
 }
 let r = null;
-export default (config) => (onRoomInfo, setDeviceChanged) => {
+export const getWSRoom = (config) => (onRoomInfo, setDeviceChanged) => {
   if (!r) {
     r = new WSRoom();
     r.open(wsUri, config, onRoomInfo, setDeviceChanged);
   }
   return r;
 };
+
+export const stopWSRoom = () => {};

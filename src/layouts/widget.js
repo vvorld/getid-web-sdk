@@ -56,8 +56,8 @@ const transformAppToApiModel = (app, api) => async () => {
     application.faces.push({ category: 'selfie', content: [] });
   }
   if (app.record) {
-    files.record = app.record;
-    application.faces.push({ category: 'record', content: [] });
+    files['selfie-video'] = app.record;
+    application.faces.push({ category: 'selfie-video', content: [] });
   }
   if (app.liveness) {
     files['liveness-video'] = app.liveness.video;

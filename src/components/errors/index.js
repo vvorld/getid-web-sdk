@@ -9,36 +9,28 @@ import Content from '~/components/blocks/content';
 
 const createErrorView = (config) => (props) => {
   const {
-    error, onRetry, onCancel,
+    error, onRetry, onCancel, failCallback,
   } = props;
 
-  const { translations: dictionary } = useContext(TranslationsContext);
+  // const { switchDevice } = useContext(TranslationsContext);
+  // && 'changedevice_button'
   return (
     <>
       <Header step={`${error}_error`} />
       <Content step={`${error}_error`}>
         {config.children
-          ? config.children(dictionary)
+          ? config.children()
           : <div><img alt="error" src={ErrorIcon} /></div> }
 
-        {/*
-        abilityToSwitch && (
-          <div style={{ margin: '10px auto' }}>
-            <button className="getid-button__main" type="button" onClick={switchDevice}>
-              Change device and continue
-            </button>
-          </div>
-        )
-        */}
-
       </Content>
-
       <Footer
         step="error"
-        next={{ onClick: onRetry }}
+        next={{
+          onClick: onRetry || failCallback,
+          translate: onRetry ? 'error_next' : 'error_finish',
+        }}
         back={{ onClick: onCancel }}
       />
-
     </>
   );
 };
@@ -48,13 +40,10 @@ const errorProps = {
   callbacks: PropTypes.object,
 };
 
-export const ErrorView = createErrorView({
-  abilityToSwitch: true,
-});
+export const ErrorView = createErrorView({});
 
 export const BrowserNotSupportedErrorView = createErrorView({
   children: () => <Browsers />,
-  abilityToSwitch: true,
 });
 
 ErrorView.props = errorProps;

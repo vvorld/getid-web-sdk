@@ -86,6 +86,11 @@ export default {
   Const_november: 'November',
   Const_december: 'December',
 
+  Const_passport: 'Passport',
+  'Const_id-card': 'ID Card',
+  'Const_residence-permit': 'Residence Permit',
+  'Const_driving-licence': 'Drivers License',
+
   IdSelfie_record_header: 'Take a selfie',
   IdSelfie_record_subHeader: ' ',
   IdSelfie_record_next: 'Take a photo',
@@ -263,6 +268,22 @@ export default {
   internal_error: 'Internal error',
   internal_error_header: 'Something was wrong',
   internal_error_subHeader: 'Please contact your provider for further information.',
+
+  token_malformed_error: 'Incorrect link',
+  token_malformed_error_header: 'Something was wrong',
+  token_malformed_error_subHeader: 'Please contact your provider for further information.',
+
+  jwt_invalid_error: 'Incorrect link',
+  jwt_invalid_error_header: 'Incorrect link',
+  jwt_invalid_error_subHeader: 'Please contact your provider for further information.',
+
+  token_empty_error: 'Incorrect link',
+  token_empty_error_header: 'Incorrect link',
+  token_empty_error_subHeader: 'Please contact your provider for further information.',
+
+  token_expired_error: 'Link is no longer valid',
+  token_expired_error_header: 'Your link is no longer valid',
+  token_expired_error_subHeader: 'Please contact your provider for further information.',
 
   // ERROR BUTTONS
   error_next: 'Retry',

@@ -6,14 +6,7 @@ import Radiobutton from '~/components/inputs/radio-button';
 import '../form/form.css';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-
-const docTypeMapping = {
-  passport: 'Passport',
-  'id-card': 'ID Card',
-  'residence-permit': 'Residence Permit',
-  'driving-licence': 'Drivers License',
-};
-const getDocumentName = (type) => docTypeMapping[type] || type;
+import Translate from '~/components/blocks/translations';
 
 const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
@@ -67,10 +60,12 @@ const CountryAndDocument = ({
             {documents && documents.map((docType) => (
               <div key={docType.name} className="getid-form__input-wrapper">
                 <Radiobutton
-                  name={getDocumentName(docType.name)}
+                  name={docType.name}
                   checked={docType.name === currDocumentType}
                   onChange={() => changeDocumentType(docType.name)}
-                />
+                >
+                  <Translate step="Const" element={docType.name} />
+                </Radiobutton>
               </div>
             ))}
             {plArr.map((x) => (
@@ -88,7 +83,7 @@ const CountryAndDocument = ({
             country: currCountry,
             documentType: currDocumentType,
           }),
-          disable: !currDocumentType || !docTypeMapping[currDocumentType],
+          disable: !currDocumentType,
         }}
         back={{ onClick: prevStep }}
       />

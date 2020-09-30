@@ -102,7 +102,7 @@ const init = async (originOptions, tokenProvider) => {
 
     const api = createApi(apiUrl, token, options.metadata, verificationTypes);
 
-    const [info, countryDocuments, isSupportedApiVersion, verifyToken] = await Promise.all([
+    const [info, countryDocuments, isSupportedApiVersion, verifyTokenResponse] = await Promise.all([
       api.getInfo(),
       api.getCountryAndDocList()
         .then(({ countries }) => sortCountryDocuments(countries, options.onSortDocuments)),
@@ -117,9 +117,12 @@ const init = async (originOptions, tokenProvider) => {
       renderError('api_version_missmatch', translations);
       return;
     }
-    if (verifyToken.responseCode !== 200 && verifyToken.statusCode) {
-      renderError(verifyToken.statusCode, translations);
+    if (verifyTokenResponse.responseCode !== 200 && verifyTokenResponse.statusCode) {
+      renderError(verifyTokenResponse.statusCode, translations);
       return;
+    }
+    if (verifyTokenResponse.responseCode !== 200) {
+      throw verifyTokenResponse;
     }
 
     renderGetID(options, translations, <Widget
@@ -130,7 +133,15 @@ const init = async (originOptions, tokenProvider) => {
     />);
   } catch (e) {
     console.error(e);
-    renderError('internal');
+    const messageMapping = {
+      'jwt malformed': 'token_malformed',
+      'invalid token': 'jwt_invalid',
+      'No JWT has been provided': 'token_empty',
+      'jwt expired': 'token_expired',
+      'Application exists': 'app_exists',
+    };
+
+    renderError(messageMapping[e.message] || 'internal');
   }
 };
 

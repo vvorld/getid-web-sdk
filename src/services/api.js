@@ -31,8 +31,7 @@ const get = (url) => fetch(url, createHeaders())
 
 const check = (x) => {
   if (x.responseCode !== 200) {
-    console.error(x);
-    throw Error(x.errorMessage);
+    throw x;
   }
   return x;
 };
@@ -55,7 +54,7 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
   });
   const getCountryAndDocList = () => get(`${url}/sdk/v1/supported-documents`).then(check);
   const sendErrorToServer = (errorText, stack) => post(`${url}/sdk/v1/log-error`, { error: { errorText, stack } });
-  const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt });
+  const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt }).then(check);
   const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step, metadata: m } })
     .catch(console.log);
 

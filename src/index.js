@@ -51,7 +51,6 @@ const messageMapping = {
   'invalid token': 'token_invalid',
   'No JWT has been provided': 'token_empty',
   'jwt expired': 'token_expired',
-  'Application exists': 'app_exists',
 };
 
 /**
@@ -91,13 +90,10 @@ const init = async (originOptions, tokenProvider) => {
       renderError('token_missmatch', translations);
       return;
     }
-    const {
-      token, responseCode,
-    } = tokenResult;
+    const { token, responseCode } = tokenResult;
 
     if (responseCode !== 200) {
-      renderError(messageMapping[responseCode.errorMessage] || 'token_invalid', translations);
-      return;
+      throw tokenResult;
     }
 
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -117,7 +113,7 @@ const init = async (originOptions, tokenProvider) => {
 
     const api = createApi(apiUrl, token, options.metadata, verificationTypes);
 
-    const [info, countryDocuments, isSupportedApiVersion, verifyTokenResponse] = await Promise.all([
+    const [info, countryDocuments, isSupportedApiVersion] = await Promise.all([
       api.getInfo(),
       api.getCountryAndDocList()
         .then(({ countries }) => sortCountryDocuments(countries, options.onSortDocuments)),
@@ -132,10 +128,6 @@ const init = async (originOptions, tokenProvider) => {
       renderError('api_version_missmatch', translations);
       return;
     }
-    if (verifyTokenResponse.responseCode !== 200) {
-      renderError(messageMapping[responseCode.errorMessage] || 'token_invalid', translations);
-      return;
-    }
 
     renderGetID(options, translations, <Widget
       {...options}
@@ -144,8 +136,9 @@ const init = async (originOptions, tokenProvider) => {
       api={api}
     />);
   } catch (e) {
+    const errCode = e.statusCode === 'jwt_error' ? 'token_invalid' : (e.statusCode || 'internal');
     console.error(e);
-    renderError('internal');
+    renderError(messageMapping[e.errorMessage] || errCode);
   }
 };
 

@@ -54,7 +54,7 @@ const init = async (originOptions, tokenProvider) => {
   const options = { ...originOptions };
 
   if (originOptions.additionalData) {
-    originOptions.additionalData = originOptions.additionalData.map((x) => ({
+    options.additionalData = originOptions.additionalData.map((x) => ({
       name: x.name || x.category || '',
       value: x.value || x.content || '',
     }));

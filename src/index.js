@@ -46,6 +46,14 @@ const getToken = async (tokenProvider) => {
   return tokenPromise;
 };
 
+const messageMapping = {
+  'jwt malformed': 'token_malformed',
+  'invalid token': 'token_invalid',
+  'No JWT has been provided': 'token_empty',
+  'jwt expired': 'token_expired',
+  'Application exists': 'app_exists',
+};
+
 /**
  * @param originOptions - sdk config object
  * @param tokenProvider - object with token or function, depends on usage
@@ -84,10 +92,11 @@ const init = async (originOptions, tokenProvider) => {
       return;
     }
     const {
-      token, responseCode, statusCode,
+      token, responseCode,
     } = tokenResult;
-    if (responseCode !== 200 && statusCode) {
-      renderError(statusCode, translations);
+
+    if (responseCode !== 200) {
+      renderError(messageMapping[responseCode.errorMessage] || 'token_invalid', translations);
       return;
     }
 
@@ -123,12 +132,9 @@ const init = async (originOptions, tokenProvider) => {
       renderError('api_version_missmatch', translations);
       return;
     }
-    if (verifyTokenResponse.responseCode !== 200 && verifyTokenResponse.statusCode) {
-      renderError(verifyTokenResponse.statusCode, translations);
-      return;
-    }
     if (verifyTokenResponse.responseCode !== 200) {
-      throw verifyTokenResponse;
+      renderError(messageMapping[responseCode.errorMessage] || 'token_invalid', translations);
+      return;
     }
 
     renderGetID(options, translations, <Widget
@@ -139,15 +145,7 @@ const init = async (originOptions, tokenProvider) => {
     />);
   } catch (e) {
     console.error(e);
-    const messageMapping = {
-      'jwt malformed': 'token_malformed',
-      'invalid token': 'jwt_invalid',
-      'No JWT has been provided': 'token_empty',
-      'jwt expired': 'token_expired',
-      'Application exists': 'app_exists',
-    };
-
-    renderError(messageMapping[e.message] || 'internal');
+    renderError('internal');
   }
 };
 

@@ -273,11 +273,11 @@ export default {
   token_malformed_error_header: 'Something was wrong',
   token_malformed_error_subHeader: 'Please contact your provider for further information.',
 
-  jwt_invalid_error: 'Incorrect link',
-  jwt_invalid_error_header: 'Incorrect link',
-  jwt_invalid_error_subHeader: 'Please contact your provider for further information.',
+  token_invalid_error: 'Incorrect link',
+  token_invalid_error_header: 'Incorrect link',
+  token_invalid_error_subHeader: 'Please contact your provider for further information.',
 
-  token_empty_error: 'Incorrect link',
+  token_empty_error: 'Token link',
   token_empty_error_header: 'Incorrect link',
   token_empty_error_subHeader: 'Please contact your provider for further information.',
 

@@ -38,6 +38,7 @@ class CameraBase extends Component {
       bottom: 0,
       right: 0,
       mode: '',
+      cameraSwitchBlob: null,
     };
   }
 
@@ -51,28 +52,58 @@ class CameraBase extends Component {
     }
   }
 
+  onCamSwitch = (ref, callback) => {
+    const { width, height } = this.state;
+    const {
+      left, right, top, bottom,
+    } = calculateMaskPoition(width, height, 1.5, 1);
+
+    const additionalVOffset = (bottom - top) * 0.1 > top ? top : (bottom - top) * 0.1;
+    const additionalHOffset = (right - left) * 0.1 > left ? left : (right - left) * 0.1;
+
+    const t = top - additionalVOffset;
+    const l = left - additionalHOffset;
+    const r = right + additionalHOffset;
+    const b = bottom + additionalVOffset;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = r - l;
+    canvas.height = b - t;
+    const context = canvas.getContext('2d');
+
+    context.drawImage(ref,
+      l,
+      t,
+      r - l,
+      b - t,
+      0, 0, canvas.width, canvas.height);
+    canvas.toBlob(callback, 'image/jpeg', 0.7);
+  }
+
   setDevice = async () => {
-    if (this.devices.length > 1) {
+    this.onCamSwitch(document.getElementsByClassName('getid-camera__video')[0], async (blob) => {
+      await this.setState({ cameraSwitchBlob: blob });
       this.cameraIndex += 1;
       if (!this.devices[this.cameraIndex]) {
         this.cameraIndex = 0;
       }
       await this.setSrc(document.getElementsByClassName('getid-camera__video')[0]);
-    }
+    });
   }
 
   getStream = async (maxWidth) => {
     const createStream = async (variants) => {
       const id = (this.devices[this.cameraIndex] && this.devices[this.cameraIndex].deviceId) || '';
+
       for (let i = 0; i < variants.length; i += 1) {
         const { width, height, facingMode } = variants[i];
         try {
           return [await navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
-              width, height, facingMode, deviceId: id,
+              width, height, facingMode: this.state.cameraSwitchBlob ? '' : facingMode, deviceId: id,
             },
-          }), facingMode];
+          }), this.state.cameraSwitchBlob ? '' : facingMode];
         } catch (e) {
           if (i === (variants.length - 1)) {
             throw e;
@@ -141,6 +172,7 @@ class CameraBase extends Component {
             const {
               left, right, top, bottom,
             } = calculateMaskPoition(width, height, this.props.ratio, 0.8);
+
             this.setState({
               width, height, left, right, top, bottom, mode: getMode(),
             });
@@ -150,6 +182,7 @@ class CameraBase extends Component {
             this.props.onReady(frameRenderer(ref, {
               left, right, top, bottom,
             }));
+            this.setState({ cameraSwitchBlob: null });
           } catch (e) {
             console.error(e);
             this.props.onError(e);

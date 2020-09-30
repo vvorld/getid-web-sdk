@@ -11,6 +11,14 @@ class DesktopCamera extends CameraBase {
     this.checkDevices();
   }
 
+  getBlob = () => {
+    const urlCreator = window.URL || window.webkitURL;
+    if (!this.state.cameraSwitchBlob) {
+      return null;
+    }
+    return urlCreator.createObjectURL(this.state.cameraSwitchBlob);
+  }
+
   render() {
     const { Overlay } = this.props;
 
@@ -31,20 +39,34 @@ class DesktopCamera extends CameraBase {
       bottom,
       right,
       mode,
+      cameraSwitchBlob,
     } = this.state;
+
+    const videoStyles = () => ({ display: !cameraSwitchBlob ? 'block' : 'none', transform: mode !== 'environment' && !cameraSwitchBlob ? 'scale(-1, 1)' : 'scale(1, 1)' });
 
     return (
       <div className="getid-camera__container">
         <video
+          style={videoStyles()}
           className="getid-camera__video"
-          style={{ transform: mode !== 'environment' ? 'scale(-1, 1)' : undefined }}
           playsInline
           ref={this.setSrc}
           muted
           autoPlay
         />
+        <svg
+          style={{
+            display: cameraSwitchBlob ? 'block' : 'none',
+            transform: cameraSwitchBlob ? 'scale(-1, 1)' : 'scale(1, 1)',
+          }}
+          className="getid-camera__svg"
+          viewBox={`0 0 ${width} ${height}`}
+        >
+          <image href={this.getBlob()} width="100%" height="100%" />
+        </svg>
         {(this.devices && this.devices.length > 1) && (
         <button
+          disabled={!!cameraSwitchBlob}
           type="button"
           className="getid-camera__request"
           onClick={this.setDevice}
@@ -54,6 +76,7 @@ class DesktopCamera extends CameraBase {
         )}
         {Overlay && (
         <Overlay
+
           width={width}
           height={height}
           left={left}

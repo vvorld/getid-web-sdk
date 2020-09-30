@@ -53,6 +53,12 @@ const getToken = async (tokenProvider) => {
 const init = async (originOptions, tokenProvider) => {
   const options = { ...originOptions };
 
+  if (originOptions.additionalData) {
+    originOptions.additionalData = originOptions.additionalData.map((x) => ({
+      name: x.name || x.category || '',
+      value: x.value || x.content || '',
+    }));
+  }
   const renderError = (code, translations = defaultTranslations, Error = ErrorView) => {
     const failCallback = options.onFail && typeof options.onFail === 'function'
       ? () => options.onFail({ code, message: translations[`${code}_error`] || 'internal error' })

@@ -147,7 +147,7 @@ class WebcamView extends React.Component {
         {layout.header}
         <Content step={stepName}>
           <div>
-            <div style={display('guide')}>
+            <div style={display('guide')} data-role="guide">
               <Guide />
             </div>
             <div className="getid-camera_content" data-role="camera" style={display('record')}>
@@ -162,7 +162,7 @@ class WebcamView extends React.Component {
                 back={{ onClick: () => this.setStep('guide') }}
               />
             </div>
-            <div style={display('preview')}>
+            <div style={display('preview')} data-role="preview">
               <PreviewForm
                 checking={this.state.checking}
                 blob={blob}
@@ -170,7 +170,7 @@ class WebcamView extends React.Component {
                 ratio={ratio}
               />
             </div>
-            <div style={display('retake_description')}>
+            <div style={display('retake_description')} data-role="retake">
               <RetakeDescription step={step} code={retakeCode} rules={this.props.rules} />
             </div>
           </div>

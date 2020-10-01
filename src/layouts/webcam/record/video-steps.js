@@ -129,7 +129,7 @@ class RecordView extends React.Component {
       <>
         {layout.header}
         <Content step={stepName}>
-          <div style={display('guide')}>
+          <div style={display('guide')} data-role="guide">
             <Guide name="recordingDesktop" styles={this.props.styles} />
           </div>
           {step !== 'preview' && (
@@ -137,7 +137,7 @@ class RecordView extends React.Component {
             <Camera active visible={step === 'record'} step={stepName} />
           </div>
           )}
-          <div style={display('preview')}>
+          <div style={display('preview')} data-role="preview">
             <Preview
               onLoad={(b) => this.setState({ blob: b, loadRecord: null })}
               load={loadRecord}

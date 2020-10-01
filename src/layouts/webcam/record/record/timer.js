@@ -11,7 +11,7 @@ const Timer = () => {
     );
   });
   return (
-    <div className="getid-timer_contaner">
+    <div className="getid-timer_contaner" data-role="timer-container">
       <div className="getid-timer_dot" />
       {`${normalizeNumber(Math.floor(time / 60))}:${normalizeNumber(Math.round(time % 60))}`}
     </div>

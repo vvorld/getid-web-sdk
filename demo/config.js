@@ -4,7 +4,8 @@ export default {
   containerId: 'getid-component',
   dictionary: 'en',
   HtmlProperties: {
-    isShadowDom: false,
+    isShadowDom: true,
+    isPopUp: true,
   },
   flow: [
     {

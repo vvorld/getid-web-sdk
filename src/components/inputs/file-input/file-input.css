@@ -14,7 +14,7 @@
 #getid-main .form__input-tooltip{
     color: #8D99B0;
     opacity: 0.7;
-    font-size: 12px;
+    font-size: var(--getid-font-size-small);
     display: block;
     line-height: 14px;
     text-align: left;

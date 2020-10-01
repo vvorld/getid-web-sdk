@@ -42,8 +42,6 @@
 }
 
 #getid-main button.button__main {
-
-    font-size: 12px;
     letter-spacing: 1px;
     transition: var(--getid-transition);
     text-align: center;
@@ -63,6 +61,7 @@
 #getid-main .button__main * {
     color: var(--getid-white);
     text-decoration: none;
+    font-size: var(--getid-font-size);
     font-weight: var(--getid-font-weight-bold);
     text-transform: uppercase;
 }

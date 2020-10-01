@@ -3,11 +3,11 @@
     display: flex;
     cursor: pointer;
     margin: 0;
-    font-size: 12px;
     text-align: left;
 }
 #getid-main .checkbox__label * {
     line-height: 1.5;
+    font-size: var(--getid-font-size);
     color: var(--getid-dark-blue-text);
 }
 

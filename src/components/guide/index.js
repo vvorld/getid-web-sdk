@@ -22,7 +22,6 @@ const transforms = {};
 const modifySvg = (svgText) => Object.entries(transforms)
   .reduce((text, v) => text.split(v[0]).join(v[1]), svgText);
 
-// const urlCreator = window.URL || window.webkitURL;
 const Guide = ({ name, styles }) => {
   const [blob, setBlob] = useState('');
 
@@ -50,7 +49,11 @@ Guide.propTypes = {
   name: PropTypes.string.isRequired,
   styles: PropTypes.shape({
     '--getid-accent-color': PropTypes.string,
-  }).isRequired,
+  }),
+};
+
+Guide.defaultProps = {
+  styles: null,
 };
 
 export default Guide;

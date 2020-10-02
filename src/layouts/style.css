@@ -28,7 +28,7 @@
 @import '../layouts/webcam/record/record/record.css';
 
 
-#getid-main main, #getid-main {
+#getid-main main, #getid-main, #popup-main, #getid-popup-window-main  {
     --getid-txt-color: #1B3361;
     --getid-txt-color-secondary: #999;
     --getid-action-color: #9C77E0;
@@ -64,9 +64,7 @@
     --getid-subheader-size: 18px;
 }
 
-
-
- #getid-main main, #getid-main {
+ #getid-main main, #getid-main, #popup-main, #getid-popup-window-main {
     font-family: var(--getid-font-family);
     transition: var(--getid-transition);
     font-size: var(--getid-font-size);
@@ -99,6 +97,19 @@
     grid-template-columns: 1fr;
     min-height: 504px;
     text-align: center;
+    margin: 0 auto;
+}
+
+.button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container__popup{
+    display: block;
+    max-width: 500px;
     margin: 0 auto;
 }
 
@@ -270,6 +281,23 @@
     opacity: initial;
 }
 
+.popup__container {
+    position: fixed;
+    display: block;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4) !important;
+}
+
+.popup{
+    display: none;
+    max-width: 500px;
+    margin: 0 auto;
+}
 
 #getid-main button {
     display: inline-block;

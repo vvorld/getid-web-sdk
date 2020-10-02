@@ -229,4 +229,5 @@ export default {
 
   error_subHeader: 'Please contact your provider for further information.',
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
+  openPopUp_button: 'open modal',
 };

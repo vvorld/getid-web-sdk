@@ -1,4 +1,4 @@
-#getid-main .camera__container{
+#getid-main .camera__container, #popup-main .camera__container, #getid-popup-window-main .camera__container{
     position: relative;
     border-radius: 10px;
     overflow: hidden;
@@ -7,7 +7,7 @@
     max-width: 100%;
 }
 
-#getid-main .camera__video {
+#getid-main .camera__video, #popup-main .camera__video, #getid-popup-window-main .camera__video {
     width: 100%;
 }
 

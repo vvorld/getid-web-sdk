@@ -34,8 +34,8 @@
     left: 0;
     right: 0;
     background: black;
-        
 }
+
 @media (orientation: landscape) {
     #getid-main .popup_contnet{
         display: none;

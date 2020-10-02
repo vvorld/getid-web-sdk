@@ -1,6 +1,6 @@
-#getid-main .guide__container {
+#getid-main .guide__container, #getid-popup-window-main .guide__container {
     position: relative;
 }
-#getid-main .guide__img {
+#getid-main .guide__img, #getid-popup-window-main .guide__container {
     width: 100%;
 }

@@ -128,10 +128,12 @@ class Widget extends Component {
     const [flow, app] = normaliseFlow(props.flow);
     app.additionalData = props.additionalData;
     app.extractedData = [];
+    this.popUpElement = React.createRef();
     this.state = {
       step: 0,
       direction: 'forward',
       app,
+      isShow: false,
     };
     this.flow = flow;
   }
@@ -376,9 +378,36 @@ class Widget extends Component {
     }
   }
 
+  isVisible = (elem) => !!elem
+      && !!(elem.offsetWidth
+          || elem.offsetHeight
+          || elem.getClientRects().length);
+
+  doStuff = async () => {
+    await this.setState({ isShow: true });
+    const removeClickListener = () => {
+      this.props.HtmlProperties.isShadowDom
+        ? window.GetIDShadowRoot.removeEventListener('click', outsideClickListener)
+        : document.removeEventListener('click', outsideClickListener);
+    };
+
+    const outsideClickListener = async (event) => {
+      if (!this.popUpElement.current.contains(event.target)
+          && this.isVisible(this.popUpElement.current)) {
+        await this.setState({ isShow: false });
+        removeClickListener();
+      }
+    };
+
+    this.props.HtmlProperties.isShadowDom
+      ? window.GetIDShadowRoot.addEventListener('click', outsideClickListener)
+      : document.addEventListener('click', outsideClickListener);
+  }
+
   render() {
-    const { step, app } = this.state;
+    const { step, app, isShow } = this.state;
     const { flow } = this;
+    const { styles, onBack, HtmlProperties } = this.props;
     const currentComponent = flow[step];
     if (!currentComponent) {
       return null;
@@ -386,35 +415,62 @@ class Widget extends Component {
     const { component: componentName, ...componentProps } = currentComponent;
     const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
-    const prevStep = step > 0 ? this.prevStep : this.props.onBack;
-    const stylesRef = (ref) => Object.entries(this.props.styles).forEach((st) => {
+    const prevStep = step > 0 ? this.prevStep : onBack;
+    const stylesRef = (ref) => Object.entries(styles).forEach((st) => {
       if (!ref) return;
       ref.style.setProperty(st[0], st[1], 'important');
     });
 
-    return (
+    const WidgetBlock = (
       <>
-        <main ref={stylesRef} id="getid-main" data-role="container">
-          <div className="getid-landscape_message">
-            <img
-              src={Landscape}
-              alt="mobile landscape"
-              data-role="mobile-landscape"
-            />
-            <div className="getid-header__small">
-              <Translate step="mobileCamera" element="landscape" />
-            </div>
+        <div className="getid-landscape_message">
+          <img
+            src={Landscape}
+            alt="mobile landscape"
+            data-role="mobile-landscape"
+          />
+          <div className="getid-header__small">
+            <Translate step="mobileCamera" element="landscape" />
           </div>
+        </div>
 
-          <div className="getid-grid__main">
-            <CurrentComponent
-              finishStep={finishStep}
-              prevStep={prevStep}
-              {...componentProps}
-            />
-          </div>
-        </main>
+        <div className="getid-grid__main">
+          <CurrentComponent
+            finishStep={finishStep}
+            prevStep={prevStep}
+            {...componentProps}
+          />
+        </div>
       </>
+    );
+
+    if (HtmlProperties.isPopUp) {
+      return (
+        <div id="getid-popup-main" ref={stylesRef}>
+          <div className="getid-button-container">
+            <button
+              type="button"
+              onClick={async () => { await this.doStuff(); }}
+              className="getid-button__main"
+            >
+              <Translate step="openPopUp" element="button" />
+            </button>
+          </div>
+          {isShow && (
+          <div id="getid-popup-window-main" className="getid-popup__container">
+            <main ref={this.popUpElement} id="getid-main" className="getid-container__popup" data-role="container">
+              {WidgetBlock}
+            </main>
+          </div>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <main ref={stylesRef} id="getid-main" data-role="container">
+        {WidgetBlock}
+      </main>
     );
   }
 }
@@ -433,6 +489,10 @@ Widget.propTypes = {
   flow: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
   sdkPermissions: PropTypes.shape({}).isRequired,
+  HtmlProperties: PropTypes.shape({
+    isPopUp: false,
+    isShadowDom: false,
+  }),
 };
 Widget.defaultProps = {
   onBack: null,
@@ -440,6 +500,7 @@ Widget.defaultProps = {
   onComplete: null,
   additionalData: [],
   metadata: {},
+  HtmlProperties: {},
 };
 
 export default Widget;

@@ -76,7 +76,6 @@ class DesktopCamera extends CameraBase {
         )}
         {Overlay && (
         <Overlay
-
           width={width}
           height={height}
           left={left}

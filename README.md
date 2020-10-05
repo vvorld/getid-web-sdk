@@ -284,7 +284,6 @@ Can be used several times in the config (multi-form)
           type: 'text',
           name: 'First name',
           required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         }
         
    Each field has multiple config points:
@@ -292,7 +291,6 @@ Can be used several times in the config (multi-form)
    - type -> input type
    - name -> input name (key value for the form data)
    - required -> boolean, is input required or not
-   - validation -> optional function, can be used to validate input value, 
    accepts two args => value(type: any), setError(type: function). Usage can be found in the example above.
         
 **_Important note:_**

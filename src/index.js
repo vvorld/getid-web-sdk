@@ -73,9 +73,13 @@ const init = async (originOptions, tokenProvider) => {
     renderGetID(options, translations, <Error error={code} failCallback={failCallback} />);
   };
 
-  if (!options.containerId || !document.getElementById(options.containerId)) {
+  if (!options.containerId) {
     renderError('container_missmatch');
     return;
+  }
+  while (!document.getElementById(options.containerId)) {
+    console.error(`Element ${options.containerId} not found, sleeping`);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
   const { verificationTypes, apiUrl } = options;
   try {

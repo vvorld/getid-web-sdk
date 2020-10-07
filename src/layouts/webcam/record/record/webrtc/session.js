@@ -33,7 +33,7 @@ class RecordSession {
 
     remoteDescription = (localDescription) => this.call('POST', `/connections/${this.id}/remote-description`, localDescription)
 
-    stopRecord = () => this.call('DELETE', `/connections/${this.id}`)
+    stopRecord = () => this.call('DELETE', `/connections/${this.id}`).catch(() => {})
 
     loadRecord = () => fetch(`${this.server}/files/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'omit' }).then((x) => {
       if (x.status !== 200) {

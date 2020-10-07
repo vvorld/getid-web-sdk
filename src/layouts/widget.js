@@ -26,7 +26,7 @@ const transformAppToApiModel = (app, api) => async () => {
   if (app.form || app.additionalData) {
     const form = app.form || {};
 
-    const additionalFields = app.additionalData
+    const additionalFields = (app.additionalData || [])
       .filter((x) => !form[x.name])
       .map((x) => ({ category: x.name, content: x.value }));
 
@@ -71,14 +71,6 @@ const transformAppToApiModel = (app, api) => async () => {
   await api.trySendEvent('loading', 'completed');
   await api.trySendEvent('thank-you', 'completed');
   return result;
-};
-// warning CountryAndDocument
-
-const validateFlow = (flow) => {
-  const ty = flow.findIndex((x) => x.component === 'ThankYou');
-  if (ty >= 0 && ty < flow.length - 1) {
-    throw new Error('ThankYou must be last component');
-  }
 };
 
 const enableThankYou = (flow) => flow.find((x) => x.component === 'ThankYou');

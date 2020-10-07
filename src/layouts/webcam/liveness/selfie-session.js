@@ -15,10 +15,10 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
   })();
   return () => { running = false; };
 };
-async function createSelfieSession(servers, takePhoto, onCommand, onError, onReady) {
+async function createSelfieSession(servers, jwt = 'jwt', takePhoto, onCommand, onError, onReady) {
   const createSerever = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
-    const ws = new WebSocket(`${address}/0.3/selfie`);
+    const ws = new WebSocket(`${address}/0.3/selfie/${jwt}`);
     let resolve = null;
     let reject = null;
 

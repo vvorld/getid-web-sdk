@@ -72,6 +72,14 @@ const transformAppToApiModel = (app, api) => async () => {
   await api.trySendEvent('thank-you', 'completed');
   return result;
 };
+// warning CountryAndDocument
+
+const validateFlow = (flow) => {
+  const ty = flow.findIndex((x) => x.component === 'ThankYou');
+  if (ty >= 0 && ty < flow.length - 1) {
+    throw new Error('ThankYou must be last component');
+  }
+};
 
 const enableThankYou = (flow) => flow.find((x) => x.component === 'ThankYou');
 

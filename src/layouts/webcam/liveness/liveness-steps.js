@@ -137,6 +137,7 @@ class LivenessStep extends Component {
     };
     await createSelfieSession(
       this.props.servers,
+      this.props.jwt,
       takePhoto,
       faceResult,
       this.setServerError,
@@ -211,6 +212,7 @@ class LivenessStep extends Component {
     };
     await createLivenessSession(
       this.props.servers,
+      this.props.jwt,
       this.state.takePhoto,
       onCommand,
       this.setServerError,
@@ -283,14 +285,15 @@ LivenessStep.propTypes = {
   prevStep: PropTypes.func,
   direction: PropTypes.string,
   finishStep: PropTypes.func,
-  servers: PropTypes.array,
+  servers: PropTypes.array.isRequired,
+  jwt: PropTypes.string.isRequired,
+
 };
 
 LivenessStep.defaultProps = {
   prevStep: null,
   direction: '',
   finishStep: null,
-  servers: [],
 };
 
 export default LivenessStep;

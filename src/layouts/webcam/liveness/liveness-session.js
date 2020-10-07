@@ -22,10 +22,10 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
     running = false;
   };
 };
-async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
+async function createLiveness(servers, jwt = 'jwt', takePhoto, onCommand, onError, onReady) {
   const createSerever = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
-    const ws = new WebSocket(`${address}/0.3/liveness`);
+    const ws = new WebSocket(`${address}/0.3/liveness/${jwt}`);
     let resolve = null;
     let reject = null;
 

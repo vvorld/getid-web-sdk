@@ -81,7 +81,6 @@ class CameraBase extends Component {
   }
 
   setDevice = async () => {
-    const ref = document.getElementsByClassName('getid-camera__video')[0]
     this.onCamSwitch(this.ref, async (blob) => {
       await this.setState({ cameraSwitchBlob: blob });
       this.cameraIndex += 1;
@@ -145,9 +144,6 @@ class CameraBase extends Component {
 
   setSrc = async (ref) => {
     this.ref = ref;
-    console.log(ref)
-    console.log(this.props)
-
     if (!ref) {
       return;
     }
@@ -155,9 +151,8 @@ class CameraBase extends Component {
       this.stopRecord();
       const [stream, requestMode] = await this.getStream(this.props.width || 1024);
       stream.getVideoTracks()[0].getSettings(); // check UC browser
-      console.log(this.ref)
 
-      ref.srcObject = stream;
+      this.ref.srcObject = stream;
       const intervalId = setInterval(() => {
         if (ref.readyState === 4 || ref.readyState > 0) {
           try {
@@ -171,8 +166,8 @@ class CameraBase extends Component {
               return requestMode;
             };
 
-            const height = (this.ref && this.ref.videoHeight) || settings.height;
-            const width = (this.ref && this.ref.videoWidth) || settings.width;
+            const height = this.ref.videoHeight || settings.height;
+            const width = this.ref.videoWidth || settings.width;
 
             const {
               left, right, top, bottom,

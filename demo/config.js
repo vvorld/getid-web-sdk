@@ -54,7 +54,7 @@ export default {
     },
     { component: 'Liveness' },
 
-    { component: 'Selfie', showRules: false, enableCheckPhoto: true },
+    { component: 'Selfie', showRules: true, enableCheckPhoto: true },
     { component: 'ThankYou' },
   ],
   onComplete({ id }) {

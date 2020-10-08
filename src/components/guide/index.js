@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './guide.css';
 
@@ -36,6 +36,8 @@ const Guide = ({ name, styles }) => {
       return URL.createObjectURL(blobB);
     });
   }
+
+  console.log(blob);
   cache[name].then(setBlob);
 
   return (

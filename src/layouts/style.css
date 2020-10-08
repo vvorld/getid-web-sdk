@@ -108,6 +108,8 @@
 }
 
 .container__popup{
+    padding: 30px;
+    border-radius: 8px;
     display: block;
     max-width: 500px;
     margin: 0 auto;

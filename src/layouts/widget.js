@@ -378,32 +378,6 @@ class Widget extends Component {
     }
   }
 
-  isVisible = (elem) => !!elem
-      && !!(elem.offsetWidth
-          || elem.offsetHeight
-          || elem.getClientRects().length);
-
-  doStuff = async () => {
-    await this.setState({ isShow: true });
-    const removeClickListener = () => {
-      this.props.HtmlProperties.isShadowDom
-        ? window.GetIDShadowRoot.removeEventListener('click', outsideClickListener)
-        : document.removeEventListener('click', outsideClickListener);
-    };
-
-    const outsideClickListener = async (event) => {
-      if (!this.popUpElement.current.contains(event.target)
-          && this.isVisible(this.popUpElement.current)) {
-        await this.setState({ isShow: false });
-        removeClickListener();
-      }
-    };
-
-    this.props.HtmlProperties.isShadowDom
-      ? window.GetIDShadowRoot.addEventListener('click', outsideClickListener)
-      : document.addEventListener('click', outsideClickListener);
-  }
-
   render() {
     const { step, app, isShow } = this.state;
     const { flow } = this;
@@ -446,19 +420,39 @@ class Widget extends Component {
 
     if (HtmlProperties.isPopUp) {
       return (
-        <div id="getid-popup-main" ref={stylesRef}>
+        <div
+          id="getid-popup-main"
+          ref={stylesRef}
+        >
           <div className="getid-button-container">
             <button
               type="button"
-              onClick={async () => { await this.doStuff(); }}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.setState(() => ({ isShow: true }));
+              }}
               className="getid-button__main"
             >
               <Translate step="openPopUp" element="button" />
             </button>
           </div>
           {isShow && (
-          <div id="getid-popup-window-main" className="getid-popup__container">
-            <main ref={this.popUpElement} id="getid-main" className="getid-container__popup" data-role="container">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              this.setState(() => ({ isShow: false }));
+            }}
+            id="getid-popup-window-main"
+            className="getid-popup__container"
+          >
+            <main
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              id="getid-main"
+              className="getid-container__popup"
+              data-role="container"
+            >
               {WidgetBlock}
             </main>
           </div>

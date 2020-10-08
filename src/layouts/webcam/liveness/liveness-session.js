@@ -62,7 +62,11 @@ async function createLiveness(servers, jwt = 'jwt', takePhoto, onCommand, onErro
       stop();
       if (waitBinnary) {
         waitBinnary = false;
-        artifacts[binnaryKind] = event.data;
+        try {
+          artifacts[binnaryKind] = new Blob([event.data.slice(0)], { type: binnaryKind === 'video' ? 'video/mp4' : 'image/jpeg' });
+        } catch (e) {
+          artifacts[binnaryKind] = event.data;
+        }
         return;
       }
       const data = JSON.parse(event.data);

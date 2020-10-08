@@ -27,10 +27,8 @@ const Sending = ({ send, finishStep, prevStep }) => {
         : (
           <ErrorView
             error={error}
-            callbacks={{
-              onCancel: () => prevStep(),
-              onRetry: () => sendData(),
-            }}
+            onCancel={prevStep}
+            onRetry={sendData}
           />
         )}
     </div>

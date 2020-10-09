@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes, { instanceOf } from 'prop-types';
+import React from 'react';
 
 const defaultValidation = (value, isRequired) => {
   if (!value && isRequired) {
@@ -9,9 +8,9 @@ const defaultValidation = (value, isRequired) => {
 };
 
 const Input = ({
-  name, label, value, onChange, required, validation, mask, invalid,
+  name, label, value, onChange, required, validation, mask, invalid, placeholder
 }) => {
-  const placeholder = label + (required ? '*' : '');
+  const pl = placeholder + (required ? '*' : '');
 
   const validate = () => {
     if (validation && typeof validation === 'function') {
@@ -40,10 +39,11 @@ const Input = ({
 
   return (
     <div>
+      <label className="getid-form__input-label" data-role="input-label">{label}</label>
       <input
         type="text"
         name={name}
-        placeholder={placeholder}
+        placeholder={pl}
         required={required}
         className={error && 'getid-input-error'}
         value={value}
@@ -59,6 +59,7 @@ Input.defaultProps = {
   name: '',
   label: '',
   value: '',
+  placeholder: '',
   onChange: () => {},
   required: false,
   validation: null,

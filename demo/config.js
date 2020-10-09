@@ -16,6 +16,7 @@ export default {
           type: 'text',
           name: 'First name',
           required: false,
+          placeholder: 'asd',
           value: '',
           mask: {
             regexp: '^[a-zA-Z0-9 ]+$',

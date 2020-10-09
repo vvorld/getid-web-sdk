@@ -453,6 +453,17 @@ class Widget extends Component {
               className="getid-container__popup"
               data-role="container"
             >
+              <div className="getid-popup__close-button">
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  this.setState(() => ({ isShow: false }));
+                }}
+                >
+                  Close
+                  <div className="getid-close"/>
+                </button>
+
+              </div>
               {WidgetBlock}
             </main>
           </div>

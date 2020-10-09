@@ -108,11 +108,49 @@
 }
 
 .container__popup{
+    position: relative;
     padding: 30px;
     border-radius: 8px;
     display: block;
     max-width: 500px;
-    margin: 0 auto;
+    margin: 20px auto !important;
+    box-shadow: 0px 5px 8px rgba(14, 51, 123, 0.15);
+    border: 1px solid #CED3DD;
+}
+
+#getid-main .popup__close-button{
+    position: absolute;
+    align-self: center;
+    top: 20px;
+    right: 15px;
+    cursor: pointer;
+}
+
+#getid-main .popup__close-button .close::after{
+    content: "\2715";
+    color: #8D99B0;
+    cursor: pointer;
+}
+
+#getid-main .popup__close-button .close{
+padding-left: 10px;
+}
+
+#getid-main .popup__close-button button {
+    padding-right: 10px;
+    font-style: normal;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: var(--getid-font-size);
+    line-height: 100%;
+    text-align: center;
+    color: rgba(141, 153, 176, 0.3);
+    text-transform: none !important;
+}
+
+#getid-main .popup__close-button button:active {
+    outline: none;
+    border: none;
 }
 
 /*-----------FORM---------*/

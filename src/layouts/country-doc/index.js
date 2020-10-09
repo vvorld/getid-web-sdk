@@ -58,7 +58,7 @@ const CountryAndDocument = ({
           </div>
           <div data-role="documents">
             {documents && documents.map((docType) => (
-              <div key={docType.name} className="getid-form__input-wrapper">
+              <div key={docType.name} className="getid-form__input-wrapper" data-role="input-wrapper">
                 <Radiobutton
                   name={docType.name}
                   checked={docType.name === currDocumentType}
@@ -69,7 +69,7 @@ const CountryAndDocument = ({
               </div>
             ))}
             {plArr.map((x) => (
-              <div key={x} className="getid-form__input-wrapper getid-form__input-hidden">
+              <div key={x} className="getid-form__input-wrapper getid-form__input-hidden" data-role="input-wrapper">
                 <Radiobutton />
               </div>
             ))}

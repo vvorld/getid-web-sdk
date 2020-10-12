@@ -119,6 +119,18 @@ class LivenessStep extends Component {
     };
   }
 
+  componentWillUnmount() {
+    if (this.state.stopFaceSession) {
+      this.state.stopFaceSession();
+    }
+    if (this.state.stopLivenessSession) {
+      this.state.stopLivenessSession();
+    }
+    if (this.state.stream) {
+      this.state.stream.getTracks().forEach((track) => track.stop());
+    }
+  }
+
   cameraReady = async (takePhoto) => {
     if (this.state.stopLivenessSession) {
       this.state.stopLivenessSession();
@@ -158,18 +170,6 @@ class LivenessStep extends Component {
 
   setServerError = (error) => {
     this.setState({ step: 'Error', error });
-  }
-
-  componentWillUnmount() {
-    if (this.state.stopFaceSession) {
-      this.state.stopFaceSession();
-    }
-    if (this.state.stopLivenessSession) {
-      this.state.stopLivenessSession();
-    }
-    if (this.state.stream) {
-      this.state.stream.getTracks().forEach((track) => track.stop());
-    }
   }
 
   startLiveness = async () => {

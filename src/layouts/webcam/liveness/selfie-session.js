@@ -16,7 +16,7 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
   return () => { running = false; };
 };
 async function createSelfieSession(servers, takePhoto, onCommand, onError, onReady) {
-  const createSerever = async (address) => {
+  const createServer = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
     const ws = new WebSocket(`${address}/selfie`);
     let resolve = null;
@@ -64,9 +64,10 @@ async function createSelfieSession(servers, takePhoto, onCommand, onError, onRea
     };
   };
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const address of servers) {
     try {
-      const stop = await createSerever(address);
+      const stop = await createServer(address);
       onReady(stop);
       return;
     } catch (e) {

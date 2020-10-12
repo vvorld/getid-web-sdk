@@ -6,6 +6,7 @@ import Widget from './layouts/widget';
 import style from './layouts/style.css';
 import En from '~/translations/default';
 import Ru from '~/translations/ru';
+import ErrorBoundary from '~/ErrorBoundary';
 
 const mapContext = {
   en: En,
@@ -48,7 +49,9 @@ const MainModule = (widgetOptions, component) => {
         <TranslationsContext.Provider
           value={{ translations: ctx }}
         >
-          {component}
+          <ErrorBoundary>
+            {component}
+          </ErrorBoundary>
         </TranslationsContext.Provider>
       </>
     );

@@ -12,8 +12,10 @@ function Header({ step }) {
     }, 50);
   }
   return (
-    <div className={`getid-header__container getid-animation${!enableAnimation ? ' getid-visible_1' : ''}`}
-         data-role="header">
+    <div
+      className={`getid-header__container getid-animation${!enableAnimation ? ' getid-visible_1' : ''}`}
+      data-role="header"
+    >
       <div className="getid-header__big" data-role="header-big">
         <Translate step={step} element="header" />
       </div>

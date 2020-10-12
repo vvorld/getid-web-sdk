@@ -21,6 +21,7 @@ const PreviewForm = ({ load, onLoad, blob }) => {
   }
   useEffect(() => {
     (async () => {
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve) => setInterval(resolve, 1000));

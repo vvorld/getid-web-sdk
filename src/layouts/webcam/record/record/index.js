@@ -38,7 +38,8 @@ export default (pr) => {
   };
 
   class RecordingCamera extends Component {
-    componentWillMount() {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
       rerenders.push(() => this.forceUpdate());
     }
 
@@ -89,7 +90,8 @@ export default (pr) => {
       };
     }
 
-    componentWillMount() {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
       rerenderPhrases.push(() => {
         this.setState({ textMod: 'hide' });
       });
@@ -128,7 +130,8 @@ export default (pr) => {
     }
   }
   class CameraHeader extends Component {
-    componentWillMount() {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
       rerenders.push(() => this.forceUpdate());
     }
 
@@ -140,7 +143,8 @@ export default (pr) => {
     }
   }
   class CameraFooter extends Component {
-    componentWillMount() {
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillMount() {
       rerenders.push(() => this.forceUpdate());
       rerenderPhrases.push(() => this.forceUpdate());
     }

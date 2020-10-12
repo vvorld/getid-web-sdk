@@ -23,8 +23,10 @@ const Footer = ({
     }, 50);
   }
   return (
-    <div data-role="footer"
-         className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}>
+    <div
+      data-role="footer"
+      className={`getid-footer__container getid-animation${!enableAnimation ? ' getid-visible_3' : ''}`}
+    >
       <div className="getid-button__wrapper" data-role="button">
         {next.onClick
           ? (

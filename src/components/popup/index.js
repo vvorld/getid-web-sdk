@@ -10,7 +10,8 @@ class Popup extends Component {
     this.props.back.onClick();
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (nextProps.visible) {
       this.originalMaxWidth = document.body.style.maxWidth;
       this.originalWidth = document.body.style.width;

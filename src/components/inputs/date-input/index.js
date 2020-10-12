@@ -114,7 +114,7 @@ function DateInput({
       {label && (
       <label className="getid-form__input-label" data-role="date-label">
         {label}
-        {enableControls && <span className="getid-form__input-action" onClick={paste}>Paste</span>}
+        {enableControls && <span role="button" tabIndex="0" className="getid-form__input-action" onClick={paste}>Paste</span>}
       </label>
       )}
 

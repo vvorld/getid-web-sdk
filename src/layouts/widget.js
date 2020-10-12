@@ -438,6 +438,8 @@ class Widget extends Component {
           </div>
           {isShow && (
           <div
+            role="button"
+            tabIndex="0"
             onClick={(e) => {
               e.stopPropagation();
               this.setState(() => ({ isShow: false }));
@@ -446,6 +448,8 @@ class Widget extends Component {
             className="getid-popup__container"
           >
             <main
+              role="button"
+              tabIndex="0"
               onClick={(e) => {
                 e.stopPropagation();
               }}
@@ -454,13 +458,15 @@ class Widget extends Component {
               data-role="container"
             >
               <div className="getid-popup__close-button">
-                <button onClick={(e) => {
-                  e.stopPropagation();
-                  this.setState(() => ({ isShow: false }));
-                }}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    this.setState(() => ({ isShow: false }));
+                  }}
                 >
                   Close
-                  <div className="getid-close"/>
+                  <div className="getid-close" />
                 </button>
 
               </div>
@@ -493,7 +499,10 @@ Widget.propTypes = {
   styles: PropTypes.shape({}),
   flow: PropTypes.array.isRequired,
   additionalData: PropTypes.array,
-  sdkPermissions: PropTypes.shape({}).isRequired,
+  sdkPermissions: PropTypes.shape({
+    recordParams: PropTypes.shape({}),
+    livenessParams: PropTypes.shape({}),
+  }).isRequired,
   HtmlProperties: PropTypes.shape({
     isPopUp: false,
     isShadowDom: false,

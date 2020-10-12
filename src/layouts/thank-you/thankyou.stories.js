@@ -1,5 +1,4 @@
 import React from 'react';
-import { darkTheme } from '../../dark-theme';
 
 import ThankYou from './index';
 

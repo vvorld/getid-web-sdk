@@ -23,7 +23,7 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
   };
 };
 async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
-  const createSerever = async (address) => {
+  const createServer = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
     const ws = new WebSocket(`${address}/liveness`);
     let resolve = null;
@@ -110,9 +110,10 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       ws.onclose();
     };
   };
+  // eslint-disable-next-line no-restricted-syntax
   for (const address of servers) {
     try {
-      const stop = await createSerever(address);
+      const stop = await createServer(address);
       onReady(stop);
       return;
     } catch (e) {

@@ -158,7 +158,7 @@ RecordView.propTypes = {
   phrases: PropTypes.array,
   direction: PropTypes.string,
   blob: PropTypes.any,
-  servers: PropTypes.array,
+  fallbackServers: PropTypes.array,
   styles: PropTypes.shape({}).isRequired,
 };
 
@@ -167,7 +167,7 @@ RecordView.defaultProps = {
   phrases: [],
   finishStep: null,
   direction: '',
-  servers: [],
+  fallbackServers: [],
   blob: null,
 };
 

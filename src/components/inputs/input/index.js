@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  string, bool, func, shape,
+} from 'prop-types';
 
 const defaultValidation = (value, isRequired) => {
   if (!value && isRequired) {
@@ -8,13 +11,14 @@ const defaultValidation = (value, isRequired) => {
 };
 
 const Input = ({
-  name, label, value, onChange, required, validation, mask, invalid, placeholder
+  name, label, value, onChange, required, validation, mask, invalid, placeholder,
 }) => {
   const pl = placeholder + (required ? '*' : '');
 
   const validate = () => {
     if (validation && typeof validation === 'function') {
       let err = null;
+      // eslint-disable-next-line no-return-assign
       validation(value, (e) => err = e);
       return err;
     }
@@ -55,6 +59,20 @@ const Input = ({
   );
 };
 
+Input.propTypes = {
+  name: string,
+  label: string,
+  value: string,
+  placeholder: string,
+  required: bool,
+  invalid: bool,
+  validation: func,
+  onChange: func,
+  mask: shape({
+    regexp: string,
+  }),
+};
+
 Input.defaultProps = {
   name: '',
   label: '',
@@ -62,7 +80,11 @@ Input.defaultProps = {
   placeholder: '',
   onChange: () => {},
   required: false,
+  invalid: false,
   validation: null,
+  mask: {
+    regexp: '',
+  },
 };
 
 export default Input;

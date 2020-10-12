@@ -16,7 +16,8 @@ class Form extends Component {
     };
   }
 
-  componentWillMount() {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillMount() {
     const getFormValue = ({ name, value, type }) => {
       const f = (this.props.form || {})[name];
       if (f && f.value) {

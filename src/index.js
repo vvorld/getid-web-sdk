@@ -55,8 +55,8 @@ const cameraAchievable = (options) => {
 };
 
 const cameraExist = async () => {
-  const divices = await navigator.mediaDevices.enumerateDevices();
-  return !!(divices && divices.find((x) => x.kind === 'videoinput'));
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  return !!(devices && devices.find((x) => x.kind === 'videoinput'));
 };
 
 /**

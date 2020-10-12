@@ -61,9 +61,6 @@ export default ({
       {renderGetID()}
     </div>
   );
-  if (htmlProperties && htmlProperties.isShadowDom) {
-    return sd;
-  }
 
   if (htmlProperties && htmlProperties.isPopUp) {
     return (
@@ -120,6 +117,9 @@ export default ({
     );
   }
 
-  console.log('here');
+  if (htmlProperties && htmlProperties.isShadowDom) {
+    return sd;
+  }
+
   return renderGetID();
 };

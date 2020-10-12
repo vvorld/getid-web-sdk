@@ -5,7 +5,7 @@ export default {
   dictionary: 'en',
   htmlProperties: {
     isShadowDom: false,
-    isPopUp: true,
+    isPopUp: false,
   },
   translations: {},
   flow: [

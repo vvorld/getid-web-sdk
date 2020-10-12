@@ -8,19 +8,21 @@ import TranslationsContext from '~/context/TranslationsContext';
 
 import './rules.css';
 
-export const RulesList = ({ rules }) => {
+export const RulesList = ({ rules, numeric }) => {
   const { translations } = useContext(TranslationsContext);
   const list = Object.keys(translations).filter((el) => el.includes(`${rules}_line_`)).map((ele) => translations[ele]);
 
+  const renderList = list.map((el) => (
+    <li key={el}>
+      { el }
+    </li>
+  ));
   return (
     <div className="getid-rule-list_container" data-role="rules">
-      <ul className="getid-rule-list">
-        { list.map((el) => (
-          <li key={el}>
-            { el }
-          </li>
-        ))}
-      </ul>
+      {numeric
+        ? <ol className="getid-rule-list">{renderList}</ol>
+        : <ul className="getid-rule-list">{renderList}</ul>}
+
     </div>
   );
 };

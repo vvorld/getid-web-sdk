@@ -49,6 +49,7 @@ class DesktopCamera extends CameraBase {
         <video
           style={videoStyles()}
           className="getid-camera__video"
+          data-role="video"
           playsInline
           ref={this.setSrc}
           muted

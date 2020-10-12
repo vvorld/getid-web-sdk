@@ -19,7 +19,7 @@ const Radiobutton = (props) => (
       key={`radio-${props.value}`}
     />
     <span data-role="radio-btn-span" className="getid-radio-button__input" />
-    {props.name}
+    {props.children}
   </label>
 );
 

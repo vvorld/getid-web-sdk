@@ -3,6 +3,7 @@ export default {
   CountryAndDocument_subHeader: 'Carefully choose document type of document you want to provide for identification',
   CountryAndDocument_next: 'Go next',
   CountryAndDocument_back: 'Go back',
+  CountryAndDocument_countryPlaceholder: 'Choose country',
 
   PhotoRules_header: 'Take a front side picture of ID Document',
   PhotoRules_subHeader: ' ',
@@ -67,6 +68,7 @@ export default {
   Form_subHeader: 'Please provide personal details same as on your ID Document',
   Form_next: 'Go next',
   Form_back: 'Go back',
+  Form_FileTooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
 
   Const_day: 'Day',
   Const_year: 'Year',
@@ -84,6 +86,11 @@ export default {
   Const_november: 'November',
   Const_december: 'December',
 
+  Const_passport: 'Passport',
+  'Const_id-card': 'ID Card',
+  'Const_residence-permit': 'Residence Permit',
+  'Const_driving-licence': 'Drivers License',
+
   IdSelfie_record_header: 'Take a selfie',
   IdSelfie_record_subHeader: ' ',
   IdSelfie_record_next: 'Take a photo',
@@ -95,7 +102,7 @@ export default {
   IdSelfie_guide_back: 'Go back',
 
   IdSelfie_preview_header: 'Captured selfie',
-  IdSelfie_preview_subHeader: ' ',
+  IdSelfie_preview_subHeader: 'Is your face clearly visible?',
   IdSelfie_preview_next: 'Yes, continue',
   IdSelfie_preview_back: 'No, retake',
 
@@ -173,61 +180,120 @@ export default {
   LivenessCommand_detected: 'Detected',
   LivenessCommand_success: 'Great!',
 
+  ChangeDevice_header: 'Continue on your phone',
+  ChangeDevice_subHeader: 'Here\'s how to do it:',
+  ChangeDevice_next: 'get secure link',
+  ChangeDevice_back: 'back',
+  ChangeDevice_line_1: 'Send a secure link to your phone',
+  ChangeDevice_line_2: 'Open the link and complete the tasks',
+  ChangeDevice_line_3: 'Check back here to finish the submission',
+
+  MagicLink_header: 'Get your secure link',
+  MagicLink_subHeader: 'Open your smartphone camera with Photo mode and hover it on a QR code you see bellow',
+  MagicLink_back: 'Back',
+
   // ERROR
-  isFail_header: 'Cannot send data',
   retake_description_error: 'Document can not be identified',
   retake_description_unknown: 'Document can not be identified',
   retake_description_selfie_unknown: 'Selfie can not be identified',
   retake_description_selfie_error: 'Selfie can not be identified',
   retake_description_front_side_missing: 'Front side wasn\'t recognized.',
   retake_description_back_side_missing: 'Back side wasn\'t recognized.',
-  '400_header': 'Bad request',
-  '500_header': 'Service is unavailable',
-  isFail_subHeader: 'Error occurs when you try to send data to the server.',
-  '400_subHeader': 'Try again or contact the support team.',
-  '500_subHeader': 'Try again or contact the support team.',
-  camera_access_tooltip: 'Make sure camera is enabled and browser has access to it.',
-  'CountryAndDocument_country-placeholder': 'Choose country',
-  button_next: 'next',
-  button_back: 'back',
-  button_submit: 'submit',
-  button_retake: 'retake',
-  button_agree: 'I agree',
-  button_start_over: 'start over',
-  choose_flow_button: 'Choose Flow',
-  retry_button: 'Retry',
-  cancel_button: 'Cancel',
-  exists_header: 'Application already exists.',
-  exists_subHeader: 'Please contact your provider for further information.',
-  done_button: 'Done',
-  file_input_tooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
-  button_make_photo: 'make photo',
-  guide_accept: 'Ok, got it',
-  photo_tip: 'Please use <b>Spacebar</b> key to make photo',
-  error_header: 'Something was wrong',
 
-  http_error_header: 'Insecure protocol detected',
-  http_error_subHeader: 'Please use https protocol',
+  // container ID  is not provided
+  container_missmatch_error: 'Please provide container id.',
 
-  apiVersion_error_header: 'Your sdk version not compatible with current api version',
-  apiVersion_error_subHeader: 'Please update your sdk version',
+  // token is not provided
+  token_missmatch_error: 'Token provider must be a function that returns promise or jwt response object',
 
-  browser_error_header: 'Browser is not supported',
-  browser_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
-  camera_error_not_found: 'No available devices were found',
-  camera_error_not_allowed: 'Please enable web camera access in your browser settings.',
-  camera_error_generic: 'To make a photo you need to give access for webcam',
-  camera_error_another_browser: 'Use another browser',
-  camera_error_next: 'Try again',
-  camera_error_header: 'Camera is not supported',
+  // schema_missmatch
+  schema_missmatch_error: 'Insecure protocol detected',
+  schema_missmatch_error_header: 'Insecure protocol detected',
+  schema_missmatch_error_subHeader: 'Please use https protocol',
 
+  // Broswer not supported
+  browser_not_supported_error: 'Browser is not supported',
+  browser_not_supported_error_header: 'Browser is not supported',
+  browser_not_supported_error_variants: 'Use another browser:',
+  browser_not_supported_error_subHeader: 'Please use newer version of your browser or contact your provider for further information.',
+
+  // Device doesn't have camera
+  no_camera_error: 'Device has no camera',
   no_camera_error_header: 'Your device has no camera',
   no_camera_error_subHeader: 'Please use device with camera',
 
-  server_error_header: 'Server is unavailable',
-  server_error_subHeader: '',
+  camera_not_allowed_error: 'Failed to access your camera',
+  camera_not_allowed_error_header: 'Camera is not supported',
+  camera_not_allowed_error_subHeader: 'Web camera access in your browser settings.',
 
-  error_subHeader: 'Please contact your provider for further information.',
+  camera_generic_error: 'Failed to access your camera',
+  camera_generic_error_header: 'Camera is not supported',
+  camera_generic_error_subHeader: 'To make a photo you need to give access for webcam',
+
+  sdkkey_invalid_error_header: 'Wrong SDK key',
+  sdkkey_invalid_error_error_header: 'Wrong SDK key',
+  sdkkey_invalid_error_subHeader: 'Please contact your provider for further information.',
+
+  // Server return 400
+  '400_error': 'Service is unavailable',
+  '400_error_header': 'Bad request',
+  '400_error_subHeader': 'Try again or contact the support team.',
+
+  // Server return 500
+  '500_error': 'Service is unavailable',
+  '500_error_header': 'Service is unavailable',
+  '500_error_subHeader': 'Try again or contact the support team.',
+
+  // App Exist application
+  customerid_exists_error: 'Application already exists.',
+  customerid_exists_error_header: 'Application already exists.',
+  customerid_exists_error_subHeader: 'Please contact your provider for further information.',
+
+  // Api version missmatch
+  api_version_missmatch_error: 'Sdk version not compatible with current api version',
+  api_version_missmatch_error_header: 'Your sdk version not compatible with current api version',
+  api_version_missmatch_error_subHeader: 'Please update your sdk version',
+
+  // Server is not unavailable (liveness or recording fallback)
+  server_unavailable_error: 'Server is unavailable',
+  server_unavailable_error_header: 'Server is unavailable',
+  server_unavailable_error_subHeader: 'Please contact your provider for further information.',
+
+  // Application didn't send
+  isFail_error: 'Cannot create application',
+  isFail_error_header: 'Cannot send data',
+  isFail_error_subHeader: 'Error occurs when you try to send data to the server.',
+
+  // We don't know what to do
+  internal_error: 'Internal error',
+  internal_error_header: 'Something was wrong',
+  internal_error_subHeader: 'Please contact your provider for further information.',
+
+  token_malformed_error: 'Incorrect link',
+  token_malformed_error_header: 'Something was wrong',
+  token_malformed_error_subHeader: 'Please contact your provider for further information.',
+
+  token_invalid_error: 'Incorrect link',
+  token_invalid_error_header: 'Incorrect link',
+  token_invalid_error_subHeader: 'Please contact your provider for further information.',
+
+  token_empty_error: 'Token link',
+  token_empty_error_header: 'Incorrect link',
+  token_empty_error_subHeader: 'Please contact your provider for further information.',
+
+  token_expired_error: 'Link is no longer valid',
+  token_expired_error_header: 'Your link is no longer valid',
+  token_expired_error_subHeader: 'Please contact your provider for further information.',
+
+  // ERROR BUTTONS
+  error_next: 'Retry',
+  error_back: 'Cancel',
+  error_finish: 'Ok',
+
+  error_changedevice_button: 'Change device and continue',
+
+  // OTHER
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
   openPopUp_button: 'open modal',
+  closePopUp_button: 'Close',
 };

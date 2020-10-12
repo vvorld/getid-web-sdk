@@ -1,6 +1,6 @@
 {
   "name": "getid-web-sdk",
-  "version": "1.0.0-test-sdk",
+  "version": "1.0.0-demo-sdk",
   "main": "./lib/bundle.js",
   "author": "GetID",
   "description": "GetID Web SDK",
@@ -13,6 +13,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --watch --config webpack.dev.js --host=localhost",
     "build": "webpack --config webpack.prod.js",
+    "build-demo": "webpack --config webpack.demo.js",
     "build-launcher": "webpack --config webpack.launcher.js",
     "build-np": "rollup --config",
     "deploy-assets": "webpack --config webpack.deploy-assets.js",

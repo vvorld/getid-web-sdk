@@ -22,10 +22,10 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
     running = false;
   };
 };
-async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
+async function createLiveness(servers, jwt = 'jwt', takePhoto, onCommand, onError, onReady) {
   const createServer = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
-    const ws = new WebSocket(`${address}/liveness`);
+    const ws = new WebSocket(`${address}/0.3/liveness/${jwt}`);
     let resolve = null;
     let reject = null;
 
@@ -53,9 +53,7 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       console.error(e);
       ws.onclose();
       clearTimeout(timeout);
-      const err = new Error('Liveness server error');
-      err.name = 'server_unavailable';
-      onError(err);
+      onError('server_unavailable');
     };
     let waitBinnary = false;
     let binnaryKind = '';
@@ -64,7 +62,11 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       stop();
       if (waitBinnary) {
         waitBinnary = false;
-        artifacts[binnaryKind] = event.data;
+        try {
+          artifacts[binnaryKind] = new Blob([event.data.slice(0)], { type: binnaryKind === 'video' ? 'video/mp4' : 'image/jpeg' });
+        } catch (e) {
+          artifacts[binnaryKind] = event.data;
+        }
         return;
       }
       const data = JSON.parse(event.data);
@@ -120,9 +122,7 @@ async function createLiveness(servers, takePhoto, onCommand, onError, onReady) {
       console.error(e);
     }
   }
-  const err = new Error('Liveness server error');
-  err.name = 'server_unavailable';
-  onError(err);
+  onError('server_unavailable');
 }
 
 export default createLiveness;

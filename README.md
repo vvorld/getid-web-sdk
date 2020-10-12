@@ -13,7 +13,7 @@
     *   [Container id](#container-id)
     *   [Dictionary](#dictionary)
     *   [Metadata](#metadata)
-    *   [HtmlProperties](#htmlProperties)
+    *   [htmlProperties](#htmlProperties)
     *   [Styles](#styles)
     *   [Translations](#translations)
     *   [Flow](#flow)
@@ -284,7 +284,6 @@ Can be used several times in the config (multi-form)
           type: 'text',
           name: 'First name',
           required: false,
-          validation: (value, setError) => ((/^[0-9]*$/.test(value)) ? setError(null) : setError('Only number')),
         }
         
    Each field has multiple config points:
@@ -292,9 +291,6 @@ Can be used several times in the config (multi-form)
    - type -> input type
    - name -> input name (key value for the form data)
    - required -> boolean, is input required or not
-   - hidden -> boolean, hides the input but is not removed from the DOM. Those fields will be not accessible by the client, 
-   but included in total form result.
-   - validation -> optional function, can be used to validate input value, 
    accepts two args => value(type: any), setError(type: function). Usage can be found in the example above.
         
 **_Important note:_**
@@ -367,22 +363,14 @@ example:
     
      const config = {
        apiUrl: 'YOUR_URL',
-          {
+       flow: [  {
                 component: 'DocumentPhoto',
                 showRules: true,
                 interactive: true,
                 enableCheckPhoto: true,
-          },
-          documentData: [
-           {
-             name: 'Country',
-             value: 'uk',
-           },
-           {
-             name: 'DocumentType',
-             value: 'passport',
-           },
-         ],
+                country: 'ee',
+                type:  'id-catd',
+          }],
         }
 
 ### **Selfie**
@@ -425,11 +413,10 @@ example:
 All callbacks are optional.
 
 - **onComplete** = ({ id }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
-- **onFail** = (error) => callback executed on fail event: 
+- **onFail** = ({code, messge}) => callback executed on fail event: 
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
-- **OnExists** function - callback executed when we detect existing application with id that was passed on init (customerId)
 - **OnBack** function - callback executed on clicking on `Back` button
 - **onSortDocuments** function - callback executing for sorting or filtering supported documents list. Function takes two parameters: country - string in ALPHA-2 format(lowercase) and documents: array of supported document types for current country. You should return an array of desired document types(in desired order) for every country if you don't want to display some countries just return empty array.
 
@@ -440,8 +427,8 @@ const config = {
   onComplete: function(data) {
     console.log("everything is complete" + data)
   },
-   onFail: function(error) {
-   console.log("something went wrong" + error)
+   onFail: function({ code, message}) {
+   console.log("something went wrong: " + message )
   },
   onSortDocuments: function(coutry, documents) {
    const desiredCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'at', 'be', 'bg', 'de', 'ee'];

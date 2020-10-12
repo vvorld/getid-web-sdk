@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Loader from '~/components/loader/loader';
-import { FailError } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 const Sending = ({ send, finishStep, prevStep }) => {
   const [count, setCount] = useState(0);
-  const [sending, setSendin] = useState(true);
+  const [{ sending, error }, setSendin] = useState({ sending: true });
   const sendData = () => {
-    setSendin(true);
+    setSendin({ sending: true });
     setCount(count + 1);
     send()
       .then((result) => finishStep(result))
       .catch((e) => {
         console.error(e);
-        setSendin(false);
+        setSendin({ sending: false, error: e.statusCode === 'customerid_exists' ? 'customerid_exists' : 'isFail' });
       });
   };
   useEffect(() => sendData(), send);
@@ -22,25 +21,18 @@ const Sending = ({ send, finishStep, prevStep }) => {
       {sending
         ? (
           <Loader>
-            Send....
+            Send...
           </Loader>
         )
         : (
-          <FailError callbacks={{
-            onFail: () => prevStep(),
-            onSubmit: () => sendData(),
-          }}
+          <ErrorView
+            error={error}
+            onCancel={prevStep}
+            onRetry={sendData}
           />
         )}
     </div>
   );
-};
-
-Sending.propTypes = {
-  finishStep: PropTypes.func.isRequired,
-  prevStep: PropTypes.func.isRequired,
-  send: PropTypes.func,
-  data: PropTypes.shape({}),
 };
 
 Sending.defaultProps = {

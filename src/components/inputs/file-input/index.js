@@ -59,8 +59,8 @@ const FileInput = (props) => {
   return (
     <>
       {label && <label className="getid-form__input-label">{label + (required ? '*' : '')}</label>}
-      <div className="getid-form__input-tooltip">{ translations.file_input_tooltip }</div>
-      <label className="getid-file-input__label">
+      <div className="getid-form__input-tooltip">{ translations.Form_FileTooltip }</div>
+      <label className="getid-file-input__label" data-role="file">
         <input
           className="getid-file-input__generic"
           accept="image/x-png,image/jpeg,application/pdf"

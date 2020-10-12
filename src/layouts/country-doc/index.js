@@ -6,14 +6,7 @@ import Radiobutton from '~/components/inputs/radio-button';
 import '../form/form.css';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-
-const docTypeMapping = {
-  passport: 'Passport',
-  'id-card': 'ID Card',
-  'residence-permit': 'Residence Permit',
-  'driving-licence': 'Drivers License',
-};
-const getDocumentName = (type) => docTypeMapping[type] || type;
+import Translate from '~/components/blocks/translations';
 
 const mapCountryValues = (countriesAndDocs) => Object.entries(countriesAndDocs)
   .map(([value, { name, documents }]) => ({ name, value, documents }));
@@ -28,7 +21,6 @@ const CountryAndDocument = ({
     const countryInfo = countryDocuments[c];
     return (countryInfo && countryInfo.documents) || [];
   };
-  const placeholder = translations['CountryAndDocument_country-placeholder'];
   const countries = mapCountryValues(countryDocuments);
   const [currCountry, setValue] = useState(country);
   const [currDocumentType, setDocumentType] = useState(documentType);
@@ -54,7 +46,7 @@ const CountryAndDocument = ({
             <select
               value={currCountry}
               onChange={(e) => changeCountry(e.target.value)}
-              placeholder={placeholder}
+              placeholder={translations.CountryAndDocument_countryPlaceholder}
               className="getid-form__input-wrapper"
             >
               <option value="">Country</option>
@@ -66,16 +58,18 @@ const CountryAndDocument = ({
           </div>
           <div data-role="documents">
             {documents && documents.map((docType) => (
-              <div key={docType.name} className="getid-form__input-wrapper">
+              <div key={docType.name} className="getid-form__input-wrapper" data-role="input-wrapper">
                 <Radiobutton
-                  name={getDocumentName(docType.name)}
+                  name={docType.name}
                   checked={docType.name === currDocumentType}
                   onChange={() => changeDocumentType(docType.name)}
-                />
+                >
+                  <Translate step="Const" element={docType.name} />
+                </Radiobutton>
               </div>
             ))}
             {plArr.map((x) => (
-              <div key={x} className="getid-form__input-wrapper getid-form__input-hidden">
+              <div key={x} className="getid-form__input-wrapper getid-form__input-hidden" data-role="input-wrapper">
                 <Radiobutton />
               </div>
             ))}
@@ -89,7 +83,7 @@ const CountryAndDocument = ({
             country: currCountry,
             documentType: currDocumentType,
           }),
-          disable: !currDocumentType || !docTypeMapping[currDocumentType],
+          disable: !currDocumentType,
         }}
         back={{ onClick: prevStep }}
       />

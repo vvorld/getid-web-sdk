@@ -7,7 +7,7 @@ import firefox from '~/assets/icons/ff.svg';
 import Translate from '../blocks/translations';
 
 const isApple = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) || /Apple/i.test(window.navigator.vendor || '');
-const icons = [
+const browsers = [
   {
     icon: chrome,
     name: 'Chrome',
@@ -29,12 +29,12 @@ const icons = [
 
 const Browsers = () => (
   <div className="getid-browsers">
-    <div style={{ fontWeight: 'bold' }} className="getid-header__small">
-      <Translate step="camera_error" element="another_browser" />
+    <div className="getid-header__small">
+      <Translate style={{ fontWeight: 'bold' }} step="browser_not_supported_error" element="variants" />
     </div>
     <div className="getid-browsers__list">
       {
-        icons.map(({ icon, name, link }) => (
+        browsers.map(({ icon, name, link }) => (
           <button
             type="button"
             key={name}

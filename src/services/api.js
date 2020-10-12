@@ -11,11 +11,13 @@ const postFormData = (url, body, token) => fetch(url, {
     Authorization: `Bearer ${token}`,
   },
   body,
+}).then((res) => res.json()).catch((e) => {
+  throw ({ status: 500, statusCode: 'internal' });
 }).then((res) => {
-  if (res.status !== 200) {
-    throw new Error('server_internal_error');
+  if (res.responseCode !== 200) {
+    throw res;
   }
-  return res.json();
+  return res;
 });
 
 const post = (url, query, headers) => fetch(url, {
@@ -27,6 +29,12 @@ const post = (url, query, headers) => fetch(url, {
 const get = (url) => fetch(url, createHeaders())
   .then((res) => res.json());
 
+const check = (x) => {
+  if (x.responseCode !== 200) {
+    throw x;
+  }
+  return x;
+};
 export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
   const m = { ...metadata, clientVersion: process.env.VERSION, platform: 'web' };
   const submitData = (application, files) => {
@@ -39,15 +47,14 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
     return postFormData(`${url}/sdk/v1/verify-data`, form);
   };
 
-  const getInfo = () => post(`${url}/sdk/v1/configuration`, { jwt }).then((x) => {
+  const getInfo = () => post(`${url}/sdk/v1/configuration`, { jwt }).then(check).then((x) => {
     m.sessionId = x.sessionId;
     m.traceId = x.traceId;
     return x;
   });
-  const getCountryAndDocList = () => get(`${url}/sdk/v1/supported-documents`);
-  const getTranslations = (dictionary) => post(`${url}/sdk/v1/dictionary`, { dictionary });
+  const getCountryAndDocList = () => get(`${url}/sdk/v1/supported-documents`).then(check);
   const sendErrorToServer = (errorText, stack) => post(`${url}/sdk/v1/log-error`, { error: { errorText, stack } });
-  const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt });
+  const verifyToken = () => post(`${url}/sdk/v1/verify-token`, { jwt }).then(check);
   const trySendEvent = async (step, stepPhase) => post(`${url}/sdk/v1/event`, { jwt, event: { stepPhase, step, metadata: m } })
     .catch(console.log);
 
@@ -77,7 +84,6 @@ export const createApi = (url, jwt, metadata = {}, verificationTypes) => {
     getInfo,
     getCountryAndDocList,
     trySendEvent,
-    getTranslations,
     sendErrorToServer,
     checkSide,
     checkSelfie,
@@ -96,3 +102,6 @@ export function getScriptLink(apiUrl, apiKey) {
 export function getApiVersions(apiUrl) {
   return get(`${apiUrl}/sdk/versions`);
 }
+
+export const getTranslations = (url, dictionary) => post(`${url}/sdk/v1/dictionary`, { dictionary })
+  .then((res) => res.translations || {});

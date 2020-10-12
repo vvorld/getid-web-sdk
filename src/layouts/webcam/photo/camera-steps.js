@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import { CameraDisabledErrorView } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 import PreviewForm from './photo-preview';
 import RetakeDescription from './retake-description';
@@ -72,7 +72,7 @@ class WebcamView extends React.Component {
 
     const stepName = `${componentName}_${step}`;
     if (step === 'disabled') {
-      return <CameraDisabledErrorView error={error.name} callbacks={{ onRetry: () => this.setStep('guide') }} />;
+      return <ErrorView error={error} onRetry={() => this.setStep('guide')} />;
     }
 
     const layout = (() => {
@@ -147,7 +147,7 @@ class WebcamView extends React.Component {
         {layout.header}
         <Content step={stepName}>
           <div>
-            <div style={display('guide')}>
+            <div style={display('guide')} data-role="guide">
               <Guide />
             </div>
             <div className="getid-camera_content" data-role="camera" style={display('record')}>
@@ -162,7 +162,7 @@ class WebcamView extends React.Component {
                 back={{ onClick: () => this.setStep('guide') }}
               />
             </div>
-            <div style={display('preview')}>
+            <div style={display('preview')} data-role="preview">
               <PreviewForm
                 checking={this.state.checking}
                 blob={blob}
@@ -170,7 +170,7 @@ class WebcamView extends React.Component {
                 ratio={ratio}
               />
             </div>
-            <div style={display('retake_description')}>
+            <div style={display('retake_description')} data-role="retake">
               <RetakeDescription step={step} code={retakeCode} rules={this.props.rules} />
             </div>
           </div>

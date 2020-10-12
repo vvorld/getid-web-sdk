@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" />
+    <title>React App</title>
+</head>
+
+<body style="display: flex;justify-content: center;">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id="controls"></div>
+    <style>
+        body {
+            margin: 0;
+            background: lightgrey;
+        }
+
+        .subsettings {
+            margin-left: 10px;
+        }
+
+        label {
+            display: inline-block;
+        }
+
+        .step {
+            margin-top: 15px;
+        }
+
+        #getid-main * {
+            color: green;
+            border-color: pink;
+            border-radius: 50%;
+            display: flex;
+            font-weight: bolder;
+            opacity: 0.4;
+            padding: 20px;
+            font-size: 100px;
+            line-height: 100px;
+            letter-spacing: 10px;
+            box-shadow: 0px 0.5px 0px rgba(120, 97, 162, 0.2);
+            /*width: 400px;*/
+            box-sizing: border-box;
+            /*min-height: calc(100vh - 40px);*/
+            margin: 20px;
+            background-color: red;
+            font-style: oblique;
+            flex-direction: row;
+        }
+
+        #controls {
+            width: 400px;
+            box-sizing: border-box;
+            min-height: calc(100vh - 40px);
+            margin: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .controls_container {
+            overflow: scroll;
+            flex-grow: 1;
+            background: aliceblue;
+            padding: 20px;
+            border: solid 1px gray;
+            border-radius: 10px 0px 0px 10px;
+            box-sizing: border-box;
+            height: calc(100vh - 40px);
+            max-width: 100%;
+        }
+
+        code {
+            max-width: 100%;
+            white-space: break-spaces;
+            overflow: auto;
+            display: block;
+        }
+
+        #getid-component {
+            display: flex;
+            justify-content: center;
+            flex-flow: column;
+            flex-grow: 1;
+            padding: 20px;
+            background: white;
+        }
+    </style>
+    <div id="getid-component"></div>
+    <script src="https://cdn.getid.cloud/sdk/panel.js"></script>
+    <script src="https://cdn.getid.cloud/sdk/getid-web-sdk-v5.min.js"></script>
+    <script>
+        window.examplePanel.default('controls', function (config, customerId) {
+            var tokenProvider = getidWebSdk.createPublicTokenProvider(config.apiUrl, config.apiKey, customerId);
+            console.log(config);
+            getidWebSdk.init(config, tokenProvider);
+        })
+    </script>
+
+
+</body>
+
+</html>

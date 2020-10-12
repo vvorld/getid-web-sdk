@@ -11,9 +11,9 @@ export const getConst = (name) => {
   const { translations } = useContext(TranslationsContext);
   return translations[`Const_${name}`] || name;
 };
-const Translation = ({ step, element }) => (
+const Translation = ({ step, element, style }) => (
   // eslint-disable-next-line react/no-danger
-  <span dangerouslySetInnerHTML={{ __html: translate(step, element) }} />
+  <span style={style} dangerouslySetInnerHTML={{ __html: translate(step, element) }} />
 );
 
 Translation.propTypes = {

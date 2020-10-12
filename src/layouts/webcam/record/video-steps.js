@@ -5,7 +5,7 @@ import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
 import Preview from './preview';
-import { CameraDisabledErrorView, ServerErrorView } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 import createRecordCamera from './record';
 
@@ -80,11 +80,10 @@ class RecordView extends React.Component {
     const stepName = `Recording_${step}`;
 
     if (step === 'disabled') {
-      const Error = error.name === 'webrtc' ? ServerErrorView : CameraDisabledErrorView;
       return (
-        <Error
-          error={error.name}
-          callbacks={{ onRetry: this.showGuideStep }}
+        <ErrorView
+          error={error}
+          onRetry={this.showGuideStep}
         />
       );
     }
@@ -130,7 +129,7 @@ class RecordView extends React.Component {
       <>
         {layout.header}
         <Content step={stepName}>
-          <div style={display('guide')}>
+          <div style={display('guide')} data-role="guide">
             <Guide name="recordingDesktop" styles={this.props.styles} />
           </div>
           {step !== 'preview' && (
@@ -138,7 +137,7 @@ class RecordView extends React.Component {
             <Camera active visible={step === 'record'} step={stepName} />
           </div>
           )}
-          <div style={display('preview')}>
+          <div style={display('preview')} data-role="preview">
             <Preview
               onLoad={(b) => this.setState({ blob: b, loadRecord: null })}
               load={loadRecord}

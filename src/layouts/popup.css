@@ -1,0 +1,60 @@
+#getid-main.popup {
+    padding: 20px;
+    box-shadow: 0px 5px 8px rgba(14, 51, 123, 0.15);
+    border-radius: 8px;
+}
+
+.popup__open-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup__close-button {
+    position: absolute;
+    align-self: center;
+    top: 20px;
+    right: 15px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    background-color: transparent;
+    padding-right: 10px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: var(--getid-font-size);
+    line-height: 100%;
+    text-align: center;
+    color: rgba(141, 153, 176, 0.3);
+    text-transform: none !important;
+}
+
+.popup__close-button .close::after {
+    content: "\2715";
+    color: #8D99B0;
+    cursor: pointer;
+}
+
+.popup__close-button .close {
+    padding-left: 10px;
+}
+
+.popup__close-button:active {
+    outline: none;
+    border: none;
+}
+
+.container__popup {
+    position: relative;
+    display: block;
+    max-width: max-content;
+    margin: 20px auto 0 !important;
+}
+
+.container__popup:focus{
+    outline: none;
+}
+
+
+

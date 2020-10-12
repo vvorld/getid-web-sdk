@@ -12,8 +12,6 @@ import {
   Selfie,
   Liveness,
 } from './webcam';
-import Landscape from '~/assets/icons/views/landscape.svg';
-import Translate from '~/components/blocks/translations';
 
 import Rules from './rules';
 
@@ -28,7 +26,9 @@ const transformAppToApiModel = (app, api) => async () => {
   if (app.form || app.additionalData) {
     const form = app.form || {};
 
-    const additionalFields = app.additionalData.filter((x) => !form[x.category]);
+    const additionalFields = (app.additionalData || [])
+      .filter((x) => !form[x.name])
+      .map((x) => ({ category: x.name, content: x.value }));
 
     const fromFields = Object.entries(app.form || {}).filter(([key, v]) => {
       if (v.value && v.value.type) {
@@ -56,8 +56,8 @@ const transformAppToApiModel = (app, api) => async () => {
     application.faces.push({ category: 'selfie', content: [] });
   }
   if (app.record) {
-    files.record = app.record;
-    application.faces.push({ category: 'record', content: [] });
+    files['selfie-video'] = app.record;
+    application.faces.push({ category: 'selfie-video', content: [] });
   }
   if (app.liveness) {
     files['liveness-video'] = app.liveness.video;
@@ -128,12 +128,10 @@ class Widget extends Component {
     const [flow, app] = normaliseFlow(props.flow);
     app.additionalData = props.additionalData;
     app.extractedData = [];
-    this.popUpElement = React.createRef();
     this.state = {
       step: 0,
       direction: 'forward',
       app,
-      isShow: false,
     };
     this.flow = flow;
   }
@@ -269,6 +267,7 @@ class Widget extends Component {
           <Form
             form={app.form}
             extractedData={app.extractedData}
+            additionalData={app.additionalData}
             {...props}
           />
         ),
@@ -379,9 +378,9 @@ class Widget extends Component {
   }
 
   render() {
-    const { step, app, isShow } = this.state;
+    const { step, app } = this.state;
     const { flow } = this;
-    const { styles, onBack, HtmlProperties } = this.props;
+    const { onBack } = this.props;
     const currentComponent = flow[step];
     if (!currentComponent) {
       return null;
@@ -389,99 +388,15 @@ class Widget extends Component {
     const { component: componentName, ...componentProps } = currentComponent;
     const { nextStep } = this;
     const [CurrentComponent, finishStep] = this.getComponent(componentName)(app, nextStep);
+
     const prevStep = step > 0 ? this.prevStep : onBack;
-    const stylesRef = (ref) => Object.entries(styles).forEach((st) => {
-      if (!ref) return;
-      ref.style.setProperty(st[0], st[1], 'important');
-    });
-
-    const WidgetBlock = (
-      <>
-        <div className="getid-landscape_message">
-          <img
-            src={Landscape}
-            alt="mobile landscape"
-            data-role="mobile-landscape"
-          />
-          <div className="getid-header__small">
-            <Translate step="mobileCamera" element="landscape" />
-          </div>
-        </div>
-
-        <div className="getid-grid__main">
-          <CurrentComponent
-            finishStep={finishStep}
-            prevStep={prevStep}
-            {...componentProps}
-          />
-        </div>
-      </>
-    );
-
-    if (HtmlProperties.isPopUp) {
-      return (
-        <div
-          id="getid-popup-main"
-          ref={stylesRef}
-        >
-          <div className="getid-button-container">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                this.setState(() => ({ isShow: true }));
-              }}
-              className="getid-button__main"
-            >
-              <Translate step="openPopUp" element="button" />
-            </button>
-          </div>
-          {isShow && (
-          <div
-            role="button"
-            tabIndex="0"
-            onClick={(e) => {
-              e.stopPropagation();
-              this.setState(() => ({ isShow: false }));
-            }}
-            id="getid-popup-window-main"
-            className="getid-popup__container"
-          >
-            <main
-              role="button"
-              tabIndex="0"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              id="getid-main"
-              className="getid-container__popup"
-              data-role="container"
-            >
-              <div className="getid-popup__close-button">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    this.setState(() => ({ isShow: false }));
-                  }}
-                >
-                  Close
-                  <div className="getid-close" />
-                </button>
-
-              </div>
-              {WidgetBlock}
-            </main>
-          </div>
-          )}
-        </div>
-      );
-    }
 
     return (
-      <main ref={stylesRef} id="getid-main" data-role="container">
-        {WidgetBlock}
-      </main>
+      <CurrentComponent
+        finishStep={finishStep}
+        prevStep={prevStep}
+        {...componentProps}
+      />
     );
   }
 }
@@ -503,10 +418,6 @@ Widget.propTypes = {
     recordParams: PropTypes.shape({}),
     livenessParams: PropTypes.shape({}),
   }).isRequired,
-  HtmlProperties: PropTypes.shape({
-    isPopUp: false,
-    isShadowDom: false,
-  }),
 };
 Widget.defaultProps = {
   onBack: null,
@@ -514,7 +425,6 @@ Widget.defaultProps = {
   onComplete: null,
   additionalData: [],
   metadata: {},
-  HtmlProperties: {},
 };
 
 export default Widget;

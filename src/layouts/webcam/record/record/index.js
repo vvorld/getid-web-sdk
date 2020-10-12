@@ -10,6 +10,15 @@ import Timer from './timer';
 import Translate from '~/components/blocks/translations';
 import CombineRecorder from './recorder';
 
+const getError = (name) => {
+  if (name === 'NotAllowedError') {
+    return 'camera_not_allowed';
+  }
+  if (name === 'NotFoundError') {
+    return 'no_camera';
+  }
+  return 'camera_generic';
+};
 export default (pr) => {
   let recording = false;
   const {
@@ -54,7 +63,7 @@ export default (pr) => {
           onReady(this.stop);
         } catch (e) {
           console.log(e);
-          onError(e);
+          onError(e.name ? getError(e.name) : e);
         }
       }
     }
@@ -65,7 +74,7 @@ export default (pr) => {
 
     render() {
       return (
-        <div className="record_camera">
+        <div className="record_camera" data-role="record-camera">
           {recording && <Timer />}
           <video
             style={{ transform: 'scale(-1, 1)' }}
@@ -112,12 +121,13 @@ export default (pr) => {
         <div>
           {activeLine < phrases.length && (
             <>
-              <div className={`getid-phrases__container${!visible ? ' getid-phrases_begin' : ''}`}>
+              <div className={`getid-phrases__container${!visible ? ' getid-phrases_begin' : ''}`}
+                   data-role="phrases-container">
                 <div className="getid-phrases__content">
-                  <div className="getid-phrases__title">
+                  <div className="getid-phrases__title" data-role="phrases-title">
                     <Translate step="Recording_recording" element="phrasesHeader" />
                   </div>
-                  <div className={`getid-animation${textMod === 'show' ? ' getid-visible_1' : ''}`}>
+                  <div className={`getid-animation${textMod === 'show' ? ' getid-visible_1' : ''}`} data-role="phrase">
                     {phrases[activeLine]}
                   </div>
                 </div>

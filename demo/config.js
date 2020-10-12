@@ -3,10 +3,11 @@ export default {
   apiKey: 'Qm64AQyks8dmkcNb',
   containerId: 'getid-component',
   dictionary: 'en',
-  HtmlProperties: {
+  htmlProperties: {
     isShadowDom: false,
     isPopUp: true,
   },
+  translations: {},
   flow: [
     {
       component: 'Form',
@@ -48,24 +49,32 @@ export default {
       showRules: true,
       interactive: true,
       enableCheckPhoto: true,
+      country: 'ee',
+      documentType: 'id-card',
     },
     {
       component: 'Record',
       phrases: ['My name is...', 'I would like to receive a certificate...'],
     },
     { component: 'Liveness' },
-
     { component: 'Selfie', showRules: true, enableCheckPhoto: true },
     { component: 'ThankYou' },
+  ],
+  additionalData: [
+    {
+      value: 'Gerus Artem',
+      name: 'First name',
+    },
+    {
+      value: 'Test',
+      name: 'Test',
+    },
   ],
   onComplete({ id }) {
     alert(id);
   },
   onFail(error) {
     console.log(error);
-  },
-  onExists() {
-    console.log('exists');
   },
   onBack() {
     alert('back');

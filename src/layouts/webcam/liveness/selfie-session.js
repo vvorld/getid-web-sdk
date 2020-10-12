@@ -15,10 +15,10 @@ const photosLoop = function sendPhotos(ws, takePhoto) {
   })();
   return () => { running = false; };
 };
-async function createSelfieSession(servers, takePhoto, onCommand, onError, onReady) {
+async function createSelfieSession(servers, jwt = 'jwt', takePhoto, onCommand, onError, onReady) {
   const createServer = async (address) => {
     // eslint-disable-next-line no-restricted-syntax
-    const ws = new WebSocket(`${address}/selfie`);
+    const ws = new WebSocket(`${address}/0.3/selfie/${jwt}`);
     let resolve = null;
     let reject = null;
 
@@ -45,9 +45,7 @@ async function createSelfieSession(servers, takePhoto, onCommand, onError, onRea
       ws.close();
       stop();
       clearTimeout(timeout);
-      const err = new Error('Liveness server error');
-      err.name = 'server_unavailable';
-      onError(err);
+      onError('server_unavailable');
     };
     ws.onmessage = (event) => {
       onCommand(JSON.parse(event.data));
@@ -74,9 +72,7 @@ async function createSelfieSession(servers, takePhoto, onCommand, onError, onRea
       console.error(e);
     }
   }
-  const err = new Error('Liveness server error');
-  err.name = 'server_unavailable';
-  onError(err);
+  onError('server_unavailable');
 }
 
 export default createSelfieSession;

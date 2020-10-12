@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
-import { CameraDisabledErrorView, ServerErrorView } from '~/components/errors';
+import { ErrorView } from '~/components/errors';
 
 import Camera from '../photo/camera';
 import createLivenessSession from './liveness-session';
@@ -149,6 +149,7 @@ class LivenessStep extends Component {
     };
     await createSelfieSession(
       this.props.servers,
+      this.props.jwt,
       takePhoto,
       faceResult,
       this.setServerError,
@@ -211,6 +212,7 @@ class LivenessStep extends Component {
     };
     await createLivenessSession(
       this.props.servers,
+      this.props.jwt,
       this.state.takePhoto,
       onCommand,
       this.setServerError,
@@ -237,11 +239,10 @@ class LivenessStep extends Component {
     } = this.state;
     const stepName = `Liveness${step}`;
     if (step === 'Error') {
-      const Error = error.name === 'server_unavailable' ? ServerErrorView : CameraDisabledErrorView;
       return (
-        <Error
-          error={error.name}
-          callbacks={{ onRetry: this.readyStep }}
+        <ErrorView
+          error={error}
+          onRetry={this.readyStep}
         />
       );
     }
@@ -284,14 +285,15 @@ LivenessStep.propTypes = {
   prevStep: PropTypes.func,
   direction: PropTypes.string,
   finishStep: PropTypes.func,
-  servers: PropTypes.array,
+  servers: PropTypes.array.isRequired,
+  jwt: PropTypes.string.isRequired,
+
 };
 
 LivenessStep.defaultProps = {
   prevStep: null,
   direction: '',
   finishStep: null,
-  servers: [],
 };
 
 export default LivenessStep;

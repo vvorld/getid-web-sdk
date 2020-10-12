@@ -6,14 +6,14 @@
 @import '../components/guide/guide.css';
 
 @import '../components/loader/loader.css';
-@import '../components/popup/popup.css';
+
+@import './popup.css';
 
 /*inputs*/
 @import '../components/inputs/checkbox/style.css';
 @import '../components/inputs/date-input/style.css';
 @import '../components/inputs/file-input/file-input.css';
 @import '../components/inputs/radio-button/style.css';
-
 
 /*views*/
 @import '../layouts/form/form.css';
@@ -28,11 +28,11 @@
 @import '../layouts/webcam/record/record/record.css';
 
 
-#getid-main main, #getid-main, #popup-main, #getid-popup-window-main  {
+#getid-main main, #getid-main, #getid-popup-window-main, #popup__main {
     --getid-txt-color: #1B3361;
     --getid-txt-color-secondary: #999;
     --getid-action-color: #9C77E0;
-   
+
     --getid-input-bg: #FBFBFB;
     --getid-input-active-text: #1B3361;
     --getid-dark-blue-text: #0E2846;
@@ -40,16 +40,16 @@
     --getid-input-border-color: #eee;
 
     --getid-error-border: #F05A7E;
-    --getid-success-border:#47DAAE;
+    --getid-success-border: #47DAAE;
     --getid-active-border: #9C77E0;
-    
+
 
     --getid-input-hover-border: #CED3DD;
     --getid-input-active-border: #9C77E0;
     --getid-white: #FFFFFF;
     --getid-error-color: red;
 
-    
+
     --getid-button-grey-bg: #F8F7FA;
     --getid-font-size: 14px;
     --getid-font-size-small: 12px;
@@ -64,7 +64,7 @@
     --getid-subheader-size: 18px;
 }
 
- #getid-main main, #getid-main, #popup-main, #getid-popup-window-main {
+#getid-main main, #getid-main, #getid-popup-window-main, #popup__main {
     font-family: var(--getid-font-family);
     transition: var(--getid-transition);
     font-size: var(--getid-font-size);
@@ -85,7 +85,7 @@
     color: var(--getid-accent-color);
 }
 
-#getid-main .logo__top{
+#getid-main .logo__top {
     margin-bottom: 40px;
 }
 
@@ -100,64 +100,12 @@
     margin: 0 auto;
 }
 
-.button-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.container__popup{
-    position: relative;
-    padding: 30px;
-    border-radius: 8px;
-    display: block;
-    max-width: 500px;
-    margin: 20px auto !important;
-    box-shadow: 0px 5px 8px rgba(14, 51, 123, 0.15);
-    border: 1px solid #CED3DD;
-}
-
-#getid-main .popup__close-button{
-    position: absolute;
-    align-self: center;
-    top: 20px;
-    right: 15px;
-    cursor: pointer;
-}
-
-#getid-main .popup__close-button .close::after{
-    content: "\2715";
-    color: #8D99B0;
-    cursor: pointer;
-}
-
-#getid-main .popup__close-button .close{
-padding-left: 10px;
-}
-
-#getid-main .popup__close-button button {
-    padding-right: 10px;
-    font-style: normal;
-    cursor: pointer;
-    font-weight: normal;
-    font-size: var(--getid-font-size);
-    line-height: 100%;
-    text-align: center;
-    color: rgba(141, 153, 176, 0.3);
-    text-transform: none !important;
-}
-
-#getid-main .popup__close-button button:active {
-    outline: none;
-    border: none;
-}
-
 /*-----------FORM---------*/
 
 #getid-main .input-error {
-    border: 1px solid var(--getid-error-color)!important;
+    border: 1px solid var(--getid-error-color) !important;
 }
+
 #getid-main .error__message {
     color: var(--getid-error-color);
     font-size: var(--getid-font-size-small);
@@ -263,7 +211,6 @@ padding-left: 10px;
 }
 
 
-
 /*-----------VIDEO END---------*/
 
 /*-----------FOOTER---------*/
@@ -277,8 +224,14 @@ padding-left: 10px;
 }
 
 
+#getid-main .browsers {
+    display: inherit;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
 
-#getid-main .browsers p {
+#getid-main .browsers__list {
     font-style: normal;
     font-weight: normal;
     font-size: var(--getid-font-size);
@@ -286,11 +239,24 @@ padding-left: 10px;
     text-align: center;
     color: var(--getid-dark-blue-text);
     opacity: 0.7;
-}
-#getid-main .browsers__list{
     max-width: 300px;
     margin: auto;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
 }
+
+#getid-main .browsers__list button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#getid-main .browsers__list p {
+    margin: 10px;
+}
+
 /*-----------FOOTER END---------*/
 
 /*-----------CSS RESET---------*/
@@ -330,13 +296,18 @@ padding-left: 10px;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4) !important;
+    background-color: rgba(0, 0, 0, 0.4) !important;
 }
 
-.popup{
+.popup {
     display: none;
     max-width: 500px;
     margin: 0 auto;
+
+}
+
+#getid-main style {
+    display: none !important;
 }
 
 #getid-main button {
@@ -353,7 +324,6 @@ padding-left: 10px;
 }
 
 
-
 /*-----------CSS RESET END---------*/
 
 
@@ -365,10 +335,12 @@ padding-left: 10px;
     flex-direction: column;
     margin: 20px;
 }
-@media  (max-height:420px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
+
+@media (max-height: 420px) and (orientation: landscape) and (min-aspect-ratio: 8/5) {
     #getid-main .landscape_message {
         display: flex;
     }
+
     #getid-main .grid__main {
         display: none;
     }

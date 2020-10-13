@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import propTypes from 'prop-types';
 import ContinueOnPhone from '~/assets/icons/continue-on-phone.svg';
 
 import Footer from '~/components/blocks/footer';
@@ -25,6 +26,7 @@ class ChangeDevice extends Component {
           <Header step="ChangeDevice" />
           <Content step="ChangeDevice">
             <img
+              alt="continue"
               style={{ margin: '20px' }}
               src={ContinueOnPhone}
             />
@@ -42,5 +44,15 @@ class ChangeDevice extends Component {
     return <MagicLink config={this.props.config} onBack={() => this.setState({ step: 'rules' })} />;
   }
 }
+
+ChangeDevice.propTypes = {
+  config: propTypes.shape({}),
+  onBack: propTypes.func,
+};
+
+ChangeDevice.defaultProps = {
+  config: {},
+  onBack: null,
+};
 
 export default ChangeDevice;

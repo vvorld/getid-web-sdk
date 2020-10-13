@@ -6,7 +6,7 @@ class WSRoom {
     let reject = null;
     let resolve = null;
     const w = new Promise((res, rej) => {
-      reject = rej,
+      reject = rej;
       resolve = res;
     });
     websocket.onopen = () => {

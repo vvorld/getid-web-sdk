@@ -5,12 +5,12 @@ import TranslationsContext from './context/TranslationsContext';
 import Widget from './layouts/widget';
 import style from './layouts/style.css';
 import En from '~/translations/default';
-import Ru from '~/translations/ru';
+// import Ru from '~/translations/ru';
 import ErrorBoundary from '~/ErrorBoundary';
 
 const mapContext = {
   en: En,
-  ru: Ru,
+  // ru: Ru,
 };
 
 const MainModule = (widgetOptions, component) => {

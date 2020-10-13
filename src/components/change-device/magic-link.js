@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import propTypes from 'prop-types';
 import Footer from '~/components/blocks/footer';
 import Header from '~/components/blocks/header/header';
 import Content from '~/components/blocks/content';
@@ -12,11 +13,11 @@ class MagicLink extends Component {
     this.state = {
       qrCode: null,
       url: null,
-      deviceChaged: false,
+      deviceChanged: false,
     };
     getWSRoom(this.props.config)(
       ({ qrCode, url }) => this.setState({ qrCode, url }),
-      (deviceChaged) => this.setState({ deviceChaged }),
+      (deviceChanged) => this.setState({ deviceChanged }),
     );
   }
 
@@ -25,19 +26,19 @@ class MagicLink extends Component {
     this.setState({
       qrCode: null,
       url: null,
-      deviceChaged: null,
+      deviceChanged: null,
     });
     this.props.onBack();
   }
 
   render() {
-    const { deviceChaged, url, qrCode } = this.state;
+    const { deviceChanged, url, qrCode } = this.state;
     return (
       <>
         <Header step="MagicLink" />
         <Content step="MagicLink">
           {
-            !deviceChaged ? (
+            !deviceChanged ? (
               <div style={{ display: 'flex', alignSelf: 'center', flexDirection: 'column' }}>
                 <div>
                   <img src={qrCode} alt="magic link" />
@@ -57,6 +58,7 @@ class MagicLink extends Component {
                     value={url}
                   />
                   <button
+                    type="button"
                     style={{
                       marginLeft: '20px',
                       padding: '0px 20px 0px 10px',
@@ -67,7 +69,7 @@ class MagicLink extends Component {
                     }}
                     className="getid-button__main"
                   >
-                    <img src={Copy} />
+                    <img alt="copy" src={Copy} />
                     Copy link
                   </button>
                 </div>
@@ -85,5 +87,15 @@ class MagicLink extends Component {
     );
   }
 }
+
+MagicLink.propTypes = {
+  config: propTypes.shape({}),
+  onBack: propTypes.func,
+};
+
+MagicLink.defaultProps = {
+  config: {},
+  onBack: null,
+};
 
 export default MagicLink;

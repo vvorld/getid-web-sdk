@@ -42,6 +42,7 @@ const Rules = ({ finishStep, prevStep, step }) => (
 
 RulesList.propTypes = {
   rules: PropTypes.string.isRequired,
+  numeric: PropTypes.any.isRequired,
 };
 Rules.propTypes = {
   finishStep: PropTypes.func.isRequired,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Loader from '~/components/loader/loader';
 import { ErrorView } from '~/components/errors';
 
@@ -35,9 +36,16 @@ const Sending = ({ send, finishStep, prevStep }) => {
   );
 };
 
+Sending.propTypes = {
+  send: PropTypes.func,
+  prevStep: PropTypes.func,
+  finishStep: PropTypes.func,
+};
+
 Sending.defaultProps = {
+  finishStep: null,
+  prevStep: null,
   send: null,
-  data: {},
 };
 
 export default Sending;

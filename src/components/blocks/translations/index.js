@@ -19,5 +19,11 @@ const Translation = ({ step, element, style }) => (
 Translation.propTypes = {
   step: propTypes.string.isRequired,
   element: propTypes.string.isRequired,
+  style: propTypes.shape({}),
 };
+
+Translation.defaultProps = {
+  style: {},
+};
+
 export default Translation;

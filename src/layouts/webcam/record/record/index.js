@@ -121,8 +121,10 @@ export default (pr) => {
         <div>
           {activeLine < phrases.length && (
             <>
-              <div className={`getid-phrases__container${!visible ? ' getid-phrases_begin' : ''}`}
-                   data-role="phrases-container">
+              <div
+                className={`getid-phrases__container${!visible ? ' getid-phrases_begin' : ''}`}
+                data-role="phrases-container"
+              >
                 <div className="getid-phrases__content">
                   <div className="getid-phrases__title" data-role="phrases-title">
                     <Translate step="Recording_recording" element="phrasesHeader" />

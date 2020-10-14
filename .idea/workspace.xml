@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2f1fabf8-aa67-41c5-86b9-adf3e931a4f2" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ao5p6TAhRooABFLxWlrOJC8hm4" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.15.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/demo" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/animations/photo" />
+      <recent name="$PROJECT_DIR$/src/assets/icons" />
+      <recent name="$PROJECT_DIR$/src/assets/icons/views" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/components/inputs/radio-button" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/demo" />
+      <recent name="$PROJECT_DIR$/src/assets/animations/photo" />
+      <recent name="$PROJECT_DIR$/src/assets/animations/liveness" />
+      <recent name="$PROJECT_DIR$/src/assets/icons/liveness" />
+      <recent name="$PROJECT_DIR$/src/assets/icons" />
+    </key>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f1fabf8-aa67-41c5-86b9-adf3e931a4f2" name="Default Changelist" comment="" />
+      <created>1587389286110</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587389286110</updated>
+      <workItem from="1587389287593" duration="28532000" />
+      <workItem from="1587713773464" duration="46881000" />
+      <workItem from="1588057792199" duration="17100000" />
+      <workItem from="1588323156580" duration="75000" />
+      <workItem from="1588575124128" duration="18004000" />
+      <workItem from="1588856678880" duration="3144000" />
+      <workItem from="1588860843047" duration="8442000" />
+      <workItem from="1589177016820" duration="6966000" />
+      <workItem from="1589524101442" duration="3111000" />
+      <workItem from="1589783580087" duration="4095000" />
+      <workItem from="1589789630808" duration="4914000" />
+      <workItem from="1589868951188" duration="10000" />
+      <workItem from="1589869356624" duration="9511000" />
+      <workItem from="1589957472583" duration="8718000" />
+      <workItem from="1590042803249" duration="6692000" />
+      <workItem from="1590054321884" duration="2572000" />
+      <workItem from="1590114293315" duration="920000" />
+      <workItem from="1590387955387" duration="7106000" />
+      <workItem from="1590475740166" duration="7306000" />
+      <workItem from="1590562442122" duration="9115000" />
+      <workItem from="1590646223174" duration="16274000" />
+      <workItem from="1590747544062" duration="5964000" />
+      <workItem from="1590993684375" duration="11557000" />
+      <workItem from="1591080036089" duration="9908000" />
+      <workItem from="1591104115464" duration="38466000" />
+      <workItem from="1591597141738" duration="14686000" />
+      <workItem from="1591682290193" duration="13823000" />
+      <workItem from="1591769054119" duration="27959000" />
+      <workItem from="1591942439009" duration="14113000" />
+      <workItem from="1592200778652" duration="11543000" />
+      <workItem from="1592298694499" duration="5572000" />
+      <workItem from="1592372853851" duration="8082000" />
+      <workItem from="1592486781626" duration="13642000" />
+      <workItem from="1592576913137" duration="334000" />
+      <workItem from="1593066049334" duration="9133000" />
+      <workItem from="1593410946874" duration="582000" />
+      <workItem from="1593428846292" duration="12896000" />
+      <workItem from="1593584990199" duration="23000" />
+      <workItem from="1593599155196" duration="29164000" />
+      <workItem from="1594015579454" duration="28309000" />
+      <workItem from="1594201299923" duration="29289000" />
+      <workItem from="1594708177610" duration="5516000" />
+      <workItem from="1594792708243" duration="79000" />
+      <workItem from="1594797266710" duration="336000" />
+      <workItem from="1594808509950" duration="4406000" />
+      <workItem from="1594965474183" duration="1910000" />
+      <workItem from="1595832750529" duration="13376000" />
+      <workItem from="1595915939038" duration="19331000" />
+      <workItem from="1596020946706" duration="3513000" />
+      <workItem from="1596090405337" duration="15060000" />
+      <workItem from="1596175604896" duration="5139000" />
+      <workItem from="1596190722059" duration="5917000" />
+      <workItem from="1596435039370" duration="6044000" />
+      <workItem from="1596450439774" duration="6857000" />
+      <workItem from="1596521419375" duration="607000" />
+      <workItem from="1596522057764" duration="8865000" />
+      <workItem from="1596546082972" duration="646000" />
+      <workItem from="1596605878063" duration="14566000" />
+      <workItem from="1596714154263" duration="5307000" />
+      <workItem from="1596781571136" duration="5155000" />
+      <workItem from="1597040265168" duration="42693000" />
+      <workItem from="1597727547889" duration="2169000" />
+      <workItem from="1597735899128" duration="5000" />
+      <workItem from="1597737610400" duration="16767000" />
+      <workItem from="1598248124357" duration="6166000" />
+      <workItem from="1598261017560" duration="3927000" />
+      <workItem from="1598335652811" duration="11535000" />
+      <workItem from="1598367913003" duration="5913000" />
+      <workItem from="1598510155749" duration="7891000" />
+      <workItem from="1598612405508" duration="6402000" />
+      <workItem from="1599028391901" duration="10095000" />
+      <workItem from="1599049834613" duration="12000" />
+      <workItem from="1599049857500" duration="136000" />
+      <workItem from="1599050008888" duration="10000" />
+      <workItem from="1599050267541" duration="917000" />
+      <workItem from="1599053272170" duration="4526000" />
+      <workItem from="1599127960432" duration="261000" />
+      <workItem from="1599128309581" duration="3843000" />
+      <workItem from="1599201041030" duration="11975000" />
+      <workItem from="1599459845364" duration="4461000" />
+      <workItem from="1599545044597" duration="13606000" />
+      <workItem from="1599719193511" duration="19120000" />
+      <workItem from="1599943125803" duration="32737000" />
+      <workItem from="1600409313248" duration="4728000" />
+      <workItem from="1600665273327" duration="18109000" />
+      <workItem from="1600840474989" duration="16030000" />
+      <workItem from="1600927948582" duration="7610000" />
+      <workItem from="1601015184151" duration="9751000" />
+      <workItem from="1601036845226" duration="19108000" />
+      <workItem from="1601360014555" duration="3144000" />
+      <workItem from="1601372960787" duration="15475000" />
+      <workItem from="1601533049034" duration="30005000" />
+      <workItem from="1602137716095" duration="11496000" />
+      <workItem from="1602238193946" duration="22902000" />
+      <workItem from="1602657945133" duration="651000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="516" y="224" key="#ESLint" timestamp="1600165565552">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="-1823" y="-37" key="#ESLint/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1594634845809" />
+    <state x="516" y="224" key="#ESLint/0.23.1792.1097@0.23.1792.1097" timestamp="1600165565552" />
+    <state x="2345" y="160" key="#ESLint/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1597231439676" />
+    <state x="360" y="213" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1602596160506">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="360" y="213" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1602596160506" />
+    <state x="2440" y="237" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1602658782743">
+      <screen x="1792" y="-34" width="1920" height="1057" />
+    </state>
+    <state x="2440" y="237" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1602658782743" />
+    <state x="2490" y="248" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601626640366">
+      <screen x="1792" y="-34" width="1920" height="1057" />
+    </state>
+    <state x="-1630" y="81" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1596611350420" />
+    <state x="651" y="316" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1792.-34.1920.1057/0.23.1792.1097@0.23.1792.1097" timestamp="1601015713220" />
+    <state x="2490" y="248" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1601626640366" />
+    <state x="0" y="123" width="1792" height="826" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1602497415655">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="-1920" y="23" width="1792" height="1057" key="com.intellij.history.integration.ui.views.FileHistoryDialog/-1920.23.1920.1057/0.23.1792.1097@-1920.23.1920.1057" timestamp="1596194802500" />
+    <state x="-2560" y="-168" width="2560" height="1067" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1595942313298" />
+    <state x="0" y="123" width="1792" height="826" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1602497415655" />
+    <state x="0" y="123" width="1792" height="826" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1792.-34.1920.1057/0.23.1792.1097@0.23.1792.1097" timestamp="1601032988161" />
+    <state x="1792" y="62" width="1920" height="796" key="com.intellij.history.integration.ui.views.FileHistoryDialog/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1601638693204" />
+    <state x="2525" y="399" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596636477973">
+      <screen x="1792" y="-34" width="1920" height="1057" />
+    </state>
+    <state x="2525" y="399" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1596636477973" />
+    <state x="257" y="23" width="1535" height="610" key="dock-window-1" timestamp="1601454366151">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="257" y="23" width="1535" height="610" key="dock-window-1/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1601454366151" />
+    <state x="597" y="319" width="920" height="548" key="find.popup" timestamp="1602598320470">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="-1210" y="449" width="888" height="490" key="find.popup/-1920.23.1920.1057/0.23.1792.1097@-1920.23.1920.1057" timestamp="1596202044707" />
+    <state x="-1706" y="85" width="1039" height="653" key="find.popup/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1596620058473" />
+    <state x="597" y="319" width="920" height="548" key="find.popup/0.23.1792.1097@0.23.1792.1097" timestamp="1602598320470" />
+    <state x="597" y="319" width="920" height="548" key="find.popup/1792.-34.1920.1057/0.23.1792.1097@0.23.1792.1097" timestamp="1602252708246" />
+    <state x="131" y="154" width="920" height="548" key="find.popup/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1601640199812" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1599733965006">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/0.23.1792.1097@0.23.1792.1097" timestamp="1599733965006" />
+    <state x="561" y="256" width="670" height="675" key="run.anything.popup" timestamp="1602582624543">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="-1319" y="248" width="718" height="651" key="run.anything.popup/-1920.23.1920.1057/0.23.1792.1097@-1920.23.1920.1057" timestamp="1596118289237" />
+    <state x="-1759" y="5" width="958" height="873" key="run.anything.popup/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1595927815371" />
+    <state x="561" y="256" width="670" height="675" key="run.anything.popup/0.23.1792.1097@0.23.1792.1097" timestamp="1602582624543" />
+    <state x="2393" y="191" width="718" height="651" key="run.anything.popup/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1600074753058" />
+    <state x="583" y="267" width="670" height="702" key="search.everywhere.popup" timestamp="1602572265022">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="-1295" y="258" width="670" height="676" key="search.everywhere.popup/-1920.23.1920.1057/0.23.1792.1097@-1920.23.1920.1057" timestamp="1596199167697" />
+    <state x="-1727" y="18" width="958" height="907" key="search.everywhere.popup/0.23.1792.1097/-2560.-297.2560.1417@-2560.-297.2560.1417" timestamp="1596449181523" />
+    <state x="583" y="267" width="670" height="702" key="search.everywhere.popup/0.23.1792.1097@0.23.1792.1097" timestamp="1602572265022" />
+    <state x="583" y="267" width="670" height="702" key="search.everywhere.popup/1792.-34.1920.1057/0.23.1792.1097@0.23.1792.1097" timestamp="1601033240892" />
+    <state x="2417" y="201" width="719" height="677" key="search.everywhere.popup/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1601639351816" />
+    <state x="2482" y="338" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1602659203811">
+      <screen x="1792" y="-34" width="1920" height="1057" />
+    </state>
+    <state x="2482" y="338" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/1792.-34.1920.1057/0.23.1792.1097@1792.-34.1920.1057" timestamp="1602659203811" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/theme/typography.js</url>
+          <line>39</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/webpack.common.js</url>
+          <line>26</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

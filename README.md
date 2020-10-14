@@ -237,7 +237,7 @@ example:
 ```
 
 ### Translations
-You can pre-set custom translations via config as well. For the full list of translation keys please refer to [`default.js`](src/translations/default.js).
+You can pre-set custom translations via config as well. For the full list of translation keys please refer to [`default.js`](translations/default.js).
 example: 
 ``` js
  const config = {

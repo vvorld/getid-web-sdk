@@ -83,14 +83,8 @@ The latest stable build can be found in example snippet below.
 <script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v5.min.js'></script>
 ```
 
-In case you want to automatically keep up with the latest version of sdk cdn script, we advise to use our [`launcher.js`](src/launcher.js)
-Just include the script in your html page, it will insert the latest script into the <head> tag of your page. It will handle versioning and sdk script loading and init. 
-Example:
-``` html
-<script src='launcher.min.js'></script>
-```
 
-In both scenarios load the widget via window object along with sdk config and jwt token.
+Script loads the widget via window object along with sdk config and jwt token.
 ```js
 window.getidWebSdk.init(config, token);
 ```

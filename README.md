@@ -95,7 +95,7 @@ time you initialise the SDK.
 To generate JWT make a post request with sdk key in header on your designated api url:
 
 ``` shell script
-$ curl -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/v1/sdk/token
+$ curl -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/sdk/v1/token
 ```
 
 **Build-in function.**
@@ -115,7 +115,7 @@ In case you don't want your clients to complete verification more than once or f
 you can pass customerId param when generating jwt token.
 
 ``` shell script
-$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/v1/sdk/token
+$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "apiKey: SDK_KEY"  -X POST API_URL/sdk/v1/token
 ```
 
 or 

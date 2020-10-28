@@ -6,7 +6,7 @@ export default {
   CountryAndDocument_countryPlaceholder: 'Choose country',
 
   PhotoRules_header: 'Take a front side picture of ID Document',
-  PhotoRules_subHeader: ' ',
+  PhotoRules_subHeader: '',
   PhotoRules_line_1: 'Make sure ID Document is in focus',
   PhotoRules_line_2: 'Avoid glare and counter light',
   PhotoRules_line_3: 'Make sure all corners of the ID Document are visible',
@@ -15,13 +15,13 @@ export default {
   PhotoRules_next: 'ok, i got it',
   /**/
   IdCapture_guide_header: 'Take a front side picture of ID Document',
-  IdCapture_guide_subHeader: ' ',
+  IdCapture_guide_subHeader: '',
   IdCapture_guide_next: 'ok, i got it',
   IdCapture_guide_back: 'Go back',
 
   /**/
   IdCapture_record_header: 'Take a front side picture of ID Document',
-  IdCapture_record_subHeader: ' ',
+  IdCapture_record_subHeader: '',
   IdCapture_record_next: 'take a picture',
   IdCapture_record_back: 'Go back',
 
@@ -32,26 +32,27 @@ export default {
   IdCapture_preview_back: 'No, retake',
 
   IdCapture_checking_header: 'Captured ID document',
-  IdCapture_checking_subHeader: ' ',
+  IdCapture_checking_subHeader: '',
   IdCapture_checking_back: 'Cancel',
 
   IdCapture_retake_description_header: 'Captured ID document',
-  IdCapture_retake_description_subHeader: ' ',
+  IdCapture_retake_description_subHeader: '',
   IdCapture_retake_description_next: 'Retake',
+  IdCapture_retake_description_change: 'Continue on other device',
   IdCapture_retake_description_back: 'Continue',
 
   IdCaptureBack_guide_header: 'Take a back side picture of ID Document',
-  IdCaptureBack_guide_subHeader: ' ',
+  IdCaptureBack_guide_subHeader: '',
   IdCaptureBack_guide_next: 'ok, i got it',
   IdCaptureBack_guide_back: 'Go back',
 
   IdCaptureBack_record_header: 'Take a back side picture of ID Document',
-  IdCaptureBack_record_subHeader: ' ',
+  IdCaptureBack_record_subHeader: '',
   IdCaptureBack_record_next: 'take a picture',
   IdCaptureBack_record_back: 'Go back',
 
   IdCaptureBack_checking_header: 'Captured ID document',
-  IdCaptureBack_checking_subHeader: ' ',
+  IdCaptureBack_checking_subHeader: '',
   IdCaptureBack_checking_back: 'Cancel',
 
   IdCaptureBack_preview_header: 'Captured ID document',
@@ -60,15 +61,19 @@ export default {
   IdCaptureBack_preview_back: 'No, retake',
 
   IdCaptureBack_retake_description_header: 'Captured ID document',
-  IdCaptureBack_retake_description_subHeader: ' ',
+  IdCaptureBack_retake_description_subHeader: '',
   IdCaptureBack_retake_description_next: 'Retake',
   IdCaptureBack_retake_description_back: 'Continue',
+  IdCaptureBack_retake_description_change: 'Continue on other device',
 
   Form_header: 'Profile data',
   Form_subHeader: 'Please provide personal details same as on your ID Document',
   Form_next: 'Go next',
   Form_back: 'Go back',
-  Form_FileTooltip: 'Allowed formats: jpg, jpeg, png, pdf.',
+  Form_file_tooltip: 'Allowed formats:',
+  Form_file_typeError: 'We do not support this format',
+  Form_file_sizeError: 'File size exceeded (max 6mb)',
+  Form_input_isRequiredError: 'Value can not be empty',
 
   Const_day: 'Day',
   Const_year: 'Year',
@@ -88,16 +93,17 @@ export default {
 
   Const_passport: 'Passport',
   'Const_id-card': 'ID Card',
+  'Const_voter-card': 'Voter Card',
   'Const_residence-permit': 'Residence Permit',
   'Const_driving-licence': 'Drivers License',
 
   IdSelfie_record_header: 'Take a selfie',
-  IdSelfie_record_subHeader: ' ',
+  IdSelfie_record_subHeader: '',
   IdSelfie_record_next: 'Take a photo',
   IdSelfie_record_back: 'Go back',
 
   IdSelfie_guide_header: 'Take a selfie',
-  IdSelfie_guide_subHeader: ' ',
+  IdSelfie_guide_subHeader: '',
   IdSelfie_guide_next: 'ok, i got it',
   IdSelfie_guide_back: 'Go back',
 
@@ -107,12 +113,13 @@ export default {
   IdSelfie_preview_back: 'No, retake',
 
   IdSelfie_retake_description_header: 'Captured selfie',
-  IdSelfie_retake_description_subHeader: ' ',
+  IdSelfie_retake_description_subHeader: '',
   IdSelfie_retake_description_next: 'Retake',
   IdSelfie_retake_description_back: 'Continue',
+  IdSelfie_retake_description_change: 'Continue on other device',
 
   SelfieRules_header: 'Take a selfie',
-  SelfieRules_subHeader: ' ',
+  SelfieRules_subHeader: '',
   SelfieRules_line_1: 'Make sure lightning conditions are sufficient',
   SelfieRules_line_2: 'Avoid flash and counter light',
   SelfieRules_line_3: 'Avoid other people in the frame',
@@ -126,12 +133,12 @@ export default {
   Recording_guide_back: 'Go back',
 
   Recording_record_header: 'Are you ready?',
-  Recording_record_subHeader: ' ',
+  Recording_record_subHeader: '',
   Recording_record_next: 'Start record',
   Recording_record_back: 'Go back',
 
   Recording_recording_header: 'Please, follow the instructions',
-  Recording_recording_subHeader: ' ',
+  Recording_recording_subHeader: '',
   Recording_recording_nextPhrase: 'Next phrase',
   Recording_recording_lastPhrase: 'Finish',
   Recording_recording_prevPhrase: 'Previous phrase',
@@ -139,7 +146,7 @@ export default {
   Recording_recording_phrasesHeader: 'Please say on camera:',
 
   Recording_preview_header: 'Check the recorded video',
-  Recording_preview_subHeader: ' ',
+  Recording_preview_subHeader: '',
   Recording_preview_next: 'It\'s ok',
   Recording_preview_back: 're-take a video',
 
@@ -183,14 +190,32 @@ export default {
   ChangeDevice_header: 'Continue on your phone',
   ChangeDevice_subHeader: 'Here\'s how to do it:',
   ChangeDevice_next: 'get secure link',
-  ChangeDevice_back: 'back',
+  ChangeDevice_back: 'use this device and continue',
+  ChangeDevice_continue: 'use this device',
   ChangeDevice_line_1: 'Send a secure link to your phone',
   ChangeDevice_line_2: 'Open the link and complete the tasks',
   ChangeDevice_line_3: 'Check back here to finish the submission',
 
+  Sending_header: 'Sending data to server',
+  Sending_subHeader: '',
+
+  DevcieDisconnected_header: 'Device is disconnected',
+  DevcieDisconnected_subHeader: 'We lost connect with your device',
+  DevcieDisconnected_description: 'Connection with the device was lost. Please, try again',
+  DevcieDisconnected_next: 'Get new link',
+
   MagicLink_header: 'Get your secure link',
   MagicLink_subHeader: 'Open your smartphone camera with Photo mode and hover it on a QR code you see bellow',
   MagicLink_back: 'Back',
+  MagicLink_copy: 'copy link',
+  MagicLink_copied: 'copied',
+  MagicLink_or: 'or',
+  MagicLink_scan: 'Scan it',
+  MagicLink_getting: 'Getting link',
+
+  ConnectedDevice_header: 'Please proceed on your mobile device',
+  ConnectedDevice_subHeader: 'Do not close or refresh this window!',
+  ConnectedDevice_description: 'Once you finish verification process on mobile this page will be refreshed automatically.',
 
   // ERROR
   retake_description_error: 'Document can not be identified',
@@ -260,9 +285,9 @@ export default {
   server_unavailable_error_subHeader: 'Please contact your provider for further information.',
 
   // Application didn't send
-  isFail_error: 'Cannot create application',
-  isFail_error_header: 'Cannot send data',
-  isFail_error_subHeader: 'Error occurs when you try to send data to the server.',
+  verification_fail_error: 'Cannot create application',
+  verification_fail_error_header: 'Cannot send data',
+  verification_fail_error_subHeader: 'Error occurs when you try to send data to the server.',
 
   // We don't know what to do
   internal_error: 'Internal error',
@@ -286,14 +311,22 @@ export default {
   token_expired_error_subHeader: 'Please contact your provider for further information.',
 
   // ERROR BUTTONS
-  error_next: 'Retry',
+  error_retry: 'Retry',
   error_back: 'Cancel',
-  error_finish: 'Ok',
+  error_finish: 'Finish',
 
   error_changedevice_button: 'Change device and continue',
 
+  IdCapture_retake_description_changedevice_button: 'Change device and continue',
+
   // OTHER
   mobileCamera_landscape: 'For a more convenient user experience, we ask you to turn the phone into portrait mode',
-  openPopUp_button: 'open modal',
-  closePopUp_button: 'Close',
+  PopUp_start: 'Verify me',
+  PopUp_close: 'Close',
+  PopUp_continue: 'Continue',
+
+  SelectLanguage_header: 'Select your language',
+  SelectLanguage_subHeader: '',
+  SelectLanguage_next: 'Continue',
+  SelectLanguage_cancel: 'Cancel',
 };

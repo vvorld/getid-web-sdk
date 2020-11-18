@@ -194,18 +194,29 @@ UI customization. You get a list of css variables that are available for customi
 
 ```css 
     --getid-txt-color: main font color
-    --getid-txt-color-secondary: secondary font color
-    --getid-input-bg: input background
-    --getid-input-active-text: input text color in active state
+    --getid-txt-secondary-color: secondary font color
+    --getid-light-color: color for texts on dark backgrounds;
+    
+    --getid-error-color: color for error messages;
+    --getid-error-border-color: color for borders of error blocks;
+    
+    --getid-success-border: color for borders of success messsage blocks;
+    --getid-block-border:  color for borders of message blocks;
+     
+    --getid-input-border-color: input border color
+    --getid-input-bg-color: input background
+    --getid-input-active-text-color: input text color in active state
+    --getid-input-hover-border-color: input border color in hover state;
+    --getid-input-active-border-color: input border color in active state;
+
     --getid-dark-blue-text: another font color (mainly for inpputs and headers)
     --getid-accent-color: widget theme color
     --getid-input-border-color: input border color
     --getid-input-hover-border: input border color on hover
     --getid-input-active-border: input border color in active state
-    --getid-white: neutral color
-    --getid-error-color: error color
-    
-    --getid-button-grey-bg: secondary button background color
+
+
+        
     --getid-font-size: font size
     --getid-border-radius: border radius
     --getid-font-weight: font weight

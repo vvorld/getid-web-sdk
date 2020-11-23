@@ -11,7 +11,6 @@
 *   [Initialization](#initialization)
 *   [Customization](#customization)
     *   [Container id](#container-id)
-    *   [Dictionary](#dictionary)
     *   [Metadata](#metadata)
     *   [htmlProperties](#htmlProperties)
     *   [Styles](#styles)
@@ -160,17 +159,6 @@ This a simple example on how config should look like. Please go through README t
 ### Container ID
 This can be anything you want, just make sure for it to match the one being specified in HTML div element.
 
-### Dictionary
-Example of using `dictionary` key. Comes useful if you want to preload sdk translations beforehand. For more 
-info about translations API please contact [integration support](mailto:support@getid.ee)
-
-``` js
- const config = {
-   apiUrl: 'YOUR_URL',
-   dictionary: '_lang_key_',
-   flow: []
- }; 
-```
 
 ### Metadata
 Custom values object, mainly to upload some client specific data.

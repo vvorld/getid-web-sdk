@@ -165,7 +165,6 @@ Custom values object, mainly to upload some client specific data.
 ``` js
  const config = {
    apiUrl: 'YOUR_URL',
-   dictionary: '_lang_key_',
    metadata: {
       clientIpAddress: '127.0.0.1'
    }

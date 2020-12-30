@@ -171,10 +171,38 @@ Custom values object, mainly to upload some client specific data.
 ```
 
 ### htmlProperties
--> isShadowDom (boolean)
+-> isShadowDom (boolean, default: **false**)
 
 Configuration flag to turn on/off (true/false) Shadow dom. Useful for style encapsulation.
 
+-> disableSwitchDevice (boolean, default: **false**)
+
+Configuration flag to turn on/off (true/false) switching from desktop to mobile.
+By default, if the user uses a desktop we offer to continue verification on a mobile device (because mobile phones usually have  cameras with better quality) 
+
+-> disableSwitchLocales (boolean, default: **false**)
+
+Configuration flag to turn on/off (true/false) being able to switch locale in an interface.
+
+-> isPopUp (boolean, default: **false**)
+
+Configuration flag to turn on/off (true/false) showing widget in the popup.
+If this setting is true then SDK will be shown as a button witch show a popup with the widget
+
+
+Example: 
+
+``` js
+ const config = {
+   apiUrl: 'YOUR_URL',
+   htmlProperties: {
+      isShadowDom: true,
+      disableSwitchDevice: false,
+      disableSwitchLocales: false,
+      isPopUp: false,
+   }
+ }; 
+```
 ### Styles
 UI customization. You get a list of css variables that are available for customizing that you can modify accordingly.
 

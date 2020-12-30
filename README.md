@@ -228,18 +228,6 @@ example:
     }; 
 ```
 
-### Translations
-You can pre-set custom translations via config as well. For the full list of translation keys please refer to [`default.js`](translations/default.js).
-example: 
-``` js
- const config = {
-   apiUrl: 'YOUR_URL',
-   translations: {
-            'IdSelfie_record_header': 'Make a photo'
-        },
-    }; 
-```
-
 ### Flow
 Flow is a required parameter. You can customize which steps that will be present in your getId widget.
 Flow array must contain a set of objects that will match this pattern: 

@@ -14,7 +14,6 @@
     *   [Metadata](#metadata)
     *   [htmlProperties](#htmlProperties)
     *   [Styles](#styles)
-    *   [Translations](#translations)
     *   [Flow](#flow)
 *   [Components](#components)
     *   [Form](#form)

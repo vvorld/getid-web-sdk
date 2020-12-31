@@ -171,7 +171,7 @@ Custom values object, mainly to upload some client specific data.
 ```
 
 ### htmlProperties
--> isShadowDom (boolean, default: **false**)
+-> isShadowDom (boolean, default: **true**)
 
 Configuration flag to turn on/off (true/false) Shadow dom. Useful for style encapsulation.
 

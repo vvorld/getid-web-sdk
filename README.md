@@ -13,7 +13,6 @@
     *   [Container id](#container-id)
     *   [Metadata](#metadata)
     *   [htmlProperties](#htmlProperties)
-    *   [Styles](#styles)
     *   [Flow](#flow)
 *   [Components](#components)
     *   [Form](#form)
@@ -203,57 +202,7 @@ Example:
    }
  }; 
 ```
-### Styles
-UI customization. You get a list of css variables that are available for customizing that you can modify accordingly.
 
-```css 
-    --getid-txt-color: main font color
-    --getid-txt-secondary-color: secondary font color
-    --getid-light-color: color for texts on dark backgrounds;
-    
-    --getid-error-color: color for error messages;
-    --getid-error-border-color: color for borders of error blocks;
-    
-    --getid-success-border: color for borders of success messsage blocks;
-    --getid-block-border:  color for borders of message blocks;
-     
-    --getid-input-border-color: input border color
-    --getid-input-bg-color: input background
-    --getid-input-active-text-color: input text color in active state
-    --getid-input-hover-border-color: input border color in hover state;
-    --getid-input-active-border-color: input border color in active state;
-
-    --getid-dark-blue-text: another font color (mainly for inpputs and headers)
-    --getid-accent-color: widget theme color
-    --getid-input-border-color: input border color
-    --getid-input-hover-border: input border color on hover
-    --getid-input-active-border: input border color in active state
-
-
-        
-    --getid-font-size: font size
-    --getid-border-radius: border radius
-    --getid-font-weight: font weight
-    --getid-font-weight-bold: font weight bold
-    --getid-input-width: width of all the inputs
-    --getid-transition: most common transition style
-    --getid-font-family: font family
-    --getid-background-color: widget background color
-    --getid-header-size: header font size
-    --getid-subheader-size: subheader font size
-```   
-
-example: 
-``` js
- const config = {
-   apiUrl: 'YOUR_URL',
-   styles: {
-       '--getid-accent-color': 'green',
-       '--getid-input-active-border': 'limegreen',
-       '--getid-font-family': 'Helvetica',
-        },
-    }; 
-```
 
 ### Flow
 Flow is a required parameter. You can customize which steps that will be present in your getId widget.

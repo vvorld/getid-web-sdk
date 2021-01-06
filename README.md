@@ -192,7 +192,6 @@ Example:
  const config = {
    apiUrl: 'YOUR_URL',
    htmlProperties: {
-      isShadowDom: true,
       disableSwitchDevice: false,
       disableSwitchLocales: false,
       isPopUp: false,

@@ -400,7 +400,7 @@ You can get a tokenized URL to pass validation once (this link is valid for 1 ho
 ```bash
 curl -H "X-API-Key: yourApiKey" -X GET https://your.api.url/api/v1/tokenized-url?name=doc-only
 ```
-* by send POST request with a next keys: locale, profile, redirects
+* by sending POST request with a next keys: locale, profile, redirects
 
 ```bash
 curl -H "X-API-Key: yourApiKey" -H "Content-Type: application/json" -X POST https://your.api.url/api/v1/tokenized-url?name=doc-only --data '{"locale": "de", "profile": {"First name": "Jon", "Last name": "Dow", "Date of birth": "1991-04-12"}, "redirects": {"onComplete": "https://google.com", "onFail": "https://facebook.com"}}'

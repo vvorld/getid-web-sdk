@@ -29,8 +29,6 @@
 This SDK provides a configurable widget which will allow your users to capture their personal data 
 and/or face/id documents photos in order to verify their identity.
 
-View our [DEMO](https://cdn.getid.cloud/sdk/example.html)
-
 For the documentation of previous versions please refer to [old readme](https://github.com/vvorld/getid-web-sdk/blob/v4.4.2/README.md)
 
 In order to make it work you will need access to GetID api. Please get in touch with our [integration team](mailto:support@getid.ee?subject=[GitHub]%20Integration%20with%20GetID).

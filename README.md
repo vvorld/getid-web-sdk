@@ -397,8 +397,9 @@ const config = {
 ## Tokenized url
 You can get a tokenized URL to pass validation once (this link is valid for 1 hour, contact support to change the duration). There are two ways to get the link
 * by sending a get request to your API url with query parameters **name** which means the name of the flow check
+* you can specify the externalId into query string for mapping application id to some your custom unique id.
 ```bash
-curl -H "X-API-Key: yourApiKey" -X GET https://your.api.url/api/v1/tokenized-url?name=doc-only
+curl -H "X-API-Key: yourApiKey" -X GET https://your.api.url/api/v1/tokenized-url?name=doc-only&externalId=123
 ```
 * by sending POST request with a next keys: locale, profile, redirects
 

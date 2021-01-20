@@ -22,7 +22,8 @@
     *   [Selfie](#selfie)
     *   [Thank you](#thank-you)
 *   [Verification Types](#verification-types)
-*   [Callbacks](#callbacks) 
+*   [Callbacks](#callbacks)
+*   [Tokenized url](#tokenized-url)
 *   [External libraries](#external-libraries)
 
 ## Overview
@@ -389,6 +390,19 @@ const config = {
    return [];
   }
 }; 
+```
+
+## Tokenized url
+You can get a tokenized URL to pass validation once (this link is valid for 1 hour, contact support to change the duration). There are two ways to get the link
+* by sending a get request to your API url with query parameters **name** which means the name of the flow check
+* you can specify the externalId into query string for mapping application id to some your custom unique id.
+```bash
+curl -H "X-API-Key: yourApiKey" -X GET https://your.api.url/api/v1/tokenized-url?name=doc-only&externalId=123
+```
+* by sending POST request with a next keys: locale, profile, redirects
+
+```bash
+curl -H "X-API-Key: yourApiKey" -H "Content-Type: application/json" -X POST https://your.api.url/api/v1/tokenized-url?name=doc-only --data '{"locale": "de", "profile": {"First name": "Jon", "Last name": "Dow", "Date of birth": "1991-04-12"}, "redirects": {"onComplete": "https://google.com", "onFail": "https://facebook.com"}}'
 ```
 
 ### Verification types

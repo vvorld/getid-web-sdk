@@ -16,7 +16,6 @@
     *   [Flow](#flow)
 *   [Components](#components)
     *   [Form](#form)
-    *   [Record](#record)
     *   [Liveness](#liveness)
     *   [Document photo](#documentphoto)
     *   [Selfie](#selfie)
@@ -257,27 +256,7 @@ document photos (front and back),
 selfie (selfie) and liveness recording (selfie video). 
 Unless you want to use those file inputs to do just that, please opt for some other naming.
 
-### **Record**
 
-View that gives the client option to record a video of themselves.
-**_Configuration props_**: 
-
-- phrases (array of strings)
-
-    If you want your client to say something specific on the camera, the instructions on what to say can be passed through 
-    phrases array.
-    
-    example: 
-    
-    ``` js
-     const config = {
-       apiUrl: 'YOUR_URL',
-           {
-                 component: 'Record',
-                 phrases: ['I would like to get the loan from...', 'I agree to T&C...'],
-           },
-        }
-    ```
 ### **Liveness**
 
 View that gives the client option to pass the liveness check.
@@ -368,7 +347,6 @@ All callbacks are optional.
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
-- **OnBack** function - callback executed on clicking on `Back` button
 - **onSortDocuments** function - callback executing for sorting or filtering supported documents list. Function takes two parameters: country - string in ALPHA-2 format(lowercase) and documents: array of supported document types for current country. You should return an array of desired document types(in desired order) for every country if you don't want to display some countries just return empty array.
 
 Example:

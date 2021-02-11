@@ -36,29 +36,30 @@ In order to make it work you will need access to GetID api. Please get in touch 
 
 ## Getting started
 ### Requirements
-- browsers and features we support: 
+- Video Recording feature is currently compatible with GetID WEB SDK version 5 and GetID API release 29
+- Tested with such browsers versions: 
             
 | OS | Browser | Version | Photos/Liveness/Recording | 
 | --- | --- | --- | --- |
-| iOS | Safari | 13 or higher | ✔️ |
+| iOS | Safari | 14 or higher | ✔️ |
 | iOS | Chrome | 84 or higher | ― |
-| iOS | Firefox | 27 or higher| ― |
-| Android | Chrome | 83 or higher | ✔️ |
-| Android | Samsung Internet | 12 or higher | ✔️ |
-| Android | Firefox | 68 or higher | ✔️ |
+| iOS | Firefox | 31 or higher| ✔️ |
+| Android | Chrome | 88 or higher | ✔️ |
+| Android | Samsung Internet | 13 or higher | ✔️ |
+| Android | Firefox | 85 or higher | ✔️ |
 | Android | Native | 12 or higher | ― |
 | Android | UC | 13 or higher | ― |
-| Android | Opera | 58 or higher | ✔️ |
+| Android | Opera | 61 or higher | ✔️ |
 | Android | Web browser  | 3 or higher | ― |
-| Desktop mac | Safari | 13 or higher | ✔️ |
-| Desktop mac | Chrome | 83 or higher | ✔️ |
-| Desktop mac | Firefox | 78 or higher | ✔️ |
-| Desktop mac | Opera | 69 or higher | ✔️ |
-| Desktop mac | Edge | 83 or higher | ✔️ |
-| Windows | Edge | 83 or higher | ✔️ |
-| Windows | Chrome | 83 or higher | ✔️ |
-| Windows | Opera | 69 or higher | ✔️ |
-| Windows | Firefox | 78 or higher | ✔️ |
+| Desktop mac | Safari | 14 or higher | ✔️ |
+| Desktop mac | Chrome | 88 or higher | ✔️ |
+| Desktop mac | Firefox | 85 or higher | ✔️ |
+| Desktop mac | Opera | 73 or higher | ✔️ |
+| Desktop mac | Edge | 88 or higher | ✔️ |
+| Windows | Edge | 88 or higher | ✔️ |
+| Windows | Chrome | 88 or higher | ✔️ |
+| Windows | Opera | 73 or higher | ✔️ |
+| Windows | Firefox | 82 or higher | ✔️ |
     
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an **SDK KEY** and **API URL**.

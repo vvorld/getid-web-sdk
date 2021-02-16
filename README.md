@@ -402,7 +402,6 @@ All callbacks are optional.
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
-- **onBack** = () => handler 'onClick' for a 'Go back' btn.
 
 ## External libraries
 

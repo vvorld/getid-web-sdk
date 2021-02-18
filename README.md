@@ -159,7 +159,7 @@ const response = await fetch(`${apiUrl}/sdk/v2/token`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    apiKey: sdkKey,
+    'x-sdk-key': sdkKey,
   },
   body: JSON.stringify({ customerId }),
 })
@@ -196,7 +196,7 @@ time you initialize the SDK.
 To generate JWT make a post request with sdk key in header on your designated api url:
 
 ```shell
-$ curl -H "Content-Type: application/json"  -H "apikey: SDK_KEY"  -X POST API_URL/sdk/v2/token
+$ curl -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v2/token
 ```
 
 **Customer ID (optional)**
@@ -205,7 +205,7 @@ $ curl -H "Content-Type: application/json"  -H "apikey: SDK_KEY"  -X POST API_UR
 In case you don't want your clients to complete verification more than once or for any other identification purposes you can pass customerId param when generating jwt token or include the customerId property directly into config if you prefer sdkKey authorization to JWT
 
 ``` shell script
-$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "apikey: SDK_KEY"  -X POST API_URL/sdk/v1/token
+$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v1/token
 ```
 
 **NB!** Token expires 60 minutes after creation. (length of a token's life is a matter of configuration).

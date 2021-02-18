@@ -69,9 +69,9 @@ Both can be found and modified either through your GetID admin panel or via cont
 [Contacts](https://getid.ee/contact-us/)
 ## Installation
 
-#### Including the library
+###  Including the library
 
-- CDN
+#### CDN
 
 Include sdk link as regular script tag. 
 The latest stable build can be found in example snippet below.
@@ -86,7 +86,7 @@ Script loads the widget via window object along with sdk config and jwt token.
 window.getidWebSdk.init(config);
 ```
 
-- NPM launcher
+#### NPM launcher
 
 ```bash
 npm i getid-launcher
@@ -128,7 +128,7 @@ init(config);
 ```
 You can specify the sdkKey options, or you can get the JWT token and pass it for authorization
 
-config example for authorization by sdkKey:
+config example for authorization via sdkKey:
 ```js
 const config = {
   sdkKey: 'YOUR_SDK_KEY',
@@ -152,19 +152,20 @@ const config = {
   },
 };
 ```
-configuration example with authorization by JWT
+configuration example for authorization with JWT
 
 ```js
-const jwt = (await fetch(`${apiUrl}/sdk/v2/token`, {
+const response = await fetch(`${apiUrl}/sdk/v2/token`, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
     apiKey: sdkKey,
   },
   body: JSON.stringify({ customerId }),
-})).json()['token']
+})
+const jwt = (await response.json())['token']
 ```
+
 ```js
 const config = {
   jwt,
@@ -188,7 +189,6 @@ const config = {
   },
 };
 ```
-Please be aware that JWT will expire in 60 min after getting (it's configurable)
 
 #### Obtaining JWT
 For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
@@ -227,7 +227,7 @@ _Now all has been set for sdk initialization._
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName'
+  flowName: 'YOUR_FLOW_NAME'
 }; 
 window.getidWebSdk.init(config);
 ```
@@ -237,6 +237,12 @@ This a simple example on how config should look like. Please go through README t
 
 ### ExternalID
 You can specify *externalId* into metadata to match id from your DB and application
+
+```js
+metadata: {
+  externalId: 'ID_FROM_YOUR_DB',
+},
+```
 ### Labels
 
 It is possible to specify custom key/value storage into metadata *labels* - object with max 30 properties
@@ -248,9 +254,9 @@ metadata example:
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName',
+  flowName: 'YOUR_FLOW_NAME',
   metadata: {
-    externalId: 'string property to match we your unique id',
+    externalId: 'ID_FROM_YOUR_DB',
     labels: {
       'my-custom-meta-name-1': 'custom-value-1',
       'my-custom-meta-name-2': 'custom-value-2',
@@ -266,45 +272,47 @@ This can be anything you want, just make sure for it to match the one being spec
 
 
 ### mode
-Sdk can be present as one of two mode: 
+SDK has two modes:
 * popup
 * inline
 ```js
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName',
+  flowName: 'YOUR_FLOW_NAME',
   mode: 'popup'
 };
 ```
 
 ### Locale
-Define the locale key with alpha-2 country string value to predefine the locale for user
+It is possible to predefine the locale according locale format https://www.localeplanet.com/icu/
+
 Example:
 ```js
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName',
+  flowName: 'YOUR_FLOW_NAME',
   locale: 'en'
 };
 ```
 
 
 ### Profile
-We have opportunity to pre-fill the Profile form data by set property *profile* into config:
+It's possible to pre-fill the profile form data by setting profile property in config.
+
 example 
 ```js
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName',
+  flowName: 'YOUR_FLOW_NAME',
   profile: [
     { category: 'First name', value: 'Jon' },
     { category: 'Last name', value: 'Dow' },
     { category: 'Date of birth', value: '2010-10-10' },
-    { category: 'Address', value: 'France le croisan 4-27' },
-    { category: 'Date of expiry', value: '1111-11-11' },
+    { category: 'Address', value: 'France le croissant 4-27' },
+    { category: 'Date of expiry', value: '2026-02-15' },
     { category: 'Date of issue', value: '2021-02-15' },
     { category: 'Document number', value: '4114414141' },
     { category: 'Email', value: 'email@email.com' },
@@ -314,9 +322,10 @@ const config = {
   ],
 };
 ```
-In case when you not specify the Form field but specify this data into profile, this data will send from web sdk to the server and will participate in cross-checking
+Form fields and pre-filled fields will be sent to the server and will be compared with extracted data from a document.
 
-We provide cross-checking comparison by next Form fields:
+Profile checking is provided for those fields:
+
 * First name
 * Last name
 * Date of birth
@@ -333,23 +342,21 @@ We provide cross-checking comparison by next Form fields:
 
 ### Visual Appearance
 
-It is possible to customize the styles by two way:
-- By insert the custom css as string
-- By CSS Variables
+It is possible to customize the styles by two ways:
+- Inserting the custom css string
+- Using CSS variables
 
 
-To insert the custom css just specify filed *injectCSS* into config with a css string as a value
-example
+Example of custom CSS string:
 ```js
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: 'yourFlowName',
+  flowName: 'YOUR_FLOW_NAME',
   injectCSS: 'p {color: red; text-align: center;}'
 }
 ```
-The using custom variables it's the more flexible and convenient way
-list of variables:
+Custom variables is a more flexible and convenient way. List of variables:
 ```
 --getid-txt-color
 --getid-txt-secondary-color
@@ -380,7 +387,8 @@ list of variables:
 --getid-border-radius
 --getid-input-border-radius
 ```
-to customize style specify this variables for element with next id: getid-main, getid-popup__main
+
+Use these element ids (getid-main, getid-popup__main) to customize style using variables
 
 html example:
 ```html

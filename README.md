@@ -119,8 +119,8 @@ const config = {
     onComplete({ applicationId }) {
         alert(id);
     },
-    onFail(error) {
-        console.log(error);
+    onFail({ code, message }) {
+        console.log(code, message);
     },
 };
 
@@ -148,8 +148,8 @@ const config = {
   onComplete({ applicationId }) {
       alert(applicationId);
   },
-  onFail(error) {
-      console.log(error);
+  onFail({ code, message }) {
+      console.log(code, message);
   },
 };
 ```
@@ -185,8 +185,8 @@ const config = {
   onComplete({ applicationId }) {
       alert(applicationId);
   },
-  onFail({errorCode}) {
-      alert(errorCode);
+  onFail({ code, message }) {
+      alert(code, message);
   },
 };
 ```
@@ -227,6 +227,7 @@ _Now all has been set for sdk initialization._
 ``` js
 const config = {
   apiUrl: 'YOUR_URL',
+  sdkKey: 'YOUR_SDK_KEY',
   containerId: 'getid-component',
   flowName: 'YOUR_FLOW_NAME'
 }; 

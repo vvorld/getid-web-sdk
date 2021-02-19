@@ -116,7 +116,7 @@ const config = {
         value: 'Dow',
         category: 'Last name',
     }],
-    onComplete({ applicationId }) {
+    onComplete({ id }) {
         alert(id);
     },
     onFail(error) {
@@ -345,8 +345,8 @@ Profile checking is provided for those fields:
 ### Visual Appearance
 
 It is possible to customize the styles by two ways:
-- Inserting the custom css string
-- Using CSS variables
+- Inserting the custom css string (use injectCSS string in config)
+- Using CSS variables (use styles object in config)
 
 
 Example of custom CSS string:
@@ -356,6 +356,9 @@ const config = {
   containerId: 'getid-component',
   flowName: 'YOUR_FLOW_NAME',
   injectCSS: 'p {color: red; text-align: center;}'
+  styles: {
+   '--getid-primary-text-color': 'red'
+  }
 }
 ```
 Custom variables is a more flexible and convenient way. List of variables:
@@ -409,7 +412,7 @@ Custom variables is a more flexible and convenient way. List of variables:
 ### Callbacks
 All callbacks are optional.
 
-- **onComplete** = ({ applicationId }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
+- **onComplete** = ({ id }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
 - **onFail** = ({code, message}) => callback executed on fail event: 
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically

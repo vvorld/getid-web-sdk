@@ -358,43 +358,57 @@ const config = {
 ```
 Custom variables is a more flexible and convenient way. List of variables:
 ```
---getid-txt-color
---getid-txt-secondary-color
---getid-input-bg-color
---getid-input-active-text-color
---getid-accent-color
---getid-second-color
---getid-input-border-color
---getid-error-border-color
---getid-success-border
---getid-block-border
---getid-input-hover-border-color
---getid-input-active-border-color
---getid-light-color
---getid-error-color
---getid-header-size
---getid-subheader-size
---getid-font-size
---getid-font-size-small
---getid-font-weight
---getid-font-weight-bold
---getid-input-width
---getid-transition
---getid-font-family
---getid-background-color
---getid-max-width
---getid-min-width
---getid-border-radius
---getid-input-border-radius
+    --getid-primary-text-color
+    --getid-secondary-text-color
+    --getid-primary-background-color
+    --getid-accent-color
+    --getid-contrasting-to-accent-color
+    --getid-border-color
+    --getid-primary-button-text-color
+    --getid-primary-button-background-color
+    --getid-primary-button-hover-background-color
+    --getid-secondary-button-text-color
+    --getid-secondary-button-background-color
+    --getid-secondary-button-hover-background-color
+    --getid-link-button-text-color
+    --getid-link-button-hover-text-color
+    --getid-button-box-shadow-hover
+    --getid-button-border-radius
+    --getid-input-placeholder-color
+    --getid-input-text-color
+    --getid-input-background-color
+    --getid-input-border-color
+    --getid-input-hover-border-color
+    --getid-input-active-border-color
+    --getid-input-border-radius
+    --getid-error-color
+    --getid-success-color
+    --getid-warning-color
+    --getid-header-font-size
+    --getid-subheader-font-size
+    --getid-button-font-size
+    --getid-font-size
+    --getid-small-font-size
+    --getid-font-weight
+    --getid-bold-font-weight
+    --getid-button-font-weight
+    --getid-transition
+    --getid-font-family
+    --getid-container-max-width
+    --getid-container-min-width
+    --getid-container-border-radius
+    --getid-container-overlay-background-color
+    --getid-camera-overlay-background-color
+    --getid-camera-overlay-text-color
 ```
 
-Use these element ids (getid-main, getid-popup__main) to customize style using variables
+Use these element ids (getid-main, getid-button) to customize style using variables
 
 html example:
 ```html
 <div id='getid-component'>
   <style>
-    #getid-main, #getid-popup__main {
+    #getid-main, #getid-button {
       --getid-accent-color: #ff0000;
     }
   </style>

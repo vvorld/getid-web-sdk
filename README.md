@@ -28,7 +28,7 @@
 This SDK provides a configurable widget which will allow your users to capture their personal data 
 and/or face/id documents photos in order to verify their identity.
 
-For the documentation of previous versions please refer to [old readme](https://github.com/vvorld/getid-web-sdk/blob/v4.4.2/README.md)
+For the documentation of previous versions please refer to [old readme](https://github.com/vvorld/getid-web-sdk/blob/v5/README.md)
 
 In order to make it work you will need access to GetID api. Please get in touch with our [integration team](mailto:support@getid.ee?subject=[GitHub]%20Integration%20with%20GetID).
 
@@ -61,6 +61,7 @@ In order to make it work you will need access to GetID api. Please get in touch 
     
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an **SDK KEY** and **API URL**.
+Before you start please go to the admin panel and create a flow. You should define the **FLOW_NAME** into configuration
 
 
 Both can be found and modified either through your GetID admin panel or via contacting our 
@@ -101,7 +102,7 @@ Import *init* function from launcher package and init the sdk
 ```js
 import { init } from 'getid-launcher';
 const config = {
-    flowName: 'sdk-v6',
+    flowName: 'YOUR_FLOW_NAME',
     apiUrl: 'YOUR_API_URL',
     sdkKey: 'YOUR_SDK_KEY',
     customerId: 'customer id',
@@ -132,7 +133,7 @@ config example for authorization via sdkKey:
 ```js
 const config = {
   sdkKey: 'YOUR_SDK_KEY',
-  flowName: 'sdk-v6',
+  flowName: 'YOUR_FLOW_NAME',
   apiUrl: 'YOUR_API_URL',
   metadata: {},
   containerId: 'getid-component',
@@ -144,8 +145,8 @@ const config = {
       value: 'Dow',
       category: 'Last name',
   }],
-  onComplete({ id }) {
-      alert(id);
+  onComplete({ applicationId }) {
+      alert(applicationId);
   },
   onFail(error) {
       console.log(error);
@@ -169,7 +170,7 @@ const jwt = (await response.json())['token']
 ```js
 const config = {
   jwt,
-  flowName: 'sdk-v6',
+  flowName: 'YOUR_FLOW_NAME',
   apiUrl: 'YOUR_API_URL',
   metadata: {},
   containerId: 'getid-component',
@@ -181,8 +182,8 @@ const config = {
       value: 'Dow',
       category: 'Last name',
   }],
-  onComplete({ id }) {
-      alert(id);
+  onComplete({ applicationId }) {
+      alert(applicationId);
   },
   onFail(error) {
       console.log(error);
@@ -319,6 +320,7 @@ const config = {
     { category: 'Gender', value: 'male' },
     { category: 'Nationality', value: 'AZE' },
     { category: 'Personal number', value: '123123123123' },
+    { category: 'Any custom category', value: '123123123123' },
   ],
 };
 ```

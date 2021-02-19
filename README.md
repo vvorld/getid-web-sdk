@@ -356,7 +356,7 @@ const config = {
     console.log("everything is complete" + data)
   },
    onFail: function({ code, message}) {
-   console.log("something went wrong: " + message )
+    console.log("something went wrong: " + message )
   },
   onSortDocuments: function(coutry, documents) {
    const desiredCountries = ['cz', 'dk', 'es', 'hr', 'pl', 'at', 'be', 'bg', 'de', 'ee'];
@@ -392,7 +392,7 @@ Example:
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  verificationTypes: ['face-mathing', 'data-extraction', 'watchlists'],
+  verificationTypes: ['face-matching', 'data-extraction', 'watchlists'],
 }; 
 ```
 

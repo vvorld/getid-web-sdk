@@ -185,8 +185,8 @@ const config = {
   onComplete({ applicationId }) {
       alert(applicationId);
   },
-  onFail(error) {
-      console.log(error);
+  onFail({errorCode}) {
+      alert(errorCode);
   },
 };
 ```
@@ -404,18 +404,6 @@ Custom variables is a more flexible and convenient way. List of variables:
     --getid-camera-overlay-text-color
 ```
 
-Use these element ids (getid-main, getid-button) to customize style using variables
-
-html example:
-```html
-<div id='getid-component'>
-  <style>
-    #getid-main, #getid-button {
-      --getid-accent-color: #ff0000;
-    }
-  </style>
-</div>
-```
 
 
 ### Callbacks

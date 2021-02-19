@@ -38,7 +38,7 @@ In order to make it work you will need access to GetID api. Please get in touch 
 ### Requirements
 - browsers and features we support: 
             
-| OS | Browser | Version | Photos/Liveness/Recording | 
+| OS | Browser | Version | Photos/Liveness | 
 | --- | --- | --- | --- |
 | iOS | Safari | 13 or higher | ✔️ |
 | iOS | Chrome | 84 or higher | ― |
@@ -253,7 +253,6 @@ If you want to add custom file fields on the form step, please refrain from usin
 
 These can only be used to send out 
 document photos (front and back), 
-selfie (selfie) and liveness recording (selfie video). 
 Unless you want to use those file inputs to do just that, please opt for some other naming.
 
 

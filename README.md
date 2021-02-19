@@ -12,11 +12,9 @@
 *   [Customization](#customization)
     *   [Container id](#container-id)
     *   [Metadata](#metadata)
-    *   [htmlProperties](#htmlProperties)
     *   [Flow](#flow)
 *   [Components](#components)
     *   [Form](#form)
-    *   [Record](#record)
     *   [Liveness](#liveness)
     *   [Document photo](#documentphoto)
     *   [Selfie](#selfie)
@@ -39,7 +37,7 @@ In order to make it work you will need access to GetID api. Please get in touch 
 ### Requirements
 - browsers and features we support: 
             
-| OS | Browser | Version | Photos/Liveness/Recording | 
+| OS | Browser | Version | Photos/Liveness | 
 | --- | --- | --- | --- |
 | iOS | Safari | 13 or higher | ✔️ |
 | iOS | Chrome | 84 or higher | ― |
@@ -64,16 +62,16 @@ In order to make it work you will need access to GetID api. Please get in touch 
 ### Obtaining an API key
 In order to start using GetID SDK, you will need an **SDK KEY** and **API URL**.
 
-ADD LINKS
 
 Both can be found and modified either through your GetID admin panel or via contacting our 
 [integration support](mailto:support@getid.ee?subject=[GitHub]%20Obtaining%20GetID%20credentials).
 
+[Contacts](https://getid.ee/contact-us/)
 ## Installation
 
-#### Including the library
+###  Including the library
 
-- CDN
+#### CDN
 
 Include sdk link as regular script tag. 
 The latest stable build can be found in example snippet below.
@@ -82,38 +80,135 @@ The latest stable build can be found in example snippet below.
 <script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v6.min.js'></script>
 ```
 
-ADD INFO ABOUT NPM
 
 Script loads the widget via window object along with sdk config and jwt token.
 ```js
 window.getidWebSdk.init(config);
 ```
-ADD EXAMPLES WITH JWT AND SDK KEY
+
+#### NPM launcher
+
+```bash
+npm i getid-launcher
+```
+
+Create element in DOM where SDK should be included:
+```html
+<div id='getid-component'>
+```
+Import *init* function from launcher package and init the sdk
+
+```js
+import { init } from 'getid-launcher';
+const config = {
+    flowName: 'sdk-v6',
+    apiUrl: 'YOUR_API_URL',
+    sdkKey: 'YOUR_SDK_KEY',
+    customerId: 'customer id',
+    metadata: {},
+    containerId: 'getid-component',
+    locale: 'en',
+    profile: [{
+        value: 'Jon',
+        category: 'First name',
+    }, {
+        value: 'Dow',
+        category: 'Last name',
+    }],
+    onComplete({ id }) {
+        alert(id);
+    },
+    onFail(error) {
+        console.log(error);
+    },
+};
+
+init(config);
+
+```
+You can specify the sdkKey options, or you can get the JWT token and pass it for authorization
+
+config example for authorization via sdkKey:
+```js
+const config = {
+  sdkKey: 'YOUR_SDK_KEY',
+  flowName: 'sdk-v6',
+  apiUrl: 'YOUR_API_URL',
+  metadata: {},
+  containerId: 'getid-component',
+  locale: 'en',
+  profile: [{
+      value: 'Jon',
+      category: 'First name',
+  }, {
+      value: 'Dow',
+      category: 'Last name',
+  }],
+  onComplete({ id }) {
+      alert(id);
+  },
+  onFail(error) {
+      console.log(error);
+  },
+};
+```
+configuration example for authorization with JWT
+
+```js
+const response = await fetch(`${apiUrl}/sdk/v2/token`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-sdk-key': sdkKey,
+  },
+  body: JSON.stringify({ customerId }),
+})
+const jwt = (await response.json())['token']
+```
+
+```js
+const config = {
+  jwt,
+  flowName: 'sdk-v6',
+  apiUrl: 'YOUR_API_URL',
+  metadata: {},
+  containerId: 'getid-component',
+  locale: 'en',
+  profile: [{
+      value: 'Jon',
+      category: 'First name',
+  }, {
+      value: 'Dow',
+      category: 'Last name',
+  }],
+  onComplete({ id }) {
+      alert(id);
+  },
+  onFail(error) {
+      console.log(error);
+  },
+};
+```
 
 #### Obtaining JWT
 For security reasons, you will need to generate and include a short-lived JSON Web Token (JWT) every 
-time you initialise the SDK. 
+time you initialize the SDK. 
 To generate JWT make a post request with sdk key in header on your designated api url:
 
-``` shell script
-$ curl -H "Content-Type: application/json"  -H "apikey: SDK_KEY"  -X POST API_URL/sdk/v1/token
+```shell
+$ curl -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v2/token
 ```
-
-
 
 **Customer ID (optional)**
 
-ADD INFO THAT IT IS DEDUPLICATION POSABILITY
 
-In case you don't want your clients to complete verification more than once or for any other identification purposes
-you can pass customerId param when generating jwt token.
+In case you don't want your clients to complete verification more than once or for any other identification purposes you can pass customerId param when generating jwt token or include the customerId property directly into config if you prefer sdkKey authorization to JWT
 
 ``` shell script
-$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "apikey: SDK_KEY"  -X POST API_URL/sdk/v1/token
+$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v1/token
 ```
 
-
-**NB!** Token expires 90 minutes after creation. (length of a token's life is a matter of configuration).
+**NB!** Token expires 60 minutes after creation. (length of a token's life is a matter of configuration).
 
 --------------
 
@@ -123,7 +218,7 @@ Please place an empty div element with a respective id in your html for the comp
 <div id='getid-component'></div>
 ```
 
-ADD INFO ABOUT FLOW CONFIGURATOR
+It is possible to configure sdk flow in admin panel.
 
 ## Initialization
 
@@ -132,7 +227,7 @@ _Now all has been set for sdk initialization._
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
-  flowName: ''
+  flowName: 'YOUR_FLOW_NAME'
 }; 
 window.getidWebSdk.init(config);
 ```
@@ -141,8 +236,34 @@ This a simple example on how config should look like. Please go through README t
 ## Metadata
 
 ### ExternalID
-### Labes
+You can specify *externalId* into metadata to match id from your DB and application
 
+```js
+metadata: {
+  externalId: 'ID_FROM_YOUR_DB',
+},
+```
+### Labels
+
+It is possible to specify custom key/value storage into metadata *labels* - object with max 30 properties
+
+it's will be added into application result.
+
+metadata example:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  metadata: {
+    externalId: 'ID_FROM_YOUR_DB',
+    labels: {
+      'my-custom-meta-name-1': 'custom-value-1',
+      'my-custom-meta-name-2': 'custom-value-2',
+    }
+  }
+}; 
+```
 ## Customization
 
 
@@ -150,48 +271,145 @@ This a simple example on how config should look like. Please go through README t
 This can be anything you want, just make sure for it to match the one being specified in HTML div element.
 
 
-### isPopUp
+### mode
+SDK has two modes:
+* popup
+* inline
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  mode: 'popup'
+};
+```
 
 ### Locale
+It is possible to predefine the locale according locale format https://www.localeplanet.com/icu/
 
-
-List?
+Example:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  locale: 'en'
+};
+```
 
 
 ### Profile
-Add list availeble fieds for crosschecking
-Add keys with custom fields
+It's possible to pre-fill the profile form data by setting profile property in config.
 
-
-### Widget object
-
-Example: 
-
-``` js
- const config = {
-   apiUrl: 'YOUR_URL',
-   isPopUp,
- }; 
+example 
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  profile: [
+    { category: 'First name', value: 'Jon' },
+    { category: 'Last name', value: 'Dow' },
+    { category: 'Date of birth', value: '2010-10-10' },
+    { category: 'Address', value: 'France le croissant 4-27' },
+    { category: 'Date of expiry', value: '2026-02-15' },
+    { category: 'Date of issue', value: '2021-02-15' },
+    { category: 'Document number', value: '4114414141' },
+    { category: 'Email', value: 'email@email.com' },
+    { category: 'Gender', value: 'male' },
+    { category: 'Nationality', value: 'AZE' },
+    { category: 'Personal number', value: '123123123123' },
+  ],
+};
 ```
+Form fields and pre-filled fields will be sent to the server and will be compared with extracted data from a document.
+
+Profile checking is provided for those fields:
+
+* First name
+* Last name
+* Date of birth
+* Issue country
+* Gender
+* Document type
+* Date of issue
+* Date of expiry
+* Nationality
+* Nationality code
+* Document number
+* Place of birth
+* Place of issue
 
 ### Visual Appearance
 
-SHADOW DOM
+It is possible to customize the styles by two ways:
+- Inserting the custom css string
+- Using CSS variables
 
-1. CSS Variables
-2. cssString
 
+Example of custom CSS string:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  injectCSS: 'p {color: red; text-align: center;}'
+}
+```
+Custom variables is a more flexible and convenient way. List of variables:
+```
+--getid-txt-color
+--getid-txt-secondary-color
+--getid-input-bg-color
+--getid-input-active-text-color
+--getid-accent-color
+--getid-second-color
+--getid-input-border-color
+--getid-error-border-color
+--getid-success-border
+--getid-block-border
+--getid-input-hover-border-color
+--getid-input-active-border-color
+--getid-light-color
+--getid-error-color
+--getid-header-size
+--getid-subheader-size
+--getid-font-size
+--getid-font-size-small
+--getid-font-weight
+--getid-font-weight-bold
+--getid-input-width
+--getid-transition
+--getid-font-family
+--getid-background-color
+--getid-max-width
+--getid-min-width
+--getid-border-radius
+--getid-input-border-radius
+```
+
+Use these element ids (getid-main, getid-popup__main) to customize style using variables
+
+html example:
+```html
+<div id='getid-component'>
+  <style>
+    #getid-main, #getid-popup__main {
+      --getid-accent-color: #ff0000;
+    }
+  </style>
+</div>
+```
 
 
 ### Callbacks
 All callbacks are optional.
 
 - **onComplete** = ({ id }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
-- **onFail** = ({code, messge}) => callback executed on fail event: 
+- **onFail** = ({code, message}) => callback executed on fail event: 
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
-
 
 ## External libraries
 

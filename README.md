@@ -116,7 +116,7 @@ const config = {
         value: 'Dow',
         category: 'Last name',
     }],
-    onComplete({ id }) {
+    onComplete({ applicationId }) {
         alert(id);
     },
     onFail(error) {
@@ -409,7 +409,7 @@ Custom variables is a more flexible and convenient way. List of variables:
 ### Callbacks
 All callbacks are optional.
 
-- **onComplete** = ({ id }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
+- **onComplete** = ({ applicationId }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
 - **onFail** = ({code, message}) => callback executed on fail event: 
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically

@@ -346,17 +346,20 @@ Profile checking is provided for those fields:
 ### Visual Appearance
 
 It is possible to customize the styles by two ways:
-- Inserting the custom css string
-- Using CSS variables
+- Inserting the custom css string (use injectCSS string in config)
+- Using CSS variables (use styles object in config)
 
 
-Example of custom CSS string:
+Example of custom styles:
 ```js
 const config = {
   apiUrl: 'YOUR_URL',
   containerId: 'getid-component',
   flowName: 'YOUR_FLOW_NAME',
-  injectCSS: 'p {color: red; text-align: center;}'
+  injectCSS: 'p {color: red; text-align: center;}',
+  styles: {
+   '--getid-primary-text-color': 'red'
+  }
 }
 ```
 Custom variables is a more flexible and convenient way. List of variables:

@@ -181,11 +181,11 @@ const config = {
       value: 'Dow',
       category: 'Last name',
   }],
-  onComplete({ id }) {
-      alert(id);
+  onComplete({ applicationId }) {
+      alert(applicationId);
   },
-  onFail(error) {
-      console.log(error);
+  onFail({errorCode}) {
+      alert(errorCode);
   },
 };
 ```

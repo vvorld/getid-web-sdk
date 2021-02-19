@@ -349,7 +349,7 @@ It is possible to customize the styles by two ways:
 - Using CSS variables (use styles object in config)
 
 
-Example of custom CSS string:
+Example of custom styles:
 ```js
 const config = {
   apiUrl: 'YOUR_URL',

@@ -419,6 +419,32 @@ All callbacks are optional.
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
 
+Possible errors:
+```
+Before render
+{code: "internal", message: "Internal error"} 
+{code: "sdkkey_invalid", message: "Invalid SDK key"} 
+{code: "apiurl_mismatch", message: "Correct API url was not provided"}
+{code: "configuration_not_found", message: "Configuration not found"} 
+{code: "token_malformed", message: "Incorrect link"}
+{code: "token_mismatch", message: "JWT token was mot provided"}
+
+After render
+{code: "schema_mismatch", message: "Please use https schema"}
+{code: "api_version_mismatch", message: "Your SDK version not compatible with the current API version"}
+{code: "token_invalid", message: "Invalid token. Maybe, the session is expired."}
+{code: "token_expired", message: "'The link is no longer valid'"}
+{code: "customerid_exists", message: "An application with this customerId already exists."}
+{code: "browser_not_supported", message: "Browser is not supported"}
+{code: "no_camera", message: "Your device has no camera"}
+{code: "camera_not_allowed", message: "Failed to access your camera"}
+{code: "camera_generic", message: "Failed to access your camera"}
+{code: "file_type", message: "We do not support this format"}
+{code: "verification_fail", message: "Cannot create application"}
+{code: "bad"_request, message: "Bad request"}
+{code: "server_unavailable", message: "Server is unavailable"}
+```
+
 ## External libraries
 
 Current software is using external libraries, which are released under MIT license:

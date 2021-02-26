@@ -427,7 +427,7 @@ Before render
 {code: "apiurl_mismatch", message: "Correct API url was not provided"}
 {code: "configuration_not_found", message: "Configuration not found"} 
 {code: "token_malformed", message: "Incorrect link"}
-{code: "token_mismatch", message: "JWT token was mot provided"}
+{code: "token_mismatch", message: "JWT token was not provided"}
 
 After render
 {code: "schema_mismatch", message: "Please use https schema"}

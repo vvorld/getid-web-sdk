@@ -206,7 +206,7 @@ $ curl -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API
 In case you don't want your clients to complete verification more than once or for any other identification purposes you can pass customerId param when generating jwt token or include the customerId property directly into config if you prefer sdkKey authorization to JWT
 
 ``` shell script
-$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v1/token
+$ curl -d '{"customerId":"value"}' -H "Content-Type: application/json"  -H "x-sdk-key: SDK_KEY"  -X POST API_URL/sdk/v2/token
 ```
 
 **NB!** Token expires 60 minutes after creation. (length of a token's life is a matter of configuration).

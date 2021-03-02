@@ -446,7 +446,7 @@ After render
 ```
 - **acceptableDocuments** = (supportedDocuments) => callback executed for sorting/filtering the list of supported countries and document types. Callback takes as a parameter an array of objects. Every object has two properties: `country` - string with name of country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported documet types for certain country. After the execution the callback should return sorted/filtered list in the same format, you shouldn't add your own countries or document types.
 
-Example:
+Examples:
 ```
 acceptableDocuments(supportedDocuments) {
     return supportedDocuments.filter(({ country, documentTypes }) => {
@@ -457,6 +457,16 @@ acceptableDocuments(supportedDocuments) {
   };
 ```
 Upper function will filter list and return only countries which exist in `desiredCountries` array with all supported document types
+
+```
+acceptableDocuments(supportedDocuments) {
+    return supportedDocuments.map(({ country, documentTypes }) => ({
+      country,
+      documentTypes: documentTypes.filter((x) => x === 'id-card' || x === 'passport'),
+    }));
+  };
+```
+Upper function will filter only `id-card` and `passport` document types
 
 ## External libraries
 

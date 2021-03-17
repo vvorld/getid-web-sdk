@@ -343,6 +343,7 @@ Profile checking is provided for those fields:
 * Place of birth
 * Place of issue
 
+It's possible to hide the form into admin panel in flow settings.
 ### Visual Appearance
 
 It is possible to customize the styles by two ways:

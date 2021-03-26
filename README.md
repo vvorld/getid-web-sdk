@@ -12,16 +12,7 @@
 *   [Customization](#customization)
     *   [Container id](#container-id)
     *   [Metadata](#metadata)
-    *   [Flow](#flow)
-*   [Components](#components)
-    *   [Form](#form)
-    *   [Liveness](#liveness)
-    *   [Document photo](#documentphoto)
-    *   [Selfie](#selfie)
-    *   [Thank you](#thank-you)
-*   [Verification Types](#verification-types)
 *   [Callbacks](#callbacks)
-*   [Tokenized url](#tokenized-url)
 *   [External libraries](#external-libraries)
 
 ## Overview

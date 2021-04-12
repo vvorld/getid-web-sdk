@@ -318,7 +318,7 @@ const config = {
 ```
 
 
-There are next custom types available: 
+There are next custom types available for customContentType: 
  - "string"
  - "country"
  - "date"

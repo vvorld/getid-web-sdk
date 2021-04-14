@@ -405,11 +405,16 @@ Custom variables is a more flexible and convenient way. List of variables:
 ### Callbacks
 All callbacks are optional.
 
-- **onComplete** = ({ applicationId }) => callback executed on ThankYou view after the client has been successfully submitted their data for verification. Accepts verification id as param.
+- **onComplete** = ({ applicationId }) => callback executed after the client has been successfully submitted their data for verification. Accepts verification id as param.
 - **onFail** = ({code, message}) => callback executed on fail event: 
     - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
     - Widget failed to render successfully - in this case callback will be called automatically
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
+
+- **onVerificationComplete** => (envelopedApplicationResult) => callback executed after verification will be finished with the result of application (appId, externalId, services result) Please see openapi scheme.
+
+If the onVerificationComplete callback is present in the configuration, the "Thank you" page will be removed from the flow and a new screen will appear (with the service results) as the last screen.
+
 
 Possible errors:
 ```
@@ -459,6 +464,12 @@ acceptableDocuments(supportedDocuments) {
   };
 ```
 Upper function will filter only `id-card` and `passport` document types
+
+
+
+In some cases, you may need a sdk script without polyfills, which can be downloaded from the CDN.
+
+https://cdn.getid.cloud/sdk/getid-web-sdk-v6-non-polyfills.min.js
 
 ## External libraries
 

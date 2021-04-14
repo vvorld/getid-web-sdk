@@ -312,10 +312,19 @@ const config = {
     { category: 'Gender', value: 'male' },
     { category: 'Nationality', value: 'AZE' },
     { category: 'Personal number', value: '123123123123' },
-    { category: 'Any custom category', value: '123123123123' },
+    { category: 'Any custom category', value: '123123123123' contentType: 'string'},
   ],
 };
 ```
+
+
+There are next custom types available for customContentType: 
+ - "string"
+ - "country"
+ - "date"
+ - "boolean"
+
+
 Form fields and pre-filled fields will be sent to the server and will be compared with extracted data from a document.
 
 Profile checking is provided for those fields:

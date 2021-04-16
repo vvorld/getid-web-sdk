@@ -369,6 +369,21 @@ const config = {
 }; 
 ```
 
+
+Here are possible error codes/ message:
+
+- customerid_exists - An application with this customerId already exists
+- verification_fail - Cannot create application
+- file_size - too large file/files
+- file_type - We do not support this format
+- camera_not_allowed - Failed to access your camera
+- internal - Internal technical error
+- schema_mismatch - Please use https schema
+- browser_not_supported - Browser is not supported
+- no_camera - Your device has no camera
+- camera_generic - Failed to access your camera
+- server_unavailable - Server is unavailable
+
 ## Tokenized url
 You can get a tokenized URL to pass validation once (this link is valid for 1 hour, contact support to change the duration). There are two ways to get the link
 * by sending a get request to your API url with query parameters **name** which means the name of the flow check

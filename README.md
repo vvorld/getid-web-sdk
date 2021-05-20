@@ -12,6 +12,12 @@
 *   [Customization](#customization)
     *   [Container id](#container-id)
     *   [Metadata](#metadata)
+    *   [Mode](#Mode)
+    *   [Locale](#Locale)
+    *   [Dictionary](#Dictionary)
+    *   [Profile](#Profile)
+    *   [Visual Appearance](#Visual-Appearance)
+    *   [Switch theme callback](#Switch-theme-callback)
 *   [Callbacks](#callbacks)
 *   [External libraries](#external-libraries)
 
@@ -424,7 +430,62 @@ Custom variables is a more flexible and convenient way. List of variables:
     --getid-camera-overlay-background-color
     --getid-camera-overlay-text-color
 ```
+### Switch theme callback
 
+**(EXPERIMENTAL)**
+
+
+Setup into admin panel two themes dark and light after that it will be possible to configure initial theme by passing `themeMode` into sdk configuration with a value `dark` or `light`
+
+
+The method init returns a promise after resolving it's possible to add callback `changeThemeMode` for the theme switching
+
+Example:
+```html
+  <div id="getid-component"></div>
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <div class="slider round"></div>
+    </label>
+    <em>Switch theme</em>
+  </div>
+```
+
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  themeMode: 'light'
+};
+
+(async function () {
+  const res = await init(config);
+
+  const switcher = document.getElementById('checkbox');
+  switcher.addEventListener('change', (e) => {
+    res.changeThemeMode(e.target.checked ? 'dark' : 'light');
+  });
+}());
+```
+
+
+## HTML Properties
+Set disableSwitchDevice *true* to disable device switching (The better way to configure it from the admin panel in configuration flow section)
+
+Example:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  locale: 'en',
+  htmlProperties: {
+    disableSwitchDevice: true
+  }
+};
+```
 
 
 ### Callbacks
@@ -493,61 +554,6 @@ Upper function will filter only `id-card` and `passport` document types
 
 - **onBack** () => callback without arguments will be executed from the first screen on click 'back' button event. (if callback is not set then there is no button 'back' on the first screen)
 
-
-
-### Switch theme callback (EXPERIMENTAL)
-
-Setup into admin panel two themes dark and light after that it will be possible to configure initial theme by passing `themeMode` into sdk configuration with a value `dark` or `light`
-
-
-The method init returns a promise after resolving it's possible to add callback `changeThemeMode` for the theme switching
-
-Example:
-```html
-  <div id="getid-component"></div>
-  <div class="theme-switch-wrapper">
-    <label class="theme-switch" for="checkbox">
-      <input type="checkbox" id="checkbox" />
-      <div class="slider round"></div>
-    </label>
-    <em>Switch theme</em>
-  </div>
-```
-
-```js
-const config = {
-  apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
-  flowName: 'YOUR_FLOW_NAME',
-  themeMode: 'light'
-};
-
-(async function () {
-  const res = await init(config);
-
-  const switcher = document.getElementById('checkbox');
-  switcher.addEventListener('change', (e) => {
-    res.changeThemeMode(e.target.checked ? 'dark' : 'light');
-  });
-}());
-```
-
-
-### HTML Properties
-Set disableSwitchDevice *true* to disable device switching (The better way to configure it from the admin panel in configuration flow section)
-
-Example:
-```js
-const config = {
-  apiUrl: 'YOUR_URL',
-  containerId: 'getid-component',
-  flowName: 'YOUR_FLOW_NAME',
-  locale: 'en',
-  htmlProperties: {
-    disableSwitchDevice: true
-  }
-};
-```
 
 In some cases, you may need a sdk script without polyfills, which can be downloaded from the CDN.
 

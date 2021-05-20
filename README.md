@@ -291,6 +291,22 @@ const config = {
 ```
 
 
+### Dictionary
+Set up the custom dictionary to load the specific translation
+
+[Please see open api documentation to setup dictionary for server](https://vvorld.github.io/#/paths/~1api~1v1~1translations/post)
+
+Example using of custom dictionary for the client side:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  locale: 'en',
+  dictionary: 'CUSTOM_DICTIONARY_NAME'
+};
+```
+
 ### Profile
 It's possible to pre-fill the profile form data by setting profile property in config.
 
@@ -422,7 +438,7 @@ accepts Error object as params, so it's up to you to handle this accordingly if 
 
 - **onVerificationComplete** => (envelopedApplicationResult) => callback executed after verification will be finished with the result of application (appId, externalId, services result) Please see openapi scheme.
 
-If the onVerificationComplete callback is present in the configuration, the "Thank you" page will be removed from the flow and a new screen will appear (with the service results) as the last screen.
+If the onVerificationComplete callback is present in the configuration, the "Thank you" page will be removed from the flow and a new screen will appear (with the service results) as the last screen. **EXPERIMENTAL (the api may be changed in future)**
 
 
 Possible errors:
@@ -450,7 +466,7 @@ After render
 {code: "bad"_request, message: "Bad request"}
 {code: "server_unavailable", message: "Server is unavailable"}
 ```
-- **acceptableDocuments** = (supportedDocuments) => callback executed for sorting/filtering the list of supported countries and document types. Callback takes as a parameter an array of objects. Every object has two properties: `country` - string with name of country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported documet types for certain country. After the execution the callback should return sorted/filtered list in the same format, you shouldn't add your own countries or document types.
+- **acceptableDocuments** = (supportedDocuments) => callback executed for sorting/filtering the list of supported countries and document types. Callback takes as a parameter an array of objects. Every object has two properties: `country` - string with name of country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported document types for certain country. After the execution the callback should return sorted/filtered list in the same format, you shouldn't add your own countries or document types.
 
 Examples:
 ```
@@ -475,6 +491,63 @@ acceptableDocuments(supportedDocuments) {
 Upper function will filter only `id-card` and `passport` document types
 
 
+- **onBack** () => callback without arguments will be executed from the first screen on click 'back' button event. (if callback is not set then there is no button 'back' on the first screen)
+
+
+
+### Switch theme callback (EXPERIMENTAL)
+
+Setup into admin panel two themes dark and light after that it will be possible to configure initial theme by passing `themeMode` into sdk configuration with a value `dark` or `light`
+
+
+The method init returns a promise after resolving it's possible to add callback `changeThemeMode` for the theme switching
+
+Example:
+```html
+  <div id="getid-component"></div>
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <div class="slider round"></div>
+    </label>
+    <em>Switch theme</em>
+  </div>
+```
+
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  themeMode: 'light'
+};
+
+(async function () {
+  const res = await init(config);
+
+  const switcher = document.getElementById('checkbox');
+  switcher.addEventListener('change', (e) => {
+    res.changeThemeMode(e.target.checked ? 'dark' : 'light');
+  });
+}());
+```
+
+
+### HTML Properties
+Set disableSwitchDevice *true* to disable device switching (The better way to configure it from the admin panel in configuration flow section)
+
+Example:
+```js
+const config = {
+  apiUrl: 'YOUR_URL',
+  containerId: 'getid-component',
+  flowName: 'YOUR_FLOW_NAME',
+  locale: 'en',
+  htmlProperties: {
+    disableSwitchDevice: true
+  }
+};
+```
 
 In some cases, you may need a sdk script without polyfills, which can be downloaded from the CDN.
 

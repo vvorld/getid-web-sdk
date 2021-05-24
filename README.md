@@ -300,7 +300,7 @@ const config = {
 ### Dictionary
 Set up the custom dictionary to load the specific translation
 
-[Please see open api documentation to setup dictionary for server](https://vvorld.github.io/#/paths/~1api~1v1~1translations/post)
+[Please see the open API documentation to set up a dictionary for server](https://vvorld.github.io/#/paths/~1api~1v1~1translations/post)
 
 Example using of custom dictionary for the client side:
 ```js
@@ -314,7 +314,7 @@ const config = {
 ```
 
 ### Profile
-It's possible to pre-fill the profile form data by setting profile property in config.
+It's possible to pre-fill the profile form data by setting the profile property in config.
 
 example 
 ```js
@@ -435,10 +435,11 @@ Custom variables is a more flexible and convenient way. List of variables:
 **(EXPERIMENTAL)**
 
 
-Setup into admin panel two themes dark and light after that it will be possible to configure initial theme by passing `themeMode` into sdk configuration with a value `dark` or `light`
+Set up two themes - dark and light - into the admin panel. After that, it will be possible to configure the initial theme bypassing `themeMode` into SDK configuration with a value `dark` or `light`
 
 
-The method init returns a promise after resolving it's possible to add callback `changeThemeMode` for the theme switching
+
+The method `init` returns a promise. After resolving, it's possible to add the `changeThemeMode` callback for the theme switching
 
 Example:
 ```html
@@ -472,7 +473,7 @@ const config = {
 
 
 ## HTML Properties
-Set disableSwitchDevice *true* to disable device switching (The better way to configure it from the admin panel in configuration flow section)
+Set disableSwitchDevice *true* to disable device switching (The best way is to configure it from the admin panel in the configuration flow section)
 
 Example:
 ```js
@@ -491,15 +492,15 @@ const config = {
 ### Callbacks
 All callbacks are optional.
 
-- **onComplete** = ({ applicationId }) => callback executed after the client has been successfully submitted their data for verification. Accepts verification id as param.
+- **onComplete** = ({ applicationId }) => a callback is executed on ThankYou view after the client has successfully submitted their data for verification. Accepts verification ID as param.
 - **onFail** = ({code, message}) => callback executed on fail event: 
-    - Client failed to submit data successfully (server responded with anything but 200) - in this case callback will be called upon clicking on CAT
-    - Widget failed to render successfully - in this case callback will be called automatically
-accepts Error object as params, so it's up to you to handle this accordingly if needed.
+    - Client failed to submit data successfully (server responded with anything but 200) - in such a case, the callback will be called upon by clicking CAT
+    - Widget failed to render successfully - in such a case, the callback will be called automatically accepts an Error object as params, so it's up to you to handle this accordingly if needed.
 
-- **onVerificationComplete** => (envelopedApplicationResult) => callback executed after verification will be finished with the result of application (appId, externalId, services result) Please see openapi scheme.
+- **onVerificationComplete** => (envelopedApplicationResult) => the callback is executed after verification is finished with the result of application (appId, externalId, services result). Please see the openapi scheme.
 
-If the onVerificationComplete callback is present in the configuration, the "Thank you" page will be removed from the flow and a new screen will appear (with the service results) as the last screen. **EXPERIMENTAL (the api may be changed in future)**
+
+If the onVerificationComplete callback is present in the configuration, the "Thank you" page will be removed from the flow and a new screen will appear (with the service results) as the last screen. **EXPERIMENTAL (the API may be changed in future)**
 
 
 Possible errors:
@@ -527,7 +528,7 @@ After render
 {code: "bad"_request, message: "Bad request"}
 {code: "server_unavailable", message: "Server is unavailable"}
 ```
-- **acceptableDocuments** = (supportedDocuments) => callback executed for sorting/filtering the list of supported countries and document types. Callback takes as a parameter an array of objects. Every object has two properties: `country` - string with name of country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported document types for certain country. After the execution the callback should return sorted/filtered list in the same format, you shouldn't add your own countries or document types.
+- **acceptableDocuments** = a callback is executed for sorting/filtering the list of supported countries and document types. The callback takes as a parameter an array of objects. Every object has two properties: `country` - string with the name of a country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported document types for a certain country. After the execution the callback should return a sorted/filtered list in the same format, you shouldn't add your own countries or document types.
 
 Examples:
 ```
@@ -539,7 +540,7 @@ acceptableDocuments(supportedDocuments) {
     });
   };
 ```
-Upper function will filter list and return only countries which exist in `desiredCountries` array with all supported document types
+The upper function will filter list and return only countries which exist in `desiredCountries` array with all supported document types
 
 ```
 acceptableDocuments(supportedDocuments) {
@@ -552,16 +553,16 @@ acceptableDocuments(supportedDocuments) {
 Upper function will filter only `id-card` and `passport` document types
 
 
-- **onBack** () => callback without arguments will be executed from the first screen on click 'back' button event. (if callback is not set then there is no button 'back' on the first screen)
+- **onBack** () => a callback without arguments will be executed from the first screen on clicking the 'back' button event (if the callback is not set, then there is no 'back' button on the first screen).
 
 
-In some cases, you may need a sdk script without polyfills, which can be downloaded from the CDN.
+In some cases, you may need an SDK script without polyfills, that can be downloaded from the CDN.
 
 https://cdn.getid.cloud/sdk/getid-web-sdk-v6-non-polyfills.min.js
 
 ## External libraries
 
-Current software is using external libraries, which are released under MIT license:
+The current software is using external libraries, that are released under the MIT license:
 
 ```
  Copyright (c) 2020 GetID

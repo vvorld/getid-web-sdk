@@ -348,6 +348,16 @@ All callbacks are optional.
 accepts Error object as params, so it's up to you to handle this accordingly if needed.
 - **onSortDocuments** function - callback executing for sorting or filtering supported documents list. Function takes two parameters: country - string in ALPHA-2 format(lowercase) and documents: array of supported document types for current country. You should return an array of desired document types(in desired order) for every country if you don't want to display some countries just return empty array.
 
+- **onFatalError(error_code)** => callback executed if some errors occurred during SDK init. Common error codes:
+- fail_to_load_translations
+- apiurl_mismatch
+- token_mismatch
+- browser_not_supported
+- no_camera
+
+
+The onFatalError callback will be called with the errors: browser_not_supported, no_camera only if the property `disableSwitchDevice` is true. This callback wont be called after jumping to other device.
+
 Example:
 ``` js
 const config = {

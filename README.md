@@ -469,6 +469,17 @@ acceptableDocuments(supportedDocuments) {
 ```
 Upper function will filter only `id-card` and `passport` document types
 
+
+- **onFatalError(error_code)** => callback executed if some errors occurred during SDK init. Common error codes:
+- fail_to_load_translations
+- apiurl_mismatch
+- token_mismatch
+- browser_not_supported
+- no_camera
+
+
+The onFatalError callback will be called with the errors: browser_not_supported, no_camera only if the property `disableSwitchDevice` is true. This callback wont be called after jumping to other device.
+
 ## External libraries
 
 Current software is using external libraries, which are released under MIT license:

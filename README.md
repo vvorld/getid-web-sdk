@@ -12,12 +12,13 @@
 *   [Customization](#customization)
     *   [Container id](#container-id)
     *   [Metadata](#metadata)
-    *   [Mode](#Mode)
-    *   [Locale](#Locale)
-    *   [Dictionary](#Dictionary)
-    *   [Profile](#Profile)
+    *   [Mode](#mode)
+    *   [Locale](#locale)
+    *   [Dictionary](#dictionary)
+    *   [Profile](#profile)
     *   [Visual Appearance](#Visual-Appearance)
     *   [Switch theme callback](#Switch-theme-callback)
+    *   [Consent page](#consent)
 *   [Callbacks](#callbacks)
 *   [External libraries](#external-libraries)
 
@@ -242,6 +243,7 @@ metadata: {
   externalId: 'ID_FROM_YOUR_DB',
 },
 ```
+
 ### Labels
 
 It is possible to specify custom key/value storage into metadata *labels* - object with max 30 properties
@@ -283,7 +285,7 @@ const config = {
 };
 ```
 
-### Locale
+## Locale
 It is possible to predefine the locale according locale format https://www.localeplanet.com/icu/
 
 Example:
@@ -297,7 +299,8 @@ const config = {
 ```
 
 
-### Dictionary
+## Dictionary
+
 Set up the custom dictionary to load the specific translation
 
 [Please see the open API documentation to set up a dictionary for server](https://vvorld.github.io/#/paths/~1api~1v1~1translations/post)
@@ -471,6 +474,24 @@ const config = {
 }());
 ```
 
+
+## Consent
+
+Customize the consent page to ask the user to agree to some condition
+You can manage the content of the consent page using a special dictionary with translation by the following key:
+
+
+consent__title
+
+consent__details
+
+consent__consentStatement
+
+Please make sure that if there is no translation for a specific locale for a specific dictionary, English will be present for that dictionary. If there is no English locale for this dictionary, a default translation (getid convention) will be present.
+
+To customize the display of the consent page in a specific flow, contact your support manager. By default, the consent page is not displayed in the flow.
+
+See [Dictionary](#dictionary) to know how to manipulate the custom dictionary
 
 ## HTML Properties
 Set disableSwitchDevice *true* to disable device switching (The best way is to configure it from the admin panel in the configuration flow section)

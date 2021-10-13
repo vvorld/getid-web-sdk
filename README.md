@@ -525,7 +525,7 @@ After render
 {code: "camera_generic", message: "Failed to access your camera"}
 {code: "file_type", message: "We do not support this format"}
 {code: "verification_fail", message: "Cannot create application"}
-{code: "bad"_request, message: "Bad request"}
+{code: "bad_request", message: "Bad request"}
 {code: "server_unavailable", message: "Server is unavailable"}
 ```
 - **acceptableDocuments** = a callback is executed for sorting/filtering the list of supported countries and document types. The callback takes as a parameter an array of objects. Every object has two properties: `country` - string with the name of a country in Alpha-3 code( ISO 3166 international standard) and `documentTypes` - an array of strings with supported document types for a certain country. After the execution the callback should return a sorted/filtered list in the same format, you shouldn't add your own countries or document types.

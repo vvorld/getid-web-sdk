@@ -354,16 +354,11 @@ Profile checking is provided for those fields:
 * First name
 * Last name
 * Date of birth
-* Issue country
 * Gender
-* Document type
 * Date of issue
 * Date of expiry
 * Nationality
-* Nationality code
 * Document number
-* Place of birth
-* Place of issue
 
 It's possible to hide the form into admin panel in flow settings.
 ### Visual Appearance

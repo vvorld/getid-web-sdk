@@ -75,7 +75,7 @@ Include sdk link as regular script tag.
 The latest stable build can be found in example snippet below.
 
 ``` html
-<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v6.min.js'></script>
+<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-launcher-v6.min.js'></script>
 ```
 
 

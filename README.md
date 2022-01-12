@@ -75,7 +75,7 @@ Include sdk link as regular script tag.
 The latest stable build can be found in example snippet below.
 
 ``` html
-<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-v6.min.js'></script>
+<script src='https://cdn.getid.cloud/sdk/getid-web-sdk-launcher-v6.min.js'></script>
 ```
 
 
@@ -354,16 +354,11 @@ Profile checking is provided for those fields:
 * First name
 * Last name
 * Date of birth
-* Issue country
 * Gender
-* Document type
 * Date of issue
 * Date of expiry
 * Nationality
-* Nationality code
 * Document number
-* Place of birth
-* Place of issue
 
 It's possible to hide the form into admin panel in flow settings.
 ### Visual Appearance
